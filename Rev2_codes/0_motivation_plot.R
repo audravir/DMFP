@@ -3,7 +3,7 @@ library(copula)
 library(zoo)
 library(QTLRel)
 
-load('10data.Rdata')
+load('data/10data.Rdata')
 
 dm = dim(rets)[2]
 
@@ -13,7 +13,7 @@ names = c('BAC','JPM','IBM')
 cop_model <- tCopula(dim = 2)
 
 
-pdf(file="../JAE_v1/Figures/motiv.pdf",width=9,height=3)
+#pdf(file="../JAE_v1/Figures/motiv.pdf",width=9,height=3)
 
 TT=dim(rets)[1]
 par(mfrow=c(1,3))
@@ -52,7 +52,7 @@ contour(stu, dCopula, xlim = c(0, 1), ylim=c(0, 1),lwd=1,col='grey80',
                    ',nu=',round(coef(fit)[[2]]),sep='',
                    ylab=NULL,xlab=NULL))
 points(dt,pch=20)
-dev.off()
+#dev.off()
 
 date[c(1,(TT/2))]
 date[c((TT/2+1),TT)]
@@ -60,7 +60,7 @@ date[c((TT/2+1),TT)]
 
 ### desc1 plot
 
-pdf(file="../JAE_v1/Figures/desc1.pdf",width=9,height=5)
+#pdf(file="../JAE_v1/Figures/desc1.pdf",width=9,height=5)
 par(mfrow=c(2,3))
 plot(date,rets[,1],type='l',main='BAC: rt and RVt',col='gray80',ylab='',
      xlab='')
@@ -81,8 +81,4 @@ qqPlot(stand[,2],x="norm",main='JPM: QQ-plot',
 hist(udata[,2],freq=FALSE,ylab='',xlab='',xlim=c(0,1),
      main='JPM: ut')
 abline(h=1,lwd=2)
-dev.off()
-
-
-
-
+#dev.off()
