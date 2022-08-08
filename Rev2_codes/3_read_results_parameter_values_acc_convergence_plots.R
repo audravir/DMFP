@@ -1,5 +1,5 @@
 rm(list=ls(all=TRUE))
-load('10data.Rdata')
+load('data/10data.Rdata')
 library(xtable)
 
 pars_lf = NULL
@@ -16,7 +16,7 @@ lam = res$resRMe[ind]
 pars_lf = rbind(pars_lf,
                 c(median(lam),sqrt(var(lam)),mean(res$accRMe)))
 
-pdf(file='../JAE_v1/Figures/RMe.pdf',width=12,height=3)
+pdf(file='tables_and_figures/RMe.pdf',width=12,height=3)
 par(mfrow=c(1,3))
 plot(lam,type='l',main='RMe: lambda',ylab='',xlab='')
 acf(lam,lwd=2,main='ACF',xlab='')
@@ -38,7 +38,7 @@ pars_lf = rbind(pars_lf,
                 c(median(a),sqrt(var(a)),mean(res$accdcc)),
                 c(median(b),sqrt(var(b)),mean(res$accdcc)))
 
-pdf(file='../JAE_v1/Figures/dcc.pdf',width=10,height=5)
+pdf(file='tables_and_figures/dcc.pdf',width=10,height=5)
 par(mfrow=c(2,3))
 plot(a,type='l',main='DCC: a',ylab='',xlab='')
 acf(a,lwd=2,main='ACF',xlab='')
@@ -60,7 +60,7 @@ a      <- res$restdcc[ind,1]
 b      <- res$restdcc[ind,2]
 nu     <- res$restdcc[ind,3]
 
-pdf(file='../JAE_v1/Figures/dcct.pdf',width=12,height=8)
+pdf(file='tables_and_figures/dcct.pdf',width=12,height=8)
 par(mfrow=c(3,3))
 plot(a,type='l',main='DCC-t: a',ylab='',xlab='')
 acf(a,lwd=2,main='ACF',xlab='')
@@ -90,7 +90,7 @@ print(xtable(df,
              RiskMetrics estimated (RMe) and Dynamic Conditional Correlation
              with Gaussian and $t$ copulas (DCC and DCC-t).',
              label = 'table:all_pars_lf', digits = 4),
-      file='../JAE_v1/Tables/all_pars_lf.tex',
+      file='tables_and_figures/all_pars_lf.tex',
       include.rownames = FALSE,latex.environments = "center" ,
       caption.placement = "top",
       include.colnames= TRUE,
@@ -130,7 +130,7 @@ for(i in 1:dm){
 pars_hf = rbind(pars_hf,allbs)
 
 
-pdf(file='../JAE_v1/Figures/xm_1.pdf',height = 5,width = 10)
+pdf(file='tables_and_figures/xm_1.pdf',height = 5,width = 10)
 par(mfrow=c(2,3))
 plot(lag,type='l',main='AIW: l2',ylab='',xlab='',ylim=c(min(lag)-1,max(lag)+1))
 acf(lag,lwd=2,main='ACF',xlab='')
@@ -140,13 +140,13 @@ acf(nu,lwd=2,main='ACF',xlab='')
 pacf(nu,lwd=2,main='PACF',xlab='')
 dev.off()
 
-pdf(file='../JAE_v1/Figures/xm_2.pdf',height = 5,width = 12)
+pdf(file='tables_and_figures/xm_2.pdf',height = 5,width = 12)
 par(mfrow=c(2,5))
 for (i in 1:dm) plot(b1[,i],type='l',main=paste('b1_',i,sep=''),
                      ylab='',xlab='')
 dev.off()
 
-pdf(file='../JAE_v1/Figures/xm_3.pdf',height = 5,width = 12)
+pdf(file='tables_and_figures/xm_3.pdf',height = 5,width = 12)
 par(mfrow=c(2,5))
 for (i in 1:dm) plot(b2[,i],type='l',main=paste('b2_',i,sep=''),
                      ylab='',xlab='')
@@ -166,7 +166,7 @@ colnames(df) = c('Parameter','Median','St.Dev.',
 print(xtable(df,
              caption = 'Parameter estimation results for the high-frequency AIW model.',
              label = 'table:all_pars_hf', digits = 4),
-      file='../JAE_v1/Tables/all_pars_hf.tex',
+      file='tables_and_figures/all_pars_hf.tex',
       include.rownames = FALSE,latex.environments = "center" ,
       caption.placement = "top",
       include.colnames= TRUE,

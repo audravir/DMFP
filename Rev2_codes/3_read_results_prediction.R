@@ -1,5 +1,5 @@
 rm(list=ls(all=TRUE))
-load('10data.Rdata')
+load('data/10data.Rdata')
 library(xtable)
 data  = stand # Prediction etc is performed on STANDARDIZED returns
 dm    = dim(data)[2] 
@@ -206,7 +206,7 @@ for(t0 in 1:K){
 ## All models separately
 ##------
 
-pdf('../JAE_v1/Figures/all_bfs.pdf',height=5,width=10)
+pdf('tables_and_figures/all_bfs.pdf',height=5,width=10)
 par(mfrow=c(1,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(date[(T+1):(T+K)],mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='', xaxt="n")
@@ -251,7 +251,7 @@ and DCC-t) and Additive Inverse Wishart (AIW) for
 2009/01/02-2009/12/31 out-of-sample period
 (K = 252 observations).',
              label = 'table:lps', digits = 2),
-      file='../JAE_v1/Tables/lps.tex',
+      file='tables_and_figures/lps.tex',
       include.rownames = FALSE,latex.environments = "center" ,
       caption.placement = "top",
       include.colnames= TRUE,
@@ -310,10 +310,9 @@ for(m in 1:length(ind)){
   }
 }
 
-source('FUN_pmcmc_delnegro.R')
 resdn = PMCMC_delNegro(lL_xm1,lL_tdcc,500)
 
-pdf('../JAE_v1/Figures/weights.pdf',height=8,width=10)
+pdf('tables_and_figures/weights.pdf',height=8,width=10)
 par(mfrow=c(2,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(date[(T+1):(T+K)],mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
@@ -363,7 +362,7 @@ legend(x=date[(T+1)]-40,y=15,col=c(1,1,'gray40',1,'gray60',1,'gray60'),
 
 dev.off()
 
-save.image('res_10.Rdata')
+save.image('temp/res_10.Rdata')
 
 # -----------------------------
 # Correlation between weights and avrg volatility
@@ -428,7 +427,7 @@ print(xtable(t(corrs_res),
              MCap weighted market portfolio realized volaltity (Mkt:MCap) 
              and VIX index.",
              label = 'table:corrs', digits = 3),
-      file='../JAE_v1/Tables/corrs.tex',
+      file='tables_and_figures/corrs.tex',
       include.rownames = TRUE,latex.environments = "center" ,
       caption.placement = "top",
       include.colnames= TRUE,
