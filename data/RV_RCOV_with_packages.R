@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE))
 
-install.packages("realized", repos="http://R-Forge.R-project.org")
+# install.packages("realized", repos="http://R-Forge.R-project.org")
 
 library(realized)
 
