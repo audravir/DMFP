@@ -1,7 +1,9 @@
-setwd("C:/Users/zahar/OneDrive - Colegio Universitario de Estudios Financieros (CUNEF)/Documentos/R/DMFP/data")
+#setwd("C:/Users/zahar/OneDrive - Colegio Universitario de Estudios Financieros (CUNEF)/Documentos/R/DMFP/data")
+
+setwd("~/R/DMFP")
 
 # read data EUR/USD for 2020 and headers according web site
-eur.usd.2020 <- read.table("DAT_ASCII_EURUSD_M1_2020.csv", header = FALSE, sep = ";", dec = ".")
+eur.usd.2020 <- read.table("data/DAT_ASCII_EURUSD_M1_2020.csv", header = FALSE, sep = ";", dec = ".")
 colnames(eur.usd.2020) <- c("DateTime Stamp", "Bar OPEN Bid Quote", "Bar HIGH Bid Quote", "Bar LOW Bid Quote", "Bar CLOSE Bid Quote", "Volume")
 
 # format the first column as a date.time
