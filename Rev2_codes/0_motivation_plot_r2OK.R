@@ -82,3 +82,4 @@ hist(udata[,2],freq=FALSE,ylab='',xlab='',xlim=c(0,1),
      main='JPM: ut')
 abline(h=1,lwd=2)
 #dev.off()
+

@@ -57,7 +57,7 @@ print(xtable(desc, type = "latex",digits = c(1,2,2,2,2,2,4,4,4,4,4),
               $p$-values for  Shapiro-Wilk (SW), Kolmogorov-Smirnov (KS) and 
              Jarque-Bera (JB) tests for Normality as well as Ljung-Box Q-test
              for autocorrelation for lags 5 and lags 10.'), 
-      file = '../JAE_v1/Tables/rets_desc.tex')
+      file = 'tables_and_figures/rets_desc.tex')
 
 
 
@@ -81,12 +81,12 @@ for(t in 1:T){
 apply(stand,2,mean)
 apply(stand,2,sd)
 
-pdf('../JAE_v1/Figures/rets_desc.pdf',width = 11,height = 5)
+#pdf('tables_and_figures/rets_desc.pdf',width = 11,height = 5)
 par(mfrow=c(2,ceiling(dm/2)))
 for(i in 1:dm) {plot(date,rets[,i],type='l',
     main=names[i],ylab = '',xlab = '',col='gray60')
   lines(date,sqrt(RCov[i,i,]))}
-dev.off()
+#dev.off()
 
 
 par(mfrow=c(2,ceiling(dm/2)))
@@ -101,28 +101,28 @@ apply(stand,2,sd)
 
 library(QTLRel)
 
-pdf('../JAE_v1/Figures/standrets_qq.pdf',width = 11,height = 5)
+#pdf('tables_and_figures/standrets_qq.pdf',width = 11,height = 5)
 par(mfrow=c(2,ceiling(dm/2)))
 for(i in 1:dm) {qqPlot(stand[,i],x="norm",main=names[i],
                        ylab='',xlab='',pch=20,cex=1.2,
                        plot.it=TRUE,confidence=.95)}
-dev.off()
+#dev.off()
 
 
-pdf('../JAE_v1/Figures/standrets_hist.pdf',width = 11,height = 5)
+#pdf('tables_and_figures/standrets_hist.pdf',width = 11,height = 5)
 par(mfrow=c(2,ceiling(dm/2)))
 for(i in 1:dm) {hist(stand[,i],main=names[i],
   freq=FALSE,ylab='',xlab='',xlim=c(-4,4),ylim=c(0,0.5))
 lines(seq(-4,4,length=500),dnorm(seq(-4,4,length=500)),
       lwd=2) }
-dev.off()
+#dev.off()
 
 
-pdf('../JAE_v1/Figures/standrets_pnorm.pdf',width = 11,height = 5)
+#pdf('tables_and_figures/standrets_pnorm.pdf',width = 11,height = 5)
 par(mfrow=c(2,ceiling(dm/2)))
 for(i in 1:dm) {hist(pnorm(stand[,i]),main=names[i],
                      ylab = '',xlab = '')}
-dev.off()
+#dev.off()
 
 
 desc = matrix(NA,ncol=10,nrow=10)
@@ -155,7 +155,7 @@ print(xtable(desc, type = "latex",digits = c(1,2,2,2,2,2,4,4,4,4,4),
               $p$-values for  Shapiro-Wilk (SW), Kolmogorov-Smirnov (KS) and 
              Jarque-Bera (JB) tests for Normality as well as Ljung-Box Q-test
              for autocorrelation for lags 5 and lags 10..'), 
-      file = '../JAE_v1/Tables/standrets_desc.tex')
+      file = 'tables_and_figures/standrets_desc.tex')
 
 round(desc,4)
 
