@@ -373,10 +373,21 @@ vix = VIX$Adj.Close
 # avrg is the avrg squared returns across 10 assets
 # avrg1 is the avrg RV across 10 assets
 
-ws = rep(1/dm,dm)
-mcap = c(353.613,468.6,133.403,1945,270.604,6.666,133.525,
-         43.275,117.853,238.393)
+# names 
 
+library(quantmod)
+
+# live mcap data
+
+mcap = rep(NA,dm)
+for(i in 1:dm){
+  mcap[i] = getQuote(names[i], what = yahooQF(c("Market Capitalization")))[[2]]/10^9
+}
+
+# mcap = c(353.613,468.6,133.403,1945,270.604,6.666,133.525,
+#          43.275,117.853,238.393) #June 2021
+
+ws = rep(1/dm,dm)
 ws3 = mcap/sum(mcap)
 
 avrg2 = avrg3 = rep(NA,K)
@@ -402,7 +413,8 @@ for(m in 1:length(ind)){
 
 
 
-corrs_res = apply(corrs,c(2,3),median) 
+corrs_res = apply(corrs,c(2,3),median)
+apply(corrs,c(2,3),quantile,0.025) 
 apply(corrs,c(2,3),quantile,0.975) 
 
 
@@ -411,7 +423,7 @@ colnames(corrs_res) = c('avrg RV','Mkt:eql','Mkt:Mcap','VIX')
 rownames(corrs_res) = c('Geweke','Jore1','Jore5','Jore10','DelNegro',
                         'diff:logLik')
 
-print(xtable(t(corrs_res),
+print(xtable::xtable(t(corrs_res),
              caption = "Posterior medians of sample correlations 
              between the preference for high-frequency
              model  and four proxies for the   market volatility for 

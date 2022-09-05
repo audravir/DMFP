@@ -13,6 +13,8 @@ T0  = 1990
 # 250 is MCMC size. The codes have been run for 50k and the results are in
 # Rdata files in folder temp. The files are too large for GitHub
 # they are stored locally 
+# 25k for burn-in+25k 
+# thinned every 25th, the resulting posterior samples of 1000k
 
 scalartdcc(stand,250)
 rmetrics(stand,250)
