@@ -1,9 +1,11 @@
 rm(list=ls(all=TRUE))
-load('res_10.Rdata')
+load('temp/res_10.Rdata')
 library(xtable)
 
 # contains information about the marginal distributions
-load('data/marginals.Rdata')
+load('temp/RV_forc.Rdata')
+load('temp/marginals.Rdata')
+marginals$rvs=RV_forc$`1sa`
 load('temp/results_scalar_dcc_t.Rdata')
 resdcct = res
 load('temp/results_xm1.Rdata')

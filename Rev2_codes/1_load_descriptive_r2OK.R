@@ -92,6 +92,34 @@ for(i in 1:dm) {plot(date,rets[,i],type='l',
 par(mfrow=c(2,ceiling(dm/2)))
 for(i in 1:dm) {plot(date,stand[,i],type='l',main=paste(colnames(rets)[i]))}
 
+
+par(mfrow=c(2,ceiling(dm/2)))
+for(i in 1:dm) {
+  acf(stand[,i],main=paste(colnames(rets)[i]))
+}
+
+par(mfrow=c(2,ceiling(dm/2)))
+for(i in 1:dm) {
+  pacf(stand[,i],main=paste(colnames(rets)[i]))
+}
+
+par(mfrow=c(2,ceiling(dm/2)))
+for(i in 1:dm) {
+  acf(stand[,i]^2,main=paste(colnames(rets)[i]))
+}
+
+par(mfrow=c(2,ceiling(dm/2)))
+for(i in 1:dm) {
+  pacf(stand[,i]^2,main=paste(colnames(rets)[i]))
+}
+
+stand_means = apply(stand, 2, mean)
+stand_sds   = apply(stand, 2, sd)
+
+marginals = list(stand_means,stand_sds)
+names(marginals) = c('mean','sd')
+save(marginals,file='temp/marginals.Rdata')
+
 stand = stand-matrix(rep(apply(stand, 2, mean),T),nrow=T,byrow = TRUE)
 stand = stand/matrix(rep(apply(stand, 2, sd),T),nrow=T,byrow = TRUE)
 
