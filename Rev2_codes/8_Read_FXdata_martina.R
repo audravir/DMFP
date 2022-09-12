@@ -1,6 +1,8 @@
 #setwd("C:/Users/zahar/OneDrive - Colegio Universitario de Estudios Financieros (CUNEF)/Documentos/R/DMFP/data")
+rm(list=ls(all=TRUE))
 
 setwd("~/R/DMFP")
+
 
 # read data EUR/USD for 2020 and headers according web site
 eur.usd.2020 <- read.table("data/DAT_ASCII_EURUSD_M1_2020.csv", header = FALSE, sep = ";", dec = ".")

@@ -21,7 +21,7 @@ oos=252
 RVsforc1_m1 = matrix(NA,ncol=ncol(RVs),nrow=oos)
 #RVsforc5_m1 = matrix(NA,ncol=ncol(RVs),nrow=oos)
 for(i in 1:dm){
-  x=as.xts(RVs[,i],order.by=date)
+  x=as.xts(RVs[,i]^2,order.by=date)
   ForecastHAR = HARForecast(x, periods = c(1,5), nRoll =oos,
                             nAhead = 5, type = "HAR")
   RVsforc1_m1[,i] = ForecastHAR@forecast[1,]
@@ -32,7 +32,7 @@ for(i in 1:dm){
 RVsforc1_m2 = matrix(NA,ncol=ncol(RVs),nrow=oos)
 #RVsforc5_m2 = matrix(NA,ncol=ncol(RVs),nrow=oos)
 for(i in 1:dm){
-  x=as.xts(RVs[,i],order.by=date)
+  x=as.xts(RVs[,i]^2,order.by=date)
   ForecastHAR = HARForecast(x, periods = c(1,5,22), nRoll =oos,
                             nAhead = 5, type = "HAR")
   RVsforc1_m2[,i] = ForecastHAR@forecast[1,]
@@ -68,8 +68,8 @@ em1ONEsa = em2ONEsa = em3ONEsa = em4ONEsa = matrix(NA,nrow=oos,ncol=dm)
 
 
 for(i in 1:dm){
-  em1ONEsa[,i] = RVsforc1_m1[,i] - tail(RVs[,i],oos)
-  em2ONEsa[,i] = RVsforc1_m2[,i] - tail(RVs[,i],oos)
+  em1ONEsa[,i] = RVsforc1_m1[,i] - tail(RVs[,i]^2,oos)
+  em2ONEsa[,i] = RVsforc1_m2[,i] - tail(RVs[,i]^2,oos)
   # em3ONEsa[,i] = RVsforc1_m3[,i] - tail(RVs[,i],oos)
   # em4ONEsa[,i] = RVsforc1_m4[,i] - tail(RVs[,i],oos)
   
@@ -188,13 +188,13 @@ MZR2 =MZpv =matrix(NA,nrow=2,ncol = dm)
 
 for(i in 1:dm){
   exog = RVsforc1_m1[,i]
-  reg.MZ = lm(tail(RVs[,i],oos)~exog)
+  reg.MZ = lm(tail(RVs[,i]^2,oos)~exog)
   MZR2[1,i] = summary(reg.MZ)[[8]]
   htest   = linearHypothesis(reg.MZ, c("(Intercept) = 0", "exog = 1"))   
   MZpv[1,i] = htest[[6]][2]
   
   exog = RVsforc1_m2[,i]
-  reg.MZ = lm(tail(RVs[,i],oos)~exog)
+  reg.MZ = lm(tail(RVs[,i]^2,oos)~exog)
   MZR2[2,i] = summary(reg.MZ)[[8]]
   htest   = linearHypothesis(reg.MZ, c("(Intercept) = 0", "exog = 1"))   
   MZpv[2,i] = htest[[6]][2]
@@ -261,12 +261,21 @@ print(xtable(MZpv,
 
 
 ##-------------
-## select predictions produced by HAR(1,5)
+## select predictions produced by the best model
 ##-------------
 
 
+# RV_forc = list(tail(date,oos),
+#                RVsforc1_m1)
+
 RV_forc = list(tail(date,oos),
-               RVsforc1_m1)
+               sqrt(RVsforc1_m2))
+
+par(mfrow=c(2,5))
+for(i in 1:dm) {
+  plot(tail(abs(rets[,i]),oos),col=2,type='l')
+  lines(sqrt(RVsforc1_m2[,i]))
+  lines(tail(RVs[,i],oos),col=4)}
 
 # RV_forc = list(tail(date,oos),
 #                RVsforc1_m1,
@@ -277,6 +286,4 @@ names(RV_forc) = c('Date','1sa')
 
 
 save(RV_forc,file='temp/RV_forc.Rdata')
-
-
 
