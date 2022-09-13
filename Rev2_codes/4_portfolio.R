@@ -164,27 +164,54 @@ for(m in 1:length(ind)){
 
 
 
-res = matrix(NA,ncol=5,nrow=10)
+resm = res10=res90=matrix(NA,ncol=5,nrow=10)
 
 for(i in 1:5){
-  res[1,i] = median(apply(gvm_ret[i,,],1,quantile,0.05))
-  res[2,i] = median(apply(gvm_ret[i,,],1,quantile,0.1))
-  res[3,i] = median(apply(gvm_ret[i,,],1,esfun,0.05))
-  res[4,i] = median(apply(gvm_ret[i,,],1,esfun,0.1))
-  res[5,i] = median(apply(gvm_var[i,,],1,mean))
-  res[6,i] = median(apply(gvm_ret[i,,],1,mean))
-  res[7,i] = median(apply(gvm_sharpe[i,,],1,mean))
-  res[8,i] = median(apply(gmv_to[i,,-1],1,mean))
-  res[9,i] = median(apply(gmv_co[i,,],1,mean))
-  res[10,i] = median(apply(gmv_sp[i,,],1,mean))
+  resm[1,i] = median(apply(gvm_ret[i,,],1,quantile,0.05))
+  resm[2,i] = median(apply(gvm_ret[i,,],1,quantile,0.1))
+  resm[3,i] = median(apply(gvm_ret[i,,],1,esfun,0.05))
+  resm[4,i] = median(apply(gvm_ret[i,,],1,esfun,0.1))
+  resm[5,i] = median(apply(gvm_var[i,,],1,mean))
+  resm[6,i] = median(apply(gvm_ret[i,,],1,mean))
+  resm[7,i] = median(apply(gvm_sharpe[i,,],1,mean))
+  resm[8,i] = median(apply(gmv_to[i,,-1],1,mean))
+  resm[9,i] = median(apply(gmv_co[i,,],1,mean))
+  resm[10,i] = median(apply(gmv_sp[i,,],1,mean))
+  
+  res10[1,i] = quantile(apply(gvm_ret[i,,],1,quantile,0.05),0.1)
+  res10[2,i] = quantile(apply(gvm_ret[i,,],1,quantile,0.1),0.1)
+  res10[3,i] = quantile(apply(gvm_ret[i,,],1,esfun,0.05),0.1)
+  res10[4,i] = quantile(apply(gvm_ret[i,,],1,esfun,0.1),0.1)
+  res10[5,i] = quantile(apply(gvm_var[i,,],1,mean),0.1)
+  res10[6,i] = quantile(apply(gvm_ret[i,,],1,mean),0.1)
+  res10[7,i] = quantile(apply(gvm_sharpe[i,,],1,mean),0.1)
+  res10[8,i] = quantile(apply(gmv_to[i,,-1],1,mean),0.1)
+  res10[9,i] = quantile(apply(gmv_co[i,,],1,mean),0.1)
+  res10[10,i] = quantile(apply(gmv_sp[i,,],1,mean),0.1)
+  
+  res90[1,i] = quantile(apply(gvm_ret[i,,],1,quantile,0.05),0.9)
+  res90[2,i] = quantile(apply(gvm_ret[i,,],1,quantile,0.1),0.9)
+  res90[3,i] = quantile(apply(gvm_ret[i,,],1,esfun,0.05),0.9)
+  res90[4,i] = quantile(apply(gvm_ret[i,,],1,esfun,0.1),0.9)
+  res90[5,i] = quantile(apply(gvm_var[i,,],1,mean),0.9)
+  res90[6,i] = quantile(apply(gvm_ret[i,,],1,mean),0.9)
+  res90[7,i] = quantile(apply(gvm_sharpe[i,,],1,mean),0.9)
+  res90[8,i] = quantile(apply(gmv_to[i,,-1],1,mean),0.9)
+  res90[9,i] = quantile(apply(gmv_co[i,,],1,mean),0.9)
+  res90[10,i] = quantile(apply(gmv_sp[i,,],1,mean),0.9)
 }
 
-res = res[,c(2,1,3,4,5)]
-colnames(res) = c( 'Geweke','Jore1','Equal','AIW','DCC-t')
-rownames(res) = c('VaR5%','VaR10%','ES5%','ES10%',
+resm = resm[,c(2,1,3,4,5)]
+colnames(resm) = c( 'Geweke','Jore1','Equal','AIW','DCC-t')
+rownames(resm) = c('VaR5%','VaR10%','ES5%','ES10%',
                   'var','mean','Sharpe','TO','CO','SP')
 
-print(xtable(res,
+
+round(res10,2)
+round(res90,2)
+
+
+print(xtable(resm,
              caption = "GMV portfolio results based on 1-step-ahead predicitons 
              for  2009/01/02-2009/12/31 out-of-sample period ($K=252$ observations).
              The table reports the posterior medians of various Global Minimum
@@ -201,4 +228,4 @@ print(xtable(res,
 
 
 rm(resxm1,Sig,Sigma,resdcct)
-save.image('portfolio.Rdata')
+save.image('temp/portfolio.Rdata')
