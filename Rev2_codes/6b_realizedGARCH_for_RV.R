@@ -6,11 +6,11 @@ nn  = dim(RVs)[1]
 dm  = dim(RVs)[2]
 
 #-----------------------------------
-# Produced by HAR(1,5,22) model
+# 
 # RVs are standard deviations!
 #-----------------------------------
 
-load('temp/RV_forc.Rdata')
+load('temp/RV_forc2.Rdata')
 par(mfrow=c(2,5))
 for(i in 1:dm){
   plot(tail(RVs[,i],oos),type='l',lwd=2)
@@ -29,7 +29,7 @@ require(xts)
 Forcs = NULL
 
 spec = ugarchspec(mean.model = list(armaOrder = c(0, 0), include.mean = FALSE),
-      variance.model = list(model = 'realGARCH', garchOrder = c(3, 3)))
+      variance.model = list(model = 'realGARCH', garchOrder = c(1, 1)))
 
 
 for(i in 1:dm){
@@ -44,11 +44,14 @@ for(i in 1:dm){
   Forcs = cbind(Forcs,forcs1)
 }
 
+Forcs=as.matrix(Forcs[-oos,])
+
+
 par(mfrow=c(2,5))
 for(i in 1:dm){
   plot(tail((RVs[,i]),oos),type='l')
   lines(RV_forc$`1sa`[,i],lwd=2,col=2)
-  lines(as.vector(Forcs[-oos,i]),col=3,lwd=2)
+  lines(Forcs[,i],col=3,lwd=2)
 }
 
 
@@ -59,7 +62,7 @@ ONEsa_rmse = matrix(NA,ncol=dm,nrow=2)
 
 for(i in 1:dm){
   em1ONEsa[,i] = RV_forc$`1sa`[,i] - tail(RVs[,i],oos)
-  em2ONEsa[,i] = Forcs[-oos,i] - tail(RVs[,i],oos)
+  em2ONEsa[,i] = Forcs[,i] - tail(RVs[,i],oos)
 
   ONEsa_rmse[1,i] = sqrt(mean((em1ONEsa[,i])^2))
   ONEsa_rmse[2,i] = sqrt(mean((em2ONEsa[,i])^2))
@@ -68,24 +71,17 @@ for(i in 1:dm){
   ONEsa_mae[2,i] = mean(abs(em2ONEsa[,i]))
 }
 
-ONEsa = rbind(ONEsa_rmse,ONEsa_mae)
+ONEsa = rbind(ONEsa_rmse/matrix(apply(ONEsa_rmse, 2, min),ncol=dm,nrow=2,byrow=TRUE)
+              ,ONEsa_mae/matrix(apply(ONEsa_mae, 2, min),ncol=dm,nrow=2,byrow=TRUE)
+)
+
+ONEsa
 
 
-MZR2 =MZpv =matrix(NA,nrow=2,ncol = dm)
 
-for(i in 1:dm){
-  exog = RV_forc$`1sa`[,i]^2
-  reg.MZ = lm(tail(RVs[,i]^2,oos)~exog)
-  MZR2[1,i] = summary(reg.MZ)[[8]]
-  htest   = linearHypothesis(reg.MZ, c("(Intercept) = 0", "exog = 1"))   
-  MZpv[1,i] = htest[[6]][2]
-  
-  exog = Forcs[-oos,i]^2
-  reg.MZ = lm(tail(RVs[,i]^2,oos)~exog)
-  MZR2[2,i] = summary(reg.MZ)[[8]]
-  htest   = linearHypothesis(reg.MZ, c("(Intercept) = 0", "exog = 1"))   
-  MZpv[2,i] = htest[[6]][2]
-}
 
-round(MZR2,2)
-round(MZpv,3)
+RV_forc = list(tail(date,oos),Forcs)
+names(RV_forc) = c('Date','1sa')
+
+save(RV_forc,file='temp/RV_forc4.Rdata')
+

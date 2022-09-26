@@ -3,7 +3,8 @@ load('temp/res_10.Rdata')
 library(xtable)
 
 # contains information about the marginal distributions
-load('temp/RV_forc.Rdata')
+load('temp/RV_forc5.Rdata')
+# forc 5 is from log-HAR model (logRV as dep.variable)
 load('temp/marginals.Rdata')
 marginals$rvs=RV_forc$`1sa`
 load('temp/results_scalar_dcc_t.Rdata')
@@ -161,54 +162,43 @@ for(m in 1:length(ind)){
 }
 
 
-
-
-
-resm = res10=res90=matrix(NA,ncol=5,nrow=10)
+resm =matrix(NA,ncol=5,nrow=12)
+GL   = matrix(NA,ncol=5,nrow=1000)
 
 for(i in 1:5){
   resm[1,i] = median(apply(gvm_ret[i,,],1,quantile,0.05))
   resm[2,i] = median(apply(gvm_ret[i,,],1,quantile,0.1))
   resm[3,i] = median(apply(gvm_ret[i,,],1,esfun,0.05))
   resm[4,i] = median(apply(gvm_ret[i,,],1,esfun,0.1))
-  resm[5,i] = median(apply(gvm_var[i,,],1,mean))
-  resm[6,i] = median(apply(gvm_ret[i,,],1,mean))
-  resm[7,i] = median(apply(gvm_sharpe[i,,],1,mean))
-  resm[8,i] = median(apply(gmv_to[i,,-1],1,mean))
-  resm[9,i] = median(apply(gmv_co[i,,],1,mean))
-  resm[10,i] = median(apply(gmv_sp[i,,],1,mean))
+  resm[5,i] = median(apply(gmv_to[i,,-1],1,mean))
+  resm[6,i] = median(apply(gmv_co[i,,],1,mean))
+  resm[7,i] = median(apply(gmv_sp[i,,],1,mean))
   
-  res10[1,i] = quantile(apply(gvm_ret[i,,],1,quantile,0.05),0.1)
-  res10[2,i] = quantile(apply(gvm_ret[i,,],1,quantile,0.1),0.1)
-  res10[3,i] = quantile(apply(gvm_ret[i,,],1,esfun,0.05),0.1)
-  res10[4,i] = quantile(apply(gvm_ret[i,,],1,esfun,0.1),0.1)
-  res10[5,i] = quantile(apply(gvm_var[i,,],1,mean),0.1)
-  res10[6,i] = quantile(apply(gvm_ret[i,,],1,mean),0.1)
-  res10[7,i] = quantile(apply(gvm_sharpe[i,,],1,mean),0.1)
-  res10[8,i] = quantile(apply(gmv_to[i,,-1],1,mean),0.1)
-  res10[9,i] = quantile(apply(gmv_co[i,,],1,mean),0.1)
-  res10[10,i] = quantile(apply(gmv_sp[i,,],1,mean),0.1)
+  resm[8,i] = median(apply(gvm_ret[i,,],1,sum))#annualized
+  resm[9,i] = median(apply(gvm_ret[i,,],1,sd)*sqrt(252))
   
-  res90[1,i] = quantile(apply(gvm_ret[i,,],1,quantile,0.05),0.9)
-  res90[2,i] = quantile(apply(gvm_ret[i,,],1,quantile,0.1),0.9)
-  res90[3,i] = quantile(apply(gvm_ret[i,,],1,esfun,0.05),0.9)
-  res90[4,i] = quantile(apply(gvm_ret[i,,],1,esfun,0.1),0.9)
-  res90[5,i] = quantile(apply(gvm_var[i,,],1,mean),0.9)
-  res90[6,i] = quantile(apply(gvm_ret[i,,],1,mean),0.9)
-  res90[7,i] = quantile(apply(gvm_sharpe[i,,],1,mean),0.9)
-  res90[8,i] = quantile(apply(gmv_to[i,,-1],1,mean),0.9)
-  res90[9,i] = quantile(apply(gmv_co[i,,],1,mean),0.9)
-  res90[10,i] = quantile(apply(gmv_sp[i,,],1,mean),0.9)
+  resm[10,i] = median(apply(gvm_ret[i,,-1]-0.01/252*gmv_to[i,,-1],1,sum))
+  
+  resm[11,i] = median(apply(gvm_ret[i,,-1]-0.01/252*gmv_to[i,,-1],1,sum)/
+                        (apply(gvm_ret[i,,-1],1,sd)*sqrt(252)))
+  
+  resm[12,i] = median(100*sqrt(252)*(apply(gvm_ret[4,,],1,sd)-apply(gvm_ret[i,,],1,sd))/
+                        apply(gvm_ret[i,,],1,sd))
+  GL[,i]   = (100*sqrt(252)*(apply(gvm_ret[4,,],1,sd)-apply(gvm_ret[i,,],1,sd))/
+                        apply(gvm_ret[i,,],1,sd))
 }
 
+
+
+
 resm = resm[,c(2,1,3,4,5)]
+
 colnames(resm) = c( 'Geweke','Jore1','Equal','AIW','DCC-t')
-rownames(resm) = c('VaR5%','VaR10%','ES5%','ES10%',
-                  'var','mean','Sharpe','TO','CO','SP')
+rownames(resm) = c('VaR5%','VaR10%','ES5%','ES10%','TO','CO','SP',
+                   'return','sd','adj.return(1%)',
+                   'adj.Sharpe','G/L')
 
-
-round(res10,2)
-round(res90,2)
+round(resm,3)
 
 
 print(xtable(resm,
@@ -219,13 +209,14 @@ print(xtable(resm,
              Geweke's, Jore's and equally weighted, 
              as well as two best individual models, Additive Inverse Wishart (AIW) and 
              Dynamic Conditional Correlation with $t$ copula (DCC-t).",
-             label = 'table:gmvfull3', digits = 3),
-      file='tables_and_figures/gmvfull3.tex',
+             label = 'table:gmvfull5', digits = 3),
+      file='tables_and_figures/gmvfull5.tex',
       include.rownames = TRUE,latex.environments = "center" ,
       caption.placement = "top",
       include.colnames= TRUE,
-      rotate.colnames = FALSE)
+      rotate.colnames = FALSE,
+      hline.after = getOption("xtable.hline.after", c(-1,0,7,nrow(resm))))
 
 
 rm(resxm1,Sig,Sigma,resdcct)
-save.image('temp/portfolio.Rdata')
+save.image('temp/portfolio5.Rdata')

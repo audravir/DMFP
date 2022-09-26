@@ -6,11 +6,11 @@ library(realized)
 
 ## Example
 
-#data(sbux.xts)
+data(sbux.xts)
 head(sbux.xts)
 tail(sbux.xts)
 
-#data(lltc.xts)
+data(lltc.xts)
 head(lltc.xts)
 tail(lltc.xts)
 
