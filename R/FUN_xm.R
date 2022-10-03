@@ -12,7 +12,7 @@ xm1 = function(Sigma,M){
   bi     = M
   resc   = matrix(NA,nrow=bi+M,ncol=dm*2+2)
   Vpred  = list()
-  nu     = 40
+  nu     = 5
   lag    = 5
   b1     = b2 = rep(0.2,dm)
   Sbar   = Reduce('+',Sig)/T0
@@ -35,7 +35,7 @@ xm1 = function(Sigma,M){
     ##-----
     repeat{
       pos  = rbinom(1,1,0.5)
-      lagnew = lag+rpois(1,1)*(-1)^(1-pos)
+      lagnew = lag+sample(c(1,2,3,4,5),1,prob = c(5/15,4/15,3/15,2/15,1/15))*(-1)^(1-pos)
       if(lagnew>1) break
     }
     
@@ -86,6 +86,7 @@ xm1 = function(Sigma,M){
     ##-----
     repeat{
       nun = rnorm(1,nu,sd=0.1)#0.5
+      # 0.1 for 3-variate too large
       if(nun>(dm+1)) break
     }
     
@@ -115,7 +116,7 @@ xm1 = function(Sigma,M){
              accnu[(bi+1):(bi+M)],
              accB[(bi+1):(bi+M)])
   names(res) = c('Vpred','resc','accl','accnu','accB')
-  save(res,file='temp/results_xm1.Rdata')
+  save(res,file='temp/results_xm1_EX.Rdata')
 
 }
 

@@ -13,7 +13,8 @@ rmetrics = function(standrets,M){
   llikRMe = matrix(0,ncol=T,nrow=bi+M)
   resRMe  = rep(NA,bi+M)
   accRme  = rep(0,bi+M)
-  sdprop  = 0.001 # 0.0001 too small 0.0005 too small
+  sdprop  = 0.01 # 0.0001 too small 0.0005 too small for 10-variate
+  # 0.001 too small for 3-variate
   
   Vpred   = list()
   Qold    = array(NA,c(dm, dm, T))
@@ -54,6 +55,6 @@ rmetrics = function(standrets,M){
   
   res = list(Vpred[(bi+1):(bi+M)],resRMe[(bi+1):(bi+M)],accRme[(bi+1):(bi+M)])
   names(res) = c('Vpred','resRMe','accRMe')
-  save(res,file=paste('temp/results_RMe.Rdata',sep=''))
+  save(res,file=paste('temp/results_RMe_EX.Rdata',sep=''))
 }
 

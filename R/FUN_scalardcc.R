@@ -38,8 +38,7 @@ scalardcc = function(standrets,M){
     }
     
     if((sum(llnew)-sum(llold)+
-        dbeta(anew,3,10,log=T)-dbeta(aold,3,10,log=T)+
-        dbeta(bnew,10,3,log=T)-dbeta(bold,10,3,log=T))>log(runif(1))
+        dbeta(anew,3,10,log=TRUE)-dbeta(aold,3,10,log=TRUE)+dbeta(bnew,10,3,log=TRUE)-dbeta(bold,10,3,log=TRUE))>log(runif(1))
        &&
        (sum(parnew)<1))
     {
@@ -59,5 +58,6 @@ scalardcc = function(standrets,M){
   
   res = list(Vpred[(bi+1):(bi+M)],Qpred[(bi+1):(bi+M)],resdcc[(bi+1):(bi+M),],accdcc[(bi+1):(bi+M)])
   names(res) = c('Vpred','Qpred','resdcc','accdcc')
-  save(res,file=paste('temp/results_scalar_dcc.Rdata',sep=''))
+  save(res,file=paste('temp/results_scalar_dcc_EX.Rdata',sep=''))
 }
+
