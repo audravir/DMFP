@@ -2,7 +2,7 @@
 scalartdcc = function(standrets,M){
   
   data  = standrets[1:T0,]
-  udata = pnorm(data) 
+  udata = pnorm(data)*T0/(T0+1) 
   
   TT   = dim(data[1:T0,])[1]
   dm   = dim(data[1:T0,])[2]

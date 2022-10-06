@@ -4,10 +4,8 @@ library(truncnorm)
 library(DMFP)
 
 load('data/3data_EX.Rdata')
-T0  =  1000 #3117
-# K = 626
-
-
+T0  =  2756 #
+# K = 249
 
 # the length of the estimation window, 1:T0, which is 
 # from "2001-02-01" till "2008-12-31"
@@ -19,8 +17,8 @@ T0  =  1000 #3117
 # 25k for burn-in+25k 
 # thinned every 25th, the resulting posterior samples of 1000k
 
-scalartdcc(stand,1000)
-rmetrics(stand,1000)
-scalardcc(stand,1000)
-xm1(Sigma,1000)
+scalartdcc(stand,25000)
+rmetrics(stand,25000)
+scalardcc(stand,25000)
+xm1(Sigma,25000)
 

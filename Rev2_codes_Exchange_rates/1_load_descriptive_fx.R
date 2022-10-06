@@ -71,12 +71,12 @@ for(t in 1:T){
 apply(stand,2,mean)
 apply(stand,2,sd)
 
-pdf('tables_and_figures/rets_desc_EX.pdf',width = 10,height = 3)
+#pdf('tables_and_figures/rets_desc_EX.pdf',width = 10,height = 3)
 par(mfrow=c(1,3))
 for(i in 1:dm) {plot(date,rets[,i],type='l',
     main=names[i],ylab = '',xlab = '',col='gray60')
   lines(date,sqrt(RCov[i,i,]))}
-dev.off()
+#dev.off()
 
 
 par(mfrow=c(2,ceiling(dm/2)))
@@ -118,29 +118,29 @@ apply(stand,2,sd)
 
 library(QTLRel)
 
-pdf('tables_and_figures/standrets_qq_EX.pdf',width = 10,height = 3)
+#pdf('tables_and_figures/standrets_qq_EX.pdf',width = 10,height = 3)
 par(mfrow=c(1,3))
 for(i in 1:dm) {qqPlot(stand[,i],x="norm",main=names[i],
                        ylab='',xlab='',pch=20,cex=1.2,
                        plot.it=TRUE,confidence=.95,
                        ylim=c(-4,4),xlim=c(-4,4))}
-dev.off()
+#dev.off()
 
 
-pdf('tables_and_figures/standrets_hist_EX.pdf',width = 10,height = 3)
+#pdf('tables_and_figures/standrets_hist_EX.pdf',width = 10,height = 3)
 par(mfrow=c(1,3))
 for(i in 1:dm) {hist(stand[,i],nclass = 30,main=names[i],
   freq=FALSE,ylab='',xlab='',xlim=c(-4,4),ylim=c(0,0.5))
 lines(seq(-4,4,length=500),dnorm(seq(-4,4,length=500)),
       lwd=2) }
-dev.off()
+#dev.off()
 
 
-pdf('tables_and_figures/standrets_pnorm_EX.pdf',width = 10,height = 3)
+#pdf('tables_and_figures/standrets_pnorm_EX.pdf',width = 10,height = 3)
 par(mfrow=c(1,3))
 for(i in 1:dm) {hist(pnorm(stand[,i]),main=names[i],
                      ylab = '',xlab = '')}
-dev.off()
+#dev.off()
 
 
 desc = matrix(NA,ncol=10,nrow=dm)
@@ -181,9 +181,13 @@ udata  = matrix(NA,ncol=dm,nrow=dim(stand)[1])
 for(i in 1:dm){
   udata[,i] = pnorm(stand[,i])
 }
+udata=udata*dim(stand)[1]/(dim(stand)[1]+1)
+
 
 library(plyr)
 Sigma = alply(RCor,3) #
+
+
 
 save(Sigma,rets,RVs,stand,udata,RCov,RCor,names,date,file='data/3data_EX.Rdata')
 

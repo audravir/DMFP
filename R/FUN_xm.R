@@ -12,8 +12,8 @@ xm1 = function(Sigma,M){
   bi     = M
   resc   = matrix(NA,nrow=bi+M,ncol=dm*2+2)
   Vpred  = list()
-  nu     = 5
-  lag    = 5
+  nu     = 20
+  lag    = 20
   b1     = b2 = rep(0.2,dm)
   Sbar   = Reduce('+',Sig)/T0
   iota   = rep(1,dm)
@@ -35,7 +35,7 @@ xm1 = function(Sigma,M){
     ##-----
     repeat{
       pos  = rbinom(1,1,0.5)
-      lagnew = lag+sample(c(1,2,3,4,5),1,prob = c(5/15,4/15,3/15,2/15,1/15))*(-1)^(1-pos)
+      lagnew = lag+sample(c(1,2,3),1,prob = c(9/15,4/15,2/15))*(-1)^(1-pos)
       if(lagnew>1) break
     }
     
@@ -58,7 +58,8 @@ xm1 = function(Sigma,M){
     ## bs
     ##-----
     repeat{
-      bn  = rnorm(dm*2,c(b1,b2),sd=0.007)#0.015
+      bn  = rnorm(dm*2,c(b1,b2),sd=0.01)#0.007 for 10-variate
+      # 0.02 too large for 3variate
       b1n = bn[1:dm]
       b2n = bn[(dm+1):(2*dm)]
       B1  = b1n%*%t(b1n)
@@ -85,8 +86,8 @@ xm1 = function(Sigma,M){
     ## nu
     ##-----
     repeat{
-      nun = rnorm(1,nu,sd=0.1)#0.5
-      # 0.1 for 3-variate too large
+      nun = rnorm(1,nu,sd=0.1)#0.5 for 10-variate
+      # for 3-variate 0.5,0.3 too large
       if(nun>(dm+1)) break
     }
     

@@ -92,10 +92,9 @@ plot(eur.gbp.lret)
 ##---------------
 
 df = merge(eur.usd.full,usd.jpy.full,eur.gbp.full,all=TRUE,fill=NA)
-
 df = na.omit(df)
+dm = dim(df)[2]
 
-dm   = dim(df)[2]
 #rm(eur.usd.full,usd.jpy.full,eur.gbp.full)
 
 ##---------------
@@ -108,17 +107,86 @@ rv = rKernelCov(rData = df, alignBy = "minutes",
            alignPeriod = 10, makeReturns = TRUE,kernelType = "Bartlett")
 
 RCov = array(unlist(rv)*100^2,c(dm,dm,length(rv)))
-determinants = rep(NA,length(rv))
 RCor = array(1,c(dm,dm,length(rv)))
 RVs  = matrix(NA,ncol = dm,nrow=length(rv))
 
 for(t in 1:length(rv)){
   RVs[t,]   = sqrt(diag(RCov[,,t]))
   RCor[,,t] = nearcor(round(cov2cor(RCov[,,t]),8))$cor
-  determinants[t] = det(RCor[,,t])
 }
 
+rets = merge(rets,eur.usd.lret,usd.jpy.lret,eur.gbp.lret,all=TRUE,fill=NA)
+rets = na.omit(rets)
+rets = rets[as.POSIXct(names(rv),tz="UTC")]
+RCor = RCor[,,-1]
+RCov = RCov[,,-1]
+RVs  = RVs[-1,]
+
+# Check here if everything is the same length, if all OK the proceed
+
+dim(rets)
+dim(RVs)
+dim(RCor)
+dim(RCov)
+
+#---------------
+# remove weekends, i.e. SUNDAY
+#---------------
+
+wkend = which(weekdays(index(rets))=="Sunday")
+retsx = rets[-wkend,]
+RVsx  = RVs[-wkend,]
+RCorx = RCor[,,-wkend]
+RCovx = RCov[,,-wkend] 
+
+par(mfrow=c(3,1))
+for(i in 1:dm) plot(RVsx[1:500,i],type='l')
+ 
+dim(retsx)
+dim(RVsx)
+dim(RCorx)
+dim(RCovx)
+
+#---------------
+# remove Holidays
+#---------------
+
+index(retsx)[1]
+tail(index(retsx),1)
+
+library(RQuantLib)
+holid = getHolidayList("UnitedStates", index(retsx)[1], tail(index(retsx),1))
+
+z=(index(retsx))
+holidind = NULL
+for(i in 1:length(holid)){
+  if(length(which(z==holid[i]))==1){
+    holidind = c(holidind,which(z==holid[i]))
+  } 
+}
+
+retsx = retsx[-holidind,]
+RVsx  = RVsx[-holidind,]
+RCorx = RCorx[,,-holidind]
+RCovx = RCovx[,,-holidind] 
+
+par(mfrow=c(3,1))
+for(i in 1:dm) plot(RVsx[1:500,i],type='l')
+
+dim(retsx)
+dim(RVsx)
+dim(RCorx)
+dim(RCovx)
+
+#---------------
 # Exclude nearly singular matrices; cannot be used in estimation
+#---------------
+
+determinants = rep(NA,dim(retsx)[1])
+
+for(t in 1:dim(retsx)[1]){
+  determinants[t] = det(RCorx[,,t])
+}
 
 par(mfrow=c(1,2))
 hist(determinants,breaks = 100)
@@ -126,20 +194,14 @@ exclude = which(determinants<0.01)
 hist(determinants[-exclude],breaks = 100)
 
 
-
-rets = merge(rets,eur.usd.lret,usd.jpy.lret,eur.gbp.lret,all=TRUE,fill=NA)
-rets = na.omit(rets)
-rets = rets[as.POSIXct(names(rv),tz="UTC")]
-rets = rets[-exclude]
-
-
+rets = retsx[-exclude]
 par(mfrow=c(3,1))
 plot(rets[,1])
 plot(rets[,2])
 plot(rets[,3])
 
-RCov = RCov[,,-c(1,exclude)]
-RCor = RCor[,,-c(1,exclude)]
-RVs  = RVs[-c(1,exclude),]
+RCov = RCovx[,,-exclude]
+RCor = RCorx[,,-exclude]
+RVs  = RVsx[-exclude,]
 
 save(rets,RCov,RCor,RVs,file='Rev2_codes_Exchange_rates/EX.Rdata')

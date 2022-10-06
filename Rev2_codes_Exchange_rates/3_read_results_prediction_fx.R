@@ -4,9 +4,9 @@ library(xtable)
 data  = stand # Prediction etc is performed on STANDARDIZED returns
 dm    = dim(data)[2] 
 start = 1
-T     = 200
+T     = 2756
 Sig   = Sigma
-K     = 113
+K     = 249
 
 ##------
 ## Static
@@ -139,7 +139,8 @@ for(m in 1:length(ind)){
       lL_tdcc[m,(t-T)] <- mvtnorm::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nu[m], log=F)*
         prod(dnorm(data[t,])/dt(tdata[t,],df=nu[m]))
     }
-}}
+  }
+}
 
 
 sum(log(lL_static))
@@ -214,7 +215,7 @@ plot(date[(T+1):(T+K)],mkvol,type='l',axes = FALSE,
 par(new = TRUE)
 plot(date[(T+1):(T+K)],cumsum(apply(log(lL_xm1[,]),2,median))-
        cumsum(log(lL_static[,])), xaxt="n",
-     type='l',ylim=c(-15,30),lty=2,ylab='',xlab='',lwd=2)
+     type='l',ylim=c(-1,50),lty=2,ylab='',xlab='',lwd=2)
 abline(h=0)
 lines(date[(T+1):(T+K)],cumsum(apply(log(lL_tdcc[,]),2,median))-
         cumsum(log(lL_static[,])),lty=2)
