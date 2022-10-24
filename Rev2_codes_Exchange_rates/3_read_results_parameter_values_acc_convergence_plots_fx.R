@@ -2,6 +2,8 @@ rm(list=ls(all=TRUE))
 load('data/3data_EX.Rdata')
 library(xtable)
 
+post.sample = 1000
+
 pars_lf = NULL
 
 ##------
@@ -10,7 +12,7 @@ pars_lf = NULL
 
 load('temp/results_RMe_EX.Rdata')
 M   = length(res$resRMe)
-ind = round(seq(1,M,length=M/25)) #thin every 25th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 lam = res$resRMe[ind]
 
 pars_lf = rbind(pars_lf,
@@ -29,7 +31,7 @@ pacf(lam,lwd=2,main='PACF',xlab='')
 
 load('temp/results_scalar_dcc_EX.Rdata')
 M   = dim(res$resdcc)[1] # size of MCMC
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 a      <- res$resdcc[ind,1]
 b      <- res$resdcc[ind,2]
@@ -54,7 +56,7 @@ pacf(b,lwd=2,main='PACF',xlab='')
 
 load('temp/results_scalar_dcc_t_EX.Rdata')
 M   = dim(res$restdcc)[1] # size of MCMC
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 a      <- res$restdcc[ind,1]
 b      <- res$restdcc[ind,2]
@@ -105,7 +107,7 @@ df
 
 load('temp/results_xm1_EX.Rdata')
 M   = dim(res$resc)[1]
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 dm  = dim(stand)[2]
 
 lag = res$resc[ind,1]

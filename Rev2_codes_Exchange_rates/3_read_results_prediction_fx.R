@@ -4,9 +4,10 @@ library(xtable)
 data  = stand # Prediction etc is performed on STANDARDIZED returns
 dm    = dim(data)[2] 
 start = 1
-T     = 2756
+T     = 1749
 Sig   = Sigma
-K     = 249
+K     = 1251
+post.sample = 1000
 
 ##------
 ## Static
@@ -56,7 +57,7 @@ sum(log(lL_rmf))
 
 load('temp/results_scalar_dcc_EX.Rdata')
 M   = dim(res$resdcc)[1] # size of MCMC
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 Q       = array(NA,c(dm, dm, T+K))
 R       = array(NA,c(dm, dm, T+K))
@@ -65,9 +66,9 @@ R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
 a      <- res$resdcc[ind,1]
 b      <- res$resdcc[ind,2]
 Vpred  <- list()
-lL_dcc = matrix(NA,ncol=K,nrow=length(ind))
+lL_dcc = matrix(NA,ncol=K,nrow=post.sample)
 
-for(m in 1:length(ind)){
+for(m in 1:post.sample){
   for(t in 2:(T+K)){
     Q[,,t]   <- cov(data[start:T,])*(1-a[m]-b[m])+a[m]*(data[t-1,]%*%t(data[t-1,]))+b[m]*Q[,,(t-1)]
     R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
@@ -86,7 +87,7 @@ sum(apply(log(lL_dcc),2,mean))
 
 load('temp/results_RMe_EX.Rdata')
 M   = length(res$resRMe)
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 Q       = array(NA,c(dm, dm, T+K))
 R       = array(NA,c(dm, dm, T+K))
@@ -94,9 +95,9 @@ Q[,,1] <- cor(data[start:T,])
 R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
 lam = res$resRMe[ind]
 Vpred  <- list()
-lL_rme = matrix(NA,ncol=K,nrow=length(ind))
+lL_rme = matrix(NA,ncol=K,nrow=post.sample)
 
-for(m in 1:length(ind)){
+for(m in 1:post.sample){
   for(t in 2:(T+K)){
     Q[,,t]   <- (1-lam[m])*(data[t-1,]%*%t(data[t-1,]))+lam[m]*Q[,,(t-1)]
     R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
@@ -116,7 +117,7 @@ sum(apply(log(lL_rme),2,mean))
 
 load('temp/results_scalar_dcc_t_EX.Rdata')
 M   = dim(res$restdcc)[1]
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 Q       = array(NA,c(dm, dm, T+K))
 R       = array(NA,c(dm, dm, T+K))
@@ -126,9 +127,9 @@ nu     <- res$restdcc[ind,3]
 
 Q[,,1] <- cor(data[start:T,])
 R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
-lL_tdcc = matrix(NA,ncol=K,nrow=length(ind))
+lL_tdcc = matrix(NA,ncol=K,nrow=post.sample)
 
-for(m in 1:length(ind)){
+for(m in 1:post.sample){
   tdata  <- qt(udata,nu[m])
   S       = cov(tdata[start:T,])
   
@@ -158,14 +159,14 @@ iota   = rep(1,dm)
 
 load('temp/results_xm1_EX.Rdata')
 M   = dim(res$resc)[1]
-ind = round(seq(1,M,length=M/25)) #thin every 5th
-lL_xm1 = matrix(NA,ncol=K,nrow=length(ind))
+ind = round(seq(1,M,length=post.sample)) #thin every xth
+lL_xm1 = matrix(NA,ncol=K,nrow=post.sample)
 lag = res$resc[ind,1]
 nu  = res$resc[ind,2]
 b1  = res$resc[ind,3:(dm+2)]
 b2  = res$resc[ind,(dm+3):(2*dm+2)]
 
-for(m in 1:length(ind)){
+for(m in 1:post.sample){
     Vpred = list()
     B0  = (iota%*%t(iota)-(b1[m,]%*%t(b1[m,]))-(b2[m,]%*%t(b2[m,])))*Sbar
     for(t0 in 1:K){
@@ -184,8 +185,8 @@ sum(apply(log(lL_tdcc),2,mean))
 sum(apply(log(lL_xm1),2,mean))
 
 
-dcc  =cumsum(apply(log(lL_dcc),2,mean))
-dcct  =cumsum(apply(log(lL_tdcc),2,mean))
+dcc  = cumsum(apply(log(lL_dcc),2,mean))
+dcct = cumsum(apply(log(lL_tdcc),2,mean))
 xm   = cumsum(apply(log(lL_xm1),2,mean))
 
 
@@ -201,6 +202,8 @@ mkvol    = rep(NA,K)
 for(t0 in 1:K){
   mkvol[t0] = mean(standvol[t0,])
 }
+
+
 
 
 ##------
@@ -264,14 +267,14 @@ and DCC-t) and Additive Inverse Wishart (AIW) for
 ## Density combination
 ##------
 
-ws_gew    = lL_gew = matrix(NA,ncol=K,nrow=length(ind))
-ws_jore1  = lL_jore1 = matrix(NA,ncol=K,nrow=length(ind))
-ws_jore5  = lL_jore5 = matrix(NA,ncol=K,nrow=length(ind))
-ws_jore10 = lL_jore10 = matrix(NA,ncol=K,nrow=length(ind))
-ws_jore25 = lL_jore25 = matrix(NA,ncol=K,nrow=length(ind))
-lL_equal  = matrix(NA,ncol=K,nrow=length(ind))
+ws_gew    = lL_gew = matrix(NA,ncol=K,nrow=post.sample)
+ws_jore1  = lL_jore1 = matrix(NA,ncol=K,nrow=post.sample)
+ws_jore5  = lL_jore5 = matrix(NA,ncol=K,nrow=post.sample)
+ws_jore10 = lL_jore10 = matrix(NA,ncol=K,nrow=post.sample)
+ws_jore25 = lL_jore25 = matrix(NA,ncol=K,nrow=post.sample)
+lL_equal  = matrix(NA,ncol=K,nrow=post.sample)
 
-for(m in 1:length(ind)){
+for(m in 1:post.sample){
   for (t in 1:K){
     # weights geweke
     a1p = lL_xm1[m,1:t]
@@ -336,28 +339,30 @@ plot(date[(T+1):(T+K)],mkvol,type='l',axes = FALSE,
      xlim=c(date[(T+1)]-30,date[(T+K)]))
 par(new = TRUE)
 
+best.model = lL_tdcc
+
 plot(date[(T+1):(T+K)],cumsum(apply(log(lL_xm1[,]),2,median))-
-       cumsum(apply(log(lL_xm1[,]),2,median)),
-     type='l',ylim=c(-5,5),ylab='',xlab='',xaxt="n",
+       cumsum(apply(log(best.model[,]),2,median)),
+     type='l',ylim=c(-5,20),ylab='',xlab='',xaxt="n",
      xlim=c(date[(T+1)]-30,date[(T+K)]))
 lines(date[(T+1):(T+K)],cumsum(apply(log(lL_tdcc[,]),2,median))-
-        cumsum(apply(log(lL_xm1[,]),2,median)))
+        cumsum(apply(log(best.model[,]),2,median)))
 lines(date[(T+1):(T+K)],cumsum(apply(lL_gew[,],2,median))-
-        cumsum(apply(log(lL_xm1[,]),2,median)),
+        cumsum(apply(log(best.model[,]),2,median)),
       col=1,lwd=2)
 lines(date[(T+1):(T+K)],cumsum(apply(lL_jore1[,],2,median))-
-        cumsum(apply(log(lL_xm1[,]),2,median)),
+        cumsum(apply(log(best.model[,]),2,median)),
       col='gray40',lwd=2,lty=2)
 lines(date[(T+1):(T+K)],cumsum(apply(lL_jore5[,],2,median))-
-        cumsum(apply(log(lL_xm1[,]),2,median)),col='gray40',lwd=2,lty=3)
+        cumsum(apply(log(best.model[,]),2,median)),col='gray40',lwd=2,lty=3)
 lines(date[(T+1):(T+K)],cumsum(apply(lL_jore10[,],2,median))-
-        cumsum(apply(log(lL_xm1[,]),2,median)),col='gray60',lwd=2)
+        cumsum(apply(log(best.model[,]),2,median)),col='gray60',lwd=2)
 lines(date[(T+1):(T+K)],cumsum(apply(log(resdn$likelihood),1,median))-
-        cumsum(apply(log(lL_xm1[,]),2,median)),lty=4,lwd=2)
+        cumsum(apply(log(best.model[,]),2,median)),lty=4,lwd=2)
 lines(date[(T+1):(T+K)],cumsum(apply((lL_equal),2,median))-
-        cumsum(apply(log(lL_xm1[,]),2,median)),col='gray60',lwd=2,lty=5)
+        cumsum(apply(log(best.model[,]),2,median)),col='gray60',lwd=2,lty=5)
 axis(1, at=atx, labels=format(atx, "%Y/%m"))
-legend(x=date[(T+1)]-40,y=5,col=c(1,1,'gray40',1,'gray60',1,'gray60'),
+legend(x=date[(T+1)]-40,y=20,col=c(1,1,'gray40',1,'gray60',1,'gray60'),
        lty=c(1,1,2,3,1,4,5),lwd=c(1,2,2,1,2,2,2),
        legend=c('DCC-t','Geweke','Jore1','Jore5','Jore10','DelNegro','Equal'))
 

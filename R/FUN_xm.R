@@ -35,9 +35,10 @@ xm1 = function(Sigma,M){
     ##-----
     repeat{
       pos  = rbinom(1,1,0.5)
-      lagnew = lag+sample(c(1,2,3),1,prob = c(9/15,4/15,2/15))*(-1)^(1-pos)
+      lagnew = lag+sample(c(1,2,3,4),1,prob = c(6/12,3/12,2/12,1/12))*(-1)^(1-pos)
       if(lagnew>1) break
     }
+    
     
     for(t in 2:T0) G2n[[t]]     = Reduce('+',Sig[max(1,t-lagnew):(t-1)])/min(c(t-1,lagnew))
     for(t in 1:T0){
@@ -45,12 +46,20 @@ xm1 = function(Sigma,M){
       lln[t]   = diwish(Sig[[t]],nu,(nu-dm-1)*V[[t]])
     }
     
-    if((sum(lln)-sum(llo))>log(runif(1))){
+    if(m%%(rbinom(1,200,0.5))!=0){
+      if((sum(lln)-sum(llo))>log(runif(1))){
+        llo     = lln
+        lag     = lagnew
+        G2      = G2n
+        accl[m] = 1
+      }
+    } else {
       llo     = lln
       lag     = lagnew
       G2      = G2n
       accl[m] = 1
     }
+
     
     #if(rbinom(1,1,0.05)==1){lag = lag+rpois(1,1)*(-1)^(1-pos)}
     

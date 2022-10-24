@@ -2,14 +2,22 @@ rm(list=ls(all=TRUE))
 library(sfsmisc)
 library(truncnorm)
 library(DMFP)
+library(zoo)
 
 load('data/3data_EX.Rdata')
-T0  =  2756 #
-# K = 249
 
+nn       = length(date)
+end.date = which(zoo::as.yearmon(date)=='Jan 2020')[1]-1
+date[end.date]
+
+T0  = end.date  #
+T0
+K = nn-end.date
+K
+
+T0+K
+nn
 # the length of the estimation window, 1:T0, which is 
-# from "2001-02-01" till "2008-12-31"
-# the rest will be used for model evaluation
 
 # 250 is MCMC size. The codes have been run for 50k and the results are in
 # Rdata files in folder temp. The files are too large for GitHub
@@ -17,8 +25,8 @@ T0  =  2756 #
 # 25k for burn-in+25k 
 # thinned every 25th, the resulting posterior samples of 1000k
 
-scalartdcc(stand,25000)
-rmetrics(stand,25000)
-scalardcc(stand,25000)
-xm1(Sigma,25000)
+scalartdcc(stand,5000)
+rmetrics(stand,5000)
+scalardcc(stand,5000)
+xm1(Sigma,5000)
 

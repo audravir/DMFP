@@ -16,12 +16,11 @@ lret.daily = function(y){
   return(res)
 }
 
-rets = xts(order.by = seq(as.Date("2010/1/1"), as.Date("2023/1/1"), "days"))
 min.seq = seq.POSIXt(as.POSIXct("2010-01-01 00:00:00",tz="UTC"), 
                      as.POSIXct("2021-12-31 23:59:59",tz="UTC"), 
                      by = "5 min")
 
-years = seq(2010,2021)
+years = seq(2012,2021)
 
 ##------------
 ## EUR-USD
@@ -87,6 +86,49 @@ eur.gbp.lret = lret.daily(eur.gbp.full)
 plot(eur.gbp.lret)
 
 
+##------------
+## sp500
+##------------
+
+sp500.full = NULL
+
+for(j in 1:length(years)){
+  x <- read.table(paste("data/DAT_ASCII_SPXUSD_M1_",years[j],".csv",sep=''), header = FALSE, sep = ";", dec = ".")
+  colnames(x) <- c("DateTime Stamp", "OPEN", "HIGH", "LOW", "CLOSE", "Volume")
+  # format the first column as a date.time
+  temp <- as.POSIXct(strptime(x[,1], "%Y%m%d %H%M%S"))
+  x$temp <- temp
+  index   = match(min.seq,temp)
+  index   = na.omit(index)
+  sp500.full = rbind(sp500.full,xts(x[index,5], order.by=x[index,7]))
+}
+
+sp500.lret = lret.daily(sp500.full)
+
+plot(sp500.lret)
+
+##------------
+## wti
+##------------
+
+wti.full = NULL
+
+for(j in 1:length(years)){
+  x <- read.table(paste("data/DAT_ASCII_WTIUSD_M1_",years[j],".csv",sep=''), header = FALSE, sep = ";", dec = ".")
+  colnames(x) <- c("DateTime Stamp", "OPEN", "HIGH", "LOW", "CLOSE", "Volume")
+  # format the first column as a date.time
+  temp <- as.POSIXct(strptime(x[,1], "%Y%m%d %H%M%S"))
+  x$temp <- temp
+  index   = match(min.seq,temp)
+  index   = na.omit(index)
+  wti.full = rbind(wti.full,xts(x[index,5], order.by=x[index,7]))
+}
+
+wti.lret = lret.daily(wti.full)
+
+plot(wti.lret)
+
+
 ##---------------
 ## Match the dates
 ##---------------
@@ -94,8 +136,7 @@ plot(eur.gbp.lret)
 df = merge(eur.usd.full,usd.jpy.full,eur.gbp.full,all=TRUE,fill=NA)
 df = na.omit(df)
 dm = dim(df)[2]
-
-#rm(eur.usd.full,usd.jpy.full,eur.gbp.full)
+dim(df)
 
 ##---------------
 ## Extract RVs and RCovs
@@ -104,7 +145,10 @@ dm = dim(df)[2]
 # can change to 5, 10, 30 for different frequency returns
 
 rv = rKernelCov(rData = df, alignBy = "minutes",
-           alignPeriod = 10, makeReturns = TRUE,kernelType = "Bartlett")
+           alignPeriod = 5, makeReturns = TRUE)
+
+## Use 5-minute returns! makes the estimation much more precise, almost no
+# close to singular matrices
 
 RCov = array(unlist(rv)*100^2,c(dm,dm,length(rv)))
 RCor = array(1,c(dm,dm,length(rv)))
@@ -115,16 +159,18 @@ for(t in 1:length(rv)){
   RCor[,,t] = nearcor(round(cov2cor(RCov[,,t]),8))$cor
 }
 
+rets = xts(order.by = seq(as.Date("2010/1/1"), as.Date("2023/1/1"), "days"))
 rets = merge(rets,eur.usd.lret,usd.jpy.lret,eur.gbp.lret,all=TRUE,fill=NA)
 rets = na.omit(rets)
-rets = rets[as.POSIXct(names(rv),tz="UTC")]
+rets.1 = rets[as.POSIXct(names(rv),tz="UTC")]
 RCor = RCor[,,-1]
 RCov = RCov[,,-1]
 RVs  = RVs[-1,]
 
-# Check here if everything is the same length, if all OK the proceed
+# Check here if everything is the same length, if all OK then proceed
 
 dim(rets)
+dim(rets.1)
 dim(RVs)
 dim(RCor)
 dim(RCov)
@@ -139,7 +185,7 @@ RVsx  = RVs[-wkend,]
 RCorx = RCor[,,-wkend]
 RCovx = RCov[,,-wkend] 
 
-par(mfrow=c(3,1))
+par(mfrow=c(2,3))
 for(i in 1:dm) plot(RVsx[1:500,i],type='l')
  
 dim(retsx)
@@ -151,24 +197,14 @@ dim(RCovx)
 # remove Holidays
 #---------------
 
-index(retsx)[1]
-tail(index(retsx),1)
 
 library(RQuantLib)
-holid = getHolidayList("UnitedStates", index(retsx)[1], tail(index(retsx),1))
+holid = isHoliday("UnitedStates/NYSE", index(retsx))  
 
-z=(index(retsx))
-holidind = NULL
-for(i in 1:length(holid)){
-  if(length(which(z==holid[i]))==1){
-    holidind = c(holidind,which(z==holid[i]))
-  } 
-}
-
-retsx = retsx[-holidind,]
-RVsx  = RVsx[-holidind,]
-RCorx = RCorx[,,-holidind]
-RCovx = RCovx[,,-holidind] 
+retsx = retsx[!holid,]
+RVsx  = RVsx[!holid,]
+RCorx = RCorx[,,!holid]
+RCovx = RCovx[,,!holid] 
 
 par(mfrow=c(3,1))
 for(i in 1:dm) plot(RVsx[1:500,i],type='l')
@@ -182,17 +218,13 @@ dim(RCovx)
 # Exclude nearly singular matrices; cannot be used in estimation
 #---------------
 
-determinants = rep(NA,dim(retsx)[1])
+determinants.cov = rep(NA,dim(retsx)[1])
 
 for(t in 1:dim(retsx)[1]){
-  determinants[t] = det(RCorx[,,t])
+  determinants.cov[t] = det(RCovx[,,t])
 }
 
-par(mfrow=c(1,2))
-hist(determinants,breaks = 100)
-exclude = which(determinants<0.01)
-hist(determinants[-exclude],breaks = 100)
-
+exclude = which(determinants.cov<3.255096e-6)
 
 rets = retsx[-exclude]
 par(mfrow=c(3,1))
@@ -203,5 +235,22 @@ plot(rets[,3])
 RCov = RCovx[,,-exclude]
 RCor = RCorx[,,-exclude]
 RVs  = RVsx[-exclude,]
+
+
+stand =  matrix(NA,ncol=dm,nrow=dim(rets)[1])
+
+for(t in 1:dim(rets)[1]){
+  stand[t,] = rets[t,]/sqrt(diag(RCov[,,t]))
+}
+
+apply(stand,2,mean)
+apply(stand,2,sd)
+
+par(mfrow=c(3,1))
+for(i in 1:dm) plot(stand[,i],type='l')
+for(i in 1:dm) acf(stand[,i]^2,ylim=c(-0.1,0.1))
+for(i in 1:dm) pacf(stand[,i]^2)
+
+
 
 save(rets,RCov,RCor,RVs,file='Rev2_codes_Exchange_rates/EX.Rdata')
