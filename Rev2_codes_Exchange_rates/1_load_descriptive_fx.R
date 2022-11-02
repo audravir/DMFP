@@ -12,12 +12,14 @@ library(xts)
 ##------------------------
 
 load('Rev2_codes_Exchange_rates/EX.Rdata')
-T     = dim(rets)[1]
+nn     = dim(rets)[1]
 dm    = dim(rets)[2]
 date  = as.Date(index(rets),format="%Y-%m-%d")
 rets  = data.matrix((rets))
-names = c("EUR/USD","USD/JPY","EUR/GBP")
-
+names = c("EUR/USD","USD/JPY","EUR/GBP","SP500","WTI")
+date[1]
+date[nn]
+nn
 
 ## descriptive stats for crude returns
 
@@ -62,21 +64,21 @@ print(xtable(desc, type = "latex",digits = c(1,2,2,2,2,2,4,4,4,4,4),
 ## load Realized Measures
 ##------------------------
 
-stand =  matrix(NA,ncol=dm,nrow=T)
+stand =  matrix(NA,ncol=dm,nrow=nn)
 
-for(t in 1:T){
+for(t in 1:nn){
   stand[t,] = rets[t,]/sqrt(diag(RCov[,,t]))
 }
 
 apply(stand,2,mean)
 apply(stand,2,sd)
 
-#pdf('tables_and_figures/rets_desc_EX.pdf',width = 10,height = 3)
-par(mfrow=c(1,3))
+pdf('tables_and_figures/rets_desc_EX.pdf',width = 14,height = 3)
+par(mfrow=c(1,dm))
 for(i in 1:dm) {plot(date,rets[,i],type='l',
     main=names[i],ylab = '',xlab = '',col='gray60')
   lines(date,sqrt(RCov[i,i,]))}
-#dev.off()
+dev.off()
 
 
 par(mfrow=c(2,ceiling(dm/2)))
@@ -109,8 +111,8 @@ marginals = list(stand_means,stand_sds)
 names(marginals) = c('mean','sd')
 save(marginals,file='temp/marginals_EX.Rdata')
 
-stand = stand-matrix(rep(apply(stand, 2, mean),T),nrow=T,byrow = TRUE)
-stand = stand/matrix(rep(apply(stand, 2, sd),T),nrow=T,byrow = TRUE)
+stand = stand-matrix(rep(apply(stand, 2, mean),nn),nrow=nn,byrow = TRUE)
+stand = stand/matrix(rep(apply(stand, 2, sd),nn),nrow=nn,byrow = TRUE)
 
 apply(stand,2,mean)
 apply(stand,2,sd)
@@ -118,29 +120,29 @@ apply(stand,2,sd)
 
 library(QTLRel)
 
-#pdf('tables_and_figures/standrets_qq_EX.pdf',width = 10,height = 3)
-par(mfrow=c(1,3))
+pdf('tables_and_figures/standrets_qq_EX.pdf',width = 14,height = 3)
+par(mfrow=c(1,dm))
 for(i in 1:dm) {qqPlot(stand[,i],x="norm",main=names[i],
                        ylab='',xlab='',pch=20,cex=1.2,
                        plot.it=TRUE,confidence=.95,
                        ylim=c(-4,4),xlim=c(-4,4))}
-#dev.off()
+dev.off()
 
 
-#pdf('tables_and_figures/standrets_hist_EX.pdf',width = 10,height = 3)
-par(mfrow=c(1,3))
-for(i in 1:dm) {hist(stand[,i],nclass = 30,main=names[i],
+pdf('tables_and_figures/standrets_hist_EX.pdf',width = 14,height = 3)
+par(mfrow=c(1,dm))
+for(i in 1:dm) {hist(stand[,i],main=names[i],
   freq=FALSE,ylab='',xlab='',xlim=c(-4,4),ylim=c(0,0.5))
 lines(seq(-4,4,length=500),dnorm(seq(-4,4,length=500)),
       lwd=2) }
-#dev.off()
+dev.off()
 
 
-#pdf('tables_and_figures/standrets_pnorm_EX.pdf',width = 10,height = 3)
-par(mfrow=c(1,3))
+pdf('tables_and_figures/standrets_pnorm_EX.pdf',width = 14,height = 3)
+par(mfrow=c(1,dm))
 for(i in 1:dm) {hist(pnorm(stand[,i]),main=names[i],
                      ylab = '',xlab = '')}
-#dev.off()
+dev.off()
 
 
 desc = matrix(NA,ncol=10,nrow=dm)
@@ -172,7 +174,7 @@ print(xtable(desc, type = "latex",digits = c(1,2,2,2,2,2,4,4,4,4,4),
              caption='Descriptive statistics for the standardized return data and
               $p$-values for  Shapiro-Wilk (SW), Kolmogorov-Smirnov (KS) and 
              Jarque-Bera (JB) tests for Normality as well as Ljung-Box Q-test
-             for autocorrelation for lags 5 and lags 10..'), 
+             for autocorrelation for lags 5 and lags 10.'), 
       file = 'tables_and_figures/standrets_desc_EX.tex')
 
 round(desc,4)

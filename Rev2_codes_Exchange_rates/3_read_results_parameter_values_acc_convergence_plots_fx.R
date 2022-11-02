@@ -144,21 +144,26 @@ pacf(nu,lwd=2,main='PACF',xlab='')
 #dev.off()
 
 #pdf(file='tables_and_figures/xm_2_EX.pdf',height = 5,width = 12)
-par(mfrow=c(1,3))
+par(mfrow=c(2,ceiling(dm/2)))
 for (i in 1:dm) plot(b1[,i],type='l',main=paste('b1_',i,sep=''),
                      ylab='',xlab='')
 #dev.off()
 
 #pdf(file='tables_and_figures/xm_3_EX.pdf',height = 5,width = 12)
-par(mfrow=c(1,3))
+par(mfrow=c(2,ceiling(dm/2)))
 for (i in 1:dm) plot(b2[,i],type='l',main=paste('b2_',i,sep=''),
                      ylab='',xlab='')
 #dev.off()
 
+bnames = rep(NA,2*dm)
 
-df = data.frame(c('$l_2$','$\\nu$',
-                  '$b_{1,1}$','$b_{1,2}$','$b_{1,3}$',
-                  '$b_{2,1}$','$b_{2,2}$','$b_{2,3}$'),
+for(i in 1:dm){
+  bnames[i]=paste("$b_{1,",i,"}$",sep="")
+  bnames[i+5]=paste("$b_{2,",i,"}$",sep="")
+}
+
+
+df = data.frame(c('$l_2$','$\\nu$',bnames),
                 pars_hf)
 
 colnames(df) = c('Parameter','Median','St.Dev.',

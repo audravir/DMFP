@@ -39,9 +39,6 @@ for(j in 1:length(years)){
   eur.usd.full = rbind(eur.usd.full,xts(x[index,5], order.by=x[index,7]))
 }
 
-eur.usd.lret = lret.daily(eur.usd.full)
-
-plot(eur.usd.lret)
 
 ##------------
 ## USD-JPY
@@ -60,9 +57,6 @@ for(j in 1:length(years)){
   usd.jpy.full = rbind(usd.jpy.full,xts(x[index,5], order.by=x[index,7]))
 }
 
-usd.jpy.lret = lret.daily(usd.jpy.full)
-
-plot(usd.jpy.lret)
 
 ##------------
 ## EUR/GBP
@@ -81,9 +75,6 @@ for(j in 1:length(years)){
   eur.gbp.full = rbind(eur.gbp.full,xts(x[index,5], order.by=x[index,7]))
 }
 
-eur.gbp.lret = lret.daily(eur.gbp.full)
-
-plot(eur.gbp.lret)
 
 
 ##------------
@@ -103,10 +94,6 @@ for(j in 1:length(years)){
   sp500.full = rbind(sp500.full,xts(x[index,5], order.by=x[index,7]))
 }
 
-sp500.lret = lret.daily(sp500.full)
-
-plot(sp500.lret)
-
 ##------------
 ## wti
 ##------------
@@ -124,16 +111,12 @@ for(j in 1:length(years)){
   wti.full = rbind(wti.full,xts(x[index,5], order.by=x[index,7]))
 }
 
-wti.lret = lret.daily(wti.full)
-
-plot(wti.lret)
-
-
 ##---------------
 ## Match the dates
 ##---------------
 
-df = merge(eur.usd.full,usd.jpy.full,eur.gbp.full,all=TRUE,fill=NA)
+df = merge(eur.usd.full,usd.jpy.full,eur.gbp.full,
+           sp500.full,wti.full,all=TRUE,fill=NA)
 df = na.omit(df)
 dm = dim(df)[2]
 dim(df)
@@ -142,10 +125,23 @@ dim(df)
 ## Extract RVs and RCovs
 ##---------------
 
+rets = xts(order.by = seq(as.Date("2010/1/1"), as.Date("2023/1/1"), "days"))
+
+for(i in 1:dm){
+  tmp = lret.daily(df[,i])
+  rets = merge(rets,tmp,all=TRUE,fill=NA)
+}
+rets = na.omit(rets)
+head(rets)
+tail(rets)
+
 # can change to 5, 10, 30 for different frequency returns
 
 rv = rKernelCov(rData = df, alignBy = "minutes",
            alignPeriod = 5, makeReturns = TRUE)
+
+head(rv,3)
+tail(rv,3)
 
 ## Use 5-minute returns! makes the estimation much more precise, almost no
 # close to singular matrices
@@ -159,10 +155,10 @@ for(t in 1:length(rv)){
   RCor[,,t] = nearcor(round(cov2cor(RCov[,,t]),8))$cor
 }
 
-rets = xts(order.by = seq(as.Date("2010/1/1"), as.Date("2023/1/1"), "days"))
-rets = merge(rets,eur.usd.lret,usd.jpy.lret,eur.gbp.lret,all=TRUE,fill=NA)
-rets = na.omit(rets)
-rets.1 = rets[as.POSIXct(names(rv),tz="UTC")]
+# rets = xts(order.by = seq(as.Date("2010/1/1"), as.Date("2023/1/1"), "days"))
+# rets = merge(rets,eur.usd.lret,usd.jpy.lret,eur.gbp.lret,
+#              sp500.lret,wti.lret,all=TRUE,fill=NA)
+# rets = na.omit(rets)
 RCor = RCor[,,-1]
 RCov = RCov[,,-1]
 RVs  = RVs[-1,]
@@ -170,7 +166,6 @@ RVs  = RVs[-1,]
 # Check here if everything is the same length, if all OK then proceed
 
 dim(rets)
-dim(rets.1)
 dim(RVs)
 dim(RCor)
 dim(RCov)
@@ -224,18 +219,12 @@ for(t in 1:dim(retsx)[1]){
   determinants.cov[t] = det(RCovx[,,t])
 }
 
-exclude = which(determinants.cov<3.255096e-6)
+exclude = which(determinants.cov<1e-7)
 
 rets = retsx[-exclude]
-par(mfrow=c(3,1))
-plot(rets[,1])
-plot(rets[,2])
-plot(rets[,3])
-
 RCov = RCovx[,,-exclude]
 RCor = RCorx[,,-exclude]
 RVs  = RVsx[-exclude,]
-
 
 stand =  matrix(NA,ncol=dm,nrow=dim(rets)[1])
 
@@ -246,11 +235,10 @@ for(t in 1:dim(rets)[1]){
 apply(stand,2,mean)
 apply(stand,2,sd)
 
-par(mfrow=c(3,1))
+par(mfrow=c(dm,1))
 for(i in 1:dm) plot(stand[,i],type='l')
 for(i in 1:dm) acf(stand[,i]^2,ylim=c(-0.1,0.1))
 for(i in 1:dm) pacf(stand[,i]^2)
-
 
 
 save(rets,RCov,RCor,RVs,file='Rev2_codes_Exchange_rates/EX.Rdata')

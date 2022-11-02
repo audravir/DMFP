@@ -25,8 +25,8 @@ nn
 # 25k for burn-in+25k 
 # thinned every 25th, the resulting posterior samples of 1000k
 
-scalartdcc(stand,5000)
-rmetrics(stand,5000)
-scalardcc(stand,5000)
-xm1(Sigma,5000)
+scalartdcc(stand,15000)
+rmetrics(stand,15000)
+scalardcc(stand,15000)
+xm1(Sigma,15000)
 

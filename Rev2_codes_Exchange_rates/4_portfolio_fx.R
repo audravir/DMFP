@@ -3,20 +3,21 @@ load('temp/res_3_EX.Rdata')
 library(xtable)
 
 # contains information about the marginal distributions
-load('temp/RV_forc5.Rdata')
+# load('temp/RV_forc5.Rdata')
 # forc 5 is from log-HAR model (logRV as dep.variable)
-load('temp/marginals.Rdata')
-marginals$rvs=RV_forc$`1sa`
-load('temp/results_scalar_dcc_t.Rdata')
+load('temp/marginals_EX.Rdata')
+
+marginals$rvs=tail(RVs,K)
+load('temp/results_scalar_dcc_t_EX.Rdata')
 resdcct = res
-load('temp/results_xm1.Rdata')
+load('temp/results_xm1_EX.Rdata')
 resxm1  = res
 
 rm(res)
 
 MCMCsize=10000
 
-# 1. jore's10
+# 1. jore's1
 # 2. geweke's
 # 3. equally w.
 # 4. xm1
@@ -25,16 +26,16 @@ models = c('Jore1','Geweke','Eq.','AIW','DCC-t')
 ws_gmv = array(NA,c(5,length(ind),K,dm))
 
 # for DCC-t model
-Q       = array(NA,c(dm, dm, T+K))
-R       = array(NA,c(dm, dm, T+K))
+Q       = array(NA,c(dm, dm, nn+K))
+R       = array(NA,c(dm, dm, nn+K))
 a      <- resdcct$restdcc[ind,1]
 b      <- resdcct$restdcc[ind,2]
 nu     <- resdcct$restdcc[ind,3]
-Q[,,1] <- cor(data[start:T,])
+Q[,,1] <- cor(data[start:nn,])
 R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
 
 # for XM1 model
-Sbar   = Reduce('+',Sig[start:T])/(T-start+1)
+Sbar   = Reduce('+',Sig[start:nn])/(nn-start+1)
 iota   = rep(1,dm)
 M      = dim(resxm1$resc)[1]
 lag = resxm1$resc[ind,1]
@@ -47,17 +48,17 @@ iota = rep(1,dm)
 for(m in 1:length(ind)){
   # for DCC-t model
   tdata  <- qt(udata,nu[m])
-  S       = cov(tdata[start:T,])
+  S       = cov(tdata[start:nn,])
   
   # xm1
   B0  = (iota%*%t(iota)-(b1[m,]%*%t(b1[m,]))-(b2[m,]%*%t(b2[m,])))*Sbar
   
-  for(t in 2:(T+K)){
+  for(t in 2:(nn+K)){
     # for DCC-t model
     Q[,,t]   <- S*(1-a[m]-b[m])+a[m]*(tdata[t-1,]%*%t(tdata[t-1,]))+b[m]*Q[,,(t-1)]
     R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
     
-    if(t>T){
+    if(t>nn){
       Vpred = B0+(b1[m,]%*%t(b1[m,]))*Sig[[t-1]]+
         (b2[m,]%*%t(b2[m,]))*Reduce('+',Sig[(t-lag[m]):(t-1)])/lag[m]
       mtdf = nux[m]-dm
@@ -67,8 +68,8 @@ for(m in 1:length(ind)){
       sample_standretxm = qnorm(sample_uxm)
       sample_standretdcct = qnorm(sample_udcct)
       
-      sample_retsxm = ((t(sample_standretxm)*marginals$sd)+marginals$mean)*marginals$rvs[t-T,]
-      sample_retsdcct = ((t(sample_standretdcct)*marginals$sd)+marginals$mean)*marginals$rvs[t-T,]
+      sample_retsxm = ((t(sample_standretxm)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
+      sample_retsdcct = ((t(sample_standretdcct)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
       
       
       
@@ -81,33 +82,33 @@ for(m in 1:length(ind)){
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den 
-      ws_gmv[4,m,t-T,]= pws
+      ws_gmv[4,m,t-nn,]= pws
 
       
       invS = solve(cov(t(sample_retsdcct)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den 
-      ws_gmv[5,m,t-T,]= pws
+      ws_gmv[5,m,t-nn,]= pws
 
       
-      if(ws_jore1[m,t-T]>runif(1)) selected = sample_retsxm
+      if(ws_jore1[m,t-nn]>runif(1)) selected = sample_retsxm
       else selected = sample_retsdcct
       
       invS = solve(cov(t(selected)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den 
-      ws_gmv[1,m,t-T,]= pws
+      ws_gmv[1,m,t-nn,]= pws
       
-      if(ws_gew[m,t-T]>runif(1)) selected = sample_retsxm
+      if(ws_gew[m,t-nn]>runif(1)) selected = sample_retsxm
       else selected = sample_retsdcct
     
       invS = solve(cov(t(selected)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den 
-      ws_gmv[2,m,t-T,]= pws
+      ws_gmv[2,m,t-nn,]= pws
       
       if(0.5>runif(1)) selected = sample_retsxm
       else selected = sample_retsdcct
@@ -116,7 +117,7 @@ for(m in 1:length(ind)){
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den 
-      ws_gmv[3,m,t-T,]= pws
+      ws_gmv[3,m,t-nn,]= pws
       
     }
     
@@ -139,8 +140,8 @@ gvm_var = gvm_ret = gvm_sharpe = gmv_to = gmv_sp = gmv_co=
 for(m in 1:length(ind)){
    for(i in 1:5){
      for(t in 1:K){
-       gvm_ret[i,m,t] = sum(ws_gmv[i,m,t,]*rets[T+t,])
-       gvm_var[i,m,t] = t(ws_gmv[i,m,t,])%*%RCov[,,T+t]%*%(ws_gmv[i,m,t,])
+       gvm_ret[i,m,t] = sum(ws_gmv[i,m,t,]*rets[nn+t,])
+       gvm_var[i,m,t] = t(ws_gmv[i,m,t,])%*%RCov[,,nn+t]%*%(ws_gmv[i,m,t,])
        gvm_sharpe[i,m,t]=gvm_ret[i,m,t]/sqrt(gvm_var[i,m,t]) 
        gmv_co[i,m,t] = sqrt(sum(ws_gmv[i,m,t,]^2))
        gmv_sp[i,m,t] = sum(ws_gmv[i,m,t,]*(ws_gmv[i,m,t,]<0))
@@ -153,8 +154,8 @@ for(m in 1:length(ind)){
     for(t in 2:K){
       parts = rep(NA,dm)
       for(d in 1:dm){
-        parts[d] = abs(ws_gmv[i,m,t,d] - ws_gmv[i,m,t-1,d]*(1+rets[T+t-1,d])/
-          (1+sum(ws_gmv[i,m,t-1,]*rets[T+t-1,])))
+        parts[d] = abs(ws_gmv[i,m,t,d] - ws_gmv[i,m,t-1,d]*(1+rets[nn+t-1,d])/
+          (1+sum(ws_gmv[i,m,t-1,]*rets[nn+t-1,])))
       }
       gmv_to[i,m,t]  = sum(parts)
     }
@@ -203,14 +204,15 @@ round(resm,3)
 
 print(xtable(resm,
              caption = "GMV portfolio results based on 1-step-ahead predicitons 
-             for  2009/01/02-2009/12/31 out-of-sample period ($K=252$ observations).
+             for  2020/01/02-2021/12/31 out-of-sample period 
+             ($K=504$ observations) for 5-variate dataset.
              The table reports the posterior medians of various Global Minimum
              Variance portfolio metrics for the pooled models: 
              Geweke's, Jore's and equally weighted, 
              as well as two best individual models, Additive Inverse Wishart (AIW) and 
              Dynamic Conditional Correlation with $t$ copula (DCC-t).",
-             label = 'table:gmvfull5', digits = 3),
-      file='tables_and_figures/gmvfull5.tex',
+             label = 'table:gmvfull5_EX', digits = 3),
+      file='tables_and_figures/gmvfull5_EX.tex',
       include.rownames = TRUE,latex.environments = "center" ,
       caption.placement = "top",
       include.colnames= TRUE,
@@ -219,4 +221,4 @@ print(xtable(resm,
 
 
 rm(resxm1,Sig,Sigma,resdcct)
-save.image('temp/portfolio5.Rdata')
+save.image('temp/portfolio5_EX.Rdata')

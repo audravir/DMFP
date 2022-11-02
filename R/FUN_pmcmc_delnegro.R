@@ -1,9 +1,10 @@
 #' @export
-PMCMC_delNegro = function(first_lik,second_lik,Npart){
+PMCMC_delNegro = function(first_lik,second_lik,Npart,prior){
   y1 = apply(first_lik,2,median)
   y2 = apply(second_lik,2,median)
-  
   K = length(y1)
+  priorm = prior[1]
+  priorsd = prior[2]
   
   M = bi = dim(first_lik)[1]
   
@@ -41,8 +42,8 @@ PMCMC_delNegro = function(first_lik,second_lik,Npart){
     }
     
     lln = sum(log(wssn))
-    if((lln-llo+log(truncnorm::dtruncnorm(betan,0,1,0.8,0.1))-
-        log(truncnorm::dtruncnorm(beta,0,1,0.8,0.1)))>log(runif(1))){
+    if((lln-llo+log(truncnorm::dtruncnorm(betan,0,1,priorm,priorsd))-
+        log(truncnorm::dtruncnorm(beta,0,1,priorm,priorsd)))>log(runif(1))){
       llo  = lln
       beta = betan
       tau2 = tau2n
@@ -56,7 +57,7 @@ PMCMC_delNegro = function(first_lik,second_lik,Npart){
     wssp[,m]  = wsso
   }
   resdn = list(betas[(bi+1):(bi+M)],xssp[,(bi+1):(bi+M)],
-               wssp[,(bi+1):(bi+M)],acc[(bi+1):(bi+M)]/M)
+               wssp[,(bi+1):(bi+M)],acc[(bi+1):(bi+M)])
   names(resdn) = c('beta','weights_xs','likelihood','acc')
   return(resdn)
 }
