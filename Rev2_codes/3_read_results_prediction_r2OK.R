@@ -1,12 +1,18 @@
 rm(list=ls(all=TRUE))
 load('data/10data.Rdata')
 library(xtable)
+library(zoo)
+library(truncnorm)
+library(DMPF)
+
+
 data  = stand # Prediction etc is performed on STANDARDIZED returns
 dm    = dim(data)[2] 
 start = 1
 T     = 1990
 Sig   = Sigma
 K     = 252
+post.sample = 1000
 
 ##------
 ## Static
@@ -56,7 +62,7 @@ sum(log(lL_rmf))
 
 load('temp/10variate/results_scalar_dcc.Rdata')
 M   = dim(res$resdcc)[1] # size of MCMC
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 Q       = array(NA,c(dm, dm, T+K))
 R       = array(NA,c(dm, dm, T+K))
@@ -80,13 +86,27 @@ sum(log(lL_static))
 sum(log(lL_rmf))
 sum(apply(log(lL_dcc),2,mean))
 
+
+
+postcorrsdcc = matrix(NA,ncol=dm*(dm-1)/2,nrow = K+T)
+
+for(t in 2:(T+K)){
+  tmp = 0
+  for(m in 1:length(ind)){
+    Q[,,t]   <- cov(data[start:T,])*(1-a[m]-b[m])+a[m]*(data[t-1,]%*%t(data[t-1,]))+b[m]*Q[,,(t-1)]
+    R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
+    tmp = tmp+ R[,,t][lower.tri(R[,,t])]
+  }
+  postcorrsdcc[t,] <- tmp/length(ind)
+}
+
 ##------
 ## Rme
 ##------
 
 load('temp/10variate/results_RMe.Rdata')
 M   = length(res$resRMe)
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 Q       = array(NA,c(dm, dm, T+K))
 R       = array(NA,c(dm, dm, T+K))
@@ -116,7 +136,7 @@ sum(apply(log(lL_rme),2,mean))
 
 load('temp/10variate/results_scalar_dcc_t.Rdata')
 M   = dim(res$restdcc)[1]
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 Q       = array(NA,c(dm, dm, T+K))
 R       = array(NA,c(dm, dm, T+K))
@@ -148,6 +168,49 @@ sum(apply(log(lL_dcc),2,mean))
 sum(apply(log(lL_rme),2,mean))
 sum(apply(log(lL_tdcc),2,mean))
 
+
+##-----------------------
+## dcc-HEAVY t Copula
+##-----------------------
+
+load('temp/10variate/results_dcch_t.Rdata')
+M   = dim(res$restdcch)[1]
+ind = round(seq(1,M,length=post.sample)) #thin every xth
+
+R       = array(NA,c(dm, dm, T+K))
+a      <- res$restdcch[ind,1]
+b      <- res$restdcch[ind,2]
+nu     <- res$restdcch[ind,3]
+
+Pbar = Reduce('+',Sig[1:T])/T
+Rbar = cor(data[start:T,])
+
+R[,,1] <- Rbar
+
+lL_tdcch = matrix(NA,ncol=K,nrow=length(ind))
+
+for(m in 1:length(ind)){
+  tdata  <- qt(udata,nu[m])
+  Rbar   <- cor(tdata[start:T,])
+
+  for(t in 2:(T+K)){
+    R[,,t]   <- Rbar+a[m]*(Sig[[t-1]]-Pbar)+b[m]*(R[,,t-1]-Rbar)
+    
+    if(t>T){
+      lL_tdcch[m,(t-T)] <- mvtnorm::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nu[m], log=F)*
+        prod(dnorm(data[t,])/dt(tdata[t,],df=nu[m]))
+    }
+  }
+}
+
+sum(log(lL_static))
+sum(log(lL_rmf))
+sum(apply(log(lL_dcc),2,mean))
+sum(apply(log(lL_rme),2,mean))
+sum(apply(log(lL_tdcc),2,mean))
+sum(apply(log(lL_tdcch),2,mean))
+
+
 ##------
 ## xm1
 ##------
@@ -157,7 +220,7 @@ iota   = rep(1,dm)
 
 load('temp/10variate/results_xm1.Rdata')
 M   = dim(res$resc)[1]
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 lL_xm1 = matrix(NA,ncol=K,nrow=length(ind))
 lag = res$resc[ind,1]
 nu  = res$resc[ind,2]
@@ -180,8 +243,84 @@ sum(log(lL_rmf))
 sum(apply(log(lL_dcc),2,mean))
 sum(apply(log(lL_rme),2,mean))
 sum(apply(log(lL_tdcc),2,mean))
+sum(apply(log(lL_tdcch),2,mean))
 sum(apply(log(lL_xm1),2,mean))
 
+##------
+## dcc-HEAVY Gaussian Copula
+##------
+
+load('temp/10variate/results_dcch.Rdata')
+M   = dim(res$resdcch)[1] # size of MCMC
+ind = round(seq(1,M,length=post.sample)) #thin every xth
+
+R       = array(NA,c(dm, dm, T+K))
+R[,,1] <- cor(data[start:T,])
+a      <- res$resdcch[ind,1]
+b      <- res$resdcch[ind,2]
+Rbar = cor(data[start:T,])
+Pbar = Reduce('+',Sigma[1:T])/T
+lL_dcch = matrix(NA,ncol=K,nrow=length(ind))
+
+for(m in 1:length(ind)){
+  for(t in 2:(T+K)){
+    R[,,t] <- Rbar+a[m]*(Sigma[[t-1]]-Pbar)+b[m]*(R[,,t-1]-Rbar)
+    if(t>T){
+      lL_dcch[m,(t-T)] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=F)
+    }
+  }
+}
+
+sum(log(lL_static))
+sum(log(lL_rmf))
+sum(apply(log(lL_dcc),2,mean))
+sum(apply(log(lL_rme),2,mean))
+sum(apply(log(lL_tdcc),2,mean))
+sum(apply(log(lL_tdcch),2,mean))
+sum(apply(log(lL_xm1),2,mean))
+sum(apply(log(lL_dcch),2,mean))
+
+
+postcorrsh = matrix(NA,ncol=dm*(dm-1)/2,nrow = K+T)
+
+for(t in 2:(T+K)){
+  tmp = 0
+  for(m in 1:length(ind)){
+    R[,,t] <- Rbar+a[m]*(Sigma[[t-1]]-Pbar)+b[m]*(R[,,t-1]-Rbar)
+    tmp = tmp+ R[,,t][lower.tri(R[,,t])]
+  }
+    postcorrsh[t,] <- tmp/length(ind)
+}
+
+Z = matrix(NA,ncol=dm*(dm-1)/2,nrow = K+T)
+for(t in 1:(K+T)) Z[t,] = Sigma[[t]][upper.tri(Sigma[[t]])]
+
+# rolling window corrs
+C = combn(1:dm,2)
+Cp = C[,order(C[2,])]
+rollcorr = Zroll = matrix(NA,ncol=dm*(dm-1)/2,nrow = K+T)
+
+for(i in 1:(dm*(dm-1)/2)) {
+  rollcorr[,i] = rollapply(data[,Cp[,i]],width=252,function(x) cor(x[,1],x[,2]), by.column=FALSE,align = c("center"),fill=NA) 
+  Zroll[,i] = rollapply(Z[,i],width=5,mean,fill=NA,align='center')
+}
+  
+pdf('tables_and_figures/comp_heavy.pdf',width=20,height=20)
+par(mfrow=c(9,5))
+for(i in 1:(dm*(dm-1)/2)){
+  plot(date,Zroll[,i],type='l',col='gray70',main=paste(Cp[1,i],',',Cp[2,i],sep=''),ylab='',
+       xlab='',ylim=c(-0.3,1),lwd=3)
+  lines(date,postcorrsh[,i],col=2,lwd=2)
+  lines(date,postcorrsdcc[,i],col=4,lwd=2)
+  lines(date,rollcorr[,i],col=1,lwd=2)
+  # legend(x=date[1],y=1,col=c('gray70',1,2,4),
+  #        lwd=c(2,2,2,2),legend=c('6m-rolling RCor',
+  #         '6m-rolling empirical corr','DCC-HEAVY','DCC'))
+}
+dev.off()
+
+
+##################
 
 dcc  =cumsum(apply(log(lL_dcc),2,mean))
 dcct  =cumsum(apply(log(lL_tdcc),2,mean))
@@ -208,25 +347,27 @@ for(t0 in 1:K){
 
 pdf('tables_and_figures/all_bfs.pdf',height=5,width=10)
 par(mfrow=c(1,1), mar=c(3, 3, 1, 1) + 0.1)
-plot(date[(T+1):(T+K)],mkvol,type='l',axes = FALSE,
+plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='', xaxt="n")
 
 par(new = TRUE)
-plot(date[(T+1):(T+K)],cumsum(apply(log(lL_xm1[,]),2,median))-
+plot(tail(date,K),cumsum(apply(log(lL_xm1[,]),2,median))-
        cumsum(log(lL_static[,])), xaxt="n",
-     type='l',ylim=c(-15,30),lty=2,ylab='',xlab='',lwd=2)
+     type='l',ylim=c(-5,30),lty=2,ylab='',xlab='',lwd=2)
 abline(h=0)
-lines(date[(T+1):(T+K)],cumsum(apply(log(lL_tdcc[,]),2,median))-
+lines(tail(date,K),cumsum(apply(log(lL_tdcc[,]),2,median))-
         cumsum(log(lL_static[,])),lty=2)
-lines(date[(T+1):(T+K)],cumsum(apply(log(lL_rme[,]),2,median))-
+lines(tail(date,K),cumsum(apply(log(lL_rme[,]),2,median))-
         cumsum(log(lL_static[,])),col='gray40',lwd=2)
-lines(date[(T+1):(T+K)],cumsum(log(lL_rmf[,]))-
+lines(tail(date,K),cumsum(log(lL_rmf[,]))-
         cumsum(log(lL_static[,])),col='gray60',lwd=2,lty=4)
-lines(date[(T+1):(T+K)],cumsum(apply(log(lL_dcc[,]),2,median))-
+lines(tail(date,K),cumsum(apply(log(lL_dcc[,]),2,median))-
         cumsum(log(lL_static[,])))
-legend(x=date[(T+1)]-10,y=30,col=c('gray60','gray40',1,1,1),
-       lty=c(4,1,1,2,2),lwd=c(2,2,1,1,2),
-       legend=c('RMf','RMe','DCC','DCC-t','AIW'))
+lines(tail(date,K),cumsum(apply(log(lL_tdcch),2,median))-
+        cumsum(log(lL_static[,])),col='gray40',lty=6,lwd=3)
+legend(x=date[(T+1)]-10,y=30,col=c('gray60','gray40',1,1,1,'gray40'),
+       lty=c(4,1,1,2,2,6),lwd=c(2,2,1,1,2,2),
+       legend=c('RMf','RMe','DCC','DCC-t','AIW','DCC-HEAVY-t'))
 atx <- seq(date[(T+1)], date[(T+K)], by=30)
 axis(1, at=atx, labels=format(atx, "%Y/%m"))
 dev.off()
@@ -236,18 +377,19 @@ sum(log(lL_rmf[,])),
 sum(apply(log(lL_rme[,]),2,median)),
 sum(apply(log(lL_dcc[,]),2,median)),
 sum(apply(log(lL_tdcc[,]),2,median)),
-sum(apply(log(lL_xm1[,]),2,median)))
-names(lpbf) = c('Static','RMf','RMe','DCC','DCC-t','AIW')
+sum(apply(log(lL_xm1[,]),2,median)),
+sum(apply(log(lL_tdcch),2,median)))
+names(lpbf) = c('Static','RMf','RMe','DCC','DCC-t','AIW','DCC-HEAVY-t')
 lpbfdf = as.data.frame(t(lpbf))
 
 max(lpbf)
 
-print(xtable(lpbfdf,
+print(xtable(lpbfdf,align= 'ccccccc|c',
              caption = '1-step-ahead log predictive scores ($LPS$) 
              for all individual models: Static, RiskMetrics fixed (RMf),
 RiskMetrics estimated (RMe), 
-Dynamic conditional correlation with Gaussian and t copulas (DCC
-and DCC-t) and Additive Inverse Wishart (AIW) for 
+Dynamic conditional correlation with Gaussian and $t$ copulas (DCC
+and DCC-t), Additive Inverse Wishart (AIW) and DCC-HEAVY model with $t$ copula for 
 2009/01/02-2009/12/31 out-of-sample period
 (K = 252 observations).',
              label = 'table:lps', digits = 2),
@@ -255,7 +397,7 @@ and DCC-t) and Additive Inverse Wishart (AIW) for
       include.rownames = FALSE,latex.environments = "center" ,
       caption.placement = "top",
       include.colnames= TRUE,
-      rotate.colnames = FALSE)
+      rotate.colnames = FALSE,scalebox=1)
 
 
 
@@ -270,11 +412,23 @@ ws_jore10 = lL_jore10 = matrix(NA,ncol=K,nrow=length(ind))
 ws_jore25 = lL_jore25 = matrix(NA,ncol=K,nrow=length(ind))
 lL_equal  = lL_DN = matrix(NA,ncol=K,nrow=length(ind))
 
-resDN= PMCMC_delNegro(lL_xm1,lL_tdcc,1000)
+
+resDN= PMCMC_delNegro(lL_xm1,lL_tdcc,1000,c(0,2),10000,propsd = 0.5)
+
+mean(resDN$acc)
+hist(resDN$beta,freq=FALSE)
+grid = seq(-1,1,length=500)
+lines(grid,dtruncnorm(grid,-1,1,0,1),lwd=2)
+inddn = seq(1,length(resDN$beta),length=1000)
+bp = resDN$beta[inddn]
+lines(density(bp),col=2,lwd=3)
+c(quantile(resDN$beta,0.025),median(resDN$beta),quantile(resDN$beta,0.975))
+
+median(bp)
+pacf(bp)
 
 ws_DN = t(pnorm(resDN$weights_xs))
 
-mean(resDN$acc)
 
 for(m in 1:length(ind)){
   for (t in 1:K){
@@ -325,29 +479,29 @@ pdf('tables_and_figures/weights.pdf',height=8,width=10)
 par(mfrow=c(2,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(date[(T+1):(T+K)],mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
-     xlim=c(date[(T+1)]-30,date[(T+K)]))
+     xlim=c(date[(T+1)]-60,date[(T+K)]))
 par(new = TRUE)
 plot(date[(T+1):(T+K)],apply(ws_gew,2,median),ylim=c(0,1),
-     type='l',ylab='',xlab='',xaxt="n",lwd=2,xlim=c(date[(T+1)]-30,date[(T+K)]))
+     type='l',ylab='',xlab='',xaxt="n",lwd=2,xlim=c(date[(T+1)]-60,date[(T+K)]))
 lines(date[(T+1):(T+K)],apply(ws_jore1,2,median),col='gray40',lwd=2,lty=2)
 lines(date[(T+1):(T+K)],apply(ws_jore5,2,median),lty=3)
 lines(date[(T+1):(T+K)],apply(ws_jore10,2,median),col='gray60',lwd=2)
 lines(date[(T+1):(T+K)],apply(ws_DN,2,median),lty=4,lwd=2)
 abline(h=0.5)
 axis(1, at=atx, labels=format(atx, "%Y/%m"))
-legend(x=date[(T+1)]-40,y=1,col=c(1,'gray40',1,'gray60',1),
+legend(x=date[(T+1)]-65,y=1,col=c(1,'gray40',1,'gray60',1),
        lty=c(1,2,3,1,4),lwd=c(2,2,1,2,2),
        legend=c('Geweke','Jore1','Jore5','Jore10','DelNegro'))
 
 plot(date[(T+1):(T+K)],mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
-     xlim=c(date[(T+1)]-30,date[(T+K)]))
+     xlim=c(date[(T+1)]-60,date[(T+K)]))
 par(new = TRUE)
 
 plot(date[(T+1):(T+K)],cumsum(apply(log(lL_xm1[,]),2,median))-
        cumsum(apply(log(lL_xm1[,]),2,median)),
-     type='l',ylim=c(-15,15),ylab='',xlab='',xaxt="n",
-     xlim=c(date[(T+1)]-30,date[(T+K)]))
+     type='l',ylim=c(-20,15),ylab='',xlab='',xaxt="n",
+     xlim=c(date[(T+1)]-60,date[(T+K)]))
 lines(date[(T+1):(T+K)],cumsum(apply(log(lL_tdcc[,]),2,median))-
         cumsum(apply(log(lL_xm1[,]),2,median)))
 lines(date[(T+1):(T+K)],cumsum(apply(lL_gew[,],2,median))-
@@ -364,29 +518,26 @@ lines(date[(T+1):(T+K)],cumsum(apply(lL_DN,2,median))-
         cumsum(apply(log(lL_xm1[,]),2,median)),lty=4,lwd=2)
 lines(date[(T+1):(T+K)],cumsum(apply((lL_equal),2,median))-
         cumsum(apply(log(lL_xm1[,]),2,median)),col='gray60',lwd=2,lty=5)
-axis(1, at=atx, labels=format(atx, "%Y/%m"))
-legend(x=date[(T+1)]-40,y=15,col=c(1,1,'gray40',1,'gray60',1,'gray60'),
-       lty=c(1,1,2,3,1,4,5),lwd=c(1,2,2,1,2,2,2),
-       legend=c('DCC-t','Geweke','Jore1','Jore5','Jore10','DelNegro','Equal'))
+lines(tail(date,K),cumsum(apply(log(lL_tdcch),2,median))-
+        cumsum(apply(log(lL_xm1[,]),2,median)),col='gray40',lty=6,lwd=2)
 
+axis(1, at=atx, labels=format(atx, "%Y/%m"))
+legend(x=date[(T+1)]-65,y=15,col=c(1,1,'gray40',1,'gray60',1,'gray60','gray40'),
+       lty=c(1,1,2,3,1,4,5,6),lwd=c(1,2,2,1,2,2,2,2),
+       legend=c('DCC-t','Geweke','Jore1','Jore5',
+                'Jore10','DelNegro','Equal','DCC-HEAVY-t'))
 dev.off()
 
-save.image('temp/res_10.Rdata')
+save.image('temp/10variate/res_10.Rdata')
 
 # -----------------------------
 # Jore1 vs Dn
 # -----------------------------
 
 library(DMFP)
-resDN= PMCMC_delNegro(lL_xm1,lL_tdcc,1000,c(0.8,0.5))
-
-grid  = seq(0,1,length=1000)
-prior = truncnorm::dtruncnorm(grid,0,1,0.5,0.5)
 
 plot(resDN$beta,type='l')
 hist(resDN$beta,freq = FALSE)
-lines(grid,prior)
-mean(resDN$acc)
 
 
 pdf('tables_and_figures/dn_vs_jore.pdf',height=7,width=10)

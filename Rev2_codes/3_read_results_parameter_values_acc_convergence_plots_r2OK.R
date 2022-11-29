@@ -1,6 +1,7 @@
 rm(list=ls(all=TRUE))
 load('data/10data.Rdata')
 library(xtable)
+post.sample = 1000
 
 pars_lf = NULL
 
@@ -8,7 +9,7 @@ pars_lf = NULL
 ## Rme
 ##------
 
-load('temp/results_RMe.Rdata')
+load('temp/10variate/results_RMe.Rdata')
 M   = length(res$resRMe)
 ind = round(seq(1,M,length=M/25)) #thin every 25th
 lam = res$resRMe[ind]
@@ -27,7 +28,7 @@ dev.off()
 ## scalar dcc
 ##------
 
-load('temp/results_scalar_dcc.Rdata')
+load('temp/10variate/results_scalar_dcc.Rdata')
 M   = dim(res$resdcc)[1] # size of MCMC
 ind = round(seq(1,M,length=M/25)) #thin every 5th
 
@@ -52,7 +53,7 @@ dev.off()
 ## scalar dcc t-copula
 ##------
 
-load('temp/results_scalar_dcc_t.Rdata')
+load('temp/10variate/results_scalar_dcc_t.Rdata')
 M   = dim(res$restdcc)[1] # size of MCMC
 ind = round(seq(1,M,length=M/25)) #thin every 5th
 
@@ -78,17 +79,49 @@ pars_lf = rbind(pars_lf,
                 c(median(b),sqrt(var(b)),mean(res$acctdcc)),
                 c(median(nu),sqrt(var(nu)),mean(res$acctdcc)))
 
-df <- data.frame(c('RMe','DCC','','DCC-t','',''),
-                 c('$\\lambda$','$a$','$b$','$a$','$b$','$\\eta$'),
+##------
+## DCC-HEAVY-t
+##------
+
+load('temp/10variate/results_dcch_t.Rdata')
+M   = length(res$acctdcch)
+ind = round(seq(1,M,length=post.sample)) #thin every xth
+
+a      <- res$restdcch[ind,1]
+b      <- res$restdcch[ind,2]
+nu     <- res$restdcch[ind,3]
+
+pdf(file='tables_and_figures/dcct_heavy.pdf',width=12,height=8)
+par(mfrow=c(3,3))
+plot(a,type='l',main='DCC-HEAVY-t: a',ylab='',xlab='')
+acf(a,lwd=2,main='ACF',xlab='')
+pacf(a,lwd=2,main='PACF',xlab='')
+plot(b,type='l',main='DCC-HEAVY-t: b',ylab='',xlab='')
+acf(b,lwd=2,main='ACF',xlab='')
+pacf(b,lwd=2,main='PACF',xlab='')
+plot(nu,type='l',main='DCC-t: eta',ylab='',xlab='')
+acf(nu,lwd=2,main='ACF',xlab='')
+pacf(nu,lwd=2,main='PACF',xlab='')
+dev.off()
+
+
+pars_lf = rbind(pars_lf,
+                c(median(a),sqrt(var(a)),mean(res$acctdcc)),
+                c(median(b),sqrt(var(b)),mean(res$acctdcc)),
+                c(median(nu),sqrt(var(nu)),mean(res$acctdcc)))
+
+df <- data.frame(c('RMe','DCC','','DCC-t','','','DCC-HEAVY-t','',''),
+                 c('$\\lambda$','$a$','$b$','$a$','$b$','$\\eta$',
+                   '$a$','$b$','$\\eta$'),
                  pars_lf) 
 
 colnames(df) = c('Model','Parameter','Median','St.Dev.',
                       'Acc.prob.')
 
 print(xtable(df,
-             caption = 'Parameter estimation results for the low-frequency models:
-             RiskMetrics estimated (RMe) and Dynamic Conditional Correlation
-             with Gaussian and $t$ copulas (DCC and DCC-t).',
+             caption = 'Parameter estimation results for the 
+             RiskMetrics estimated (RMe), Dynamic Conditional Correlation
+             with Gaussian and $t$ copulas (DCC and DCC-t) and DCC-HEAVY with $t$ copula.',
              label = 'table:all_pars_lf', digits = 4),
       file='tables_and_figures/all_pars_lf.tex',
       include.rownames = FALSE,latex.environments = "center" ,
@@ -172,6 +205,12 @@ print(xtable(df,
       include.colnames= TRUE,
       rotate.colnames = FALSE,size="\\footnotesize",
       sanitize.text.function=function(x){x})
+
+
+
+
+
+
 
 
 

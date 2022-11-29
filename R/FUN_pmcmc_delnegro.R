@@ -1,12 +1,12 @@
 #' @export
-PMCMC_delNegro = function(first_lik,second_lik,Npart,prior){
+PMCMC_delNegro = function(first_lik,second_lik,Npart,prior,M,propsd){
   y1 = apply(first_lik,2,median)
   y2 = apply(second_lik,2,median)
   K = length(y1)
   priorm = prior[1]
   priorsd = prior[2]
   
-  M = bi = dim(first_lik)[1]
+  bi = M
   
   ##-------
   ## Particle MCMC
@@ -22,7 +22,7 @@ PMCMC_delNegro = function(first_lik,second_lik,Npart,prior){
   xso = xsn = wsso = rep(0,K)
   
   for(m in 1:(M+bi)){
-    betan  = truncnorm::rtruncnorm(1,a=-1,b=1,beta,0.2)
+    betan  = truncnorm::rtruncnorm(1,a=-1,b=1,beta,propsd)
     tau2n  = 1-betan^2
     
     xn    = rnorm(Npart,0,1)
@@ -34,16 +34,16 @@ PMCMC_delNegro = function(first_lik,second_lik,Npart,prior){
       lams = pnorm(xs)
       # weights
       ws  = lams*y1[t]+(1-lams)*y2[t]
-      wssn[t] = mean(ws)
       #if(sum(ws)==0){ws=1/Npart}
       ind = sample(1:Npart,Npart,replace = T,prob=ws/sum(ws))
       xn = xs[ind]
+      wssn[t] = mean(ws[ind])
       xsn[t] = mean(xn)
     }
     
     lln = sum(log(wssn))
-    if((lln-llo+log(truncnorm::dtruncnorm(betan,0,1,priorm,priorsd))-
-        log(truncnorm::dtruncnorm(beta,0,1,priorm,priorsd)))>log(runif(1))){
+    if((lln-llo+log(dtruncnorm(betan,-1,1,priorm,priorsd))-
+        log(dtruncnorm(beta,-1,1,priorm,priorsd)))>log(runif(1))){
       llo  = lln
       beta = betan
       tau2 = tau2n

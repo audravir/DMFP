@@ -12,6 +12,8 @@ load('temp/results_scalar_dcc_t_EX.Rdata')
 resdcct = res
 load('temp/results_xm1_EX.Rdata')
 resxm1  = res
+load('temp/results_dcch_t_EX.Rdata')
+resdccht  = res
 
 rm(res)
 
@@ -22,8 +24,9 @@ MCMCsize=10000
 # 3. equally w.
 # 4. xm1
 # 5. dcct
-models = c('Jore1','Geweke','Eq.','AIW','DCC-t')
-ws_gmv = array(NA,c(5,length(ind),K,dm))
+# 6. dcc-heavy-t
+models = c('Jore1','Geweke','Equal','AIW','DCC-t','DCC-HEAVY-t')
+ws_gmv = array(NA,c(length(models),length(ind),K,dm))
 
 # for DCC-t model
 Q       = array(NA,c(dm, dm, nn+K))
@@ -34,6 +37,15 @@ nu     <- resdcct$restdcc[ind,3]
 Q[,,1] <- cor(data[start:nn,])
 R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
 
+# for DCC-HEAVY-t model
+Rh      = array(NA,c(dm, dm, nn+K))
+ah      <- resdccht$restdcch[ind,1]
+bh      <- resdccht$restdcch[ind,2]
+nuh     <- resdccht$restdcch[ind,3]
+Pbar = Reduce('+',Sig[1:nn])/nn
+Rbar = cor(data[start:nn,])
+Rh[,,1] <- Rbar
+
 # for XM1 model
 Sbar   = Reduce('+',Sig[start:nn])/(nn-start+1)
 iota   = rep(1,dm)
@@ -43,12 +55,14 @@ nux = resxm1$resc[ind,2]
 b1  = resxm1$resc[ind,3:(dm+2)]
 b2  = resxm1$resc[ind,(dm+3):(2*dm+2)]
 
-iota = rep(1,dm)
-
 for(m in 1:length(ind)){
   # for DCC-t model
   tdata  <- qt(udata,nu[m])
   S       = cov(tdata[start:nn,])
+  
+  # for DCC-HEAVY-t model
+  tdatah  <- qt(udata,nuh[m])
+  Rbar   <- cor(tdatah[start:nn,])
   
   # xm1
   B0  = (iota%*%t(iota)-(b1[m,]%*%t(b1[m,]))-(b2[m,]%*%t(b2[m,])))*Sbar
@@ -58,21 +72,24 @@ for(m in 1:length(ind)){
     Q[,,t]   <- S*(1-a[m]-b[m])+a[m]*(tdata[t-1,]%*%t(tdata[t-1,]))+b[m]*Q[,,(t-1)]
     R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
     
+    # for DCC-HEAVY-t model
+    Rh[,,t]   <- Rbar+ah[m]*(Sig[[t-1]]-Pbar)+bh[m]*(Rh[,,t-1]-Rbar)
+    
     if(t>nn){
       Vpred = B0+(b1[m,]%*%t(b1[m,]))*Sig[[t-1]]+
         (b2[m,]%*%t(b2[m,]))*Reduce('+',Sig[(t-lag[m]):(t-1)])/lag[m]
       mtdf = nux[m]-dm
       sample_uxm = pt(mvtnorm::rmvt(MCMCsize,(mtdf-1)/(mtdf+1)*Vpred,df=mtdf+1),df = mtdf+1)
       sample_udcct = pt(mvtnorm::rmvt(MCMCsize,R[,,t],df=nu[m]),df = nu[m])
+      sample_udccth = pt(mvtnorm::rmvt(MCMCsize,Rh[,,t],df=nuh[m]),df = nuh[m])
       
       sample_standretxm = qnorm(sample_uxm)
       sample_standretdcct = qnorm(sample_udcct)
+      sample_standretdccth = qnorm(sample_udccth)
       
       sample_retsxm = ((t(sample_standretxm)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
       sample_retsdcct = ((t(sample_standretdcct)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
-      
-      
-      
+      sample_retsdccth = ((t(sample_standretdccth)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
       
       ################## 
       #sample_retsxm=t(sample_standretxm )    ##################
@@ -84,14 +101,18 @@ for(m in 1:length(ind)){
       pws  = nom/den 
       ws_gmv[4,m,t-nn,]= pws
 
-      
       invS = solve(cov(t(sample_retsdcct)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den 
       ws_gmv[5,m,t-nn,]= pws
-
       
+      invS = solve(cov(t(sample_retsdccth)))
+      nom  = invS%*%iota
+      den  = as.vector(t(iota)%*%invS%*%iota)
+      pws  = nom/den 
+      ws_gmv[6,m,t-nn,]= pws
+
       if(ws_jore1[m,t-nn]>runif(1)) selected = sample_retsxm
       else selected = sample_retsdcct
       
@@ -135,10 +156,10 @@ esfun=function(x,p){
 }
 
 gvm_var = gvm_ret = gvm_sharpe = gmv_to = gmv_sp = gmv_co=
-  array(NA,dim=c(5,length(ind),K))
+  array(NA,dim=c(length(models),length(ind),K))
 
 for(m in 1:length(ind)){
-   for(i in 1:5){
+   for(i in 1:length(models)){
      for(t in 1:K){
        gvm_ret[i,m,t] = sum(ws_gmv[i,m,t,]*rets[nn+t,])
        gvm_var[i,m,t] = t(ws_gmv[i,m,t,])%*%RCov[,,nn+t]%*%(ws_gmv[i,m,t,])
@@ -150,7 +171,7 @@ for(m in 1:length(ind)){
 }
 
 for(m in 1:length(ind)){
-  for(i in 1:5){
+  for(i in 1:length(models)){
     for(t in 2:K){
       parts = rep(NA,dm)
       for(d in 1:dm){
@@ -163,10 +184,10 @@ for(m in 1:length(ind)){
 }
 
 
-resm =matrix(NA,ncol=5,nrow=12)
-GL   = matrix(NA,ncol=5,nrow=1000)
+resm = matrix(NA,ncol=length(models),nrow=12)
+GL   = matrix(NA,ncol=length(models),nrow=1000)
 
-for(i in 1:5){
+for(i in 1:length(models)){
   resm[1,i] = median(apply(gvm_ret[i,,],1,quantile,0.05))
   resm[2,i] = median(apply(gvm_ret[i,,],1,quantile,0.1))
   resm[3,i] = median(apply(gvm_ret[i,,],1,esfun,0.05))
@@ -189,20 +210,17 @@ for(i in 1:5){
                         apply(gvm_ret[i,,],1,sd))
 }
 
+res  = resm[,c(2,1,3,4,5,6)]
 
-
-
-resm = resm[,c(2,1,3,4,5)]
-
-colnames(resm) = c( 'Geweke','Jore1','Equal','AIW','DCC-t')
-rownames(resm) = c('VaR5%','VaR10%','ES5%','ES10%','TO','CO','SP',
+colnames(res ) = models[c(2,1,3,4,5,6)]
+rownames(res ) = c('VaR5%','VaR10%','ES5%','ES10%','TO','CO','SP',
                    'return','sd','adj.return(1%)',
                    'adj.Sharpe','G/L')
 
-round(resm,3)
+round(res ,3)
 
 
-print(xtable(resm,
+print(xtable(res ,
              caption = "GMV portfolio results based on 1-step-ahead predicitons 
              for  2020/01/02-2021/12/31 out-of-sample period 
              ($K=504$ observations) for 5-variate dataset.
@@ -219,6 +237,6 @@ print(xtable(resm,
       rotate.colnames = FALSE,
       hline.after = getOption("xtable.hline.after", c(-1,0,7,nrow(resm))))
 
+rm(resxm1,Sig,Sigma,resdcct,resdccht)
 
-rm(resxm1,Sig,Sigma,resdcct)
-save.image('temp/portfolio5_EX.Rdata')
+save.image('temp/portfolio_EX.Rdata')

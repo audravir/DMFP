@@ -7,7 +7,7 @@ library(zoo)
 load('data/3data_EX.Rdata')
 
 nn       = length(date)
-end.date = which(zoo::as.yearmon(date)=='Jan 2020')[1]-1
+end.date = which(zoo::as.yearmon(date)=='Jan 2021')[1]-1
 date[end.date]
 
 T0  = end.date  #
