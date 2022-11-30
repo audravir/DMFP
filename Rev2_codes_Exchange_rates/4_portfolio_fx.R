@@ -219,8 +219,11 @@ rownames(res ) = c('VaR5%','VaR10%','ES5%','ES10%','TO','CO','SP',
 
 round(res ,3)
 
+rm(resxm1,Sig,Sigma,resdcct,resdccht)
 
-print(xtable(res ,
+save.image('temp/portfolio_EX.Rdata')
+
+print(xtable(res ,align='ccccccc',
              caption = "GMV portfolio results based on 1-step-ahead predicitons 
              for  2020/01/02-2021/12/31 out-of-sample period 
              ($K=504$ observations) for 5-variate dataset.
@@ -229,14 +232,12 @@ print(xtable(res ,
              Geweke's, Jore's and equally weighted, 
              as well as two best individual models, Additive Inverse Wishart (AIW) and 
              Dynamic Conditional Correlation with $t$ copula (DCC-t).",
-             label = 'table:gmvfull5_EX', digits = 3),
-      file='tables_and_figures/gmvfull5_EX.tex',
+             label = 'table:gmvfull_EX', digits = 3),
+      file='tables_and_figures/gmvfull_EX.tex',
       include.rownames = TRUE,latex.environments = "center" ,
       caption.placement = "top",
       include.colnames= TRUE,
       rotate.colnames = FALSE,
       hline.after = getOption("xtable.hline.after", c(-1,0,7,nrow(resm))))
 
-rm(resxm1,Sig,Sigma,resdcct,resdccht)
 
-save.image('temp/portfolio_EX.Rdata')

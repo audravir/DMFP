@@ -38,12 +38,12 @@ Q[,,1] <- cor(data[start:T,])
 R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
 
 # for DCC-HEAVY-t model
-Rh      = array(NA,c(dm, dm, nn+K))
+Rh      = array(NA,c(dm, dm, T+K))
 ah      <- resdccht$restdcch[ind,1]
 bh      <- resdccht$restdcch[ind,2]
 nuh     <- resdccht$restdcch[ind,3]
-Pbar = Reduce('+',Sig[1:nn])/nn
-Rbar = cor(data[start:nn,])
+Pbar = Reduce('+',Sig[1:T])/T
+Rbar = cor(data[start:T,])
 Rh[,,1] <- Rbar
 
 # for XM1 model
@@ -62,7 +62,7 @@ for(m in 1:length(ind)){
   
   # for DCC-HEAVY-t model
   tdatah  <- qt(udata,nuh[m])
-  Rbar   <- cor(tdatah[start:nn,])
+  Rbar   <- cor(tdatah[start:T,])
   
   # xm1
   B0  = (iota%*%t(iota)-(b1[m,]%*%t(b1[m,]))-(b2[m,]%*%t(b2[m,])))*Sbar
@@ -89,7 +89,7 @@ for(m in 1:length(ind)){
       
       sample_retsxm = ((t(sample_standretxm)*marginals$sd)+marginals$mean)*marginals$rvs[t-T,]
       sample_retsdcct = ((t(sample_standretdcct)*marginals$sd)+marginals$mean)*marginals$rvs[t-T,]
-      sample_retsdccth = ((t(sample_standretdccth)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
+      sample_retsdccth = ((t(sample_standretdccth)*marginals$sd)+marginals$mean)*marginals$rvs[t-T,]
       
       ################## 
       #sample_retsxm=t(sample_standretxm )    ##################
@@ -111,7 +111,7 @@ for(m in 1:length(ind)){
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den 
-      ws_gmv[6,m,t-nn,]= pws
+      ws_gmv[6,m,t-T,]= pws
       
       if(ws_jore1[m,t-T]>runif(1)) selected = sample_retsxm
       else selected = sample_retsdcct
@@ -210,9 +210,6 @@ for(i in 1:length(models)){
                         apply(gvm_ret[i,,],1,sd))
 }
 
-
-
-
 res  = resm[,c(2,1,3,4,5,6)]
 
 colnames(res ) = models[c(2,1,3,4,5,6)]
@@ -222,8 +219,11 @@ rownames(res ) = c('VaR5%','VaR10%','ES5%','ES10%','TO','CO','SP',
 
 round(res ,3)
 
+rm(resxm1,Sig,Sigma,resdcct,resdccht)
 
-print(xtable(res,
+save.image('temp/10variate/portfolio.Rdata')
+
+print(xtable(res,align='ccccccc',
              caption = "GMV portfolio results based on 1-step-ahead predicitons 
              for  2009/01/02-2009/12/31 out-of-sample period ($K=252$ observations).
              The table reports the posterior medians of various Global Minimum
@@ -231,8 +231,8 @@ print(xtable(res,
              Geweke's, Jore's and equally weighted, 
              as well as two best individual models, Additive Inverse Wishart (AIW) and 
              Dynamic Conditional Correlation with $t$ copula (DCC-t).",
-             label = 'table:gmvfull5', digits = 3),
-      file='tables_and_figures/gmvfull5.tex',
+             label = 'table:gmvfull', digits = 3),
+      file='tables_and_figures/gmvfull.tex',
       include.rownames = TRUE,latex.environments = "center" ,
       caption.placement = "top",
       include.colnames= TRUE,
@@ -240,5 +240,4 @@ print(xtable(res,
       hline.after = getOption("xtable.hline.after", c(-1,0,7,nrow(resm))))
 
 
-rm(resxm1,Sig,Sigma,resdcct,resdccht)
-save.image('temp/10variate/portfolio.Rdata')
+
