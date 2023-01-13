@@ -1,13 +1,14 @@
 rm(list=ls(all=TRUE))
-load('10data.Rdata')
+load('temp/10variate/10data.Rdata')
 library(xtable)
+library(truncnorm)
 data  = stand # Prediction etc is performed on STANDARDIZED returns
 dm    = dim(data)[2] 
 start = 1
 T     = 1990
 Sig   = Sigma
 K     = 252
-
+post.sample = 1000
 
 ahead = 5
 
@@ -57,9 +58,9 @@ sum(log(lL_rmf),na.rm=TRUE)
 ## scalar dcc Gaussian Copula
 ##------
 
-load('temp/results_scalar_dcc.Rdata')
+load('temp/10variate/results_scalar_dcc.Rdata')
 M   = dim(res$resdcc)[1] # size of MCMC
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 Q       = array(NA,c(dm, dm, T+K))
 R       = array(NA,c(dm, dm, T+K))
@@ -92,9 +93,9 @@ sum(apply(log(lL_dcc),2,mean),na.rm=TRUE)
 ## Rme
 ##------
 
-load('temp/results_RMe.Rdata')
+load('temp/10variate/results_RMe.Rdata')
 M   = length(res$resRMe)
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 Q       = array(NA,c(dm, dm, T+K))
 R       = array(NA,c(dm, dm, T+K))
@@ -122,9 +123,9 @@ sum(apply(log(lL_rme),2,mean),na.rm = TRUE)
 ## scalar dcc t Copula
 ##-----------------------
 
-load('temp/results_scalar_dcc_t.Rdata')
+load('temp/10variate/results_scalar_dcc_t.Rdata')
 M   = dim(res$restdcc)[1]
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 Q       = array(NA,c(dm, dm, T+K))
 R       = array(NA,c(dm, dm, T+K))
@@ -166,9 +167,9 @@ sum(apply(log(lL_tdcc),2,mean),na.rm = TRUE)
 Sbar   = Reduce('+',Sig[1:T])/T
 iota   = rep(1,dm)
 
-load('temp/results_xm1.Rdata')
+load('temp/10variate/results_xm1.Rdata')
 M   = dim(res$resc)[1]
-ind = round(seq(1,M,length=M/25)) #thin every 5th
+ind = round(seq(1,M,length=post.sample)) #thin every xth
 lL_xm1 = matrix(NA,ncol=K,nrow=length(ind))
 lag = res$resc[ind,1]
 nu  = res$resc[ind,2]
@@ -206,8 +207,8 @@ sum(log(lL_static))
 sum(log(lL_rmf))
 sum(apply(log(lL_dcc),2,median))
 sum(apply(log(lL_rme),2,median))
-sum(apply(log(lL_tdcc),2,mean))
-sum(apply(log(lL_xm1),2,mean))
+sum(apply(log(lL_tdcc),2,median))
+sum(apply(log(lL_xm1),2,median))
 
 
 
@@ -236,7 +237,7 @@ for(t0 in 1:K){
 ## All models separately
 ##------
 
-pdf('../JAE_v1/Figures/all_bfs_5stepahead.pdf',height=5,width=10)
+pdf('tables_and_figures/all_bfs_5stepahead.pdf',height=5,width=10)
 par(mfrow=c(1,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(date[(T+ahead):(T+K)],mkvol[-seq(1,ahead-1)],type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='', xaxt="n")
@@ -244,7 +245,7 @@ plot(date[(T+ahead):(T+K)],mkvol[-seq(1,ahead-1)],type='l',axes = FALSE,
 par(new = TRUE)
 plot(date[(T+ahead):(T+K)],cumsum(apply(log(lL_xm1),2,median))-
        cumsum(log(lL_static)), xaxt="n",
-     type='l',ylim=c(-15,20),lty=2,ylab='',xlab='',lwd=3)
+     type='l',ylim=c(-5,20),lty=2,ylab='',xlab='',lwd=3)
 abline(h=0)
 lines(date[(T+ahead):(T+K)],cumsum(apply(log(lL_tdcc),2,median))-
         cumsum(log(lL_static)),lty=2)
@@ -263,7 +264,7 @@ dev.off()
 
 
 
-pdf('../JAE_v1/Figures/avrgbfs_5stepahead.pdf',height=5,width=10)
+pdf('tables_and_figures/avrgbfs_5stepahead.pdf',height=5,width=10)
 par(mfrow=c(1,1))
 plot(density(apply(log(lL_xm1),1,mean)),main='',
      ylim=c(0,700),xlim=c(-12.4,-12.32),lwd=2,lty=2,
@@ -301,7 +302,7 @@ and t copulas (DCC
 and DCC-t) and Additive Inverse Wishart (AIW) for 2009/01/06-2009/12/31 out-of-sample period
 (K = 248 observations).',
              label = 'table:lps_5stepahead', digits = 2),
-      file='../JAE_v1/Tables/lps_5stepahead.tex',
+      file='tables_and_figures/lps_5stepahead.tex',
       include.rownames = FALSE,latex.environments = "center" ,
       caption.placement = "top",
       include.colnames= TRUE,
@@ -318,7 +319,25 @@ ws_jore1  = lL_jore1 = matrix(NA,ncol=K,nrow=length(ind))
 ws_jore5  = lL_jore5 = matrix(NA,ncol=K,nrow=length(ind))
 ws_jore10 = lL_jore10 = matrix(NA,ncol=K,nrow=length(ind))
 ws_jore25 = lL_jore25 = matrix(NA,ncol=K,nrow=length(ind))
-lL_equal  = matrix(NA,ncol=K,nrow=length(ind))
+lL_equal  = lL_DN = matrix(NA,ncol=K,nrow=length(ind))
+
+library(DMFP)
+resDN= PMCMC_delNegro(lL_xm1,lL_tdcc,1000,c(0,2),10000,
+                      propsd = 0.5)
+
+mean(resDN$acc)
+hist(resDN$beta,freq=FALSE)
+grid = seq(-1,1,length=500)
+lines(grid,dtruncnorm(grid,-1,1,0,1),lwd=2)
+inddn = seq(1,length(resDN$beta),length=1000)
+bp = resDN$beta[inddn]
+lines(density(bp),col=2,lwd=3)
+c(quantile(resDN$beta,0.025),median(resDN$beta),quantile(resDN$beta,0.975))
+
+median(bp)
+pacf(bp)
+
+ws_DN = t(pnorm(resDN$weights_xs))
 
 for(m in 1:length(ind)){
   for (t in 1:(K-ahead+1)){
@@ -332,6 +351,10 @@ for(m in 1:length(ind)){
                       method = c("L-BFGS-B"),
                       lower = 0, upper = 1, hessian = FALSE)$par
     lL_gew[m,t] = log(ws_gew[m,t]*lL_xm1[m,t]+(1-ws_gew[m,t])*lL_tdcc[m,t])
+    
+    # DN
+    
+    lL_DN[m,t] = log(ws_DN[m,t]*lL_xm1[m,t]+(1-ws_DN[m,t])*lL_tdcc[m,t])
     
     # jore 1 past
     ws_jore1[m,t] = a1p[t]/(a1p[t]+a2p[t])
@@ -360,10 +383,7 @@ for(m in 1:length(ind)){
   }
 }
 
-source('FUN_pmcmc_delnegro.R')
-resdn = PMCMC_delNegro(lL_xm1,lL_tdcc,500)
-
-pdf('../JAE_v1/Figures/weights_5stepahead.pdf',height=8,width=10)
+pdf('tables_and_figures/weights_5stepahead.pdf',height=8,width=10)
 par(mfrow=c(2,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(date[(T+ahead):(T+K)],mkvol[-seq(1,ahead-1)],type='l',axes = FALSE,
      col='gray90',lwd=4,ylab='',xlab='',
@@ -374,7 +394,7 @@ plot(date[(T+ahead):(T+K)],apply(ws_gew[,-seq(K-ahead+2,K)],2,median),ylim=c(0,1
 lines(date[(T+ahead):(T+K)],apply(ws_jore1[,-seq(K-ahead+2,K)],2,median),col='gray40',lwd=2,lty=2)
 lines(date[(T+ahead):(T+K)],apply(ws_jore5[,-seq(K-ahead+2,K)],2,median),lty=3)
 lines(date[(T+ahead):(T+K)],apply(ws_jore10[,-seq(K-ahead+2,K)],2,median),col='gray60',lwd=2)
-lines(date[(T+ahead):(T+K)],apply(pnorm(resdn$weights_xs),1,median),lty=4,lwd=2)
+lines(date[(T+ahead):(T+K)],apply(ws_DN,2,median),lty=4,lwd=2)
 abline(h=0.5)
 axis(1, at=atx, labels=format(atx, "%Y/%m"))
 legend(x=date[(T+ahead)]-40,y=1,col=c(1,'gray40',1,'gray60',1),
@@ -402,7 +422,7 @@ lines(date[(T+ahead):(T+K)],cumsum(apply(lL_jore5[,-seq(K-ahead+2,K)],2,median))
         cumsum(apply(log(lL_xm1[,]),2,median)),col='gray40',lwd=2,lty=3)
 lines(date[(T+ahead):(T+K)],cumsum(apply(lL_jore10[,-seq(K-ahead+2,K)],2,median))-
         cumsum(apply(log(lL_xm1[,]),2,median)),col='gray60',lwd=2)
-lines(date[(T+ahead):(T+K)],cumsum(apply(log(resdn$likelihood),1,median))-
+lines(date[(T+ahead):(T+K)],cumsum(apply(lL_DN[,-seq(K-ahead+2,K)],2,median))-
         cumsum(apply(log(lL_xm1[,]),2,median)),lty=4,lwd=2)
 lines(date[(T+ahead):(T+K)],cumsum(apply((lL_equal[,-seq(K-ahead+2,K)]),2,median))-
         cumsum(apply(log(lL_xm1[,]),2,median)),col='gray60',lwd=2,lty=5)
@@ -414,72 +434,4 @@ legend(x=date[(T+ahead)]-40,y=20,col=c(1,1,'gray40',1,'gray60',1,'gray60'),
 
 dev.off()
 
-save.image('res_10_5stepahead.Rdata')
-
-# -----------------------------
-# Correlation between weights and avrg volatility
-# -----------------------------
-VIX <- read.csv("data/VIX.csv")
-vix = VIX$Adj.Close
-
-# avrg is the avrg squared returns across 10 assets
-# avrg1 is the avrg RV across 10 assets
-
-ws = rep(1/dm,dm)
-mcap = c(353.613,468.6,133.403,1945,270.604,6.666,133.525,
-         43.275,117.853,238.393)
-
-ws3 = mcap/sum(mcap)
-
-avrg2 = avrg3 = rep(NA,K)
-for(t in 1:K){
-  avrg2[t] = t(ws)%*%RCov[,,T+t]%*%(ws)
-  avrg3[t] = t(ws3)%*%RCov[,,T+t]%*%(ws3)
-}
-
-marketvols = cbind(mkvol,avrg2,avrg3,vix)
-cor(marketvols)
-corrs      = array(NA,dim=c(dim(ws_gew)[1],6,4))
-
-for(m in 1:length(ind)){
-  for(i in 1:4){  
-    corrs[m,1,i] = cor(ws_gew[m,-seq(K-ahead+2,K)],marketvols[-seq(1,ahead-1),i])
-    corrs[m,2,i] = cor(ws_jore1[m,-seq(K-ahead+2,K)],marketvols[-seq(1,ahead-1),i])
-    corrs[m,3,i] = cor(ws_jore5[m,-seq(K-ahead+2,K)],marketvols[-seq(1,ahead-1),i])
-    corrs[m,4,i] = cor(ws_jore10[m,-seq(K-ahead+2,K)],marketvols[-seq(1,ahead-1),i])
-    corrs[m,5,i] = cor(ws_jore25[m,-seq(K-ahead+2,K)],marketvols[-seq(1,ahead-1),i])
-    corrs[m,6,i] = cor(resdn$weights_xs[,m],marketvols[-seq(1,ahead-1),i])
-    }
-}
-
-corrs_res = apply(corrs,c(2,3),median) 
-
-corrs_res = data.frame(corrs_res)
-colnames(corrs_res) = c('avrg RV','Mkt portf (eql)','Mkt portf (Mcap)','VIX')
-rownames(corrs_res) = c('Gew','Jore1','Jore5','Jore10','Jore25','DN')
-
-print(xtable(corrs_res,
-             caption = 'Sample correlations between the HF weight and
-             market volatility.',
-             label = 'table:corrs_5stepahead', digits = 2),
-      file='../JAE_v1/Tables/corrs_5stepahead.tex',
-      include.rownames = TRUE,latex.environments = "center" ,
-      caption.placement = "top",
-      include.colnames= TRUE,
-      rotate.colnames = FALSE)
-
-## individual corrs
-ind_cors = array(NA,dim=c(length(ind),dm,6))
-
-for(m in 1:length(ind)){
-  for(d in 1:dm){
-    ind_cors[m,d,1]=cor(ws_gew[m,-seq(K-ahead+2,K)],RCov[d,d,(T+ahead):(T+K)])
-    ind_cors[m,d,2]=cor(ws_jore1[m,-seq(K-ahead+2,K)],RCov[d,d,(T+ahead):(T+K)])
-    ind_cors[m,d,3]=cor(ws_jore5[m,-seq(K-ahead+2,K)],RCov[d,d,(T+ahead):(T+K)])
-    ind_cors[m,d,4]=cor(ws_jore10[m,-seq(K-ahead+2,K)],RCov[d,d,(T+ahead):(T+K)])
-    ind_cors[m,d,5]=cor(ws_jore25[m,-seq(K-ahead+2,K)],RCov[d,d,(T+ahead):(T+K)])
-    ind_cors[m,d,6]=cor(resdn$weights_xs[,m],RCov[d,d,(T+ahead):(T+K)])
-  }
-}
-
-apply(ind_cors,3,mean)
+save.image('temp/10variate/res_10_5stepahead.Rdata')

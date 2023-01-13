@@ -542,19 +542,23 @@ hist(resDN$beta,freq = FALSE)
 
 pdf('tables_and_figures/dn_vs_jore.pdf',height=7,width=10)
 par(mfrow=c(2,1))
-plot(tail(date,K),apply(ws_jore1,2,median),col=2,type='l',lwd=2,
-     main='HF component weight, DN in black, Jore1 in red',ylab='',xlab='')
-lines(tail(date,K),apply(ws_DN,2,median),lwd=2)
+plot(tail(date,K),apply(ws_jore1,2,median),col=1,type='l',lwd=2,
+     main='HF component weight',ylab='',xlab='',xlim=c(date[T],date[T+K]))
+lines(tail(date,K),apply(ws_DN,2,median),lwd=2,col=2)
 abline(h=c(0,0.5,1),lty=3)
-#legend(x=date[T+1],y=0.8,col=c(1,2),lwd=c(2,2),legend = c('DelNegro','Jore1'))
+legend(x=date[T],y=0.9,col=c(1,2),lwd=c(2,2),legend = c('Jore1','DN'))
 
 plot(tail(date,K),cumsum(apply(lL_jore1,2,median))-cumsum(apply(log(lL_xm1),2,median)),
-     col=2,type='l',lwd=2,main='BF against AIW model, DN in black, Jore1 in red',ylab='',xlab='')
+     lwd=2,type='l',main='Bayes Factor against AIW model',
+     ylab='',xlab='',xlim=c(date[T],date[T+K]))
 lines(tail(date,K),cumsum(apply(lL_DN,2,median))-cumsum(apply(log(lL_xm1),2,median)),
-      lwd=2)
+      lwd=2,col=2)
 lines(tail(date,K),cumsum(apply(lL_jore1,2,median))-cumsum(apply(lL_DN,2,median)),
       col='gray60',lty=2,lwd=2)
 abline(h=0)
+legend(x=date[T],y=15,col=c(1,2,'gray60'),lwd=c(2,2),lty=c(1,1,2),
+       legend = c('Jore1','DN','Jore1-DN'))
+
 dev.off()
 
 
