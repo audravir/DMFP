@@ -348,12 +348,13 @@ for(t0 in 1:K){
 pdf('tables_and_figures/all_bfs.pdf',height=5,width=10)
 par(mfrow=c(1,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(tail(date,K),mkvol,type='l',axes = FALSE,
-     col='gray90',lwd=3,ylab='',xlab='', xaxt="n")
+     col='gray90',lwd=3,ylab='',xlab='', xaxt="n",
+     xlim=c(date[T+1]-60,date[T+K]))
 
 par(new = TRUE)
 plot(tail(date,K),cumsum(apply(log(lL_xm1[,]),2,median))-
        cumsum(log(lL_static[,])), xaxt="n",
-     type='l',ylim=c(-5,30),lty=2,ylab='',xlab='',lwd=2)
+     type='l',ylim=c(-5,30),lty=2,ylab='',xlab='',lwd=2,xlim=c(date[T+1]-60,date[T+K]))
 abline(h=0)
 lines(tail(date,K),cumsum(apply(log(lL_tdcc[,]),2,median))-
         cumsum(log(lL_static[,])),lty=2)
@@ -365,9 +366,9 @@ lines(tail(date,K),cumsum(apply(log(lL_dcc[,]),2,median))-
         cumsum(log(lL_static[,])))
 lines(tail(date,K),cumsum(apply(log(lL_tdcch),2,median))-
         cumsum(log(lL_static[,])),col='gray40',lty=6,lwd=3)
-legend(x=date[(T+1)]-10,y=30,col=c('gray60','gray40',1,1,1,'gray40'),
-       lty=c(4,1,1,2,2,6),lwd=c(2,2,1,1,2,2),
-       legend=c('RMf','RMe','DCC','DCC-t','AIW','DCC-HEAVY-t'))
+legend(x=date[(T+1)]-65,y=30,col=c('gray60','gray40',1,1,1,'gray40','gray90'),
+       lty=c(4,1,1,2,2,6,1),lwd=c(2,2,1,1,2,2,3),
+       legend=c('RMf','RMe','DCC','DCC-t','AIW','DCC-HEAVY-t','avrg.stand.RV'))
 atx <- seq(date[(T+1)], date[(T+K)], by=30)
 axis(1, at=atx, labels=format(atx, "%Y/%m"))
 dev.off()
@@ -479,19 +480,21 @@ pdf('tables_and_figures/weights.pdf',height=8,width=10)
 par(mfrow=c(2,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(date[(T+1):(T+K)],mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
-     xlim=c(date[(T+1)]-60,date[(T+K)]))
+     xlim=c(date[(T+1)]-80,date[(T+K)]))
 par(new = TRUE)
 plot(date[(T+1):(T+K)],apply(ws_gew,2,median),ylim=c(0,1),
-     type='l',ylab='',xlab='',xaxt="n",lwd=2,xlim=c(date[(T+1)]-60,date[(T+K)]))
+     type='l',ylab='',xlab='',xaxt="n",lwd=2,
+     xlim=c(date[(T+1)]-80,date[(T+K)]))
 lines(date[(T+1):(T+K)],apply(ws_jore1,2,median),col='gray40',lwd=2,lty=2)
 lines(date[(T+1):(T+K)],apply(ws_jore5,2,median),lty=3)
 lines(date[(T+1):(T+K)],apply(ws_jore10,2,median),col='gray60',lwd=2)
 lines(date[(T+1):(T+K)],apply(ws_DN,2,median),lty=4,lwd=2)
 abline(h=0.5)
 axis(1, at=atx, labels=format(atx, "%Y/%m"))
-legend(x=date[(T+1)]-65,y=1,col=c(1,'gray40',1,'gray60',1),
-       lty=c(1,2,3,1,4),lwd=c(2,2,1,2,2),
-       legend=c('Geweke','Jore1','Jore5','Jore10','DelNegro'))
+legend(x=date[(T+1)]-85,y=1,col=c(1,'gray40',1,'gray60',1,'gray90'),
+       lty=c(1,2,3,1,4,1),lwd=c(2,2,1,2,2,3),
+       legend=c('Geweke','Jore1','Jore5','Jore10','DelNegro',
+                'avrg.stand.RV'))
 
 plot(date[(T+1):(T+K)],mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
@@ -522,10 +525,12 @@ lines(tail(date,K),cumsum(apply(log(lL_tdcch),2,median))-
         cumsum(apply(log(lL_xm1[,]),2,median)),col='gray40',lty=6,lwd=2)
 
 axis(1, at=atx, labels=format(atx, "%Y/%m"))
-legend(x=date[(T+1)]-65,y=15,col=c(1,1,'gray40',1,'gray60',1,'gray60','gray40'),
-       lty=c(1,1,2,3,1,4,5,6),lwd=c(1,2,2,1,2,2,2,2),
+legend(x=date[(T+1)]-65,y=15,col=c(1,1,'gray40',1,'gray60',1,
+        'gray60','gray40','gray90'),
+       lty=c(1,1,2,3,1,4,5,6,1),lwd=c(1,2,2,1,2,2,2,2,3),
        legend=c('DCC-t','Geweke','Jore1','Jore5',
-                'Jore10','DelNegro','Equal','DCC-HEAVY-t'))
+                'Jore10','DelNegro','Equal','DCC-HEAVY-t',
+                'avrg.stand.RV'))
 dev.off()
 
 save.image('temp/10variate/res_10.Rdata')

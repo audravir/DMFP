@@ -1,5 +1,5 @@
-% latex table generated in R 4.2.1 by xtable 1.8-4 package
-% Tue Sep  6 19:29:20 2022
+% latex table generated in R 4.2.2 by xtable 1.8-4 package
+% Wed Nov 30 08:10:20 2022
 \begin{table}[ht]
 \centering
 \caption{GMV portfolio results based on 1-step-ahead predicitons 
@@ -10,20 +10,23 @@
              as well as two best individual models, Additive Inverse Wishart (AIW) and 
              Dynamic Conditional Correlation with $t$ copula (DCC-t).} 
 \label{table:gmvfull}
-\begin{tabular}{rrrrrr}
+\begin{tabular}{ccccccc}
   \hline
- & Geweke & Jore1 & Equal & AIW & DCC-t \\ 
+ & Geweke & Jore1 & Equal & AIW & DCC-t & DCC-HEAVY-t \\ 
   \hline
-VaR5\% & -1.381 & -1.359 & -1.381 & -1.375 & -1.414 \\ 
-  VaR10\% & -0.995 & -0.999 & -1.003 & -0.992 & -1.013 \\ 
-  ES5\% & -2.003 & -2.007 & -2.038 & -2.000 & -2.077 \\ 
-  ES10\% & -1.594 & -1.587 & -1.608 & -1.593 & -1.622 \\ 
-  var & 0.824 & 0.829 & 0.829 & 0.818 & 0.841 \\ 
-  mean & 0.042 & 0.046 & 0.044 & 0.044 & 0.043 \\ 
-  Sharpe & 0.105 & 0.108 & 0.106 & 0.108 & 0.104 \\ 
-  TO & 3.389 & 3.622 & 3.479 & 3.613 & 3.422 \\ 
-  CO & 0.650 & 0.651 & 0.651 & 0.641 & 0.660 \\ 
-  SP & -0.177 & -0.179 & -0.179 & -0.170 & -0.188 \\ 
+VaR5\% & -1.386 & -1.358 & -1.385 & -1.381 & -1.407 & -1.358 \\ 
+  VaR10\% & -1.010 & -1.001 & -1.007 & -1.002 & -1.010 & -1.028 \\ 
+  ES5\% & -1.972 & -1.978 & -2.003 & -1.968 & -2.046 & -2.050 \\ 
+  ES10\% & -1.579 & -1.571 & -1.589 & -1.579 & -1.603 & -1.612 \\ 
+  TO & 3.971 & 4.297 & 4.147 & 3.870 & 4.502 & 4.404 \\ 
+  CO & 0.653 & 0.654 & 0.654 & 0.644 & 0.664 & 0.672 \\ 
+  SP & -0.180 & -0.182 & -0.182 & -0.173 & -0.190 & -0.227 \\ 
+   \hline
+return & 11.121 & 11.889 & 11.487 & 11.569 & 11.458 & 11.844 \\ 
+  sd & 14.431 & 14.423 & 14.513 & 14.455 & 14.571 & 14.812 \\ 
+  adj.return(1\%) & 8.628 & 9.375 & 9.002 & 9.100 & 8.921 & 9.367 \\ 
+  adj.Sharpe & 0.606 & 0.659 & 0.626 & 0.637 & 0.620 & 0.639 \\ 
+  G/L & 2.618 & 3.467 & -6.152 & 0.000 & -12.646 & -38.112 \\ 
    \hline
 \end{tabular}
 \end{table}
