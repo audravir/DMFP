@@ -210,6 +210,32 @@ for(i in 1:length(models)){
                         apply(gvm_ret[i,,],1,sd))
 }
 
+qts = matrix(NA,ncol=3,nrow=length(models))
+for(i in 1:length(models)){
+  
+  qts[i,1] = quantile(apply(gvm_ret[i,,],1,sd)*sqrt(252),0.05)
+  qts[i,2] = quantile(apply(gvm_ret[i,,],1,sd)*sqrt(252),0.5)
+  qts[i,3] = quantile(apply(gvm_ret[i,,],1,sd)*sqrt(252),0.95)
+  
+}
+
+
+plot(density(apply(gvm_ret[4,,],1,sd)*sqrt(252)))
+lines(density(apply(gvm_ret[1,,],1,sd)*sqrt(252)),col=2)
+lines(density(apply(gvm_ret[2,,],1,sd)*sqrt(252)),col=3)
+
+
+plot(density(GL[,1]),xlim=c(-50,25),ylim=c(0,0.1))
+for(i in 1:6)
+{
+  lines(density(GL[,i]),col=i)
+}  
+
+
+apply(GL,2,quantile,0.1)
+
+apply(GL,2,sd)
+
 res  = resm[,c(2,1,3,4,5,6)]
 
 colnames(res ) = models[c(2,1,3,4,5,6)]

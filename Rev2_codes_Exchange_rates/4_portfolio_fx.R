@@ -56,6 +56,8 @@ b1  = resxm1$resc[ind,3:(dm+2)]
 b2  = resxm1$resc[ind,(dm+3):(2*dm+2)]
 
 for(m in 1:length(ind)){
+  t0 = Sys.time()
+  
   # for DCC-t model
   tdata  <- qt(udata,nu[m])
   S       = cov(tdata[start:nn,])
@@ -143,6 +145,7 @@ for(m in 1:length(ind)){
     }
     
   }
+  print(c(m,Sys.time()-t0))
 }
 
 
@@ -186,6 +189,7 @@ for(m in 1:length(ind)){
 
 resm = matrix(NA,ncol=length(models),nrow=12)
 GL   = matrix(NA,ncol=length(models),nrow=1000)
+shr  = matrix(NA,ncol=length(models),nrow=1000)
 
 for(i in 1:length(models)){
   resm[1,i] = median(apply(gvm_ret[i,,],1,quantile,0.05))
@@ -208,6 +212,17 @@ for(i in 1:length(models)){
                         apply(gvm_ret[i,,],1,sd))
   GL[,i]   = (100*sqrt(252)*(apply(gvm_ret[4,,],1,sd)-apply(gvm_ret[i,,],1,sd))/
                         apply(gvm_ret[i,,],1,sd))
+  shr[,i]  = apply(gvm_ret[i,,-1],1,sum)/(apply(gvm_ret[i,,-1],1,sd)*sqrt(252))
+
+}
+
+plot(density(shr[,1]),ylim=c(0,7))
+for(i in 2:3){
+  lines(density(shr[,i]),col=i)
+}
+
+for(i in 4:6){
+  lines(density(shr[,i]),col=i,lwd=3)
 }
 
 res  = resm[,c(2,1,3,4,5,6)]

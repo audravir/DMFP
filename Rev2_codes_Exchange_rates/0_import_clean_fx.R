@@ -39,6 +39,7 @@ for(j in 1:length(years)){
   eur.usd.full = rbind(eur.usd.full,xts(x[index,5], order.by=x[index,7]))
 }
 
+head(eur.usd.full)
 
 ##------------
 ## USD-JPY
