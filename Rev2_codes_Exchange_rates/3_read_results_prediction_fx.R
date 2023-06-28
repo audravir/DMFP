@@ -260,7 +260,7 @@ for(t0 in 1:K){
 ## All models separately
 ##------
 
-pdf('tables_and_figures/all_bfs_EX.pdf',height=5,width=10)
+pdf('tables_and_figures/all_bfs_EX.pdf',height=4,width=10)
 par(mfrow=c(1,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='', xaxt="n")
@@ -272,17 +272,17 @@ plot(tail(date,K),cumsum(apply(log(lL_xm1[,]),2,median))-
 abline(h=0)
 lines(tail(date,K),cumsum(apply(log(lL_tdcc[,]),2,median))-
         cumsum(log(lL_static[,])),lty=2)
-lines(tail(date,K),cumsum(apply(log(lL_rme[,]),2,median))-
-        cumsum(log(lL_static[,])),col='gray40',lwd=2)
-lines(tail(date,K),cumsum(log(lL_rmf[,]))-
-        cumsum(log(lL_static[,])),col='gray60',lwd=2,lty=4)
+# lines(tail(date,K),cumsum(apply(log(lL_rme[,]),2,median))-
+#         cumsum(log(lL_static[,])),col='gray40',lwd=2)
+# lines(tail(date,K),cumsum(log(lL_rmf[,]))-
+#         cumsum(log(lL_static[,])),col='gray60',lwd=2,lty=4)
 lines(tail(date,K),cumsum(apply(log(lL_dcc[,]),2,median))-
         cumsum(log(lL_static[,])))
 lines(tail(date,K),cumsum(apply(log(lL_tdcch),2,median))-
         cumsum(log(lL_static[,])),col='gray40',lty=6,lwd=3)
-legend(x=date[nn]-5,y=30,col=c('gray60','gray40',1,1,1,'gray40'),
-       lty=c(4,1,1,2,2,6),lwd=c(2,2,1,1,2,2),
-       legend=c('RMf','RMe','DCC','DCC-t','AIW','DCC-HEAVY-t'))
+legend(x=date[nn]-5,y=30,col=c(1,1,1,'gray40','gray90'),
+       lty=c(1,2,2,6,1),lwd=c(1,1,2,2,2),
+       legend=c('DCC','DCC-t','AIW','DCC-HEAVY-t','avrg.stand.RV'))
 atx <- seq(date[(nn+1)], date[(nn+K)], by=30)
 axis(1, at=atx, labels=format(atx, "%Y/%m"))
 dev.off()

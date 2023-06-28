@@ -5,24 +5,24 @@ post.sample = 1000
 
 pars_lf = NULL
 
-##------
-## Rme
-##------
-
-load('temp/10variate/results_RMe.Rdata')
-M   = length(res$resRMe)
-ind = round(seq(1,M,length=M/25)) #thin every 25th
-lam = res$resRMe[ind]
-
-pars_lf = rbind(pars_lf,
-                c(median(lam),sqrt(var(lam)),mean(res$accRMe)))
-
-pdf(file='tables_and_figures/RMe.pdf',width=12,height=3)
-par(mfrow=c(1,3))
-plot(lam,type='l',main='RMe: lambda',ylab='',xlab='')
-acf(lam,lwd=2,main='ACF',xlab='')
-pacf(lam,lwd=2,main='PACF',xlab='')
-dev.off()
+# ##------
+# ## Rme
+# ##------
+# 
+# load('temp/10variate/results_RMe.Rdata')
+# M   = length(res$resRMe)
+# ind = round(seq(1,M,length=M/25)) #thin every 25th
+# lam = res$resRMe[ind]
+# 
+# pars_lf = rbind(pars_lf,
+#                 c(median(lam),sqrt(var(lam)),mean(res$accRMe)))
+# 
+# pdf(file='tables_and_figures/RMe.pdf',width=12,height=3)
+# par(mfrow=c(1,3))
+# plot(lam,type='l',main='RMe: lambda',ylab='',xlab='')
+# acf(lam,lwd=2,main='ACF',xlab='')
+# pacf(lam,lwd=2,main='PACF',xlab='')
+# dev.off()
 
 ##------
 ## scalar dcc
@@ -110,8 +110,8 @@ pars_lf = rbind(pars_lf,
                 c(median(b),sqrt(var(b)),mean(res$acctdcc)),
                 c(median(nu),sqrt(var(nu)),mean(res$acctdcc)))
 
-df <- data.frame(c('RMe','DCC','','DCC-t','','','DCC-HEAVY-t','',''),
-                 c('$\\lambda$','$a$','$b$','$a$','$b$','$\\eta$',
+df <- data.frame(c('DCC','','DCC-t','','','DCC-HEAVY-t','',''),
+                 c('$a$','$b$','$a$','$b$','$\\eta$',
                    '$a$','$b$','$\\eta$'),
                  pars_lf) 
 
@@ -120,7 +120,7 @@ colnames(df) = c('Model','Parameter','Median','St.Dev.',
 
 print(xtable(df,
              caption = 'Parameter estimation results for the 
-             RiskMetrics estimated (RMe), Dynamic Conditional Correlation
+              Dynamic Conditional Correlation
              with Gaussian and $t$ copulas (DCC and DCC-t) and DCC-HEAVY with $t$ copula.',
              label = 'table:all_pars_lf', digits = 4),
       file='tables_and_figures/all_pars_lf.tex',

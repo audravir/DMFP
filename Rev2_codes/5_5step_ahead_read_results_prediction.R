@@ -237,27 +237,26 @@ for(t0 in 1:K){
 ## All models separately
 ##------
 
-pdf('tables_and_figures/all_bfs_5stepahead.pdf',height=5,width=10)
+
+
+
+pdf('tables_and_figures/all_bfs_5stepahead.pdf',height=4,width=10)
 par(mfrow=c(1,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(date[(T+ahead):(T+K)],mkvol[-seq(1,ahead-1)],type='l',axes = FALSE,
-     col='gray90',lwd=3,ylab='',xlab='', xaxt="n")
-
+     col='gray90',lwd=3,ylab='',xlab='', xaxt="n",
+     xlim=c(date[T+1]-80,date[T+K]))
 par(new = TRUE)
 plot(date[(T+ahead):(T+K)],cumsum(apply(log(lL_xm1),2,median))-
        cumsum(log(lL_static)), xaxt="n",
-     type='l',ylim=c(-5,20),lty=2,ylab='',xlab='',lwd=3)
+     type='l',ylim=c(-5,25),lty=2,ylab='',xlab='',lwd=2,xlim=c(date[T+1]-80,date[T+K]))
 abline(h=0)
 lines(date[(T+ahead):(T+K)],cumsum(apply(log(lL_tdcc),2,median))-
         cumsum(log(lL_static)),lty=2)
-lines(date[(T+ahead):(T+K)],cumsum(apply(log(lL_rme[,]),2,median))-
-        cumsum(log(lL_static)),col='gray40',lwd=2)
-lines(date[(T+ahead):(T+K)],cumsum(log(lL_rmf))-
-        cumsum(log(lL_static)),col='gray60',lwd=2)
-lines(date[(T+ahead):(T+K)],cumsum(apply(log(lL_dcc[,]),2,median))-
+lines(date[(T+ahead):(T+K)],cumsum(apply(log(lL_dcc),2,median))-
         cumsum(log(lL_static)))
-legend(x=date[(T+ahead)]-10,y=20,col=c(1,1,'gray40','gray60',1),
-       lty=c(2,2,1,1,1),lwd=c(3,1,2,2,1),
-       legend=c('AIW','DCC-t','RMe','RMf','DCC'))
+legend(x=date[(T+1)]-85,y=25,col=c(1,1,1,'gray90'),
+       lty=c(1,2,2,1),lwd=c(1,1,2,3),
+       legend=c('DCC','DCC-t','AIW','avrg.stand.RV'))
 atx <- seq(date[(T+1)], date[(T+K)], by=30)
 axis(1, at=atx, labels=format(atx, "%Y/%m"))
 dev.off()

@@ -3,7 +3,7 @@ load('data/10data.Rdata')
 library(xtable)
 library(zoo)
 library(truncnorm)
-library(DMPF)
+#library(DMPF)
 
 
 data  = stand # Prediction etc is performed on STANDARDIZED returns
@@ -32,29 +32,29 @@ for(t in (T+1):(T+K)){
 sum(log(lL_static)) #the LPS for K=242
 
 
-##------
-## Rmf
-#  Riskmetrics fixed
-#  no estimation here, all is empirical
-##------
-
-Q       = array(NA,c(dm, dm, T+K))
-R       = array(NA,c(dm, dm, T+K))
-Q[,,1] <- cor(data[start:T,])
-R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
-lamRMf  = 0.999
-Vpred  <- list()
-lL_rmf = matrix(NA,ncol=K,nrow=1)
-
-for(t in 2:(T+K)){
-  Q[,,t]   <- (1-lamRMf)*(data[t-1,]%*%t(data[t-1,]))+lamRMf*Q[,,(t-1)]
-  R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
-  if(t>T){
-    lL_rmf[(t-T)] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=F)
-  }}
-
-sum(log(lL_static))
-sum(log(lL_rmf))
+# ##------
+# ## Rmf
+# #  Riskmetrics fixed
+# #  no estimation here, all is empirical
+# ##------
+# 
+# Q       = array(NA,c(dm, dm, T+K))
+# R       = array(NA,c(dm, dm, T+K))
+# Q[,,1] <- cor(data[start:T,])
+# R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
+# lamRMf  = 0.999
+# Vpred  <- list()
+# lL_rmf = matrix(NA,ncol=K,nrow=1)
+# 
+# for(t in 2:(T+K)){
+#   Q[,,t]   <- (1-lamRMf)*(data[t-1,]%*%t(data[t-1,]))+lamRMf*Q[,,(t-1)]
+#   R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
+#   if(t>T){
+#     lL_rmf[(t-T)] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=F)
+#   }}
+# 
+# sum(log(lL_static))
+# sum(log(lL_rmf))
 
 ##------
 ## scalar dcc Gaussian Copula
@@ -83,7 +83,7 @@ for(m in 1:length(ind)){
   }}
 
 sum(log(lL_static))
-sum(log(lL_rmf))
+# sum(log(lL_rmf))
 sum(apply(log(lL_dcc),2,mean))
 
 
@@ -100,35 +100,35 @@ for(t in 2:(T+K)){
   postcorrsdcc[t,] <- tmp/length(ind)
 }
 
-##------
-## Rme
-##------
-
-load('temp/10variate/results_RMe.Rdata')
-M   = length(res$resRMe)
-ind = round(seq(1,M,length=post.sample)) #thin every xth
-
-Q       = array(NA,c(dm, dm, T+K))
-R       = array(NA,c(dm, dm, T+K))
-Q[,,1] <- cor(data[start:T,])
-R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
-lam = res$resRMe[ind]
-Vpred  <- list()
-lL_rme = matrix(NA,ncol=K,nrow=length(ind))
-
-for(m in 1:length(ind)){
-  for(t in 2:(T+K)){
-    Q[,,t]   <- (1-lam[m])*(data[t-1,]%*%t(data[t-1,]))+lam[m]*Q[,,(t-1)]
-    R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
-    if(t>T){
-      lL_rme[m,(t-T)] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=F)
-    }
-  }}
-
-sum(log(lL_static))
-sum(log(lL_rmf))
-sum(apply(log(lL_dcc),2,mean))
-sum(apply(log(lL_rme),2,mean))
+# ##------
+# ## Rme
+# ##------
+# 
+# load('temp/10variate/results_RMe.Rdata')
+# M   = length(res$resRMe)
+# ind = round(seq(1,M,length=post.sample)) #thin every xth
+# 
+# Q       = array(NA,c(dm, dm, T+K))
+# R       = array(NA,c(dm, dm, T+K))
+# Q[,,1] <- cor(data[start:T,])
+# R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
+# lam = res$resRMe[ind]
+# Vpred  <- list()
+# lL_rme = matrix(NA,ncol=K,nrow=length(ind))
+# 
+# for(m in 1:length(ind)){
+#   for(t in 2:(T+K)){
+#     Q[,,t]   <- (1-lam[m])*(data[t-1,]%*%t(data[t-1,]))+lam[m]*Q[,,(t-1)]
+#     R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
+#     if(t>T){
+#       lL_rme[m,(t-T)] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=F)
+#     }
+#   }}
+# 
+# sum(log(lL_static))
+# sum(log(lL_rmf))
+# sum(apply(log(lL_dcc),2,mean))
+# sum(apply(log(lL_rme),2,mean))
 
 ##-----------------------
 ## scalar dcc t Copula
@@ -163,9 +163,9 @@ for(m in 1:length(ind)){
 
 
 sum(log(lL_static))
-sum(log(lL_rmf))
+# sum(log(lL_rmf))
 sum(apply(log(lL_dcc),2,mean))
-sum(apply(log(lL_rme),2,mean))
+# sum(apply(log(lL_rme),2,mean))
 sum(apply(log(lL_tdcc),2,mean))
 
 
@@ -204,9 +204,9 @@ for(m in 1:length(ind)){
 }
 
 sum(log(lL_static))
-sum(log(lL_rmf))
+# sum(log(lL_rmf))
 sum(apply(log(lL_dcc),2,mean))
-sum(apply(log(lL_rme),2,mean))
+# sum(apply(log(lL_rme),2,mean))
 sum(apply(log(lL_tdcc),2,mean))
 sum(apply(log(lL_tdcch),2,mean))
 
@@ -239,9 +239,9 @@ for(m in 1:length(ind)){
 
 
 sum(log(lL_static))
-sum(log(lL_rmf))
+# sum(log(lL_rmf))
 sum(apply(log(lL_dcc),2,mean))
-sum(apply(log(lL_rme),2,mean))
+# sum(apply(log(lL_rme),2,mean))
 sum(apply(log(lL_tdcc),2,mean))
 sum(apply(log(lL_tdcch),2,mean))
 sum(apply(log(lL_xm1),2,mean))
@@ -272,9 +272,9 @@ for(m in 1:length(ind)){
 }
 
 sum(log(lL_static))
-sum(log(lL_rmf))
+# sum(log(lL_rmf))
 sum(apply(log(lL_dcc),2,mean))
-sum(apply(log(lL_rme),2,mean))
+# sum(apply(log(lL_rme),2,mean))
 sum(apply(log(lL_tdcc),2,mean))
 sum(apply(log(lL_tdcch),2,mean))
 sum(apply(log(lL_xm1),2,mean))
@@ -322,8 +322,8 @@ dev.off()
 
 ##################
 
-dcc  =cumsum(apply(log(lL_dcc),2,mean))
-dcct  =cumsum(apply(log(lL_tdcc),2,mean))
+dcc  = cumsum(apply(log(lL_dcc),2,mean))
+dcct = cumsum(apply(log(lL_tdcc),2,mean))
 xm   = cumsum(apply(log(lL_xm1),2,mean))
 
 
@@ -345,50 +345,48 @@ for(t0 in 1:K){
 ## All models separately
 ##------
 
-pdf('tables_and_figures/all_bfs.pdf',height=5,width=10)
+pdf('tables_and_figures/all_bfs.pdf',height=4,width=10)
 par(mfrow=c(1,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='', xaxt="n",
-     xlim=c(date[T+1]-60,date[T+K]))
-
+     xlim=c(date[T+1]-80,date[T+K]))
 par(new = TRUE)
 plot(tail(date,K),cumsum(apply(log(lL_xm1[,]),2,median))-
        cumsum(log(lL_static[,])), xaxt="n",
-     type='l',ylim=c(-5,30),lty=2,ylab='',xlab='',lwd=2,xlim=c(date[T+1]-60,date[T+K]))
+     type='l',ylim=c(-5,25),lty=2,ylab='',xlab='',lwd=2,xlim=c(date[T+1]-80,date[T+K]))
 abline(h=0)
 lines(tail(date,K),cumsum(apply(log(lL_tdcc[,]),2,median))-
         cumsum(log(lL_static[,])),lty=2)
-lines(tail(date,K),cumsum(apply(log(lL_rme[,]),2,median))-
-        cumsum(log(lL_static[,])),col='gray40',lwd=2)
-lines(tail(date,K),cumsum(log(lL_rmf[,]))-
-        cumsum(log(lL_static[,])),col='gray60',lwd=2,lty=4)
+# lines(tail(date,K),cumsum(apply(log(lL_rme[,]),2,median))-
+#         cumsum(log(lL_static[,])),col='gray40',lwd=2)
+# lines(tail(date,K),cumsum(log(lL_rmf[,]))-
+#         cumsum(log(lL_static[,])),col='gray60',lwd=2,lty=4)
 lines(tail(date,K),cumsum(apply(log(lL_dcc[,]),2,median))-
         cumsum(log(lL_static[,])))
 lines(tail(date,K),cumsum(apply(log(lL_tdcch),2,median))-
         cumsum(log(lL_static[,])),col='gray40',lty=6,lwd=3)
-legend(x=date[(T+1)]-65,y=30,col=c('gray60','gray40',1,1,1,'gray40','gray90'),
-       lty=c(4,1,1,2,2,6,1),lwd=c(2,2,1,1,2,2,3),
-       legend=c('RMf','RMe','DCC','DCC-t','AIW','DCC-HEAVY-t','avrg.stand.RV'))
+legend(x=date[(T+1)]-85,y=25,col=c(1,1,1,'gray40','gray90'),
+       lty=c(1,2,2,6,1),lwd=c(1,1,2,3,3),
+       legend=c('DCC','DCC-t','AIW','DCC-HEAVY-t','avrg.stand.RV'))
 atx <- seq(date[(T+1)], date[(T+K)], by=30)
 axis(1, at=atx, labels=format(atx, "%Y/%m"))
 dev.off()
 
 lpbf = c(sum(log(lL_static[,])),
-sum(log(lL_rmf[,])),
-sum(apply(log(lL_rme[,]),2,median)),
+#sum(log(lL_rmf[,])),
+#sum(apply(log(lL_rme[,]),2,median)),
 sum(apply(log(lL_dcc[,]),2,median)),
 sum(apply(log(lL_tdcc[,]),2,median)),
 sum(apply(log(lL_xm1[,]),2,median)),
 sum(apply(log(lL_tdcch),2,median)))
-names(lpbf) = c('Static','RMf','RMe','DCC','DCC-t','AIW','DCC-HEAVY-t')
+names(lpbf) = c('Static','DCC','DCC-t','AIW','DCC-HEAVY-t')
 lpbfdf = as.data.frame(t(lpbf))
 
 max(lpbf)
 
-print(xtable(lpbfdf,align= 'ccccccc|c',
+print(xtable(lpbfdf,align= 'cccccc',
              caption = '1-step-ahead log predictive scores ($LPS$) 
-             for all individual models: Static, RiskMetrics fixed (RMf),
-RiskMetrics estimated (RMe), 
+             for all individual models: Static,
 Dynamic conditional correlation with Gaussian and $t$ copulas (DCC
 and DCC-t), Additive Inverse Wishart (AIW) and DCC-HEAVY model with $t$ copula for 
 2009/01/02-2009/12/31 out-of-sample period

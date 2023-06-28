@@ -55,7 +55,12 @@ nux = resxm1$resc[ind,2]
 b1  = resxm1$resc[ind,3:(dm+2)]
 b2  = resxm1$resc[ind,(dm+3):(2*dm+2)]
 
+US  = matrix(runif(3*(T+K)),ncol=T+K,nrow=3)
+
+
 for(m in 1:length(ind)){
+  t0 = Sys.time()
+  
   # for DCC-t model
   tdata  <- qt(udata,nu[m])
   S       = cov(tdata[start:T,])
@@ -113,7 +118,8 @@ for(m in 1:length(ind)){
       pws  = nom/den 
       ws_gmv[6,m,t-T,]= pws
       
-      if(ws_jore1[m,t-T]>runif(1)) selected = sample_retsxm
+      # if(ws_jore1[m,t-T]>runif(1)) selected = sample_retsxm
+      if(ws_jore1[m,t-T]>US[1,t-T]) selected = sample_retsxm
       else selected = sample_retsdcct
       
       invS = solve(cov(t(selected)))
@@ -122,7 +128,8 @@ for(m in 1:length(ind)){
       pws  = nom/den 
       ws_gmv[1,m,t-T,]= pws
       
-      if(ws_gew[m,t-T]>runif(1)) selected = sample_retsxm
+      # if(ws_gew[m,t-T]>runif(1)) selected = sample_retsxm
+      if(ws_gew[m,t-T]>US[2,t-T]) selected = sample_retsxm
       else selected = sample_retsdcct
     
       invS = solve(cov(t(selected)))
@@ -131,7 +138,8 @@ for(m in 1:length(ind)){
       pws  = nom/den 
       ws_gmv[2,m,t-T,]= pws
       
-      if(0.5>runif(1)) selected = sample_retsxm
+      # if(0.5>runif(1)) selected = sample_retsxm
+      if(0.5>US[3,t-T]) selected = sample_retsxm
       else selected = sample_retsdcct
       
       invS = solve(cov(t(selected)))
@@ -143,8 +151,10 @@ for(m in 1:length(ind)){
     }
     
   }
+  print(c(m,Sys.time()-t0))
 }
 
+save.image(file='10varportfolio.Rdata')
 
 
 ###-----------
@@ -162,108 +172,84 @@ for(m in 1:length(ind)){
    for(i in 1:length(models)){
      for(t in 1:K){
        gvm_ret[i,m,t] = sum(ws_gmv[i,m,t,]*rets[T+t,])
-       gvm_var[i,m,t] = t(ws_gmv[i,m,t,])%*%RCov[,,T+t]%*%(ws_gmv[i,m,t,])
-       gvm_sharpe[i,m,t]=gvm_ret[i,m,t]/sqrt(gvm_var[i,m,t]) 
-       gmv_co[i,m,t] = sqrt(sum(ws_gmv[i,m,t,]^2))
-       gmv_sp[i,m,t] = sum(ws_gmv[i,m,t,]*(ws_gmv[i,m,t,]<0))
+       # gvm_var[i,m,t] = t(ws_gmv[i,m,t,])%*%RCov[,,T+t]%*%(ws_gmv[i,m,t,])
+       # gvm_sharpe[i,m,t]=gvm_ret[i,m,t]/sqrt(gvm_var[i,m,t]) 
+       # gmv_co[i,m,t] = sqrt(sum(ws_gmv[i,m,t,]^2))
+       # gmv_sp[i,m,t] = sum(ws_gmv[i,m,t,]*(ws_gmv[i,m,t,]<0))
        }
    }
 }
 
-for(m in 1:length(ind)){
-  for(i in 1:length(models)){
-    for(t in 2:K){
-      parts = rep(NA,dm)
-      for(d in 1:dm){
-        parts[d] = abs(ws_gmv[i,m,t,d] - ws_gmv[i,m,t-1,d]*(1+rets[T+t-1,d])/
-          (1+sum(ws_gmv[i,m,t-1,]*rets[T+t-1,])))
-      }
-      gmv_to[i,m,t]  = sum(parts)
-    }
-  }
+# 
+# for(m in 1:length(ind)){
+#   for(i in 1:length(models)){
+#     for(t in 2:K){
+#       parts = rep(NA,dm)
+#       for(d in 1:dm){
+#         parts[d] = abs(ws_gmv[i,m,t,d] - ws_gmv[i,m,t-1,d]*(1+rets[T+t-1,d])/
+#           (1+sum(ws_gmv[i,m,t-1,]*rets[T+t-1,])))
+#       }
+#       gmv_to[i,m,t]  = sum(parts)
+#     }
+#   }
+# }
+
+
+
+
+all.res.gmv = list()
+for(i in 1:length(models)){
+  var05     = apply(gvm_ret[i,,],1,quantile,0.05)
+  var10     = apply(gvm_ret[i,,],1,quantile,0.10)
+  es05      = apply(gvm_ret[i,,],1,esfun,0.05)
+  es10      = apply(gvm_ret[i,,],1,esfun,0.10)
+  psd       = apply(gvm_ret[i,,],1,sd)
+  GL        = (100*sqrt(252)*(apply(gvm_ret[4,,],1,sd)-apply(gvm_ret[i,,],1,sd))/
+                 apply(gvm_ret[i,,],1,sd))
+  shr       = apply(gvm_ret[i,,-1],1,sum)/(apply(gvm_ret[i,,-1],1,sd)*sqrt(252))
+  all.res.gmv   = c(all.res.gmv,list(data.frame(var05,var10,es05,es10,GL,shr,psd)))
 }
 
 
-resm =matrix(NA,ncol=length(models),nrow=12)
-GL   = matrix(NA,ncol=length(models),nrow=1000)
+res.gmv = NULL
 
 for(i in 1:length(models)){
-  resm[1,i] = median(apply(gvm_ret[i,,],1,quantile,0.05))
-  resm[2,i] = median(apply(gvm_ret[i,,],1,quantile,0.1))
-  resm[3,i] = median(apply(gvm_ret[i,,],1,esfun,0.05))
-  resm[4,i] = median(apply(gvm_ret[i,,],1,esfun,0.1))
-  resm[5,i] = median(apply(gmv_to[i,,-1],1,mean))
-  resm[6,i] = median(apply(gmv_co[i,,],1,mean))
-  resm[7,i] = median(apply(gmv_sp[i,,],1,mean))
-  
-  resm[8,i] = median(apply(gvm_ret[i,,],1,sum))#annualized
-  resm[9,i] = median(apply(gvm_ret[i,,],1,sd)*sqrt(252))
-  
-  resm[10,i] = median(apply(gvm_ret[i,,-1]-0.01/252*gmv_to[i,,-1],1,sum))
-  
-  resm[11,i] = median(apply(gvm_ret[i,,-1]-0.01/252*gmv_to[i,,-1],1,sum)/
-                        (apply(gvm_ret[i,,-1],1,sd)*sqrt(252)))
-  
-  resm[12,i] = median(100*sqrt(252)*(apply(gvm_ret[4,,],1,sd)-apply(gvm_ret[i,,],1,sd))/
-                        apply(gvm_ret[i,,],1,sd))
-  GL[,i]   = (100*sqrt(252)*(apply(gvm_ret[4,,],1,sd)-apply(gvm_ret[i,,],1,sd))/
-                        apply(gvm_ret[i,,],1,sd))
+  res.gmv = rbind(res.gmv,c(quantile(all.res.gmv[[i]]$GL,0.05),
+                            median(all.res.gmv[[i]]$GL),
+                            quantile(all.res.gmv[[i]]$GL,0.95),
+                            quantile(all.res.gmv[[i]]$psd*100,0.05),
+                            median(all.res.gmv[[i]]$psd*100),
+                            quantile(all.res.gmv[[i]]$psd*100,0.95)))
 }
 
-qts = matrix(NA,ncol=3,nrow=length(models))
-for(i in 1:length(models)){
-  
-  qts[i,1] = quantile(apply(gvm_ret[i,,],1,sd)*sqrt(252),0.05)
-  qts[i,2] = quantile(apply(gvm_ret[i,,],1,sd)*sqrt(252),0.5)
-  qts[i,3] = quantile(apply(gvm_ret[i,,],1,sd)*sqrt(252),0.95)
-  
-}
+res.gmv
 
 
-plot(density(apply(gvm_ret[4,,],1,sd)*sqrt(252)))
-lines(density(apply(gvm_ret[1,,],1,sd)*sqrt(252)),col=2)
-lines(density(apply(gvm_ret[2,,],1,sd)*sqrt(252)),col=3)
+res  = res.gmv[c(2,1,3,4,5,6),]
 
-
-plot(density(GL[,1]),xlim=c(-50,25),ylim=c(0,0.1))
-for(i in 1:6)
-{
-  lines(density(GL[,i]),col=i)
-}  
-
-
-apply(GL,2,quantile,0.1)
-
-apply(GL,2,sd)
-
-res  = resm[,c(2,1,3,4,5,6)]
-
-colnames(res ) = models[c(2,1,3,4,5,6)]
-rownames(res ) = c('VaR5%','VaR10%','ES5%','ES10%','TO','CO','SP',
-                   'return','sd','adj.return(1%)',
-                   'adj.Sharpe','G/L')
+rownames(res ) = models[c(2,1,3,4,5,6)]
+colnames(res ) = c('P05','Median','P95','P05','Median','P95')
 
 round(res ,3)
 
 rm(resxm1,Sig,Sigma,resdcct,resdccht)
 
+
 save.image('temp/10variate/portfolio.Rdata')
 
-print(xtable(res,align='ccccccc',
-             caption = "GMV portfolio results based on 1-step-ahead predicitons 
-             for  2009/01/02-2009/12/31 out-of-sample period ($K=252$ observations).
-             The table reports the posterior medians of various Global Minimum
-             Variance portfolio metrics for the pooled models: 
-             Geweke's, Jore's and equally weighted, 
-             as well as two best individual models, Additive Inverse Wishart (AIW) and 
-             Dynamic Conditional Correlation with $t$ copula (DCC-t).",
-             label = 'table:gmvfull', digits = 3),
-      file='tables_and_figures/gmvfull.tex',
-      include.rownames = TRUE,latex.environments = "center" ,
-      caption.placement = "top",
-      include.colnames= TRUE,
-      rotate.colnames = FALSE,
-      hline.after = getOption("xtable.hline.after", c(-1,0,7,nrow(resm))))
-
-
+tableLines <- print(xtable(res,digits = 3,caption="GMV portfolio results based on 1-step-ahead predictions 
+             for  2009/01/02-2009/12/31 out-of-sample period 
+             ($K=252$ observations) for 10-variate dataset.
+             The table reports the posterior 5, 50 and 95 percentiles of G/L criteria as well as
+             portfolio standard deviation (in \\%) for the pooled models (Geweke's, Jore's and 
+             equally weighted), 
+              two best individual models (Additive Inverse Wishart  and 
+             Dynamic Conditional Correlation with $t$ copula) and a competitor model (DCC-HEAVY-t).",
+                           align = "lccc|ccc",label='table:gmvfull'), 
+                    scalebox=0.8,sanitize.text.function=function(x){x})
+multicolumns <- "& \\\\multicolumn{3}{c}{G/L}
+                 & \\\\multicolumn{3}{c}{Portfolio stdev.}  \\\\\\\\"
+tableLines <- sub ("\\\\toprule\\n", paste0 ("\\\\toprule\n", multicolumns, "\n"), tableLines) ## booktabs = TRUE
+tableLines <- sub ("\\\\hline\\n",   paste0 ("\\\\hline\n",   multicolumns, "\n"), tableLines) ## booktabs = FALSE
+writeLines (tableLines, con = "tables_and_figures/gmvfull.tex")
 
