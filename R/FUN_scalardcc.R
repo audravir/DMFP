@@ -1,6 +1,6 @@
 #' @export
-scalardcc = function(standrets,M){
-  data = standrets[1:T0,]
+scalardcc = function(data,M){
+  t0   = Sys.time()
   TT   = dim(data)[1]
   dm   = dim(data)[2]
   bi   = M
@@ -53,11 +53,12 @@ scalardcc = function(standrets,M){
     Qpred[[m]] <- S*(1-aold-bold)+aold*(data[TT,]%*%t(data[TT,]))+bold*Qold[,,TT]
     Vpred[[m]] <- diag(diag(Qpred[[m]])^{-1/2})%*%Qpred[[m]]%*%diag(diag(Qpred[[m]])^{-1/2})
     
-    # if(m>bi){save(Qold,file=paste('temp/dcc_',m-bi,'.Rdata',sep=''))}
+    if(!m%%100){
+      print(paste(round(m/(M+bi)*100),"%",sep=""))
+      print(Sys.time()-t0)}
   }  
-  
   res = list(Vpred[(bi+1):(bi+M)],Qpred[(bi+1):(bi+M)],resdcc[(bi+1):(bi+M),],accdcc[(bi+1):(bi+M)])
   names(res) = c('Vpred','Qpred','resdcc','accdcc')
-  save(res,file=paste('temp/results_scalar_dcc_EX.Rdata',sep=''))
+  save(res,file=paste('temp/results_scalardcc.Rdata',sep=''))
 }
 

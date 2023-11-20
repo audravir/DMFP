@@ -1,11 +1,9 @@
 #' @export
-scalartdcc = function(standrets,M){
-  
-  data  = standrets[1:T0,]
+scalardcc_tcop = function(data,M){
   udata = pnorm(data)*T0/(T0+1) 
   
-  TT   = dim(data[1:T0,])[1]
-  dm   = dim(data[1:T0,])[2]
+  TT   = dim(data)[1]
+  dm   = dim(data)[2]
   bi   = M
  
   Qold = array(NA,c(dm, dm, TT))
