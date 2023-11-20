@@ -12,4 +12,5 @@ Depends:
   ddst,
   sfsmisc,
   truncnorm,
-  zoo
+  zoo,
+  mvtnorm
