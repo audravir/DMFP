@@ -59,6 +59,6 @@ scalardcc = function(data,M){
   }  
   res = list(Vpred[(bi+1):(bi+M)],Qpred[(bi+1):(bi+M)],resdcc[(bi+1):(bi+M),],accdcc[(bi+1):(bi+M)])
   names(res) = c('Vpred','Qpred','resdcc','accdcc')
-  save(res,file=paste('temp/results_scalardcc.Rdata',sep=''))
+  save(res,file=paste('empirical/temp/results_scalardcc.Rdata',sep=''))
 }
 

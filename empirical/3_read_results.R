@@ -28,7 +28,7 @@ dev.off()
 ## scalar dcc
 ##------
 
-load('temp/results_scalar_dcc_EX.Rdata')
+load('empirical/temp/results_scalardcc.Rdata')
 M   = dim(res$resdcc)[1] # size of MCMC
 ind = round(seq(1,M,length=post.sample)) #thin every xth
 
