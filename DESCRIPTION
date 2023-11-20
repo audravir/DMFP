@@ -9,4 +9,7 @@ Depends:
   xtable,
   tseries,
   QTLRel,
-  ddst
+  ddst,
+  sfsmisc,
+  truncnorm,
+  zoo
