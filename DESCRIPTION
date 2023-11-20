@@ -4,3 +4,9 @@ Title: Dynamic Mixed Frequency Pooling
 Version: 0.0.1.0
 RoxygenNote: 7.2.3
 Encoding: UTF-8
+Depends:
+  moments,
+  xtable,
+  tseries,
+  QTLRel,
+  ddst
