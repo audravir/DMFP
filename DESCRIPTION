@@ -13,4 +13,7 @@ Depends:
   sfsmisc,
   truncnorm,
   zoo,
-  mvtnorm
+  mvtnorm,
+  matrixcalc,
+  mixAK,
+  LaplacesDemon

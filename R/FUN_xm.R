@@ -1,9 +1,9 @@
 #' @export
 xm1 = function(Sigma,M){
-  library(matrixcalc)
-  library(mixAK)
-  library(LaplacesDemon)
-  #library(countreg)
+  # library(matrixcalc)
+  # library(mixAK)
+  # library(LaplacesDemon)
+  # #library(countreg)
   diwish = function(Sig,nu,S){dinvwishart(Sig, nu, S, log=TRUE)}
   riwish = function(nu,S) rinvwishart(nu, S)
   
