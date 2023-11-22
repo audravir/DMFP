@@ -1,4 +1,5 @@
 rm(list=ls(all=TRUE))
+
 load('data/FXdata.Rdata')
 
 nn = dim(rets)[1]
