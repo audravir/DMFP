@@ -14,7 +14,7 @@ K # for oos evaluation
 
 T0+K
 nn
-# the same
+# the same v
 
 data = stand[1:T0,]
 
