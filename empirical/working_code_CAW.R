@@ -1,11 +1,16 @@
-#' @export
-xm = function(data,M){
-  t0   = Sys.time()
 
+
+# caw = function(data,M){
+  t0   = Sys.time()
+  
   diwish = function(Sig,nu,S){dinvwishart(Sig, nu, S, log=TRUE)}
   riwish = function(nu,S) rinvwishart(nu, S)
   
-  Sig    = data
+  
+  
+  nu=5
+  
+  
   dm     = dim(Sig[[1]])[1]
   TT     = length(Sig)
   bi     = M
@@ -58,7 +63,7 @@ xm = function(data,M){
       G2      = G2n
       accl[m] = 1
     }
-
+    
     
     #if(rbinom(1,1,0.05)==1){lag = lag+rpois(1,1)*(-1)^(1-pos)}
     
@@ -94,7 +99,8 @@ xm = function(data,M){
     ## nu
     ##-----
     repeat{
-      nun = rnorm(1,nu,sd=0.1)
+      nun = rnorm(1,nu,sd=0.1)#0.5 for 10-variate
+      # for 3-variate 0.5,0.3 too large
       if(nun>(dm+1)) break
     }
     
@@ -117,19 +123,19 @@ xm = function(data,M){
     ## Prediction
     ##-----
     Vpred[[m]]    = B0+(b1%*%t(b1))*Sig[[TT]]+(b2%*%t(b2))*Reduce('+',Sig[(TT+1-lag):TT])/lag
-
+    
     if(!m%%100){
       print(paste(round(m/(M+bi)*100),"%",sep=""))
       print(Sys.time()-t0)}
     
-    }
+  }
   res = list(Vpred[(bi+1):(bi+M)],resc[(bi+1):(bi+M),],
              accl[(bi+1):(bi+M)],
              accnu[(bi+1):(bi+M)],
              accB[(bi+1):(bi+M)])
   names(res) = c('Vpred','resc','accl','accnu','accB')
-  save(res,file='empirical/temp/results_xm.Rdata')
-
-}
+  save(res,file='empirical/temp/results_xm1.Rdata')
+  
+# }
 
 

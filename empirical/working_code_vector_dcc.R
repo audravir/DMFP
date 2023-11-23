@@ -49,9 +49,6 @@ M=5000
   for(m in 1:(M+bi)){
     
     
-  ## DO NOT USE A AND B, use aold anew bold bnew
-  ## Change the priors in the llh calculation
-    
     ##-----
     ## bs
     ##-----
@@ -73,8 +70,8 @@ M=5000
     }
     
     if((sum(llnew)-sum(llold)+
-        sum(dnorm(anew,0,sqrt(10),log=T0))-sum(dnorm(aold,0,sqrt(10),log=T0))+
-        sum(dnorm(bnew,0,sqrt(10),log=T0))-sum(dnorm(bold,0,sqrt(10),log=T0)))>log(runif(1)))
+        sum(dnorm(anew,0,sqrt(10),log=T))-sum(dnorm(aold,0,sqrt(10),log=T))+
+        sum(dnorm(bnew,0,sqrt(10),log=T))-sum(dnorm(bold,0,sqrt(10),log=T)))>log(runif(1)))
     {
       llold  = llnew
       aold   = anew
