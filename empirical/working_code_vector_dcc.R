@@ -17,7 +17,7 @@ nn
 # the same
 
 data = stand[1:T0,]
-M=200
+M=5000
 
 # vectordcc = function(data,M){
   t0   = Sys.time()
