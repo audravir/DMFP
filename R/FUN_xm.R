@@ -119,14 +119,18 @@ xm1 = function(Sigma,M){
     ## Prediction
     ##-----
     Vpred[[m]]    = B0+(b1%*%t(b1))*Sig[[T0]]+(b2%*%t(b2))*Reduce('+',Sig[(T0+1-lag):T0])/lag
-  
+
+    if(!m%%100){
+      print(paste(round(m/(M+bi)*100),"%",sep=""))
+      print(Sys.time()-t0)}
+    
     }
   res = list(Vpred[(bi+1):(bi+M)],resc[(bi+1):(bi+M),],
              accl[(bi+1):(bi+M)],
              accnu[(bi+1):(bi+M)],
              accB[(bi+1):(bi+M)])
   names(res) = c('Vpred','resc','accl','accnu','accB')
-  save(res,file='temp/results_xm1_EX.Rdata')
+  save(res,file='empirical/temp/results_xm1.Rdata')
 
 }
 
