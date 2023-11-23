@@ -1,16 +1,56 @@
+rm(list = ls())
 
+
+library(matrixcalc)
+library(mixAK)
+library(LaplacesDemon)
+library(countreg)
 
 # caw = function(data,M){
   t0   = Sys.time()
   
   diwish = function(Sig,nu,S){dinvwishart(Sig, nu, S, log=TRUE)}
+  dwish  = function(Sig,nu,S){dwishart(Sig, nu, S, log=TRUE)}
+  
   riwish = function(nu,S) rinvwishart(nu, S)
   
-  
+
   
   nu=5
   
+  Sig=riwish(nu,diag(3))
+  Sig
+  S=diag(3)
   
+  dwish(Sig,nu,S)
+  
+mf = function(Sig,nu,S){
+  n=dim(S)[1]
+  gs=0; for(i in 1:n) {gs=gs+lgamma((nu+1-i)/2)}
+  
+}  
+  
+  
+  mf = function(Sig,nu,S){
+    n=dim(S)[1]
+    
+    gs = 0
+    for(i in 1:n){gs=gs+lgamma(nu+1-i)/2}
+    (-nu/2)*log(det(S))+((nu-n-1)/2)*log(det(Sig))-(nu*n/2)*log(2)-(n*(n-1)/4)*log(pi)-gs-0.5*tr(solve(S)%*%Sig)
+  }
+  
+mf(Sig,nu,diag(3))
+  
+S=diag(3)
+dwishart(Sig, nu, S, log=FALSE)
+n=dim(S)[1]  
+
+gp=1
+for(i in 1:n) gp=gp*gamma((nu+1-i)/2)
+  
+(det(S/nu)^(-nu/2)*det(Sig)^{(nu-n-1)/2})/(2^{nu*n/2}*pi^{n*(n-1)/4}*gp)*exp(-0.5*tr(nu*solve(S)%*%Sig))  
+  
+
   dm     = dim(Sig[[1]])[1]
   TT     = length(Sig)
   bi     = M
