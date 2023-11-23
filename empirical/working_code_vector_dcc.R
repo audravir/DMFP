@@ -1,10 +1,10 @@
 rm(list=ls(all=TRUE))
-
+library(matrixcalc)
 load('data/FXdata.Rdata')
 
 nn       = length(date)
-end.date = which(zoo::as.yearmon(date)=="jan 2015")[1]-1
-#end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
+#end.date = which(zoo::as.yearmon(date)=="jan 2015")[1]-1
+end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
 date[end.date]
 
 T0  = end.date  #
@@ -17,7 +17,7 @@ nn
 # the same
 
 data = stand[1:T0,]
-M=50
+M=200
 
 # vectordcc = function(data,M){
   t0   = Sys.time()
