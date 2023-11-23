@@ -16,8 +16,8 @@ T0+K
 nn
 # the same
 
-data = stand[1:T0,1:5]
-M=100
+data = stand[1:T0,]
+M=50
 
 # vectordcc = function(data,M){
   t0   = Sys.time()
@@ -49,31 +49,32 @@ M=100
   for(m in 1:(M+bi)){
     
     
+  ## DO NOT USE A AND B, use aold anew bold bnew
+  ## Change the priors in the llh calculation
+    
     ##-----
     ## bs
     ##-----
     repeat{
-      bn  = rnorm(dm*2,c(aold,bold),sd=0.01)
+      bn  = rnorm(dm*2,c(aold,bold),sd=0.0005)
       anew = bn[1:dm]
       bnew = bn[(dm+1):(2*dm)]
-      A  = anew%*%t(anew)
-      B  = bnew%*%t(bnew)
-      B0  = (iota%*%t(iota)-A-B)*Sbar
-      if(anew[1]>0 && bnew[1]>0 && is.positive.definite(B0) && (sum(abs(A+B)<1)==dm^2)) break
+      B0  = (iota%*%t(iota)-anew%*%t(anew)-bnew%*%t(bnew))*Sbar
+      if(anew[1]>0 && bnew[1]>0 && is.positive.definite(B0) && (sum(abs(anew%*%t(anew)+bnew%*%t(bnew))<1)==dm^2)) break
     }
     
     llnew <- rep(0,TT)
     Qnew  = Qold
     
     for(t in 2:TT){
-      Qnew[,,t]   <- B0+A*(data[t-1,]%*%t(data[t-1,]))+B*Qnew[,,(t-1)]
+      Qnew[,,t]   <- B0+(anew%*%t(anew))*(data[t-1,]%*%t(data[t-1,]))+(bnew%*%t(bnew))*Qnew[,,(t-1)]
       R[,,t]   <- diag(diag(Qnew[,,t])^{-1/2})%*%Qnew[,,t]%*%diag(diag(Qnew[,,t])^{-1/2})
       llnew[t] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=T)
     }
     
     if((sum(llnew)-sum(llold)+
-        sum(dnorm(b1n,0,sqrt(10),log=T0))-sum(dnorm(b1,0,sqrt(10),log=T0))+
-        sum(dnorm(b2n,0,sqrt(10),log=T0))-sum(dnorm(b2,0,sqrt(10),log=T0)))>log(runif(1)))
+        sum(dnorm(anew,0,sqrt(10),log=T0))-sum(dnorm(aold,0,sqrt(10),log=T0))+
+        sum(dnorm(bnew,0,sqrt(10),log=T0))-sum(dnorm(bold,0,sqrt(10),log=T0)))>log(runif(1)))
     {
       llold  = llnew
       aold   = anew
@@ -82,16 +83,19 @@ M=100
       accdcc[m] = 1
     }
     
+    B0  = (iota%*%t(iota)-aold%*%t(aold)-bold%*%t(bold))*Sbar
     resdcc[m,] <- c(aold,bold) 
-    Qpred[[m]] <- S*(1-aold-bold)+aold*(data[TT,]%*%t(data[TT,]))+bold*Qold[,,TT]
+    Qpred[[m]] <- B0+aold*(data[TT,]%*%t(data[TT,]))+bold*Qold[,,TT]
     Vpred[[m]] <- diag(diag(Qpred[[m]])^{-1/2})%*%Qpred[[m]]%*%diag(diag(Qpred[[m]])^{-1/2})
     
     if(!m%%100){
       print(paste(round(m/(M+bi)*100),"%",sep=""))
       print(Sys.time()-t0)}
   }  
-#   res = list(Vpred[(bi+1):(bi+M)],Qpred[(bi+1):(bi+M)],resdcc[(bi+1):(bi+M),],accdcc[(bi+1):(bi+M)])
-#   names(res) = c('Vpred','Qpred','resdcc','accdcc')
-#   save(res,file=paste('empirical/temp/results_scalardcc.Rdata',sep=''))
+  res = list(Vpred[(bi+1):(bi+M)],Qpred[(bi+1):(bi+M)],resdcc[(bi+1):(bi+M),],accdcc[(bi+1):(bi+M)])
+  names(res) = c('Vpred','Qpred','resdcc','accdcc')
+  save(res,file=paste('empirical/temp/results_vectordcc.Rdata',sep=''))
 # }
 
+
+  
