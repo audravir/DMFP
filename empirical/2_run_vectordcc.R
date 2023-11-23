@@ -23,8 +23,8 @@ T0+K
 nn
 # the same
 
-data = Sigma[1:T0]
+data = stand[1:T0,]
 
 
-xm(data,5000)
+vectordcc(data,5000)
 
