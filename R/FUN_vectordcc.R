@@ -1,5 +1,5 @@
 #' @export
-vectordcc = function(data,M){
+vectordcc = function(data,M,propsd){
   t0   = Sys.time()
   TT   = dim(data)[1]
   dm   = dim(data)[2]
@@ -33,7 +33,7 @@ vectordcc = function(data,M){
     ## bs
     ##-----
     repeat{
-      bn  = rnorm(dm*2,c(aold,bold),sd=0.0005)
+      bn  = rnorm(dm*2,c(aold,bold),sd=propsd)
       anew = bn[1:dm]
       bnew = bn[(dm+1):(2*dm)]
       B0  = (iota%*%t(iota)-anew%*%t(anew)-bnew%*%t(bnew))*Sbar

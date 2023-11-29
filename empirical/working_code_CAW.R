@@ -1,72 +1,78 @@
-rm(list = ls())
+rm(list=ls(all=TRUE))
 
+load('data/FXdata.Rdata')
 
 library(matrixcalc)
 library(mixAK)
 library(LaplacesDemon)
 library(countreg)
+library(DMFP)
+
+nn       = length(date)
+end.date = which(zoo::as.yearmon(date)=="ene 2012")[1]-1
+if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2012")[1]-1}
+
+date[end.date]
+
+T0  = end.date  #
+T0 # for estimation
+K = nn-end.date
+K # for oos evaluation
+
+T0+K
+nn
+# the same
+
+data = Sigma[1:T0]
+
+M=200
+
+
+b=rep(0.8,3)
+S=rwishart(10,diag(3))
+
+B=diag(b)
+
+B%*%S%*%t(B)
+
+(B%*%t(B))%*%S
+
+
+
+
+A <- diag(2)*2
+A
+A%*%A
+X <- matrix(1:4,2,2)%*%matrix(1:4,2,2)
+X
+A%*%X%*%t(A)
+A%*%t(A)%*%X
+
 
 # caw = function(data,M){
   t0   = Sys.time()
   
-  diwish = function(Sig,nu,S){dinvwishart(Sig, nu, S, log=TRUE)}
-  dwish  = function(Sig,nu,S){dwishart(Sig, nu, S, log=TRUE)}
-  
-  riwish = function(nu,S) rinvwishart(nu, S)
-  
+  dwish  = function(Sig,nu,S){dwishart(Sig, nu, S/nu, log=TRUE)}
+  # this density function is the same as in GOLOSNOY et al (2012), Eq (3)
 
+  Sig    = data
   
-  nu=5
-  
-  Sig=riwish(nu,diag(3))
-  Sig
-  S=diag(3)
-  
-  dwish(Sig,nu,S)
-  
-mf = function(Sig,nu,S){
-  n=dim(S)[1]
-  gs=0; for(i in 1:n) {gs=gs+lgamma((nu+1-i)/2)}
-  
-}  
-  
-  
-  mf = function(Sig,nu,S){
-    n=dim(S)[1]
-    
-    gs = 0
-    for(i in 1:n){gs=gs+lgamma(nu+1-i)/2}
-    (-nu/2)*log(det(S))+((nu-n-1)/2)*log(det(Sig))-(nu*n/2)*log(2)-(n*(n-1)/4)*log(pi)-gs-0.5*tr(solve(S)%*%Sig)
-  }
-  
-mf(Sig,nu,diag(3))
-  
-S=diag(3)
-dwishart(Sig, nu, S, log=FALSE)
-n=dim(S)[1]  
-
-gp=1
-for(i in 1:n) gp=gp*gamma((nu+1-i)/2)
-  
-(det(S/nu)^(-nu/2)*det(Sig)^{(nu-n-1)/2})/(2^{nu*n/2}*pi^{n*(n-1)/4}*gp)*exp(-0.5*tr(nu*solve(S)%*%Sig))  
-  
-
   dm     = dim(Sig[[1]])[1]
   TT     = length(Sig)
   bi     = M
-  resc   = matrix(NA,nrow=bi+M,ncol=dm*2+2)
+  resc   = matrix(NA,nrow=bi+M,ncol=dm*2+1)
   Vpred  = list()
   nu     = 20
-  lag    = 20
   b1     = b2 = rep(0.2,dm)
   Sbar   = Reduce('+',Sig)/TT
-  iota   = rep(1,dm)
-  B0     = (iota%*%t(iota)-b1%*%t(b1)-b2%*%t(b2))*Sbar
+  B0     = (diag(dm)-diag(b1)%*%t(diag(b1))-diag(b2)%*%t(diag(b2)))*Sbar
   llo    = lln = rep(0,TT)
-  accB   = accnu = accl = rep(0,bi+M)
+  accB   = accnu = rep(0,bi+M)
   V      = Vn = list()
-  G1     = G2 = G2n = c(list(matrix(0,nrow=dm,ncol=dm)),Sig[-TT])
-  for(t in 2:TT) G2[[t]]     = Reduce('+',Sig[max(1,t-lag):(t-1)])/min(c(t-1,lag))
+  # G1     = G2 = G2n = c(list(matrix(0,nrow=dm,ncol=dm)),Sig[-TT])
+  # for(t in 2:TT) G2[[t]]     = Reduce('+',Sig[max(1,t-lag):(t-1)])/min(c(t-1,lag))
+  # 
+  V[[1]] = Vn[[1]] = Sbar
   
   for(t in 1:TT){
     V[[t]]   = (B0+(b1%*%t(b1))*G1[[t]]+(b2%*%t(b2))*G2[[t]])

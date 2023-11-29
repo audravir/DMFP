@@ -26,5 +26,5 @@ nn
 data = stand[1:T0,]
 
 
-vectordcc(data,5000)
+vectordcc(data,5000,0.00005)
 

@@ -1,39 +1,33 @@
 rm(list=ls(all=TRUE))
-load('data/3data_EX.Rdata')
+load('data/FXdata.Rdata')
 library(xtable)
 post.sample = 1000
 
 pars_lf = NULL
+dm      = dim(rets)[2]
 
 ##------
-## Rme
+## vector dcc
 ##------
 
-load('temp/results_RMe_EX.Rdata')
-M   = length(res$resRMe)
-ind = round(seq(1,M,length=post.sample)) #thin every xth
-lam = res$resRMe[ind]
-
-pars_lf = rbind(pars_lf,
-                c(median(lam),sqrt(var(lam)),mean(res$accRMe)))
-
-pdf(file='tables_and_figures/RMe_EX.pdf',width=12,height=3)
-par(mfrow=c(1,3))
-plot(lam,type='l',main='RMe: lambda',ylab='',xlab='')
-acf(lam,lwd=2,main='ACF',xlab='')
-pacf(lam,lwd=2,main='PACF',xlab='')
-dev.off()
-
-##------
-## scalar dcc
-##------
-
-load('empirical/temp/results_scalardcc.Rdata')
+load('empirical/temp/results_vectordcc.Rdata')
 M   = dim(res$resdcc)[1] # size of MCMC
 ind = round(seq(1,M,length=post.sample)) #thin every xth
 
-a      <- res$resdcc[ind,1]
-b      <- res$resdcc[ind,2]
+mean(res$accdcc)
+dim(res$resdcc)
+
+a      <- res$resdcc[ind,1:dm]
+b      <- res$resdcc[ind,(dm+1):(dm*2)]
+
+par(mfrow=c(3,5)) 
+for(i in 1:dm) plot(a[,i],type='l')
+
+par(mfrow=c(3,5)) 
+for(i in 1:dm) plot(b[,i],type='l')
+
+
+
 
 pars_lf = rbind(pars_lf,
                 c(median(a),sqrt(var(a)),mean(res$accdcc)),
