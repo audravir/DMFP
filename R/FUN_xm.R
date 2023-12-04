@@ -1,7 +1,7 @@
 #' @export
 xm = function(data,M,propsdb,propsdnu){
   t0   = Sys.time()
-
+  
   diwish = function(Sig,nu,S){dinvwishart(Sig, nu, S, log=TRUE)}
   riwish = function(nu,S) rinvwishart(nu, S)
   
@@ -11,8 +11,8 @@ xm = function(data,M,propsdb,propsdnu){
   bi     = M
   resc   = matrix(NA,nrow=bi+M,ncol=dm*2+2)
   Vpred  = list()
-  nu     = 20
-  lag    = 20
+  nu     = 17
+  lag    = 15
   b1     = b2 = rep(0.2,dm)
   Sbar   = Reduce('+',Sig)/TT
   iota   = rep(1,dm)
@@ -29,12 +29,13 @@ xm = function(data,M,propsdb,propsdnu){
   }
   
   for(m in 1:(bi+M)){
+    t1=Sys.time()
     ##-----
     ## l
     ##-----
     repeat{
       pos  = rbinom(1,1,0.5)
-      lagnew = lag+sample(c(1,2,3,4),1,prob = c(6/12,3/12,2/12,1/12))*(-1)^(1-pos)
+      lagnew = lag+sample(c(1,2,3,4),1,prob = c(6/12,3/12,2/12,1/12))*((-1)^(1-pos))
       if(lagnew>1) break
     }
     
@@ -58,7 +59,7 @@ xm = function(data,M,propsdb,propsdnu){
       G2      = G2n
       accl[m] = 1
     }
-
+    
     
     #if(rbinom(1,1,0.05)==1){lag = lag+rpois(1,1)*(-1)^(1-pos)}
     
@@ -66,8 +67,7 @@ xm = function(data,M,propsdb,propsdnu){
     ## bs
     ##-----
     repeat{
-      bn  = rnorm(dm*2,c(b1,b2),sd=propsdb)#0.007 for 10-variate
-      # 0.02 too large for 3variate
+      bn  = rnorm(dm*2,c(b1,b2),sd=propsdb)
       b1n = bn[1:dm]
       b2n = bn[(dm+1):(2*dm)]
       B1  = b1n%*%t(b1n)
@@ -102,7 +102,7 @@ xm = function(data,M,propsdb,propsdnu){
     lln = mapply(di,Sig,V)
     
     if((sum(lln)-sum(llo)+
-        dexp(nun,1/10,log=T)-dexp(nu,1/10,log=T))>log(runif(1))){
+        dexp(nun,1/10,log=TRUE)-dexp(nu,1/10,log=TRUE))>log(runif(1))){
       llo   = lln
       accnu[m] = 1
       nu    = nun
@@ -117,19 +117,22 @@ xm = function(data,M,propsdb,propsdnu){
     ## Prediction
     ##-----
     Vpred[[m]]    = B0+(b1%*%t(b1))*Sig[[TT]]+(b2%*%t(b2))*Reduce('+',Sig[(TT+1-lag):TT])/lag
-
-    if(!m%%100){
-      print(paste(round(m/(M+bi)*100),"%",sep=""))
-      print(Sys.time()-t0)}
     
+    if(!m%%10){
+      print(paste(round(m/(M+bi)*100,2),"%",sep=""))
+      print(Sys.time()-t1)
+      print(Sys.time()-t0)
     }
+    
+  }
+  
+  
   res = list(Vpred[(bi+1):(bi+M)],resc[(bi+1):(bi+M),],
              accl[(bi+1):(bi+M)],
              accnu[(bi+1):(bi+M)],
              accB[(bi+1):(bi+M)])
   names(res) = c('Vpred','resc','accl','accnu','accB')
   save(res,file='empirical/temp/results_xm.Rdata')
-
 }
 
 

@@ -24,7 +24,8 @@ nn
 # the same
 
 data = Sigma[1:T0]
+data = Sigma[1:1000]
 
-c(500,0.0005,0.1)
-xm(data,M=500,propsdb=0.0005,propsdnu=0.1)
+c(2000,0.001,0.001)
+xm(data,M=2000,propsdb=0.001,propsdnu=0.001)
 
