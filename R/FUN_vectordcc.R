@@ -3,7 +3,7 @@ vectordcc = function(data,M,propsd){
   t0   = Sys.time()
   TT   = dim(data)[1]
   dm   = dim(data)[2]
-  bi   = M
+  bi   = min(M,10^4)
   Qold = array(NA,c(dm, dm, TT))
   R       = array(NA,c(dm, dm, TT))
   Qold[,,1] = cor(data)
@@ -11,7 +11,7 @@ vectordcc = function(data,M,propsd){
   Sbar = cov(data)
   
   aold   <- rep(0.1,dm)
-  bold   <- rep(0.98,dm)
+  bold   <- rep(0.99,dm)
   llold  <- rep(0,TT)
   resdcc <- matrix(NA,ncol=dm*2,nrow=(bi+M))
   iota   = rep(1,dm)
@@ -28,7 +28,7 @@ vectordcc = function(data,M,propsd){
   
   for(m in 1:(M+bi)){
     
-    
+    t1 = Sys.time()
     ##-----
     ## bs
     ##-----
@@ -67,7 +67,9 @@ vectordcc = function(data,M,propsd){
     
     if(!m%%100){
       print(paste(round(m/(M+bi)*100),"%",sep=""))
-      print(Sys.time()-t0)}
+      print(Sys.time()-t1)
+      print(Sys.time()-t0)
+      }
   }  
     res = list(Vpred[(bi+1):(bi+M)],Qpred[(bi+1):(bi+M)],resdcc[(bi+1):(bi+M),],accdcc[(bi+1):(bi+M)])
     names(res) = c('Vpred','Qpred','resdcc','accdcc')
