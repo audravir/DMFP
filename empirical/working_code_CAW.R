@@ -23,7 +23,7 @@ T0+K
 nn
 # the same
 
-data = Sigma[1:1000]
+data = Sigma[1:2000]
 
 # function arguments
 M = 5000
@@ -41,12 +41,12 @@ dwish  = function(Sig,nu,S){dwishart(Sig, nu, S/nu, log=TRUE)}
 Sig    = data
 dm     = dim(Sig[[1]])[1]
 TT     = length(Sig)
-bi     = M
+bi     = min(M,10^4)
 resc   = matrix(NA,nrow=bi+M,ncol=dm*2+1)
 Vpred  = list()
 nu     = 20
 b1     = rep(0.95,dm)
-b2     = rep(0.2,dm)
+b2     = rep(0.25,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 B0     = (iota%*%t(iota)-b1%*%t(b1)-b2%*%t(b2))*Sbar
@@ -133,7 +133,7 @@ plot(resc[(bi+1):(bi+M),1],type='l')
 mean(accB[(bi+1):(bi+M)])
 par(mfrow=c(3,5))
 for(i in 1:dm) plot(resc[(bi+1):(bi+M),(i+1)],type='l')
-for(i in 1:dm) plot(resc[(bi+1):(bi+M),(2*i+1)],type='l')
+for(i in 1:dm) plot(resc[(bi+1):(bi+M),(dm+i+1)],type='l')
 
 
 # res = list(Vpred[(bi+1):(bi+M)],resc[(bi+1):(bi+M),],
