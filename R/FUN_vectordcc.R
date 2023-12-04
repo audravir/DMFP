@@ -11,7 +11,7 @@ vectordcc = function(data,M,propsd){
   Sbar = cov(data)
   
   aold   <- rep(0.1,dm)
-  bold   <- rep(0.95,dm)
+  bold   <- rep(0.98,dm)
   llold  <- rep(0,TT)
   resdcc <- matrix(NA,ncol=dm*2,nrow=(bi+M))
   iota   = rep(1,dm)

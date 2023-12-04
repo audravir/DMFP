@@ -25,6 +25,10 @@ nn
 
 data = stand[1:T0,]
 
+# 0.0005 gave accp 0.0034
+# 0.00005 gave accp 0.786
 
-vectordcc(data,5000,0.00005)
+c(10000,0.000275)
+
+vectordcc(data,10000,0.000275)
 

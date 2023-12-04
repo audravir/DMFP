@@ -1,5 +1,5 @@
 #' @export
-xm = function(data,M){
+xm = function(data,M,propsdb,propsdnu){
   t0   = Sys.time()
 
   diwish = function(Sig,nu,S){dinvwishart(Sig, nu, S, log=TRUE)}
@@ -66,7 +66,7 @@ xm = function(data,M){
     ## bs
     ##-----
     repeat{
-      bn  = rnorm(dm*2,c(b1,b2),sd=0.01)#0.007 for 10-variate
+      bn  = rnorm(dm*2,c(b1,b2),sd=propsdb)#0.007 for 10-variate
       # 0.02 too large for 3variate
       b1n = bn[1:dm]
       b2n = bn[(dm+1):(2*dm)]
@@ -94,7 +94,7 @@ xm = function(data,M){
     ## nu
     ##-----
     repeat{
-      nun = rnorm(1,nu,sd=0.1)
+      nun = rnorm(1,nu,sd=propsdnu)
       if(nun>(dm+1)) break
     }
     

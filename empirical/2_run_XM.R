@@ -25,6 +25,6 @@ nn
 
 data = Sigma[1:T0]
 
-
-xm(data,5000)
+c(500,0.0005,0.1)
+xm(data,M=500,propsdb=0.0005,propsdnu=0.1)
 
