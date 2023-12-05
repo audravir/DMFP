@@ -23,14 +23,15 @@ T0+K
 nn
 # the same
 
-data = Sigma[1:2000]
+data = Sigma[1:T0]
 
 # function arguments
 M = 5000
 
 # 0.001 give accp 0.01
 propsdb = 0.0001 
-propsdnu = 0.01
+# 0.01 gave accp of 0.0076
+propsdnu = 0.001
 
 
 
@@ -46,7 +47,7 @@ resc   = matrix(NA,nrow=bi+M,ncol=dm*2+1)
 Vpred  = list()
 nu     = 20
 b1     = rep(0.95,dm)
-b2     = rep(0.25,dm)
+b2     = rep(0.3,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 B0     = (iota%*%t(iota)-b1%*%t(b1)-b2%*%t(b2))*Sbar
@@ -136,10 +137,10 @@ for(i in 1:dm) plot(resc[(bi+1):(bi+M),(i+1)],type='l')
 for(i in 1:dm) plot(resc[(bi+1):(bi+M),(dm+i+1)],type='l')
 
 
-# res = list(Vpred[(bi+1):(bi+M)],resc[(bi+1):(bi+M),],
-#              accnu[(bi+1):(bi+M)],
-#              accB[(bi+1):(bi+M)])
-#   names(res) = c('Vpred','resc','accnu','accB')
-#   save(res,file='empirical/temp/results_caw.Rdata')
+res = list(Vpred[(bi+1):(bi+M)],resc[(bi+1):(bi+M),],
+             accnu[(bi+1):(bi+M)],
+             accB[(bi+1):(bi+M)])
+  names(res) = c('Vpred','resc','accnu','accB')
+  save(res,file='empirical/temp/results_caw.Rdata')
 
 
