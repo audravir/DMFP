@@ -1,9 +1,12 @@
 rm(list=ls(all=TRUE))
 load('data/FXdata.Rdata')
+library(matrixcalc)
+
 
 nn       = length(date)
-#end.date = which(zoo::as.yearmon(date)=="jan 2015")[1]-1
 end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
+if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2021")[1]-1}
+
 date[end.date]
 
 T0  = end.date  #
