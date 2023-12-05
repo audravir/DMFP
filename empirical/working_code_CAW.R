@@ -128,13 +128,13 @@ for(m in 1:(bi+M)){
 }
   
 mean(accnu[(bi+1):(bi+M)])  
-par(mfrow=c(1,1))
-plot(resc[(bi+1):(bi+M),1],type='l')
+# par(mfrow=c(1,1))
+# plot(resc[(bi+1):(bi+M),1],type='l')
   
 mean(accB[(bi+1):(bi+M)])
-par(mfrow=c(3,5))
-for(i in 1:dm) plot(resc[(bi+1):(bi+M),(i+1)],type='l')
-for(i in 1:dm) plot(resc[(bi+1):(bi+M),(dm+i+1)],type='l')
+# par(mfrow=c(3,5))
+# for(i in 1:dm) plot(resc[(bi+1):(bi+M),(i+1)],type='l')
+# for(i in 1:dm) plot(resc[(bi+1):(bi+M),(dm+i+1)],type='l')
 
 
 res = list(Vpred[(bi+1):(bi+M)],resc[(bi+1):(bi+M),],
