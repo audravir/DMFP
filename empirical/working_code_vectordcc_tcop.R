@@ -15,8 +15,8 @@ T0+K
 nn
 # the same
 
-data = stand[1:500,]
-M=1000
+data = stand[1:T0,]
+M=5000
 propsd=0.001
 propsdnu = 0.01
 
@@ -140,8 +140,8 @@ for(m in 1:(M+bi)){
 }  
 
 
-# 
-# res = list(Vpred[(bi+1):(bi+M)],Qpred[(bi+1):(bi+M)],resdcc[(bi+1):(bi+M),],
-#            accdcc[(bi+1):(bi+M)],accnu[(bi+1):(bi+M)])
-# names(res) = c('Vpred','Qpred','resdcc','accdcc','accnu')
-# save(res,file=paste('empirical/temp/results_vectordcc_tcop.Rdata',sep=''))
+
+res = list(Vpred[(bi+1):(bi+M)],Qpred[(bi+1):(bi+M)],resdcc[(bi+1):(bi+M),],
+           accdcc[(bi+1):(bi+M)],accnu[(bi+1):(bi+M)])
+names(res) = c('Vpred','Qpred','resdcc','accdcc','accnu')
+save(res,file=paste('empirical/temp/results_vectordcc_tcop.Rdata',sep=''))
