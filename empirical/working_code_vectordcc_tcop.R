@@ -5,7 +5,7 @@ library(mvnfast)
 
 library(profvis)
 
-({
+profvis({
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
 if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
