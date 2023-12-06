@@ -10,7 +10,7 @@ library(DMFP)
 
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
-if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2021")[1]-1}
+if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
 
 date[end.date]
 
@@ -31,7 +31,8 @@ M = 5000
 # 0.001 give accp 0.01
 propsdb = 0.0001 
 # 0.01 gave accp of 0.0076
-propsdnu = 0.001
+# 0.001 gave accp of 0.0452
+propsdnu = 0.0001
 
 
 
