@@ -2,6 +2,8 @@ rm(list=ls(all=TRUE))
 library(rbenchmark)
 library(Rfast)
 library(mvnfast)
+library(matrixcalc)
+library(RSpectra)
 
 
 dm=15
@@ -20,6 +22,20 @@ b=rnorm(dm)
 benchmark(Rfast::Outer(b,b), 
           base::outer(b,b), 
           order="relative", replications=50000)
+
+
+benchmark(is.positive.definite(Sigma), 
+          eigen.sym(Sigma,k = dm-1,vectors = FALSE), 
+          order="relative", replications=5000)
+
+
+benchmark(eigs_sym(Sigma,k = dm-1, opts = list(retvec = FALSE)), 
+          eigen.sym(Sigma,k = dm-1,vectors = FALSE), 
+          order="relative", replications=5000)
+
+Sigma
+
+
 
 
 # # faster Q matrices
