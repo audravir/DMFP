@@ -1,11 +1,11 @@
 rm(list=ls(all=TRUE))
 load('data/FXdata.Rdata')
-#library(matrixcalc)
+
 library(Rfast)
 library(mvnfast)
 library(profvis)
 
-profvis({
+# profvis({
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
 if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
@@ -22,9 +22,13 @@ nn
 # the same
 
 data = stand[1:T0,]
-M=1000
-propsd=0.001
-propsdnu = 0.1
+M=30000
+
+# 0.001 gave accp 0.002
+propsd=0.0001
+
+# 0.1 gave accp 0.681
+propsdnu = 0.5
 
 ###
 
@@ -44,7 +48,7 @@ llold  <- rep(0,TT)
 
 Qold[,,1] = cor(tdata)
 
-resdcc <- matrix(NA,ncol=dm*2+1,nrow=(bi+M))
+resdcc <- matrix(NA,ncol=dm*2+1,nrow=M)
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
 Sbar   = cov(tdata)
@@ -54,7 +58,7 @@ B0     = (Oiota-A-B)*Sbar
 
 accdcc <- rep(0,bi+M)
 accnu  <- rep(0,bi+M)
-Vpred  = Qpred = list()
+Vpred  = Qpred = vector(mode = "list", length = M)
 
 for(t in 2:TT){
   Qold[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Qold[,,(t-1)]
@@ -149,9 +153,12 @@ for(m in 1:(M+bi)){
   B      = Outer(bold,bold)
   B0     = (Oiota-A-B)*Sbar
   
-  resdcc[m,] <- c(nuold,aold,bold) 
-  Qpred[[m]] <- B0+A*Outer(tdata[TT,],tdata[TT,])+B*Qold[,,TT]
-  Vpred[[m]] <- diag(diag(Qpred[[m]])^{-1/2})%*%Qpred[[m]]%*%diag(diag(Qpred[[m]])^{-1/2})
+  if(m>bi){
+    resdcc[m-bi,] <- c(nuold,aold,bold) 
+    Qpred[[m-bi]] <- B0+A*Outer(tdata[TT,],tdata[TT,])+B*Qold[,,TT]
+    Vpred[[m-bi]] <- diag(diag(Qpred[[m-bi]])^{-1/2})%*%Qpred[[m-bi]]%*%diag(diag(Qpred[[m-bi]])^{-1/2})
+  }
+
   
   if(!m%%100){
     print(paste(round(m/(M+bi)*100),"%",sep=""))
@@ -159,14 +166,13 @@ for(m in 1:(M+bi)){
     print(Sys.time()-t0)
   }
 }  
-})
+# })
 
 
 mean(accnu[(bi+1):(bi+M)])
 mean(accdcc[(bi+1):(bi+M)])
 
 
-# res = list(Vpred[(bi+1):(bi+M)],Qpred[(bi+1):(bi+M)],resdcc[(bi+1):(bi+M),],
-#            accdcc[(bi+1):(bi+M)],accnu[(bi+1):(bi+M)])
-# names(res) = c('Vpred','Qpred','resdcc','accdcc','accnu')
-# save(res,file=paste('empirical/temp/results_vectordcc_tcop.Rdata',sep=''))
+res = list(Vpred,Qpred,resdcc,accdcc[(bi+1):(bi+M)],accnu[(bi+1):(bi+M)])
+names(res) = c('Vpred','Qpred','resdcc','accdcc','accnu')
+save(res,file=paste('empirical/temp/results_vectordcc_tcop.Rdata',sep=''))
