@@ -6,7 +6,6 @@ data=rnorm(dm)
 l1=l2=l3=rep(NA,M)
 library(profvis)
 library(Rfast)
-library(mvnfast)
 
 
 x <-rnorm(10) 

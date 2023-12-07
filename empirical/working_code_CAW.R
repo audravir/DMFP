@@ -29,7 +29,7 @@ data = Sigma[1:T0]
 M = 5000
 
 # 0.001 give accp 0.01
-propsdb = 0.0001 
+propsdb = 0.00001 
 # 0.01 gave accp of 0.0076
 # 0.001 gave accp of 0.0452
 propsdnu = 0.0001
