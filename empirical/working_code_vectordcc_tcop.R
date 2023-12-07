@@ -1,7 +1,8 @@
 rm(list=ls(all=TRUE))
 load('data/FXdata.Rdata')
-library(matrixcalc)
+#library(matrixcalc)
 library(Rfast)
+library(mvnfast)
 library(profvis)
 
 profvis({
@@ -20,7 +21,7 @@ T0+K
 nn
 # the same
 
-data = stand[1:T0,1:5]
+data = stand[1:T0,]
 M=1000
 propsd=0.001
 propsdnu = 0.1
@@ -61,7 +62,7 @@ for(t in 2:TT){
   t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
   t.R   = Outer(t.dv,t.dv)*t.ma
   inlik = sum(dt(tdata[t,],df=nuold,log=TRUE))
-  llold[t] <- dmvt(tdata[t,], rep(0,dm),t.R, nuold, logged=TRUE)-inlik
+  llold[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm),t.R, nuold, log=TRUE)-inlik
 }
 
 for(m in 1:(M+bi)){
@@ -75,7 +76,7 @@ for(m in 1:(M+bi)){
     anew = bn[1:dm]
     bnew = bn[(dm+1):(2*dm)]
     B0  = (Oiota-Outer(anew,anew)-Outer(bnew,bnew))*Sbar
-    if(anew[1]>0 && bnew[1]>0 && is.positive.definite(B0) && (sum(abs(Outer(anew,anew)+Outer(bnew,bnew))<1)==dm^2)) break
+    if(anew[1]>0 && bnew[1]>0 && prod(eigen.sym(B0,dm-1,vectors = FALSE)$values>0)==1 && (sum(abs(Outer(anew,anew)+Outer(bnew,bnew))<1)==dm^2)) break
   }
   
   llnew <- rep(0,TT)
@@ -89,7 +90,7 @@ for(m in 1:(M+bi)){
     t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
     t.R   = Outer(t.dv,t.dv)*t.ma
     inlik = sum(dt(tdata[t,],df=nuold,log=TRUE))
-    llnew[t]  <- dmvt(tdata[t,], rep(0,dm), t.R, nuold, logged=TRUE)-inlik
+    llnew[t]  <- mvnfast::dmvt(tdata[t,], rep(0,dm), t.R, nuold, log=TRUE)-inlik
   }
   
   if((sum(llnew)-sum(llold)+
@@ -129,7 +130,7 @@ for(m in 1:(M+bi)){
     t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
     t.R   = Outer(t.dv,t.dv)*t.ma
     inlik = sum(dt(tdata[t,],df=nunew,log=TRUE))
-    llnew[t]  <- dmvt(tdata[t,], rep(0,dm), t.R, nunew, logged=TRUE)-inlik
+    llnew[t]  <- mvnfast::dmvt(tdata[t,], rep(0,dm), t.R, nunew, log=TRUE)-inlik
       
   }
   
