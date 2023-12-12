@@ -2,12 +2,11 @@ rm(list=ls(all=TRUE))
 
 load('data/FXdata.Rdata')
 
-library(matrixcalc)
-library(mixAK)
 library(LaplacesDemon)
-library(countreg)
-library(DMFP)
+library(Rfast)
+library(profvis)
 
+profvis({
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
 if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
@@ -23,18 +22,16 @@ T0+K
 nn
 # the same
 
-data = Sigma[1:T0]
+data = Sigma[1:500]
 
 # function arguments
-M = 5000
+M = 1000
 
-# 0.001 give accp 0.01
-propsdb = 0.00001 
-# 0.01 gave accp of 0.0076
-# 0.001 gave accp of 0.0452
-propsdnu = 0.0001
+# 0.001 give accp of 0.004
+propsdb = 0.0001 
 
-
+# 0.001 gave accp of
+propsdnu = 0.001
 
 
 t0   = Sys.time()
@@ -44,21 +41,25 @@ Sig    = data
 dm     = dim(Sig[[1]])[1]
 TT     = length(Sig)
 bi     = min(M,10^4)
-resc   = matrix(NA,nrow=bi+M,ncol=dm*2+1)
-Vpred  = list()
+resc   = matrix(NA,nrow=M,ncol=dm*2+1)
+Vpred  = vector(mode = "list", length = M)
 nu     = 20
 b1     = rep(0.95,dm)
 b2     = rep(0.3,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
-B0     = (iota%*%t(iota)-b1%*%t(b1)-b2%*%t(b2))*Sbar
+Oiota  = Outer(iota,iota)
+B1     = Outer(b1,b1) 
+B2     = Outer(b2,b2)
+B0     = (Oiota-B1-B2)*Sbar
 llo    = lln = rep(0,TT)
 accB   = accnu = rep(0,bi+M)
 V      = Vn = list()
 V[[1]] = Vn[[1]] = Sbar
 
+
 for(t in 2:TT){
-  V[[t]]   = B0+(b1%*%t(b1))*V[[t-1]]+(b2%*%t(b2))*Sig[[t-1]]
+  V[[t]]   = B0+B1*V[[t-1]]+B2*Sig[[t-1]]
   llo[t]   = dwish(Sig[[t]],nu,V[[t]])
 }
   
@@ -71,13 +72,13 @@ for(m in 1:(bi+M)){
     bn  = rnorm(dm*2,c(b1,b2),sd=propsdb)
     b1n = bn[1:dm]
     b2n = bn[(dm+1):(2*dm)]
-    B1  = b1n%*%t(b1n)
-    B2  = b2n%*%t(b2n)
-    B0  = (iota%*%t(iota)-B1-B2)*Sbar
-    if(b1n[1]>0 && b2n[1]>0 && is.positive.definite(B0) && (sum(abs(B1+B2)<1)==dm^2)) break
+    B1  = Outer(b1n,b1n)
+    B2  = Outer(b2n,b2n)
+    B0  = (Oiota-B1-B2)*Sbar
+    if(b1n[1]>0 && b2n[1]>0 && prod(eigen.sym(B0,dm-1,vectors = FALSE)$values>0)==1 && (sum(abs(B1+B2)<1)==dm^2)) break
   }
   for(t in 2:TT){
-    Vn[[t]]   = B0+(b1n%*%t(b1n))*Vn[[t-1]]+(b2n%*%t(b2n))*Sig[[t-1]]
+    Vn[[t]]   = B0+B1*Vn[[t-1]]+B2*Sig[[t-1]]
     lln[t]   = dwish(Sig[[t]],nu,Vn[[t]])
   }
   
@@ -91,7 +92,9 @@ for(m in 1:(bi+M)){
     llo  = lln
     V    = Vn
   }
-  B0  = (iota%*%t(iota)-(b1%*%t(b1))-(b2%*%t(b2)))*Sbar
+  B1 = Outer(b1,b1) 
+  B2 = Outer(b2,b2)
+  B0 = (Oiota-B1-B2)*Sbar
     
   ##-----
   ## nu
@@ -111,36 +114,34 @@ for(m in 1:(bi+M)){
     nu    = nun
   }
     
-  ##-----
-  ## Collect results
-  ##-----
-  resc[m,] = c(nu,b1,b2)
+  if(m>bi){
+    ##-----
+    ## Collect results
+    ##-----
+    resc[m-bi,] = c(nu,b1,b2)
     
-  ##-----
-  ## Prediction
-  ##-----
-  Vpred[[m]]    = B0+(b1%*%t(b1))*V[[TT]]+(b2%*%t(b2))*Sig[[TT]]
-    
+    ##-----
+    ## Prediction
+    ##-----
+    Vpred[[m-bi]]    = B0+B1*V[[TT]]+B2*Sig[[TT]]
+  }
+  
+  
   if(!m%%100){
     print(paste(round(m/(M+bi)*100,2),"%",sep=""))
     print(Sys.time()-t1)
     print(Sys.time()-t0)
   }
 }
-  
+ 
+})
+
 mean(accnu[(bi+1):(bi+M)])  
-# par(mfrow=c(1,1))
-# plot(resc[(bi+1):(bi+M),1],type='l')
-  
 mean(accB[(bi+1):(bi+M)])
-# par(mfrow=c(3,5))
-# for(i in 1:dm) plot(resc[(bi+1):(bi+M),(i+1)],type='l')
-# for(i in 1:dm) plot(resc[(bi+1):(bi+M),(dm+i+1)],type='l')
 
 
-res = list(Vpred[(bi+1):(bi+M)],resc[(bi+1):(bi+M),],
-             accnu[(bi+1):(bi+M)],
-             accB[(bi+1):(bi+M)])
+
+res = list(Vpred,resc,accnu[(bi+1):(bi+M)],accB[(bi+1):(bi+M)])
   names(res) = c('Vpred','resc','accnu','accB')
   save(res,file='empirical/temp/results_caw.Rdata')
 

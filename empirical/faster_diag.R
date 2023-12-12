@@ -45,3 +45,28 @@ Sigma
 #   R3  <- Outer(dv,dv)*Ma
 #   l3[t] = dmvt(data,rep(0,dm), R3 , dm+10, log=TRUE)
 # }
+
+
+
+
+
+############################################
+rm(list=ls(all=TRUE))
+library(LaplacesDemon)
+library(CholWishart)
+library(rbenchmark)
+
+
+dm=15
+Sigma=rWishart(1,dm+10,diag(dm))[,,1]
+S = diag(dm)
+
+dwishart(Sigma,dm+10,S,log=TRUE)
+dWishart(Sigma,dm+10,S,log=TRUE)
+
+
+benchmark(dwishart(Sigma,dm+10,S,log=TRUE), 
+          dWishart(Sigma,dm+10,S,log=TRUE), 
+          order="relative", replications=5000)
+
+
