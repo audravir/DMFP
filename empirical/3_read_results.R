@@ -10,15 +10,19 @@ dm      = dim(rets)[2]
 ## vector dcc
 ##------
 
-load('empirical/temp/results_vectordcc.Rdata')
+load('empirical/temp/results_vectordcc_tcop.Rdata')
 M   = dim(res$resdcc)[1] # size of MCMC
 ind = round(seq(1,M,length=post.sample)) #thin every xth
 
 mean(res$accdcc)
+mean(res$accnu)
 dim(res$resdcc)
 
-a      <- res$resdcc[ind,1:dm]
-b      <- res$resdcc[ind,(dm+1):(dm*2)]
+a      <- res$resdcc[ind,2:(dm+1)]
+b      <- res$resdcc[ind,(dm+2):(dm*2+1)]
+nu     <- res$resdcc[ind,1]
+
+plot(nu,type='l')
 
 par(mfrow=c(3,5)) 
 for(i in 1:dm) plot(a[,i],type='l')
@@ -28,20 +32,19 @@ for(i in 1:dm) plot(b[,i],type='l')
 
 
 
-
-pars_lf = rbind(pars_lf,
-                c(median(a),sqrt(var(a)),mean(res$accdcc)),
-                c(median(b),sqrt(var(b)),mean(res$accdcc)))
-
-pdf(file='tables_and_figures/dcc_EX.pdf',width=10,height=5)
-par(mfrow=c(2,3))
-plot(a,type='l',main='DCC: a',ylab='',xlab='')
-acf(a,lwd=2,main='ACF',xlab='')
-pacf(a,lwd=2,main='PACF',xlab='')
-plot(b,type='l',main='DCC: b',ylab='',xlab='')
-acf(b,lwd=2,main='ACF',xlab='')
-pacf(b,lwd=2,main='PACF',xlab='')
-dev.off()
+# pars_lf = rbind(pars_lf,
+#                 c(median(a),sqrt(var(a)),mean(res$accdcc)),
+#                 c(median(b),sqrt(var(b)),mean(res$accdcc)))
+# 
+# pdf(file='tables_and_figures/dcc_EX.pdf',width=10,height=5)
+# par(mfrow=c(2,3))
+# plot(a,type='l',main='DCC: a',ylab='',xlab='')
+# acf(a,lwd=2,main='ACF',xlab='')
+# pacf(a,lwd=2,main='PACF',xlab='')
+# plot(b,type='l',main='DCC: b',ylab='',xlab='')
+# acf(b,lwd=2,main='ACF',xlab='')
+# pacf(b,lwd=2,main='PACF',xlab='')
+# dev.off()
 
 ##------
 ## scalar dcc t-copula
