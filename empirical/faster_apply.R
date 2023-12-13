@@ -1,9 +1,5 @@
 rm(list=ls(all=TRUE))
-
-library(parallel)
-detectCores()
-
-rm(list=ls(all=TRUE))
+library(LaplacesDemon)
 
 load('data/FXdata.Rdata')
 
@@ -34,7 +30,7 @@ K = nn-end.date
   propsdnu = 0.001
   
   
-  dwish  = function(Sig,nu,S){dwishart(Sig, nu, S/nu, log=TRUE)}
+  dwish  = function(Sig,nu,S){LaplacesDemon::dwishart(Sig, nu, S/nu, log=TRUE)}
   # this density function is the same as in GOLOSNOY et al (2012), Eq (3)
   Sig    = data
   dm     = dim(Sig[[1]])[1]
@@ -66,24 +62,53 @@ K = nn-end.date
 
 dwish.t  = function(x,y){dwishart(x, nu, y/nu, log=TRUE)}
 
+# simple loop
 system.time(  for(t in 2:TT){
   llo[t]   = dwish.t(Sig[[t]],V[[t]])})
-
 sum(llo)
 
+# mapply
 system.time(ll2<-mapply(dwish.t,Sig,V))
 
 sum(ll2[-1])
 
-ll4<-parallel::mcmapply(dwish.t,x=Sig,y=V,mc.cores=1)
-
-system.time(ll4<-parallel::mcmapply(dwish.t,x=Sig,y=V,mc.cores=1))
+# parallel mcapply 4 cores
+library(parallel)
+system.time(ll4<-parallel::mcmapply(dwish.t,x=Sig,y=V,mc.cores=4))
 
 sum(ll4[-1])
 
+# future apply
+library(future.apply)
+plan(multisession, workers = 1)
+system.time(y1 <- future_mapply(dwish.t,Sig,V))
+plan(multisession, workers = 4)
+system.time(y1 <- future_mapply(dwish.t,Sig,V))
+plan(multisession, workers = 8)
+system.time(y1 <- future_mapply(dwish.t,Sig,V))
+plan(multisession, workers = 12)
+system.time(y1 <- future_mapply(dwish.t,Sig,V))
+sum(y1[-1])
 
-y1 <- future_mapply(dwish.t,Sig,V)
+# for each
+library(foreach)
+
+system.time(y <- foreach(i = 1:TT) %do% { dwish.t(Sig[[i]],V[[i]]) })
+
+# for each dopar
+library(doParallel)
+library(CholWishart)
+
+dwish.t  = function(x,y){CholWishart::dWishart(x, nu, y/nu, log=TRUE)}
 
 
+cl <- parallel::makeCluster(4)
+doParallel::registerDoParallel(cl)
+
+system.time(y <- foreach(i = 1:TT) %dopar% { 
+  dwish.t(Sig[[i]],V[[i]]) 
+  })
+
+parallel::stopCluster(cl)
 
 
