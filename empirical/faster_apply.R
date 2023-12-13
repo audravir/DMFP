@@ -62,23 +62,28 @@ K = nn-end.date
   }
 
 
-system.time(  for(t in 2:TT){
-  llo[t]   = dwish(Sig[[t]],nu,V[[t]])
-})
 
-sum(llo)
-
-system.time(ll2<-mapply(dwish,Sig,nu,V))
-
-sum(ll2[-1])
 
 dwish.t  = function(x,y){dwishart(x, nu, y/nu, log=TRUE)}
 
-system.time(  ll4<-parallel::mcmapply(function(x,y){
-  return(dwish.t(x,y))
-},x=Sig,y=V,mc.cores=1)
-)
+system.time(  for(t in 2:TT){
+  llo[t]   = dwish.t(Sig[[t]],V[[t]])})
+
+sum(llo)
+
+system.time(ll2<-mapply(dwish.t,Sig,V))
+
+sum(ll2[-1])
+
+ll4<-parallel::mcmapply(dwish.t,x=Sig,y=V,mc.cores=1)
+
+system.time(ll4<-parallel::mcmapply(dwish.t,x=Sig,y=V,mc.cores=1))
 
 sum(ll4[-1])
+
+
+y1 <- future_mapply(dwish.t,Sig,V)
+
+
 
 
