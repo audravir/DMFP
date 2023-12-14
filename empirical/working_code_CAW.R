@@ -88,8 +88,8 @@ for(m in 1:(bi+M)){
     Vn[[t]]   = B0+B1*Vn[[t-1]]+B2*Sig[[t-1]]
     # lln[t]   = dwish(Sig[[t]],nu,Vn[[t]])
   }
-  dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
-  lln <- future_mapply(dwish.t,Sig,Vn)
+  dwish.t <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
+  lln     <- future_mapply(dwish.t,Sig,Vn)
   
   
   if((sum(lln)-sum(llo)+
