@@ -64,6 +64,10 @@ dwish     <- function(Sig,nu,S){LaplacesDemon::dwishart(Sig, nu, S/nu, log=TRUE)
 dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
 dwish.t2  <- function(x,y){CholWishart::dWishart(x, nu, y/nu, log=TRUE)}
 
+library(microbenchmark)
+microbenchmark(dwish.t(Sig[[1]],V[[1]]),
+               dwish.t2(Sig[[1]],V[[1]]),times = 5000,unit = "relative" )
+
 #---------------------
 # simple loop
 #---------------------
