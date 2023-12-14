@@ -22,6 +22,7 @@ a      <- res$resdcc[ind,2:(dm+1)]
 b      <- res$resdcc[ind,(dm+2):(dm*2+1)]
 nu     <- res$resdcc[ind,1]
 
+par(mfrow=c(1,1)) 
 plot(nu,type='l')
 
 par(mfrow=c(3,5)) 

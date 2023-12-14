@@ -26,7 +26,8 @@ M=50000
 
 # 0.001 gave accp 0.002
 # 0.0001 gave accp 0.068
-propsd=0.00001
+# 0.00001 0.82774
+propsd=0.00005
 
 # 0.1 gave accp 0.681
 propsdnu = 0.5
