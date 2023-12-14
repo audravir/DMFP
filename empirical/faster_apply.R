@@ -1,5 +1,7 @@
 rm(list=ls(all=TRUE))
 library(LaplacesDemon)
+library(CholWishart)
+library(Rfast)
 
 load('data/FXdata.Rdata')
 
@@ -18,7 +20,7 @@ K = nn-end.date
   nn
   # the same
   
-  data = Sigma[1:T0]
+  data = Sigma[1:500]
   
   # function arguments
   M = 1000
@@ -30,7 +32,6 @@ K = nn-end.date
   propsdnu = 0.001
   
   
-  dwish  = function(Sig,nu,S){LaplacesDemon::dwishart(Sig, nu, S/nu, log=TRUE)}
   # this density function is the same as in GOLOSNOY et al (2012), Eq (3)
   Sig    = data
   dm     = dim(Sig[[1]])[1]
@@ -59,48 +60,52 @@ K = nn-end.date
 
 
 
+dwish     <- function(Sig,nu,S){LaplacesDemon::dwishart(Sig, nu, S/nu, log=TRUE)}
+dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
+dwish.t2  <- function(x,y){CholWishart::dWishart(x, nu, y/nu, log=TRUE)}
 
-dwish.t  = function(x,y){dwishart(x, nu, y/nu, log=TRUE)}
-
+#---------------------
 # simple loop
+#---------------------
 system.time(  for(t in 2:TT){
   llo[t]   = dwish.t(Sig[[t]],V[[t]])})
 sum(llo)
 
+#---------------------
 # mapply
+#---------------------
 system.time(ll2<-mapply(dwish.t,Sig,V))
-
 sum(ll2[-1])
 
-# parallel mcapply 4 cores
-library(parallel)
-system.time(ll4<-parallel::mcmapply(dwish.t,x=Sig,y=V,mc.cores=4))
+# #---------------------
+# # parallel mcapply X cores: DOES NOT WORK NEITHER ON WINDOWS NOR IN THE SERVER
+# #---------------------
+# library(parallel)
+# system.time(ll4<-parallel::mcmapply(dwish.t,x=Sig,y=V,mc.cores=4))
+# sum(ll4[-1])
 
-sum(ll4[-1])
-
+#---------------------
 # future apply
+#---------------------
 library(future.apply)
 plan(multisession, workers = 1)
 system.time(y1 <- future_mapply(dwish.t,Sig,V))
+
 plan(multisession, workers = 4)
-system.time(y1 <- future_mapply(dwish.t,Sig,V))
-plan(multisession, workers = 8)
-system.time(y1 <- future_mapply(dwish.t,Sig,V))
-plan(multisession, workers = 12)
 system.time(y1 <- future_mapply(dwish.t,Sig,V))
 sum(y1[-1])
 
+#---------------------
 # for each
+#---------------------
 library(foreach)
-
 system.time(y <- foreach(i = 1:TT) %do% { dwish.t(Sig[[i]],V[[i]]) })
+sum(unlist(y[-1]))
 
+#---------------------
 # for each dopar
+#---------------------
 library(doParallel)
-library(CholWishart)
-
-dwish.t  = function(x,y){CholWishart::dWishart(x, nu, y/nu, log=TRUE)}
-
 
 cl <- parallel::makeCluster(4)
 doParallel::registerDoParallel(cl)
@@ -112,3 +117,16 @@ system.time(y <- foreach(i = 1:TT) %dopar% {
 parallel::stopCluster(cl)
 
 
+#---------------------
+# doMC
+#---------------------
+library(doMC)
+registerDoMC(cores=4)
+cl <- parallel::makeCluster(4)
+doParallel::registerDoParallel(cl)
+
+system.time(y <- foreach(i = 1:TT) %dopar% {
+  dwish.t(Sig[[i]],V[[i]])
+})
+
+parallel::stopCluster(cl)
