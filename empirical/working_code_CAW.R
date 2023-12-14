@@ -5,8 +5,10 @@ load('data/FXdata.Rdata')
 library(LaplacesDemon)
 library(Rfast)
 library(profvis)
+library(future.apply)
+plan(multisession, workers = 4)
 
-profvis({
+# profvis({
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
 if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
@@ -22,10 +24,10 @@ T0+K
 nn
 # the same
 
-data = Sigma[1:500]
+data = Sigma[1:T0]
 
 # function arguments
-M = 1000
+M = 5000
 
 # 0.001 give accp of 0.004
 propsdb = 0.0001 
@@ -35,8 +37,8 @@ propsdnu = 0.001
 
 
 t0   = Sys.time()
-dwish  = function(Sig,nu,S){dwishart(Sig, nu, S/nu, log=TRUE)}
-  # this density function is the same as in GOLOSNOY et al (2012), Eq (3)
+# dwish  = function(Sig,nu,S){dwishart(Sig, nu, S/nu, log=TRUE)}
+# this density function is the same as in GOLOSNOY et al (2012), Eq (3)
 Sig    = data
 dm     = dim(Sig[[1]])[1]
 TT     = length(Sig)
@@ -60,9 +62,14 @@ V[[1]] = Vn[[1]] = Sbar
 
 for(t in 2:TT){
   V[[t]]   = B0+B1*V[[t-1]]+B2*Sig[[t-1]]
-  llo[t]   = dwish(Sig[[t]],nu,V[[t]])
+  # llo[t]   = dwish(Sig[[t]],nu,V[[t]])
 }
   
+dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
+
+# this is the best for home PC 
+llo <- future_mapply(dwish.t,Sig,V)
+
 for(m in 1:(bi+M)){
   t1=Sys.time()
   ##-----
@@ -79,8 +86,10 @@ for(m in 1:(bi+M)){
   }
   for(t in 2:TT){
     Vn[[t]]   = B0+B1*Vn[[t-1]]+B2*Sig[[t-1]]
-    lln[t]   = dwish(Sig[[t]],nu,Vn[[t]])
+    # lln[t]   = dwish(Sig[[t]],nu,Vn[[t]])
   }
+  dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
+  lln <- future_mapply(dwish.t,Sig,Vn)
   
   
   if((sum(lln)-sum(llo)+
@@ -104,9 +113,9 @@ for(m in 1:(bi+M)){
     if(nun>(dm)) break
   }
     
-  di  = function(Sig,S) dwish(Sig,nun,S)
-  lln = mapply(di,Sig,V)
-    
+  dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nun, y/nun, log=TRUE)}
+  lln <- future_mapply(dwish.t,Sig,V)
+
   if((sum(lln)-sum(llo)+
       dexp(nun,1/10,log=TRUE)-dexp(nu,1/10,log=TRUE))>log(runif(1))){
     llo   = lln
@@ -134,10 +143,25 @@ for(m in 1:(bi+M)){
   }
 }
  
-})
+# })
 
 mean(accnu[(bi+1):(bi+M)])  
 mean(accB[(bi+1):(bi+M)])
+
+
+
+nu=resc[,1]
+par(mfrow=c(1,1))
+plot(nu,type='l')
+
+b1=resc[,2:(dm+1)]
+b2=resc[,(dm+2):(dm*2+1)]
+
+par(mfrow=c(3,5)) 
+for(i in 1:dm) {plot(b1[,i],type='l')}
+
+par(mfrow=c(3,5)) 
+for(i in 1:dm) {plot(b2[,i],type='l')}
 
 
 

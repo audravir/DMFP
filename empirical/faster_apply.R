@@ -20,7 +20,7 @@ K = nn-end.date
   nn
   # the same
   
-  data = Sigma[1:500]
+  data = Sigma[1:T0]
   
   # function arguments
   M = 1000
@@ -68,6 +68,8 @@ library(microbenchmark)
 microbenchmark(dwish.t(Sig[[1]],V[[1]]),
                dwish.t2(Sig[[1]],V[[1]]),times = 5000,unit = "relative" )
 
+parallel::detectCores()
+
 #---------------------
 # simple loop
 #---------------------
@@ -95,7 +97,16 @@ library(future.apply)
 plan(multisession, workers = 1)
 system.time(y1 <- future_mapply(dwish.t,Sig,V))
 
+plan(multisession, workers = 2)
+system.time(y1 <- future_mapply(dwish.t,Sig,V))
+sum(y1[-1])
+
+# this is the best for home PC 
 plan(multisession, workers = 4)
+system.time(y1 <- future_mapply(dwish.t,Sig,V))
+sum(y1[-1])
+
+plan(multisession, workers = 6)
 system.time(y1 <- future_mapply(dwish.t,Sig,V))
 sum(y1[-1])
 
@@ -121,16 +132,16 @@ system.time(y <- foreach(i = 1:TT) %dopar% {
 parallel::stopCluster(cl)
 
 
-#---------------------
-# doMC
-#---------------------
-library(doMC)
-registerDoMC(cores=4)
-cl <- parallel::makeCluster(4)
-doParallel::registerDoParallel(cl)
-
-system.time(y <- foreach(i = 1:TT) %dopar% {
-  dwish.t(Sig[[i]],V[[i]])
-})
-
-parallel::stopCluster(cl)
+# #---------------------
+# # doMC
+# #---------------------
+# library(doMC)
+# registerDoMC(cores=4)
+# cl <- parallel::makeCluster(4)
+# doParallel::registerDoParallel(cl)
+# 
+# system.time(y <- foreach(i = 1:TT) %dopar% {
+#   dwish.t(Sig[[i]],V[[i]])
+# })
+# 
+# parallel::stopCluster(cl)
