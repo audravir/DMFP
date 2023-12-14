@@ -82,7 +82,7 @@ for(m in 1:(M+bi)){
     anew = bn[1:dm]
     bnew = bn[(dm+1):(2*dm)]
     B0  = (Oiota-Outer(anew,anew)-Outer(bnew,bnew))*Sbar
-    if(anew[1]>0 && bnew[1]>0 && prod(eigen.sym(B0,dm-1,vectors = FALSE)$values>0)==1 && (sum(abs(Outer(anew,anew)+Outer(bnew,bnew))<1)==dm^2)) break
+    if(anew[1]>0 && bnew[1]>0 && (prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 ) && (sum(abs(Outer(anew,anew)+Outer(bnew,bnew))<1)==dm^2)) break
   }
   
   llnew <- rep(0,TT)

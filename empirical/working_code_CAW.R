@@ -82,7 +82,7 @@ for(m in 1:(bi+M)){
     B1  = Outer(b1n,b1n)
     B2  = Outer(b2n,b2n)
     B0  = (Oiota-B1-B2)*Sbar
-    if(b1n[1]>0 && b2n[1]>0 && prod(eigen.sym(B0,dm-1,vectors = FALSE)$values>0)==1 && (sum(abs(B1+B2)<1)==dm^2)) break
+    if(b1n[1]>0 && b2n[1]>0 && (prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 ) && (sum(abs(B1+B2)<1)==dm^2)) break
   }
   for(t in 2:TT){
     Vn[[t]]   = B0+B1*Vn[[t-1]]+B2*Sig[[t-1]]
