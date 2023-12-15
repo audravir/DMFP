@@ -27,12 +27,13 @@ nn
 data = Sigma[1:T0]
 
 # function arguments
-M = 5000
+M = 10000
 
 # 0.001 give accp of 0.004
-propsdb = 0.0001 
+# 0.0001 0.04
+propsdb = 0.00005 
 
-# 0.001 gave accp of
+# 0.001 gave accp of 0.5126
 propsdnu = 0.001
 
 
@@ -45,7 +46,7 @@ TT     = length(Sig)
 bi     = min(M,10^4)
 resc   = matrix(NA,nrow=M,ncol=dm*2+1)
 Vpred  = vector(mode = "list", length = M)
-nu     = 20
+nu     = 17
 b1     = rep(0.95,dm)
 b2     = rep(0.3,dm)
 Sbar   = Reduce('+',Sig)/TT
