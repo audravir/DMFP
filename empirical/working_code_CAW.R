@@ -27,14 +27,17 @@ nn
 data = Sigma[1:T0]
 
 # function arguments
-M = 10000
+M = 5000
 
 # 0.001 give accp of 0.004
 # 0.0001 0.04
-propsdb = 0.00005 
+# 0.00005 0.4504
+# 0.0001 0.22292
+propsdb = 0.0003 
 
 # 0.001 gave accp of 0.5126
-propsdnu = 0.001
+# 0.001 0.0572
+propsdnu = 0.0005
 
 
 t0   = Sys.time()
@@ -47,8 +50,8 @@ bi     = min(M,10^4)
 resc   = matrix(NA,nrow=M,ncol=dm*2+1)
 Vpred  = vector(mode = "list", length = M)
 nu     = 17
-b1     = rep(0.95,dm)
-b2     = rep(0.3,dm)
+b1     = rep(0.7,dm)
+b2     = rep(0.7,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
@@ -56,7 +59,7 @@ B1     = Outer(b1,b1)
 B2     = Outer(b2,b2)
 B0     = (Oiota-B1-B2)*Sbar
 llo    = lln = rep(0,TT)
-accB   = accnu = rep(0,bi+M)
+accB1  = accB2 = accnu = rep(0,bi+M)
 V      = Vn = list()
 V[[1]] = Vn[[1]] = Sbar
 
@@ -73,11 +76,22 @@ llo <- future_mapply(dwish.t,Sig,V)
 
 for(m in 1:(bi+M)){
   t1=Sys.time()
+  
   ##-----
-  ## bs
+  ## bs split randomly
   ##-----
+  
+  block1 <- sample(c(TRUE,FALSE),size=dm*2,replace = TRUE)
+  block2 <- (!block1)
+  
+  # 10% of the time sample from large variance to 
+  fac = sample(c(1,10),1,prob = c(0.9,0.1))
+  
+  # block 1
   repeat{
-    bn  = rnorm(dm*2,c(b1,b2),sd=propsdb)
+    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac)
+    bn     = b.prop*block1+c(b1,b2)*block2
+    
     b1n = bn[1:dm]
     b2n = bn[(dm+1):(2*dm)]
     B1  = Outer(b1n,b1n)
@@ -92,25 +106,53 @@ for(m in 1:(bi+M)){
   dwish.t <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
   lln     <- future_mapply(dwish.t,Sig,Vn)
   
+  if((sum(lln)-sum(llo)+
+      sum(dnorm(b1n,0,sqrt(10),log=TRUE))-sum(dnorm(b1,0,sqrt(10),log=TRUE))+
+      sum(dnorm(b2n,0,sqrt(10),log=TRUE))-sum(dnorm(b2,0,sqrt(10),log=TRUE)))>log(runif(1))){
+    b1   = b1n
+    b2   = b2n
+    accB1[m] = 1
+    llo  = lln
+    V    = Vn
+  }
+ 
+  # block 2
+  repeat{
+    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac)
+    bn     = b.prop*block2+c(b1,b2)*block1
+    
+    b1n = bn[1:dm]
+    b2n = bn[(dm+1):(2*dm)]
+    B1  = Outer(b1n,b1n)
+    B2  = Outer(b2n,b2n)
+    B0  = (Oiota-B1-B2)*Sbar
+    if(b1n[1]>0 && b2n[1]>0 && (prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 ) && (sum(abs(B1+B2)<1)==dm^2)) break
+  }
+  for(t in 2:TT){
+    Vn[[t]]   = B0+B1*Vn[[t-1]]+B2*Sig[[t-1]]
+    # lln[t]   = dwish(Sig[[t]],nu,Vn[[t]])
+  }
+  dwish.t <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
+  lln     <- future_mapply(dwish.t,Sig,Vn)
   
   if((sum(lln)-sum(llo)+
       sum(dnorm(b1n,0,sqrt(10),log=TRUE))-sum(dnorm(b1,0,sqrt(10),log=TRUE))+
       sum(dnorm(b2n,0,sqrt(10),log=TRUE))-sum(dnorm(b2,0,sqrt(10),log=TRUE)))>log(runif(1))){
     b1   = b1n
     b2   = b2n
-    accB[m] = 1
+    accB2[m] = 1
     llo  = lln
     V    = Vn
   }
   B1 = Outer(b1,b1) 
   B2 = Outer(b2,b2)
   B0 = (Oiota-B1-B2)*Sbar
-    
+  
   ##-----
   ## nu
   ##-----
   repeat{
-    nun = rnorm(1,nu,sd=propsdnu)
+    nun = rnorm(1,nu,sd=propsdnu*fac)
     if(nun>(dm)) break
   }
     
@@ -147,7 +189,8 @@ for(m in 1:(bi+M)){
 # })
 
 mean(accnu[(bi+1):(bi+M)])  
-mean(accB[(bi+1):(bi+M)])
+mean(accB1[(bi+1):(bi+M)])
+mean(accB2[(bi+1):(bi+M)])
 
 
 
@@ -166,8 +209,8 @@ for(i in 1:dm) {plot(b2[,i],type='l')}
 
 
 
-res = list(Vpred,resc,accnu[(bi+1):(bi+M)],accB[(bi+1):(bi+M)])
-  names(res) = c('Vpred','resc','accnu','accB')
+res = list(Vpred,resc,accnu[(bi+1):(bi+M)],accB1[(bi+1):(bi+M)],accB2[(bi+1):(bi+M)])
+  names(res) = c('Vpred','resc','accnu','accB1','accB1')
   save(res,file='empirical/temp/results_caw.Rdata')
 
 
