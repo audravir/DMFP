@@ -8,7 +8,7 @@ library(profvis)
 library(future.apply)
 plan(multisession, workers = 4)
 
-profvis({
+# profvis({
 
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
@@ -25,11 +25,13 @@ T0+K
 nn
 # the same
 
-data = Sigma[1:500]
+data = Sigma[1:T0]
 
 # function arguments
-M = 1000
-propsdb = 0.001
+M = 10000
+
+# 0.001 gives accp 0.516
+propsdb = 0.005
 propsdnu = 0.001
 
 
@@ -171,7 +173,7 @@ for(m in 1:(bi+M)){
     }
   
 }
-})
+# })
 
 
 mean(accl[(bi+1):(bi+M)])
@@ -183,7 +185,7 @@ plot(resc[(bi+1):(bi+M),1],type='l')
 plot(resc[(bi+1):(bi+M),2],type='l')
 
 
-res = list(Vpred[(bi+1):(bi+M)],resc[(bi+1):(bi+M),],
+res = list(Vpred,resc,
            accl[(bi+1):(bi+M)],
            accnu[(bi+1):(bi+M)],
            accB[(bi+1):(bi+M)])
