@@ -50,8 +50,8 @@ bi     = min(M,10^4)
 resc   = matrix(NA,nrow=M,ncol=dm*2+1)
 Vpred  = vector(mode = "list", length = M)
 nu     = 17
-b1     = rep(0.7,dm)
-b2     = rep(0.7,dm)
+b1     = rep(0.5,dm)
+b2     = rep(0.5,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
