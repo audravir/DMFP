@@ -6,9 +6,10 @@ library(LaplacesDemon)
 library(Rfast)
 library(profvis)
 library(future.apply)
+parallel::detectCores()
 plan(multisession, workers = 4)
 
-# profvis({
+profvis({
 
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
@@ -28,7 +29,7 @@ nn
 data = Sigma[1:T0]
 
 # function arguments
-M = 10000
+M = 1000
 
 # 0.001 gives accp 0.516
 propsdb = 0.005
@@ -106,8 +107,11 @@ for(m in 1:(bi+M)){
   ##-----
   ## bs
   ##-----
+  # 10% of the time sample from large variance to 
+  fac = sample(c(1,10),1,prob = c(0.9,0.1))
+  
   repeat{
-    bn  = rnorm(dm*2,c(b1,b2),sd=propsdb)
+    bn  = rnorm(dm*2,c(b1,b2),sd=propsdb*fac)
     b1n = bn[1:dm]
     b2n = bn[(dm+1):(2*dm)]
     B1  = Outer(b1n,b1n)
@@ -139,7 +143,7 @@ for(m in 1:(bi+M)){
   ## nu
   ##-----
   repeat{
-    nun = rnorm(1,nu,sd=propsdnu)
+    nun = rnorm(1,nu,sd=propsdnu*fac)
     if(nun>(dm+1)) break
   }
   
@@ -173,7 +177,7 @@ for(m in 1:(bi+M)){
     }
   
 }
-# })
+})
 
 
 mean(accl[(bi+1):(bi+M)])
