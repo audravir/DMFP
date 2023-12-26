@@ -1,14 +1,15 @@
 rm(list=ls(all=TRUE))
-load('data/3data_EX.Rdata')
-library(xtable)
-library(truncnorm)
+load('data/FXdata.Rdata')
+# library(xtable)
+# library(truncnorm)
 
 data  = stand # Prediction etc is performed on STANDARDIZED returns
 dm    = dim(data)[2] 
 start = 1
 
 nn.all       = length(date)
-end.date = which(zoo::as.yearmon(date)=='Jan 2021')[1]-1
+end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
+if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
 date[end.date]
 
 nn    = end.date
@@ -60,7 +61,7 @@ sum(log(lL_static))
 sum(log(lL_rmf))
 
 ##------
-## scalar dcc Gaussian Copula
+## vector dcc Gaussian Copula
 ##------
 
 load('temp/results_scalar_dcc_EX.Rdata')
@@ -89,38 +90,10 @@ sum(log(lL_static))
 sum(log(lL_rmf))
 sum(apply(log(lL_dcc),2,mean))
 
-##------
-## Rme
-##------
 
-load('temp/results_RMe_EX.Rdata')
-M   = length(res$resRMe)
-ind = round(seq(1,M,length=post.sample)) #thin every xth
-
-Q       = array(NA,c(dm, dm, nn+K))
-R       = array(NA,c(dm, dm, nn+K))
-Q[,,1] <- cor(data[start:nn,])
-R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
-lam = res$resRMe[ind]
-Vpred  <- list()
-lL_rme = matrix(NA,ncol=K,nrow=post.sample)
-
-for(m in 1:post.sample){
-  for(t in 2:(nn+K)){
-    Q[,,t]   <- (1-lam[m])*(data[t-1,]%*%t(data[t-1,]))+lam[m]*Q[,,(t-1)]
-    R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
-    if(t>nn){
-      lL_rme[m,(t-nn)] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=F)
-    }
-  }}
-
-sum(log(lL_static))
-sum(log(lL_rmf))
-sum(apply(log(lL_dcc),2,mean))
-sum(apply(log(lL_rme),2,mean))
 
 ##-----------------------
-## scalar dcc t Copula
+## vector dcc t Copula
 ##-----------------------
 
 load('temp/results_scalar_dcc_t_EX.Rdata')

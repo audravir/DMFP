@@ -57,6 +57,7 @@ B1     = Outer(b1,b1)
 B2     = Outer(b2,b2)
 B0     = (Oiota-B1-B2)*Sbar
 llo    = lln = rep(0,TT)
+LLH    = rep(NA,M)
 accB   = accnu = accl = rep(0,bi+M)
 V      = Vn = list()
 G1     = G2 = G2n = c(list(matrix(0,nrow=dm,ncol=dm)),Sig[-TT])
@@ -108,10 +109,10 @@ for(m in 1:(bi+M)){
   ## bs
   ##-----
   # 10% of the time sample from large variance to 
-  fac = sample(c(1,10),1,prob = c(0.9,0.1))
+  fac = sample(c(1,sqrt(10)),size=2,replace=TRUE,prob = c(0.9,0.1))
   
   repeat{
-    bn  = rnorm(dm*2,c(b1,b2),sd=propsdb*fac)
+    bn  = rnorm(dm*2,c(b1,b2),sd=propsdb*fac[1])
     b1n = bn[1:dm]
     b2n = bn[(dm+1):(2*dm)]
     B1  = Outer(b1n,b1n)
@@ -143,7 +144,7 @@ for(m in 1:(bi+M)){
   ## nu
   ##-----
   repeat{
-    nun = rnorm(1,nu,sd=propsdnu*fac)
+    nun = rnorm(1,nu,sd=propsdnu*fac[2])
     if(nun>(dm+1)) break
   }
   
@@ -162,6 +163,7 @@ for(m in 1:(bi+M)){
     ## Collect results
     ##-----
     resc[m-bi,] = c(lag,nu,b1,b2)
+    LLH[m-bi]   = sum(llo)
     
     ##-----
     ## Prediction
@@ -192,7 +194,7 @@ plot(resc[(bi+1):(bi+M),2],type='l')
 res = list(Vpred,resc,
            accl[(bi+1):(bi+M)],
            accnu[(bi+1):(bi+M)],
-           accB[(bi+1):(bi+M)])
-names(res) = c('Vpred','resc','accl','accnu','accB')
+           accB[(bi+1):(bi+M)],LLH)
+names(res) = c('Vpred','resc','accl','accnu','accB','LLH')
 save(res,file='empirical/temp/results_xm.Rdata')
 

@@ -1,10 +1,15 @@
 rm(list=ls(all=TRUE))
-library(matrixcalc)
 load('data/FXdata.Rdata')
 
+library(Rfast)
+library(mvnfast)
+library(profvis)
+
+# profvis({
 nn       = length(date)
-#end.date = which(zoo::as.yearmon(date)=="jan 2015")[1]-1
-end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
+end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
+if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
+
 date[end.date]
 
 T0  = end.date  #
@@ -17,82 +22,135 @@ nn
 # the same
 
 data = stand[1:T0,]
-M=5000
+M    = 10000
 
-# vectordcc = function(data,M){
-  t0   = Sys.time()
-  TT   = dim(data)[1]
-  dm   = dim(data)[2]
-  bi   = M
-  Qold = array(NA,c(dm, dm, TT))
-  R       = array(NA,c(dm, dm, TT))
-  Qold[,,1] = cor(data)
-  R[,,1] <- diag(diag(Qold[,,1])^{-1/2})%*%Qold[,,1]%*%diag(diag(Qold[,,1])^{-1/2})
-  Sbar = cov(data)
-  
-  aold   <- rep(0.1,dm)
-  bold   <- rep(0.95,dm)
-  llold  <- rep(0,TT)
-  resdcc <- matrix(NA,ncol=dm*2,nrow=(bi+M))
-  iota   = rep(1,dm)
-  B0     = (iota%*%t(iota)-aold%*%t(aold)-bold%*%t(bold))*Sbar
 
-  accdcc <- rep(0,bi+M)
-  Vpred  = Qpred = list()
+
+# 0.0005 gave accp 0.001
+propsd = 0.00005
+
+
+
+
+
+
+t0   = Sys.time()
+TT   = dim(data)[1]
+dm   = dim(data)[2]
+bi   = min(M,10^4)
+
+
+
+Qold = array(NA,c(dm, dm, TT))
+aold <- rep(0.1,dm)
+bold <- rep(0.95,dm)
+llold  <- rep(0,TT)
+
+
+LLH <- rep(NA,M)
+Qold[,,1] = cor(data)
+
+resdcc <- matrix(NA,ncol=dm*2,nrow=M)
+iota   = rep(1,dm)
+Oiota  = Outer(iota,iota)
+Sbar   = cov(data)
+A      = Outer(aold,aold)
+B      = Outer(bold,bold)
+B0     = (Oiota-A-B)*Sbar  
+
+accdcc <- rep(0,bi+M)
+
+Vpred  = Qpred = vector(mode='list',length = M)
   
-  for(t in 2:TT){
-    Qold[,,t]   <- B0+(aold%*%t(aold))*(data[t-1,]%*%t(data[t-1,]))+(bold%*%t(bold))*Qold[,,(t-1)]
-    R[,,t]   <- diag(diag(Qold[,,t])^{-1/2})%*%Qold[,,t]%*%diag(diag(Qold[,,t])^{-1/2})
-    llold[t] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=T)
+for(t in 2:TT){
+  Qold[,,t] <- B0+A*Outer(data[t-1,],data[t-1,])+B*Qold[,,(t-1)]
+  t.ma  = Qold[,,t]
+  t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
+  t.R   = Outer(t.dv,t.dv)*t.ma
+  llold[t] <- mvnfast::dmvn(data[t,], rep(0,dm), t.R, log=TRUE)
+}
+  
+
+for(m in 1:(M+bi)){
+  
+  t1 <- Sys.time()  
+  ##-----
+  ## bs
+  ##-----
+  # 10% of the time sample from large variance 
+  fac = sample(c(1,sqrt(10)),1,prob = c(0.9,0.1))
+  
+  repeat{
+    bn   = rnorm(dm*2,c(aold,bold),sd=propsd*fac)
+    anew = bn[1:dm]
+    bnew = bn[(dm+1):(2*dm)]
+    A    = Outer(anew,anew)
+    B    = Outer(bnew,bnew)
+    B0   = (Oiota-A-B)*Sbar
+    if(anew[1]>0 && bnew[1]>0 && (prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 ) && (sum(abs(A+B)<1)==dm^2)) break
   }
   
-  for(m in 1:(M+bi)){
-    
-    
-    ##-----
-    ## bs
-    ##-----
-    repeat{
-      bn  = rnorm(dm*2,c(aold,bold),sd=0.0005)
-      anew = bn[1:dm]
-      bnew = bn[(dm+1):(2*dm)]
-      B0  = (iota%*%t(iota)-anew%*%t(anew)-bnew%*%t(bnew))*Sbar
-      if(anew[1]>0 && bnew[1]>0 && is.positive.definite(B0) && (sum(abs(anew%*%t(anew)+bnew%*%t(bnew))<1)==dm^2)) break
+  llnew <- rep(0,TT)
+  Qnew  = Qold
+  
+  for(t in 2:TT){
+    Qnew[,,t] <- B0+A*Outer(data[t-1,],data[t-1,])+B*Qnew[,,(t-1)]
+    t.ma  = Qnew[,,t]
+    t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
+    t.R   = Outer(t.dv,t.dv)*t.ma
+    llnew[t]  <- mvnfast::dmvn(data[t,], rep(0,dm), t.R, log=TRUE)
+  }
+  
+  if((sum(llnew)-sum(llold)+
+      sum(dnorm(anew,0,sqrt(10),log=T))-sum(dnorm(aold,0,sqrt(10),log=T))+
+      sum(dnorm(bnew,0,sqrt(10),log=T))-sum(dnorm(bold,0,sqrt(10),log=T)))>log(runif(1)))
+  {
+    llold  = llnew
+    aold   = anew
+    bold   = bnew
+    Qold   = Qnew
+    accdcc[m] = 1
+  }
+  
+  A     = Outer(aold,aold)
+  B     = Outer(bold,bold)
+  B0    = (Oiota-A-B)*Sbar
+  
+  if(m>bi){
+    resdcc[m-bi,] <- c(aold,bold) 
+    LLH[m-bi]     <- sum(llold)
+    Qpred[[m-bi]] <- B0+A*Outer(data[TT,],data[TT,])+B*Qold[,,TT]
+    Vpred[[m-bi]] <- diag(diag(Qpred[[m-bi]])^{-1/2})%*%Qpred[[m-bi]]%*%diag(diag(Qpred[[m-bi]])^{-1/2})
+  }
+  
+  
+  if(!m%%100){
+    print(paste(round(m/(M+bi)*100),"%",sep=""))
+    print(Sys.time()-t1)
+    print(Sys.time()-t0)
     }
-    
-    llnew <- rep(0,TT)
-    Qnew  = Qold
-    
-    for(t in 2:TT){
-      Qnew[,,t]   <- B0+(anew%*%t(anew))*(data[t-1,]%*%t(data[t-1,]))+(bnew%*%t(bnew))*Qnew[,,(t-1)]
-      R[,,t]   <- diag(diag(Qnew[,,t])^{-1/2})%*%Qnew[,,t]%*%diag(diag(Qnew[,,t])^{-1/2})
-      llnew[t] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=T)
-    }
-    
-    if((sum(llnew)-sum(llold)+
-        sum(dnorm(anew,0,sqrt(10),log=T))-sum(dnorm(aold,0,sqrt(10),log=T))+
-        sum(dnorm(bnew,0,sqrt(10),log=T))-sum(dnorm(bold,0,sqrt(10),log=T)))>log(runif(1)))
-    {
-      llold  = llnew
-      aold   = anew
-      bold   = bnew
-      Qold   = Qnew
-      accdcc[m] = 1
-    }
-    
-    B0  = (iota%*%t(iota)-aold%*%t(aold)-bold%*%t(bold))*Sbar
-    resdcc[m,] <- c(aold,bold) 
-    Qpred[[m]] <- B0+aold*(data[TT,]%*%t(data[TT,]))+bold*Qold[,,TT]
-    Vpred[[m]] <- diag(diag(Qpred[[m]])^{-1/2})%*%Qpred[[m]]%*%diag(diag(Qpred[[m]])^{-1/2})
-    
-    if(!m%%100){
-      print(paste(round(m/(M+bi)*100),"%",sep=""))
-      print(Sys.time()-t0)}
-  }  
-  res = list(Vpred[(bi+1):(bi+M)],Qpred[(bi+1):(bi+M)],resdcc[(bi+1):(bi+M),],accdcc[(bi+1):(bi+M)])
-  names(res) = c('Vpred','Qpred','resdcc','accdcc')
-  save(res,file=paste('empirical/temp/results_vectordcc.Rdata',sep=''))
-# }
+}  
+# })
+
+
+mean(accdcc[(bi+1):(bi+M)])
+
+par(mfrow=c(1,1))
+plot(LLH,type='l')
+
+b1=resdcc[,1:(dm)]
+b2=resdcc[,(dm+1):(dm*2)]
+
+par(mfrow=c(3,5)) 
+for(i in 1:dm) {plot(b1[,i],type='l')}
+
+par(mfrow=c(3,5)) 
+for(i in 1:dm) {plot(b2[,i],type='l')}
+
+res = list(Vpred,Qpred,resdcc,accdcc[(bi+1):(bi+M)],LLH)
+names(res) = c('Vpred','Qpred','resdcc','accdcc','LLH')
+save(res,file=paste('empirical/temp/results_vectordcc.Rdata',sep=''))
+
 
 
   
