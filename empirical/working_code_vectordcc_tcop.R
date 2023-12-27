@@ -47,7 +47,7 @@ bold   <- rep(0.99,dm)
 nuold  <- 20
 tdata  <- qt(udata,nuold)
 llold  <- rep(0,TT)
-
+LLH    <- rep(NA,M)
 Qold[,,1] = cor(tdata)
 
 resdcc <- matrix(NA,ncol=dm*2+1,nrow=M)
@@ -77,18 +77,21 @@ for(m in 1:(M+bi)){
   ##-----
   ## bs
   ##-----
+  # 10% of the time sample from large variance 
+  fac = sample(c(1,sqrt(10)),size=2,replace=TRUE,prob = c(0.9,0.1))
+  
   repeat{
-    bn  = rnorm(dm*2,c(aold,bold),sd=propsd)
+    bn   = rnorm(dm*2,c(aold,bold),sd=propsd*fac[1])
     anew = bn[1:dm]
     bnew = bn[(dm+1):(2*dm)]
-    B0  = (Oiota-Outer(anew,anew)-Outer(bnew,bnew))*Sbar
-    if(anew[1]>0 && bnew[1]>0 && (prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 ) && (sum(abs(Outer(anew,anew)+Outer(bnew,bnew))<1)==dm^2)) break
+    A    = Outer(anew,anew)
+    B    = Outer(bnew,bnew)
+    B0   = (Oiota-A-B)*Sbar
+    if(anew[1]>0 && bnew[1]>0 && (prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 ) && (sum(abs(A+B)<1)==dm^2)) break
   }
   
   llnew <- rep(0,TT)
   Qnew  = Qold
-  A     = Outer(anew,anew)
-  B     = Outer(bnew,bnew)
   
   for(t in 2:TT){
     Qnew[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Qnew[,,(t-1)]
@@ -115,7 +118,7 @@ for(m in 1:(M+bi)){
   ## nu
   ##-----
   repeat{
-    nunew = rnorm(1,nuold,propsdnu)
+    nunew = rnorm(1,nuold,propsdnu*fac[2])
     if(nunew>dm) break
   }
   
@@ -157,6 +160,7 @@ for(m in 1:(M+bi)){
   
   if(m>bi){
     resdcc[m-bi,] <- c(nuold,aold,bold) 
+    LLH[m-bi]     <- sum(llold)
     Qpred[[m-bi]] <- B0+A*Outer(tdata[TT,],tdata[TT,])+B*Qold[,,TT]
     Vpred[[m-bi]] <- diag(diag(Qpred[[m-bi]])^{-1/2})%*%Qpred[[m-bi]]%*%diag(diag(Qpred[[m-bi]])^{-1/2})
   }

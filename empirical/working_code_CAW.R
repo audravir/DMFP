@@ -8,7 +8,7 @@ library(profvis)
 library(future.apply)
 plan(multisession, workers = 4)
 
-# profvis({
+profvis({
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
 if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
@@ -33,7 +33,8 @@ M = 5000
 # 0.0001 0.04
 # 0.00005 0.4504
 # 0.0001 0.22292
-propsdb = 0.0003 
+# 0.0003 gives 0.0598 and 0.0634
+propsdb = 0.0001 
 
 # 0.001 gave accp of 0.5126
 # 0.001 0.0572
@@ -48,10 +49,11 @@ dm     = dim(Sig[[1]])[1]
 TT     = length(Sig)
 bi     = min(M,10^4)
 resc   = matrix(NA,nrow=M,ncol=dm*2+1)
+LLH    = rep(NA,M)
 Vpred  = vector(mode = "list", length = M)
-nu     = 17
-b1     = rep(0.5,dm)
-b2     = rep(0.5,dm)
+nu     = 15
+b1     = rep(0.85,dm)
+b2     = rep(0.45,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
@@ -84,12 +86,12 @@ for(m in 1:(bi+M)){
   block1 <- sample(c(TRUE,FALSE),size=dm*2,replace = TRUE)
   block2 <- (!block1)
   
-  # 10% of the time sample from large variance to 
-  fac = sample(c(1,10),1,prob = c(0.9,0.1))
+  # 10% of the time sample from large variance 
+  fac = sample(c(1,sqrt(10)),size=3,replace=TRUE,prob = c(0.9,0.1))
   
   # block 1
   repeat{
-    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac)
+    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac[1])
     bn     = b.prop*block1+c(b1,b2)*block2
     
     b1n = bn[1:dm]
@@ -118,7 +120,7 @@ for(m in 1:(bi+M)){
  
   # block 2
   repeat{
-    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac)
+    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac[2])
     bn     = b.prop*block2+c(b1,b2)*block1
     
     b1n = bn[1:dm]
@@ -149,28 +151,29 @@ for(m in 1:(bi+M)){
   B0 = (Oiota-B1-B2)*Sbar
   
   ##-----
-  ## nu
+  ## nu FIX nu=15
   ##-----
-  repeat{
-    nun = rnorm(1,nu,sd=propsdnu*fac)
-    if(nun>(dm)) break
-  }
-    
-  dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nun, y/nun, log=TRUE)}
-  lln <- future_mapply(dwish.t,Sig,V)
-
-  if((sum(lln)-sum(llo)+
-      dexp(nun,1/10,log=TRUE)-dexp(nu,1/10,log=TRUE))>log(runif(1))){
-    llo   = lln
-    accnu[m] = 1
-    nu    = nun
-  }
-    
+  # repeat{
+  #   nun = rnorm(1,nu,sd=propsdnu*fac[3])
+  #   if(nun>(dm)) break
+  # }
+  #   
+  # dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nun, y/nun, log=TRUE)}
+  # lln <- future_mapply(dwish.t,Sig,V)
+  # 
+  # if((sum(lln)-sum(llo)+
+  #     dexp(nun,1/10,log=TRUE)-dexp(nu,1/10,log=TRUE))>log(runif(1))){
+  #   llo   = lln
+  #   accnu[m] = 1
+  #   nu    = nun
+  # }
+  #   
   if(m>bi){
     ##-----
     ## Collect results
     ##-----
     resc[m-bi,] = c(nu,b1,b2)
+    LLH[m-bi]   = sum(llo)
     
     ##-----
     ## Prediction
@@ -186,7 +189,7 @@ for(m in 1:(bi+M)){
   }
 }
  
-# })
+})
 
 mean(accnu[(bi+1):(bi+M)])  
 mean(accB1[(bi+1):(bi+M)])
@@ -195,8 +198,9 @@ mean(accB2[(bi+1):(bi+M)])
 
 
 nu=resc[,1]
-par(mfrow=c(1,1))
+par(mfrow=c(2,1))
 plot(nu,type='l')
+plot(LLH,type='l')
 
 b1=resc[,2:(dm+1)]
 b2=resc[,(dm+2):(dm*2+1)]
@@ -209,8 +213,8 @@ for(i in 1:dm) {plot(b2[,i],type='l')}
 
 
 
-res = list(Vpred,resc,accnu[(bi+1):(bi+M)],accB1[(bi+1):(bi+M)],accB2[(bi+1):(bi+M)])
-  names(res) = c('Vpred','resc','accnu','accB1','accB1')
+res = list(Vpred,resc,accnu[(bi+1):(bi+M)],accB1[(bi+1):(bi+M)],accB2[(bi+1):(bi+M)],LLH)
+  names(res) = c('Vpred','resc','accnu','accB1','accB1','LLH')
   save(res,file='empirical/temp/results_caw.Rdata')
 
 
