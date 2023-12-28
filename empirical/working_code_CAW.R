@@ -8,7 +8,7 @@ library(profvis)
 library(future.apply)
 plan(multisession, workers = 4)
 
-profvis({
+# profvis({
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
 if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
@@ -52,8 +52,8 @@ resc   = matrix(NA,nrow=M,ncol=dm*2+1)
 LLH    = rep(NA,M)
 Vpred  = vector(mode = "list", length = M)
 nu     = 15
-b1     = rep(0.85,dm)
-b2     = rep(0.45,dm)
+b1     = rep(0.9,dm)
+b2     = rep(0.4,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
@@ -189,7 +189,7 @@ for(m in 1:(bi+M)){
   }
 }
  
-})
+# })
 
 mean(accnu[(bi+1):(bi+M)])  
 mean(accB1[(bi+1):(bi+M)])
@@ -211,6 +211,9 @@ for(i in 1:dm) {plot(b1[,i],type='l')}
 par(mfrow=c(3,5)) 
 for(i in 1:dm) {plot(b2[,i],type='l')}
 
+library(corrplot)
+par(mfrow=c(1,1))
+corrplot(cor(resc[,-1])) 
 
 
 res = list(Vpred,resc,accnu[(bi+1):(bi+M)],accB1[(bi+1):(bi+M)],accB2[(bi+1):(bi+M)],LLH)
