@@ -22,14 +22,13 @@ nn
 # the same
 
 data = stand[1:T0,]
-M    = 10000
+M    = 20000
 
 
 
 # 0.0005 gave accp 0.001
-propsd = 0.00005
-
-
+# 0.00005 gave 0.4684
+propsd = 0.0001
 
 
 
