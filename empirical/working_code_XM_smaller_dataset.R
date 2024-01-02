@@ -7,7 +7,7 @@ library(Rfast)
 library(profvis)
 library(future.apply)
 parallel::detectCores()
-plan(multisession, workers = 8)
+plan(multisession, workers = 4)
 
 # profvis({
 
@@ -25,19 +25,22 @@ K # for oos evaluation
 T0+K
 nn
 # the same
+# 1-5 are OK
+# 10-15 are not OK
+include = c(1:5)
 
 new_list <- lapply(Sigma, function(matrix) {
-  matrix[1:5, 1:5]
+  matrix[include, include]
 })
 
 data = new_list[1:T0]
 rm(Sigma)
 # function arguments
-M = 5000
+M = 1000
 
 # 0.001 gives accp 0.516
-propsdb  = 0.00005
-propsdnu = 0.0001
+propsdb  = 0.0005
+propsdnu = 0.001
 
 load('empirical/temp/cm_xm.Rdata')
 CMchol = chol(CM)
@@ -53,10 +56,10 @@ TT     = length(Sig)
 bi     = M
 resc   = matrix(NA,nrow=M,ncol=dm*2+2)
 Vpred  = vector(mode = "list", length = M)
-nu     = 17
-lag    = 10
-b1     = rep(0.27,dm)
-b2     = rep(0.96,dm)
+nu     = 100
+lag    = 30
+b1     = rep(0.5,dm)
+b2     = rep(0.7,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
@@ -87,7 +90,7 @@ for(m in 1:(bi+M)){
   ##-----
   repeat{
     pos  = rbinom(1,1,0.5)
-    lagnew = lag+sample(c(1,2,3,4),1,prob = c(6/12,3/12,2/12,1/12))*((-1)^(1-pos))
+    lagnew = lag+sample(c(1,2,3),1,prob = c(8/12,3/12,1/12))*((-1)^(1-pos))
     if(lagnew>1) break
   }
 
@@ -100,19 +103,19 @@ for(m in 1:(bi+M)){
   diwish.t <-  function(x,y){LaplacesDemon::dinvwishart(x, nu, (nu-dm-1)*y, log=TRUE)}
   lln      <- future_mapply(diwish.t,Sig,V)
 
-  if(m%%(rbinom(1,200,0.5))!=0){
+  # if(m%%(rbinom(1,200,0.5))!=0){
     if((sum(lln)-sum(llo))>log(runif(1))){
       llo     = lln
       lag     = lagnew
       G2      = G2n
       accl[m] = 1
     }
-  } else {
-    llo     = lln
-    lag     = lagnew
-    G2      = G2n
-    accl[m] = 1
-  }
+  # } else {
+  #   llo     = lln
+  #   lag     = lagnew
+  #   G2      = G2n
+  #   accl[m] = 1
+  # }
   
   ##-----
   ## bs split randomly
@@ -161,6 +164,7 @@ for(m in 1:(bi+M)){
     llo  = lln
     V    = Vn
   }
+  fac1 = 1
   
   # block 2
   counter = 0
@@ -203,6 +207,7 @@ for(m in 1:(bi+M)){
     llo  = lln
     V    = Vn
   }
+  fac2 = 1
   
   B1  = Outer(b1n,b1n)
   B2  = Outer(b2n,b2n)
@@ -244,17 +249,7 @@ for(m in 1:(bi+M)){
     print(paste(round(m/(M+bi)*100,2),"%",sep=""))
     print(Sys.time()-t1)
     print(Sys.time()-t0)
-    
-    if (mean(accB1[1:m])>0.4){
-      fac1 = fac1*2
-      print('accp1>0.4')
-    }
-    
-    if (mean(accB2[1:m])>0.4){
-      fac2 = fac2*2
-      print('accp2>0.4')
-    }
-    
+    print(c(mean(accB1[1:m]),mean(accB2[1:m])))
   }
   TIMING[m] = Sys.time()-t1
 }
