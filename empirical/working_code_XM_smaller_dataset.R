@@ -39,8 +39,8 @@ rm(Sigma)
 M = 1000
 
 # 0.001 gives accp 0.516
-propsdb  = 0.0005
-propsdnu = 0.001
+propsdb  = 0.005
+propsdnu = 0.01
 
 load('empirical/temp/cm_xm.Rdata')
 CMchol = chol(CM)
@@ -90,7 +90,7 @@ for(m in 1:(bi+M)){
   ##-----
   repeat{
     pos  = rbinom(1,1,0.5)
-    lagnew = lag+sample(c(1,2,3),1,prob = c(8/12,3/12,1/12))*((-1)^(1-pos))
+    lagnew = lag+(-1)^(pos)
     if(lagnew>1) break
   }
   
