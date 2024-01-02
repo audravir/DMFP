@@ -7,7 +7,7 @@ library(Rfast)
 library(profvis)
 library(future.apply)
 parallel::detectCores()
-plan(multisession, workers = 4)
+plan(multisession, workers = 8)
 
 # profvis({
 
