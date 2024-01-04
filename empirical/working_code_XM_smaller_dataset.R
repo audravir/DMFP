@@ -7,7 +7,7 @@ library(Rfast)
 library(profvis)
 library(future.apply)
 parallel::detectCores()
-plan(multisession, workers = 8)
+plan(multisession, workers = 4)
 
 # profvis({
 
@@ -26,8 +26,21 @@ T0+K
 nn
 # the same
 # 1-5 are OK
+# 6-10 are not OK
 # 10-15 are not OK
-include = c(1:5)
+# 6 seems ok
+# 7 not ok-----
+# 8 ok
+# 9 ok
+# 10 not ok-----
+# 11 not ok-----
+# 12 not ok-----
+# 13?
+# 14?
+# 15?
+
+
+include = c(1:5,13)
 
 new_list <- lapply(Sigma, function(matrix) {
   matrix[include, include]
@@ -56,7 +69,7 @@ TT     = length(Sig)
 bi     = M
 resc   = matrix(NA,nrow=M,ncol=dm*2+2)
 Vpred  = vector(mode = "list", length = M)
-nu     = 100
+nu     = 50
 lag    = 30
 b1     = rep(0.5,dm)
 b2     = rep(0.7,dm)

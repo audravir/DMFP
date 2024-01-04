@@ -24,21 +24,28 @@ T0+K
 nn
 # the same
 
-data = Sigma[1:T0]
+include = c(1:5)
+
+new_list <- lapply(Sigma, function(matrix) {
+  matrix[include, include]
+})
+
+data = new_list[1:T0]
+rm(Sigma)
 
 # function arguments
-M = 5000
+M = 1000
 
 # 0.001 give accp of 0.004
 # 0.0001 0.04
 # 0.00005 0.4504
 # 0.0001 0.22292
 # 0.0003 gives 0.0598 and 0.0634
-propsdb = 0.0001 
+propsdb = 0.001 
 
 # 0.001 gave accp of 0.5126
 # 0.001 0.0572
-propsdnu = 0.0005
+propsdnu = 0.005
 
 
 t0   = Sys.time()
@@ -150,24 +157,24 @@ for(m in 1:(bi+M)){
   B2 = Outer(b2,b2)
   B0 = (Oiota-B1-B2)*Sbar
   
-  ##-----
-  ## nu FIX nu=15
-  ##-----
-  # repeat{
-  #   nun = rnorm(1,nu,sd=propsdnu*fac[3])
-  #   if(nun>(dm)) break
-  # }
-  #   
-  # dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nun, y/nun, log=TRUE)}
-  # lln <- future_mapply(dwish.t,Sig,V)
-  # 
-  # if((sum(lln)-sum(llo)+
-  #     dexp(nun,1/10,log=TRUE)-dexp(nu,1/10,log=TRUE))>log(runif(1))){
-  #   llo   = lln
-  #   accnu[m] = 1
-  #   nu    = nun
-  # }
-  #   
+  #-----
+  # nu
+  #-----
+  repeat{
+    nun = rnorm(1,nu,sd=propsdnu*fac[3])
+    if(nun>(dm)) break
+  }
+
+  dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nun, y/nun, log=TRUE)}
+  lln <- future_mapply(dwish.t,Sig,V)
+
+  if((sum(lln)-sum(llo)+
+      dexp(nun,1/10,log=TRUE)-dexp(nu,1/10,log=TRUE))>log(runif(1))){
+    llo   = lln
+    accnu[m] = 1
+    nu    = nun
+  }
+
   if(m>bi){
     ##-----
     ## Collect results
@@ -186,6 +193,7 @@ for(m in 1:(bi+M)){
     print(paste(round(m/(M+bi)*100,2),"%",sep=""))
     print(Sys.time()-t1)
     print(Sys.time()-t0)
+    print(round(c(mean(accnu),mean(accB1),mean(accB2)),2))
   }
 }
  
