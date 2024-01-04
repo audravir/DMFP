@@ -40,7 +40,7 @@ nn
 # 15?
 
 
-include = c(1:5,13)
+include = c(10:15)
 
 new_list <- lapply(Sigma, function(matrix) {
   matrix[include, include]
@@ -49,7 +49,7 @@ new_list <- lapply(Sigma, function(matrix) {
 data = new_list[1:T0]
 rm(Sigma)
 # function arguments
-M = 1000
+M = 5000
 
 # 0.001 gives accp 0.516
 propsdb  = 0.005
@@ -60,6 +60,7 @@ CMchol = chol(CM)
 
 TIMING = rep(NA,M)
 t0   = Sys.time()
+t1   = Sys.time()
 
 diwish = function(Sig,nu,S){dinvwishart(Sig, nu, S, log=TRUE)}
 
@@ -95,8 +96,9 @@ diwish.t = function(x,y){LaplacesDemon::dinvwishart(x, nu, (nu-dm-1)*y, log=TRUE
 llo <- future_mapply(diwish.t,Sig,V)
 fac1 = fac2 = 1
 
+
 for(m in 1:(bi+M)){
-  t1=Sys.time()
+  t2   = Sys.time()
   
   ##-----
   ## l
@@ -263,8 +265,9 @@ for(m in 1:(bi+M)){
     print(Sys.time()-t1)
     print(Sys.time()-t0)
     print(c(mean(accB1[1:m]),mean(accB2[1:m])))
+    t1   = Sys.time()
   }
-  TIMING[m] = Sys.time()-t1
+  TIMING[m] = Sys.time()-t2
 }
 # })
 
