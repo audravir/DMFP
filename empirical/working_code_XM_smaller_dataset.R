@@ -24,23 +24,8 @@ K # for oos evaluation
 
 T0+K
 nn
-# the same
-# 1-5 are OK
-# 6-10 are not OK
-# 10-15 are not OK
-# 6 seems ok
-# 7 not ok-----
-# 8 ok
-# 9 ok
-# 10 not ok-----
-# 11 not ok-----
-# 12 not ok-----
-# 13?
-# 14?
-# 15?
 
-
-include = c(10:15)
+include = c(1:10)
 
 new_list <- lapply(Sigma, function(matrix) {
   matrix[include, include]
@@ -49,14 +34,12 @@ new_list <- lapply(Sigma, function(matrix) {
 data = new_list[1:T0]
 rm(Sigma)
 # function arguments
-M = 5000
+M = 500
 
 # 0.001 gives accp 0.516
 propsdb  = 0.005
-propsdnu = 0.01
+propsdnu = 0.1
 
-load('empirical/temp/cm_xm.Rdata')
-CMchol = chol(CM)
 
 TIMING = rep(NA,M)
 t0   = Sys.time()
@@ -115,7 +98,7 @@ for(m in 1:(bi+M)){
     # lln[t]   = diwish(Sig[[t]],nu,(nu-dm-1)*V[[t]])
   }
   
-  diwish.t <-  function(x,y){LaplacesDemon::dinvwishart(x, nu, (nu-dm-1)*y, log=TRUE)}
+  diwish.t <- function(x,y){LaplacesDemon::dinvwishart(x, nu, (nu-dm-1)*y, log=TRUE)}
   lln      <- future_mapply(diwish.t,Sig,V)
   
   # if(m%%(rbinom(1,200,0.5))!=0){
