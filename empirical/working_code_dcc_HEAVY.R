@@ -199,12 +199,9 @@ for(i in 1:dm) {plot(b2[,i],type='l',ylim=c(0,1))}
 
 
 
+res = list(restdcch,accnu[(bi+1):(bi+M)],accdcc[(bi+1):(bi+M)],Rpred)
+names(res) = c('restdcch','accnu','accdcc','Rpred')
 
-# 
-# 
-# res = list(restdcch,accnu[(bi+1):(bi+M)],accdcc[(bi+1):(bi+M)],Rpred)
-# names(res) = c('restdcch','accnu','accdcc','Rpred')
-# 
-# save(res,file='temp/results_heavy.Rdata')
+save(res,file='empirical/temp/results_heavy.Rdata')
 
 
