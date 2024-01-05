@@ -2,13 +2,16 @@ rm(list=ls(all=TRUE))
 load('data/FXdata.Rdata')
 # library(xtable)
 # library(truncnorm)
+library(Rfast)
+library(profvis)
+
 
 data  = stand # Prediction etc is performed on STANDARDIZED returns
 dm    = dim(data)[2] 
 start = 1
 
 nn.all       = length(date)
-end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
+end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
 if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
 date[end.date]
 
@@ -30,16 +33,16 @@ lL_static = matrix(NA,ncol=K,nrow=1)
 for(t in (nn+1):(nn+K)){
   stdf = 10+(t-1)-dm+1
   scm  = ((10-dm-1)*diag(dm)+t(data[start:(t-1),])%*%data[start:(t-1),])/stdf 
-  lL_static[(t-nn)] <- mvtnorm::dmvt(data[t,],delta=rep(0,dm),scm,df = stdf,log=FALSE)
+  lL_static[(t-nn)] <- mvtnorm::dmvt(data[t,],delta=rep(0,dm),scm,df = stdf,log=TRUE)
 }
 
-sum(log(lL_static)) #the LPS for K=242
+sum(lL_static) #the LPS for K=956 
 
 
 ##------
 ## Rmf
 #  Riskmetrics fixed
-#  no estimation here, all is empirical
+#  no estimation here
 ##------
 
 Q       = array(NA,c(dm, dm, nn+K))
@@ -54,17 +57,18 @@ for(t in 2:(nn+K)){
   Q[,,t]   <- (1-lamRMf)*(data[t-1,]%*%t(data[t-1,]))+lamRMf*Q[,,(t-1)]
   R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
   if(t>nn){
-    lL_rmf[(t-nn)] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=F)
-  }}
+    lL_rmf[(t-nn)] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=TRUE)
+  }
+}
 
-sum(log(lL_static))
-sum(log(lL_rmf))
+sum(lL_static)
+sum(lL_rmf)
 
 ##------
 ## vector dcc Gaussian Copula
 ##------
 
-load('temp/results_scalar_dcc_EX.Rdata')
+load('empirical/temp/results_vectordcc.Rdata')
 M   = dim(res$resdcc)[1] # size of MCMC
 ind = round(seq(1,M,length=post.sample)) #thin every xth
 
@@ -72,23 +76,44 @@ Q       = array(NA,c(dm, dm, nn+K))
 R       = array(NA,c(dm, dm, nn+K))
 Q[,,1] <- cor(data[start:nn,])
 R[,,1] <- diag(diag(Q[,,1])^{-1/2})%*%Q[,,1]%*%diag(diag(Q[,,1])^{-1/2})
-a      <- res$resdcc[ind,1]
-b      <- res$resdcc[ind,2]
+a      <- res$resdcc[ind,1:dm]
+b      <- res$resdcc[ind,(dm+1):(dm*2)]
+iota   = rep(1,dm)
+Oiota  = Outer(iota,iota)
+Sbar   = cov(data[start:nn,])
+
 Vpred  <- list()
 lL_dcc = matrix(NA,ncol=K,nrow=post.sample)
 
 for(m in 1:post.sample){
-  for(t in 2:(nn+K)){
-    Q[,,t]   <- cov(data[start:nn,])*(1-a[m]-b[m])+a[m]*(data[t-1,]%*%t(data[t-1,]))+b[m]*Q[,,(t-1)]
-    R[,,t]   <- diag(diag(Q[,,t])^{-1/2})%*%Q[,,t]%*%diag(diag(Q[,,t])^{-1/2})
-    if(t>nn){
-      lL_dcc[m,(t-nn)] <- mvtnorm::dmvnorm(data[t,], rep(0,dm), R[,,t], log=F)
-    }
-  }}
+  A      = Outer(a[m,],a[m,])
+  B      = Outer(b[m,],b[m,])
 
-sum(log(lL_static))
-sum(log(lL_rmf))
-sum(apply(log(lL_dcc),2,mean))
+  for(t in 2:(nn+K)){
+    Q[,,t]   <- (Oiota-A-B)*Sbar+A*Outer(data[t-1,],data[t-1,])+B*Q[,,(t-1)]
+    t.ma  = Q[,,t]
+    t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
+    t.R   = Outer(t.dv,t.dv)*t.ma
+    if(t>nn){
+      lL_dcc[m,(t-nn)] <- mvnfast::dmvn(data[t,], rep(0,dm), t.R, log=TRUE)
+    }
+  }
+}
+
+
+
+dim(lL_dcc)
+
+zoomin = c(1:100)
+
+par(mfrow=c(1,1))
+plot(apply(lL_dcc,2,median)[zoomin],type='l')
+lines(lL_static[1,][zoomin],col=2)
+lines(lL_rmf[1,][zoomin],col=4)
+
+sum(lL_static)
+sum(lL_rmf)
+sum(apply(lL_dcc,2,median))
 
 
 
