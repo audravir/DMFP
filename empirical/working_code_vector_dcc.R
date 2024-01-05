@@ -22,7 +22,7 @@ nn
 # the same
 
 data = stand[1:T0,]
-M    = 20000
+M    = 5000
 
 
 

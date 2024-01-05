@@ -22,7 +22,7 @@ nn
 # the same
 
 data = stand[1:T0,]
-M=50000
+M=5000
 
 # 0.001 gave accp 0.002
 # 0.0001 gave accp 0.068
