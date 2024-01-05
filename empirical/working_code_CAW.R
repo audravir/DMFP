@@ -10,7 +10,7 @@ plan(multisession, workers = 4)
 
 # profvis({
 nn       = length(date)
-end.date = which(zoo::as.yearmon(date)=="ene 2021")[1]-1
+end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
 if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
 
 date[end.date]
@@ -24,31 +24,19 @@ T0+K
 nn
 # the same
 
-include = c(1:5)
-
-new_list <- lapply(Sigma, function(matrix) {
-  matrix[include, include]
-})
-
-data = new_list[1:T0]
+data = Sigma[1:T0]
 rm(Sigma)
 
 # function arguments
 M = 1000
 
-# 0.001 give accp of 0.004
-# 0.0001 0.04
-# 0.00005 0.4504
-# 0.0001 0.22292
-# 0.0003 gives 0.0598 and 0.0634
-propsdb = 0.001 
-
-# 0.001 gave accp of 0.5126
-# 0.001 0.0572
+propsdb  = 0.001 
 propsdnu = 0.005
 
 
+TIMING = rep(NA,M)
 t0   = Sys.time()
+t1   = Sys.time()
 # dwish  = function(Sig,nu,S){dwishart(Sig, nu, S/nu, log=TRUE)}
 # this density function is the same as in GOLOSNOY et al (2012), Eq (3)
 Sig    = data
@@ -84,7 +72,7 @@ dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
 llo <- future_mapply(dwish.t,Sig,V)
 
 for(m in 1:(bi+M)){
-  t1=Sys.time()
+  t2=Sys.time()
   
   ##-----
   ## bs split randomly
@@ -189,12 +177,16 @@ for(m in 1:(bi+M)){
   }
   
   
+  
   if(!m%%100){
     print(paste(round(m/(M+bi)*100,2),"%",sep=""))
     print(Sys.time()-t1)
     print(Sys.time()-t0)
     print(round(c(mean(accnu),mean(accB1),mean(accB2)),2))
+    t1   = Sys.time()
   }
+  TIMING[m] = Sys.time()-t2
+
 }
  
 # })

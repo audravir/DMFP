@@ -7,7 +7,7 @@ library(Rfast)
 library(profvis)
 library(future.apply)
 parallel::detectCores()
-plan(multisession, workers = 8)
+plan(multisession, workers = 6)
 
 # profvis({
 
@@ -24,22 +24,20 @@ K # for oos evaluation
 
 T0+K
 nn
-# the same
 
 data = Sigma[1:T0]
-
+rm(Sigma)
 # function arguments
-M = 20000
+M = 5000
 
 # 0.001 gives accp 0.516
-propsdb  = 0.0005
-propsdnu = 0.001
+propsdb  = 0.001
+propsdnu = 0.1
 
-load('empirical/temp/cm_xm.Rdata')
-CMchol = chol(CM)
 
 TIMING = rep(NA,M)
 t0   = Sys.time()
+t1   = Sys.time()
 
 diwish = function(Sig,nu,S){dinvwishart(Sig, nu, S, log=TRUE)}
 
@@ -49,10 +47,10 @@ TT     = length(Sig)
 bi     = M
 resc   = matrix(NA,nrow=M,ncol=dm*2+2)
 Vpred  = vector(mode = "list", length = M)
-nu     = 17
-lag    = 10
-b1     = rep(0.27,dm)
-b2     = rep(0.96,dm)
+nu     = 150
+lag    = 30
+b1     = rep(0.5,dm)
+b2     = rep(0.7,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
@@ -75,34 +73,35 @@ diwish.t = function(x,y){LaplacesDemon::dinvwishart(x, nu, (nu-dm-1)*y, log=TRUE
 llo <- future_mapply(diwish.t,Sig,V)
 fac1 = fac2 = 1
 
+
 for(m in 1:(bi+M)){
-  t1=Sys.time()
+  t2   = Sys.time()
   
-  # ##-----
-  # ## l
-  # ##-----
-  # repeat{
-  #   pos  = rbinom(1,1,0.5)
-  #   lagnew = lag+sample(c(1,2,3,4),1,prob = c(6/12,3/12,2/12,1/12))*((-1)^(1-pos))
-  #   if(lagnew>1) break
-  # }
-  # 
-  # for(t in 2:TT) G2n[[t]] = Reduce('+',Sig[max(1,t-lagnew):(t-1)])/min(c(t-1,lagnew))
-  # for(t in 1:TT){
-  #   V[[t]]   = (B0+B1*G1[[t]]+B2*G2n[[t]])
-  #   # lln[t]   = diwish(Sig[[t]],nu,(nu-dm-1)*V[[t]])
-  # }
-  # 
-  # diwish.t <-  function(x,y){LaplacesDemon::dinvwishart(x, nu, (nu-dm-1)*y, log=TRUE)}
-  # lln      <- future_mapply(diwish.t,Sig,V)
-  # 
+  ##-----
+  ## l
+  ##-----
+  repeat{
+    pos  = rbinom(1,1,0.5)
+    lagnew = lag+(-1)^(pos)
+    if(lagnew>1) break
+  }
+  
+  for(t in 2:TT) G2n[[t]] = Reduce('+',Sig[max(1,t-lagnew):(t-1)])/min(c(t-1,lagnew))
+  for(t in 1:TT){
+    V[[t]]   = (B0+B1*G1[[t]]+B2*G2n[[t]])
+    # lln[t]   = diwish(Sig[[t]],nu,(nu-dm-1)*V[[t]])
+  }
+  
+  diwish.t <- function(x,y){LaplacesDemon::dinvwishart(x, nu, (nu-dm-1)*y, log=TRUE)}
+  lln      <- future_mapply(diwish.t,Sig,V)
+  
   # if(m%%(rbinom(1,200,0.5))!=0){
-  #   if((sum(lln)-sum(llo))>log(runif(1))){
-  #     llo     = lln
-  #     lag     = lagnew
-  #     G2      = G2n
-  #     accl[m] = 1
-  #   }
+  if((sum(lln)-sum(llo))>log(runif(1))){
+    llo     = lln
+    lag     = lagnew
+    G2      = G2n
+    accl[m] = 1
+  }
   # } else {
   #   llo     = lln
   #   lag     = lagnew
@@ -110,8 +109,6 @@ for(m in 1:(bi+M)){
   #   accl[m] = 1
   # }
   
-  lag = 10
-
   ##-----
   ## bs split randomly
   ##-----
@@ -159,6 +156,7 @@ for(m in 1:(bi+M)){
     llo  = lln
     V    = Vn
   }
+  fac1 = 1
   
   # block 2
   counter = 0
@@ -166,7 +164,7 @@ for(m in 1:(bi+M)){
     counter <- counter + 1
     b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac2)
     bn     = b.prop*block2+c(b1,b2)*block1
-
+    
     b1n = bn[1:dm]
     b2n = bn[(dm+1):(2*dm)]
     B1  = Outer(b1n,b1n)
@@ -201,30 +199,29 @@ for(m in 1:(bi+M)){
     llo  = lln
     V    = Vn
   }
+  fac2 = 1
   
   B1  = Outer(b1n,b1n)
   B2  = Outer(b2n,b2n)
   B0  = (Oiota-B1-B2)*Sbar
   
-  # ##-----
-  # ## nu
-  # ##-----
-  # repeat{
-  #   nun = rnorm(1,nu,sd=propsdnu)
-  #   if(nun>(dm+1)) break
-  # }
-  # 
-  # diwish.t <- function(x,y){LaplacesDemon::dinvwishart(x, nun, (nun-dm-1)*y, log=TRUE)}
-  # lln      <- future_mapply(diwish.t,Sig,V)
-  # 
-  # if((sum(lln)-sum(llo)+
-  #     dexp(nun,1/10,log=TRUE)-dexp(nu,1/10,log=TRUE))>log(runif(1))){
-  #   llo   = lln
-  #   accnu[m] = 1
-  #   nu    = nun
-  # }
+  ##-----
+  ## nu
+  ##-----
+  repeat{
+    nun = rnorm(1,nu,sd=propsdnu)
+    if(nun>(dm+1)) break
+  }
   
-  nu = 17
+  diwish.t <- function(x,y){LaplacesDemon::dinvwishart(x, nun, (nun-dm-1)*y, log=TRUE)}
+  lln      <- future_mapply(diwish.t,Sig,V)
+  
+  if((sum(lln)-sum(llo)+
+      dexp(nun,1/10,log=TRUE)-dexp(nu,1/10,log=TRUE))>log(runif(1))){
+    llo   = lln
+    accnu[m] = 1
+    nu    = nun
+  }
   
   if (m>bi){
     ##-----
@@ -238,25 +235,16 @@ for(m in 1:(bi+M)){
     ##-----
     Vpred[[m-bi]]    = B0+B1*Sig[[TT]]+B2*Reduce('+',Sig[(TT+1-lag):TT])/lag
   }
-
+  
   
   if(!m%%100){
     print(paste(round(m/(M+bi)*100,2),"%",sep=""))
     print(Sys.time()-t1)
     print(Sys.time()-t0)
-    
-    if (mean(accB1[1:m])>0.3){
-      fac1 = fac1*2
-      print('accp1>0.3')
-    }
-    
-    if (mean(accB2[1:m])>0.3){
-      fac2 = fac2*2
-      print('accp2>0.3')
-    }
-    
-    }
-  TIMING[m] = Sys.time()-t1
+    print(c(mean(accB1[1:m]),mean(accB2[1:m])))
+    t1   = Sys.time()
+  }
+  TIMING[m] = Sys.time()-t2
 }
 # })
 
