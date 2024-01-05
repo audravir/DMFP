@@ -34,7 +34,10 @@ propsdnu = 0.5
 
 ###
 
+TIMING = rep(NA,M)
 t0   = Sys.time()
+t1   = Sys.time()
+
 TT   = dim(data)[1]
 dm   = dim(data)[2]
 bi   = min(M,10^4)
@@ -73,7 +76,7 @@ for(t in 2:TT){
 
 for(m in 1:(M+bi)){
   
-  t1 = Sys.time()
+  t2 = Sys.time()
   ##-----
   ## bs
   ##-----
@@ -167,10 +170,13 @@ for(m in 1:(M+bi)){
 
   
   if(!m%%100){
-    print(paste(round(m/(M+bi)*100),"%",sep=""))
+    print(paste(round(m/(M+bi)*100,2),"%",sep=""))
     print(Sys.time()-t1)
     print(Sys.time()-t0)
+    print(round(c(mean(accnu[1:m]),mean(accdcc[1:m])),2))
+    t1   = Sys.time()
   }
+  TIMING[m] = Sys.time()-t2
 }  
 # })
 
@@ -178,6 +184,20 @@ for(m in 1:(M+bi)){
 mean(accnu[(bi+1):(bi+M)])
 mean(accdcc[(bi+1):(bi+M)])
 
+nu = resdcc[,1]
+b1 = resdcc[,2:(dm+1)]
+b2 = resdcc[,(dm+2):(2*dm+1)]
+
+par(mfrow=c(2,2))
+plot(TIMING,type='l')
+plot(LLH,type='l')
+plot(nu,type='l')
+
+par(mfrow=c(3,5)) 
+for(i in 1:dm) {plot(b1[,i],type='l')}
+
+par(mfrow=c(3,5)) 
+for(i in 1:dm) {plot(b2[,i],type='l')}
 
 res = list(Vpred,Qpred,resdcc,accdcc[(bi+1):(bi+M)],accnu[(bi+1):(bi+M)])
 names(res) = c('Vpred','Qpred','resdcc','accdcc','accnu')
