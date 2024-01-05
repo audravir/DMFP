@@ -30,7 +30,9 @@ rm(Sigma)
 # function arguments
 M = 1000
 
-propsdb  = 0.001 
+# 0.001 gives accp of 0.5
+propsdb  = 0.005 
+#0.005 is ok
 propsdnu = 0.005
 
 
@@ -46,7 +48,7 @@ bi     = min(M,10^4)
 resc   = matrix(NA,nrow=M,ncol=dm*2+1)
 LLH    = rep(NA,M)
 Vpred  = vector(mode = "list", length = M)
-nu     = 15
+nu     = 50
 b1     = rep(0.9,dm)
 b2     = rep(0.4,dm)
 Sbar   = Reduce('+',Sig)/TT
@@ -198,9 +200,10 @@ mean(accB2[(bi+1):(bi+M)])
 
 
 nu=resc[,1]
-par(mfrow=c(2,1))
+par(mfrow=c(2,2))
 plot(nu,type='l')
 plot(LLH,type='l')
+plot(TIMING,type='l')
 
 b1=resc[,2:(dm+1)]
 b2=resc[,(dm+2):(dm*2+1)]
