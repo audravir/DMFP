@@ -30,7 +30,7 @@ M=5000
 propsd=0.00005
 
 # 0.1 gave accp 0.681
-propsdnu = 0.5
+propsdnu = 1
 
 ###
 
