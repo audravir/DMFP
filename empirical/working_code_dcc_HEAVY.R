@@ -23,7 +23,7 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 30000
+M     = 3000
 
 
 
@@ -56,8 +56,8 @@ R[,,1] <- cor(tdata)
 Pbar   = Reduce('+',Sig)/T0
 # A      = Outer(aold,aold)
 # B      = Outer(bold,bold)
-A = diag(aold)
-B = diag(bold)
+# A = diag(aold)
+# B = diag(bold)
 
 llold    <- rep(0,TT)
 restdcch <- matrix(NA,ncol=dm*2+1,nrow=M)
@@ -68,7 +68,7 @@ Rpred = vector(mode = "list", length = M)
 
 
 for(t in 2:TT){
-  R[,,t]   <- Rbar+A*(Sig[[t-1]]-Pbar)+B*(R[,,t-1]-Rbar)
+  R[,,t]   <- Rbar+aold*(Sig[[t-1]]-Pbar)+bold*(R[,,t-1]-Rbar)
   inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
   llold[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nuold, log=TRUE)-
     inlik
@@ -91,14 +91,14 @@ for(m in 1:(M+bi)){
     bnew = bn[(dm+1):(2*dm)]
     # A    = Outer(anew,anew)
     # B    = Outer(bnew,bnew)
-    A = diag(anew)
-    B = diag(bnew)
+    # A = diag(anew)
+    # B = diag(bnew)
   # }
   
   llnew <- rep(0,TT)
 
   for(t in 2:TT){
-    R[,,t]   <- Rbar+A*(Sig[[t-1]]-Pbar)+B*(R[,,t-1]-Rbar)
+    R[,,t]   <- Rbar+anew*(Sig[[t-1]]-Pbar)+bnew*(R[,,t-1]-Rbar)
     inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
     llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nuold, log=TRUE)-
       inlik
@@ -132,12 +132,12 @@ for(m in 1:(M+bi)){
   R[,,1] = Rbar
   # A     = Outer(aold,aold)
   # B     = Outer(bold,bold)
-  A = diag(aold)
-  B = diag(bold)
+  # A = diag(aold)
+  # B = diag(bold)
   
   
   for(t in 2:TT){
-    R[,,t]   <- Rbar+A*(Sig[[t-1]]-Pbar)+B*(R[,,t-1]-Rbar)
+    R[,,t]   <- Rbar+aold*(Sig[[t-1]]-Pbar)+bold*(R[,,t-1]-Rbar)
     inlik    <- sum(dt(tdata[t,],df=nunew,log=TRUE))
     llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nunew, log=TRUE)-
       inlik
@@ -165,7 +165,7 @@ for(m in 1:(M+bi)){
   if(m>bi){
     restdcch[m-bi,] <- c(nuold,aold,bold) 
     LLH[m-bi]     <- sum(llold)
-    Rpred[[m-bi]] <- Rbar+A*(Sig[[TT]]-Pbar)+B*(R[,,TT]-Rbar)
+    Rpred[[m-bi]] <- Rbar+aold*(Sig[[TT]]-Pbar)+bold*(R[,,TT]-Rbar)
   }
   
   
