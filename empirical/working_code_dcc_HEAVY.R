@@ -27,7 +27,7 @@ M     = 3000
 
 
 
-propsd = 0.05
+propsd = 0.03
 
 
 propsdnu = 1
