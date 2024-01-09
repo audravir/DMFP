@@ -3,8 +3,8 @@ load('data/FXdata.Rdata')
 # library(xtable)
 # library(truncnorm)
 library(Rfast)
-library(profvis)
-
+library(mvnfast)
+library(zoo)
 
 data  = stand # Prediction etc is performed on STANDARDIZED returns
 dm    = dim(data)[2] 
@@ -104,11 +104,12 @@ sum(lL_static)
 sum(lL_rmf)
 sum(apply(lL_dcc,2,median))
 
-
 # at the median of estimated parameters
+
 A      = Outer(apply(a,2,median),apply(a,2,median))
 B      = Outer(apply(b,2,median),apply(b,2,median))
 R.dcc  = array(NA,c(dm, dm, nn+K))
+tmp.ll = rep(NA,nn+K)
 
 for(t in 2:(nn+K)){
   Q[,,t]   <- (Oiota-A-B)*Sbar+A*Outer(data[t-1,],data[t-1,])+B*Q[,,(t-1)]
@@ -116,15 +117,17 @@ for(t in 2:(nn+K)){
   t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
   t.R   = Outer(t.dv,t.dv)*t.ma
   R.dcc[,,t] = t.R
+  tmp.ll[t] = mvnfast::dmvn(data[t,], rep(0,dm), t.R, log=TRUE)
 }
 
+sum(tail(tmp.ll,K))
 
 roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
                        align = "center",fill=NA)
 plot(roll_corr,type='l',ylim=c(-1,1))
 lines(R.rmf[p1,p2,],type='l',ylim=c(0,1))
-lines(R.dcc[1,2,],col=2)
+lines(R.dcc[p1,p2,],col=2)
 
 ##-----------------------
 ## vector dcc t Copula
@@ -187,6 +190,8 @@ tdata <- qt(udata,median(nu))
 Sbar  <- cova(tdata[start:nn,])
 B0    <- (Oiota-A-B)*Sbar
 R.dcct = array(NA,c(dm, dm, nn+K))
+tmp.llb = rep(NA,nn+K)
+INL   <- dt(tdata,df=median(nu),log=TRUE)
 
 for(t in 2:(nn+K)){
   Q[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Q[,,(t-1)]
@@ -194,7 +199,10 @@ for(t in 2:(nn+K)){
   t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
   t.R   = Outer(t.dv,t.dv)*t.ma
   R.dcct[,,t] = t.R
+  tmp.llb[t] = mvnfast::dmvt(tdata[t,], rep(0,dm),t.R, median(nu), log=TRUE)+sum(INL.N[t,])-sum(INL[t,])
 }
+
+sum(tail(tmp.llb,K))
 
 roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
@@ -205,76 +213,92 @@ lines(R.dcc[p1,p2,],col=2)
 lines(R.dcct[p1,p2,],col=4)
 
 
-##-----------------------
-## dcc-HEAVY t Copula
-##-----------------------
-
-load('empirical/temp/results_heavy.Rdata')
-M   = dim(res$restdcch)[1]
-ind = round(seq(1,M,length=post.sample)) #thin every xth
-
-R       = array(NA,c(dm, dm, nn+K))
-a      <- res$restdcch[ind,2:(dm+1)]
-b      <- res$restdcch[ind,(dm+2):(dm*2+1)]
-nu     <- res$restdcch[ind,1]
-
-Pbar = Reduce('+',Sig[1:nn])/nn
-Rbar = cor(data[start:nn,])
-
-R[,,1] <- Rbar
-
-lL_tdcch = matrix(NA,ncol=K,nrow=length(ind))
-
-for(m in 1:length(ind)){
-  tdata <- qt(udata,nu[m])
-  Rbar  <- cor(tdata[start:nn,])
-  A     <- diag (a[m,])
-  B     <- diag (b[m,])
-  INL   <- dt(tdata,nu[m],log=TRUE)
-  
-  for(t in 2:(nn+K)){
-    R[,,t]   <- Rbar+A*(Sig[[t-1]]-Pbar)+B*(R[,,t-1]-Rbar)
-    
-    if(t>nn){
-      lL_tdcch[m,(t-nn)] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nu[m], log=TRUE)+
-        sum(INL.N[t,])-sum(INL[t,])
-    }
-  }
-}
-
-sum(lL_static)
-sum(lL_rmf)
-sum(apply(lL_dcc,2,median))
-sum(apply(lL_tdcc,2,median))
-sum(apply(lL_tdcch,2,median))
-
-###############################
-
-# at the median of estimated parameters
-
-A      = Outer(apply(a,2,median),apply(a,2,median))
-B      = Outer(apply(b,2,median),apply(b,2,median))
-tdata <- qt(udata,median(nu))
-Sbar  <- cova(tdata[start:nn,])
-B0    <- (Oiota-A-B)*Sbar
-R.dcct = array(NA,c(dm, dm, nn+K))
-
-for(t in 2:(nn+K)){
-  Q[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Q[,,(t-1)]
-  t.ma  = Q[,,t]
-  t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
-  t.R   = Outer(t.dv,t.dv)*t.ma
-  R.dcct[,,t] = t.R
-}
-
-roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
-                       function(z) cor(z[,1], z[,2]), by.column = FALSE,
-                       align = "center",fill=NA)
-plot(roll_corr,type='l',ylim=c(-1,1))
-lines(R.rmf[p1,p2,],type='l',ylim=c(0,1))
-lines(R.dcc[p1,p2,],col=2)
-lines(R.dcct[p1,p2,],col=4)
-
+# ##-----------------------
+# ## dcc-HEAVY t Copula
+# ##-----------------------
+# 
+# load('empirical/temp/results_heavy.Rdata')
+# M   = dim(res$restdcch)[1]
+# ind = round(seq(1,M,length=post.sample)) #thin every xth
+# 
+# R       = array(NA,c(dm, dm, nn+K))
+# a      <- res$restdcch[ind,2:(dm+1)]
+# b      <- res$restdcch[ind,(dm+2):(dm*2+1)]
+# nu     <- res$restdcch[ind,1]
+# 
+# Pbar = Reduce('+',Sig[1:nn])/nn
+# Rbar = cor(data[start:nn,])
+# 
+# R[,,1] <- Rbar
+# 
+# lL_tdcch = matrix(NA,ncol=K,nrow=length(ind))
+# 
+# for(m in 1:length(ind)){
+#   tdata <- qt(udata,nu[m])
+#   Rbar  <- cor(tdata[start:nn,])
+#   A     <- diag (a[m,])
+#   B     <- diag (b[m,])
+#   INL   <- dt(tdata,nu[m],log=TRUE)
+#   
+#   for(t in 2:(nn+K)){
+#     R[,,t]   <- Rbar+A*(Sig[[t-1]]-Pbar)+B*(R[,,t-1]-Rbar)
+#     
+#     if(t>nn){
+#       lL_tdcch[m,(t-nn)] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nu[m], log=TRUE)+
+#         sum(INL.N[t,])-sum(INL[t,])
+#     }
+#   }
+# }
+# 
+# dim(lL_tdcch)
+# 
+# zoomin = c(1:100)
+# 
+# par(mfrow=c(1,1))
+# plot(apply(lL_dcc,2,median)[zoomin],type='l')
+# lines(apply(lL_tdcch,2,median)[zoomin],col=2)
+# 
+# sum(lL_static)
+# sum(lL_rmf)
+# sum(apply(lL_dcc,2,median))
+# sum(apply(lL_tdcc,2,median))
+# sum(apply(lL_tdcch,2,median))
+# 
+# ###############################
+# 
+# # at the median of estimated parameters
+# 
+# A       = diag(apply(a,2,median))
+# B       = diag(apply(b,2,median))
+# tdata   <- qt(udata,median(nu))
+# Rbar    = cor(tdata[start:nn,])
+# R.heavy = array(NA,c(dm, dm, nn+K))
+# tmp.ll  = rep(NA,nn+K)
+# R.heavy[,,1] <- Rbar
+# INL   <- dt(tdata,median(nu),log=TRUE)
+# 
+# microbenchmark(A%*%(Sig[[t-1]]-Pbar),mat.mult(A,(Sig[[t-1]]-Pbar)),unit = 'relative',times = 1000)
+# 
+# mm1=A%*%(Sig[[t-1]]-Pbar)
+# mm2=diag(A)*(Sig[[t-1]]-Pbar)
+# 
+# mm1-mm2
+# 
+# for(t in 2:(nn+K)){
+#   R.heavy[,,t]   <- Rbar+A*(Sig[[t-1]]-Pbar)+B*(R.heavy[,,t-1]-Rbar)
+#   tmp.ll[t] = mvnfast::dmvt(tdata[t,], rep(0,dm), R.heavy[,,t], df = median(nu), log=TRUE)+
+#     sum(INL.N[t,])-sum(INL[t,])
+# }
+# 
+# sum(tail(tmp.ll,K))
+# 
+# roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
+#                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
+#                        align = "center",fill=NA)
+# plot(roll_corr,type='l',ylim=c(-1,1))
+# lines(R.rmf[p1,p2,],type='l',ylim=c(0,1))
+# lines(R.dcc[p1,p2,],col=2)
+# lines(R.heavy[p1,p2,],col=4)
 
 ##------
 ## XM
@@ -306,26 +330,53 @@ for(m in 1:post.sample){
   }
 }
 
-
-
-
-
-DF = lL_dcc-lL_xm1
-
-dim(lL_xm1)
-
-zoomin = c(1:100)
-
-par(mfrow=c(1,1))
-plot(apply(lL_dcc,2,median)[zoomin],type='l')
-lines(apply(lL_xm1,2,median)[zoomin],col=2)
-
 sum(lL_static)
 sum(lL_rmf)
 sum(apply(lL_dcc,2,median))
 sum(apply(lL_tdcc,2,median))
-sum(apply(lL_tdcch,2,median))
+sum(apply(lL_tdcc,2,median))
 sum(apply(lL_xm1,2,median))
+
+
+
+# at the median of estimated parameters
+
+B1  = Outer(apply(b1,2,median),apply(b1,2,median))
+B2  = Outer(apply(b2,2,median),apply(b2,2,median))
+B0  = (Oiota-B1-B2)*Sbar
+R.xm = array(NA,c(dm, dm, nn+K))
+tmp.ll  = rep(NA,nn+K)
+tmp.true = rep(NA,nn+K)
+mtdf = median(nu)-dm
+tmp.dcc = rep(NA,nn+K)
+
+for(t in 2:(nn+K)){
+  R.xm[,,t]   <- B0+B1*Sig[[t-1]]+B2*(Reduce('+',Sig[max(c(t-median(lag)),1):(t-1)])/min(c(t-1,median(lag))))
+  tmp.ll[t] = mvnfast::dmvt(data[t,], rep(0,dm), (mtdf-1)/(mtdf+1)*R.xm[,,t], df = mtdf+1, log=TRUE)
+  tmp.ll[t] = mvnfast::dmvn(data[t,], rep(0,dm), R.xm[,,t], log=TRUE)
+  tmp.true[t] = mvnfast::dmvn(data[t,], rep(0,dm),RCor[,,t], log=TRUE)
+  tmp.dcc[t] = mvnfast::dmvn(data[t,], rep(0,dm), R.dcc[,,t], log=TRUE)
+}
+
+sum(tail(tmp.ll,K))
+sum(tail(tmp.llb,K))
+sum(tail(tmp.true,K))
+sum(tail(tmp.dcc,K))
+
+roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
+                       function(z) cor(z[,1], z[,2]), by.column = FALSE,
+                       align = "center",fill=NA)
+plot(roll_corr,type='l',ylim=c(-1,1),lwd=3)
+lines(R.dcct[p1,p2,],col=2)
+lines(R.xm[p1,p2,],col=4)
+lines(RCor[p1,p2,],col=3)
+
+plot(tmp.true,type='l',ylim=c(-100,10),lwd=2)
+lines(tmp.dcc,col=2)
+
+plot(data[,p1]*data[,p2],type='l')
+lines(R.dcc[p1,p2,],col=2,lwd=2)
+lines(RCor[p1,p2,],col=3)
 
 
 ##------

@@ -20,6 +20,30 @@ dm1 = dim(fx15$RVs)[2]
 dm2 = dim(fx5$RVs)[2]
 dm3 = dim(var10$RVs)[2]
 
+
+##-----------------
+## compare how the RCors resemble the rolling window corrs
+##-----------------
+
+p1 = 3
+p2 = 6
+
+roll_corr <- rollapply(data = cbind(var10$stand[,p1], var10$stand[,p2]), width = 50,
+                       function(z) cor(z[,1], z[,2]), by.column = FALSE,
+                       align = "center",fill=NA)
+
+par(mfrow=c(2,1))
+plot(roll_corr,lwd=2,type='l',ylim=c(-1,1))
+lines(var10$RCor[p1,p2,],col=3)
+
+
+roll_corr <- rollapply(data = cbind(fx15$stand[,p1], fx15$stand[,p2]), width = 50,
+                       function(z) cor(z[,1], z[,2]), by.column = FALSE,
+                       align = "center",fill=NA)
+plot(roll_corr,lwd=2,type='l',ylim=c(-1,1))
+lines(fx15$RCor[p1,p2,],col=3)
+
+
 ##-----------------
 ## compare the smoothness of RVs
 ##-----------------
