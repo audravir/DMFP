@@ -23,11 +23,11 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 3000
+M     = 500
 
 
 
-propsd = 0.03
+propsd = 0.003
 
 
 propsdnu = 1
@@ -45,8 +45,8 @@ bi   = min(M,10^4)
 udata = pnorm(data)*TT/(TT+1) 
 
 R    = array(NA,c(dm, dm, TT))
-aold   <- rep(0.05,dm)
-bold   <- rep(0.90,dm)
+aold   <- rep(0.1,dm)
+bold   <- rep(0.8,dm)
 nuold  <- 30
 tdata  <- qt(udata,nuold)
 Rbar   <- cor(tdata)
@@ -54,21 +54,22 @@ llold  <- rep(0,TT)
 LLH    <- rep(NA,M)
 R[,,1] <- cor(tdata)
 Pbar   = Reduce('+',Sig)/T0
-# A      = Outer(aold,aold)
-# B      = Outer(bold,bold)
-# A = diag(aold)
-# B = diag(bold)
+A      = Outer(aold,aold)
+B      = Outer(bold,bold)
+iota   = rep(1,dm)
+Oiota  = Outer(iota,iota)
+
 
 llold    <- rep(0,TT)
 restdcch <- matrix(NA,ncol=dm*2+1,nrow=M)
 accdcc   <- rep(0,bi+M)
 accnu    <- rep(0,bi+M)
 Rpred = vector(mode = "list", length = M)
-
+Rtilde = (Oiota-B)*Rbar-A*Pbar
 
 
 for(t in 2:TT){
-  R[,,t]   <- Rbar+aold*(Sig[[t-1]]-Pbar)+bold*(R[,,t-1]-Rbar)
+  R[,,t]   <- Rtilde+A*Sig[[t-1]]+B*R[,,t-1]
   inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
   llold[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nuold, log=TRUE)-
     inlik
@@ -85,20 +86,30 @@ for(m in 1:(M+bi)){
   # 10% of the time sample from large variance 
   fac = sample(c(1,sqrt(10)),size=2,replace=TRUE,prob = c(0.9,0.1))
   
-  # repeat{
+  counter = 0
+  repeat{
+    counter = counter+1
     bn   = rnorm(dm*2,c(aold,bold),sd=propsd*fac[1])
     anew = bn[1:dm]
     bnew = bn[(dm+1):(2*dm)]
-    # A    = Outer(anew,anew)
-    # B    = Outer(bnew,bnew)
-    # A = diag(anew)
-    # B = diag(bnew)
-  # }
+    A    = Outer(anew,anew)
+    B    = Outer(bnew,bnew)
+    Rtilde = (Oiota-B)*Rbar-A*Pbar
+    cond1 = anew[1]>0
+    cond2 = bnew[1]>0
+    cond3 = (prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1)
+    cond4 = (sum(abs(A+B)<1)==dm^2)
+    if(cond1 && cond2 && cond3 && cond4) break
+    if (counter>5){
+      print(c(cond1,cond2,cond3,cond4,m))
+      fac[1] = fac[1]/2
+    }
+  }
   
   llnew <- rep(0,TT)
 
   for(t in 2:TT){
-    R[,,t]   <- Rbar+anew*(Sig[[t-1]]-Pbar)+bnew*(R[,,t-1]-Rbar)
+    R[,,t]   <- Rtilde+A*Sig[[t-1]]+B*R[,,t-1]
     inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
     llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nuold, log=TRUE)-
       inlik
@@ -106,8 +117,8 @@ for(m in 1:(M+bi)){
 
   
   if((sum(llnew)-sum(llold)+
-      sum(dbeta(anew,2,10,log=TRUE))-sum(dbeta(aold,2,10,log=TRUE))+
-      sum(dbeta(bnew,10,2,log=TRUE))-sum(dbeta(bold,10,2,log=TRUE)))>log(runif(1)))
+      sum(dnorm(anew,0,sqrt(10),log=TRUE))-sum(dnorm(aold,0,sqrt(10),log=TRUE))+
+      sum(dnorm(bnew,0,sqrt(10),log=TRUE))-sum(dnorm(bold,0,sqrt(10),log=TRUE)))>log(runif(1)))
   {
     llold  = llnew
     aold   = anew
@@ -130,22 +141,17 @@ for(m in 1:(M+bi)){
 
   llnew  = rep(0,TT)
   R[,,1] = Rbar
-  # A     = Outer(aold,aold)
-  # B     = Outer(bold,bold)
-  # A = diag(aold)
-  # B = diag(bold)
+  A     = Outer(aold,aold)
+  B     = Outer(bold,bold)
+  Rtilde = (Oiota-B)*Rbar-A*Pbar
   
   
   for(t in 2:TT){
-    R[,,t]   <- Rbar+aold*(Sig[[t-1]]-Pbar)+bold*(R[,,t-1]-Rbar)
+    R[,,t]   <- Rtilde+A*Sig[[t-1]]+B*R[,,t-1]
     inlik    <- sum(dt(tdata[t,],df=nunew,log=TRUE))
     llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nunew, log=TRUE)-
       inlik
   }
-  
-  
-  
-  
   
   if((sum(llnew)-sum(llold)+
       dexp(nunew,0.1,log=TRUE)-dexp(nuold,0.1,log=TRUE))>log(runif(1)))
@@ -158,14 +164,13 @@ for(m in 1:(M+bi)){
   
   tdata  = qt(udata,nuold)
   Rbar   <- cor(tdata)
-  
-  
+  Rtilde = (Oiota-B)*Rbar-A*Pbar
   
   
   if(m>bi){
     restdcch[m-bi,] <- c(nuold,aold,bold) 
     LLH[m-bi]     <- sum(llold)
-    Rpred[[m-bi]] <- Rbar+aold*(Sig[[TT]]-Pbar)+bold*(R[,,TT]-Rbar)
+    Rpred[[m-bi]] <- Rtilde+A*Sig[[TT]]+B*R[,,TT]
   }
   
   

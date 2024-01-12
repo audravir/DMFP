@@ -31,7 +31,7 @@ rm(Sigma)
 M = 5000
 
 # 0.001 gives accp 0.516
-propsdb  = 0.001
+propsdb  = 0.0001
 propsdnu = 0.1
 
 
