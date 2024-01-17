@@ -21,7 +21,7 @@ T0+K
 nn
 # the same
 
-data = stand[1:T0,]
+data = stand[1:T0,-15]
 M    = 5000
 
 

@@ -1,5 +1,5 @@
 rm(list=ls(all=TRUE))
-load('data/FXdata.Rdata')
+load('data/FXdata2.Rdata')
 
 library(Rfast)
 library(mvnfast)
