@@ -28,7 +28,7 @@ nn
 data = Sigma[1:T0]
 rm(Sigma)
 # function arguments
-M = 5000
+M = 10000
 
 # 0.001 gives accp 0.516
 propsdb  = 0.0001
@@ -47,10 +47,10 @@ TT     = length(Sig)
 bi     = M
 resc   = matrix(NA,nrow=M,ncol=dm*2+2)
 Vpred  = vector(mode = "list", length = M)
-nu     = 150
-lag    = 30
-b1     = rep(0.5,dm)
-b2     = rep(0.7,dm)
+nu     = 40 #20 too low
+lag    = 10
+b1     = rep(0.3,dm)
+b2     = rep(0.9,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
@@ -264,10 +264,10 @@ plot(resc[,2],type='l')
 b1=resc[,3:(dm+2)]
 b2=resc[,(dm+3):(dm*2+2)]
 
-par(mfrow=c(3,5)) 
+par(mfrow=c(4,5)) 
 for(i in 1:dm) {plot(b1[,i],type='l')}
 
-par(mfrow=c(3,5)) 
+par(mfrow=c(4,5)) 
 for(i in 1:dm) {plot(b2[,i],type='l')}
 
 
@@ -276,11 +276,11 @@ par(mfrow=c(1,1))
 corrplot(cor(resc[,-c(1,2)])) 
 
 
-res = list(Vpred,resc,
-           accl[(bi+1):(bi+M)],
-           accnu[(bi+1):(bi+M)],
-           accB1[(bi+1):(bi+M)],
-           accB2[(bi+1):(bi+M)],LLH)
-names(res) = c('Vpred','resc','accl','accnu','accB1','accB2','LLH')
-save(res,file='empirical/temp/results_xm.Rdata')
+# res = list(Vpred,resc,
+#            accl[(bi+1):(bi+M)],
+#            accnu[(bi+1):(bi+M)],
+#            accB1[(bi+1):(bi+M)],
+#            accB2[(bi+1):(bi+M)],LLH)
+# names(res) = c('Vpred','resc','accl','accnu','accB1','accB2','LLH')
+# save(res,file='empirical/temp/results_xm.Rdata')
 
