@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE))
 
-load('data/FXdata.Rdata')
+load('data/FXdata2.Rdata')
 
 library(Rfast)
 library(mvnfast)
@@ -23,11 +23,11 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 500
+M     = 5000
 
 
 
-propsd = 0.003
+propsd = 0.001
 
 
 propsdnu = 1
@@ -42,7 +42,6 @@ TT   = dim(data)[1]
 dm   = dim(data)[2]
 bi   = min(M,10^4)
 
-udata = pnorm(data)*TT/(TT+1) 
 
 R    = array(NA,c(dm, dm, TT))
 aold   <- rep(0.1,dm)
@@ -58,14 +57,14 @@ A      = Outer(aold,aold)
 B      = Outer(bold,bold)
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
-
+Rtilde = (Oiota-A-B)*Rbar
+is.positive.definite(Rtilde)
 
 llold    <- rep(0,TT)
 restdcch <- matrix(NA,ncol=dm*2+1,nrow=M)
 accdcc   <- rep(0,bi+M)
 accnu    <- rep(0,bi+M)
 Rpred = vector(mode = "list", length = M)
-Rtilde = (Oiota-B)*Rbar-A*Pbar
 
 
 for(t in 2:TT){
@@ -94,7 +93,7 @@ for(m in 1:(M+bi)){
     bnew = bn[(dm+1):(2*dm)]
     A    = Outer(anew,anew)
     B    = Outer(bnew,bnew)
-    Rtilde = (Oiota-B)*Rbar-A*Pbar
+    Rtilde = (Oiota-A-B)*Rbar
     cond1 = anew[1]>0
     cond2 = bnew[1]>0
     cond3 = (prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1)
@@ -143,7 +142,7 @@ for(m in 1:(M+bi)){
   R[,,1] = Rbar
   A     = Outer(aold,aold)
   B     = Outer(bold,bold)
-  Rtilde = (Oiota-B)*Rbar-A*Pbar
+  Rtilde = (Oiota-A-B)*Rbar
   
   
   for(t in 2:TT){
@@ -164,7 +163,7 @@ for(m in 1:(M+bi)){
   
   tdata  = qt(udata,nuold)
   Rbar   <- cor(tdata)
-  Rtilde = (Oiota-B)*Rbar-A*Pbar
+  Rtilde = (Oiota-A-B)*Rbar
   
   
   if(m>bi){
