@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE))
 
-load('data/FXdata2.Rdata')
+load('data/FXdata.Rdata')
 
 library(Rfast)
 library(mvnfast)
@@ -196,10 +196,10 @@ plot(LLH,type='l')
 plot(nu,type='l')
 
 par(mfrow=c(3,5)) 
-for(i in 1:dm) {plot(b1[,i],type='l',ylim=c(0,1))}
+for(i in 1:dm) {plot(b1[,i],type='l')}
 
 par(mfrow=c(3,5)) 
-for(i in 1:dm) {plot(b2[,i],type='l',ylim=c(0,1))}
+for(i in 1:dm) {plot(b2[,i],type='l')}
 
 
 
