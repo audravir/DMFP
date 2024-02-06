@@ -38,7 +38,7 @@ for(t in (nn+1):(nn+K)){
   lL_static[(t-nn)] <- mvtnorm::dmvt(data[t,],delta=rep(0,dm),scm,df = stdf,log=TRUE)
 }
 
-sum(lL_static) #the LPS for K=956 
+sum(lL_static) #the LPS for K=797 
 
 ##------
 ## Rmf
@@ -125,6 +125,7 @@ sum(tail(tmp.ll,K))
 roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
                        align = "center",fill=NA)
+par(mfrow=c(1,1))
 plot(roll_corr,type='l',ylim=c(-1,1))
 lines(R.rmf[p1,p2,],type='l',ylim=c(0,1))
 lines(R.dcc[p1,p2,],col=2)
