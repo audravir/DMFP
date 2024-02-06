@@ -31,9 +31,8 @@ rm(Sigma)
 M = 5000
 
 # 0.001 gives accp of 0.5
-propsdb  = 0.001 
-#0.005 is ok
-propsdnu = 0.01
+propsdb  = 0.0001 
+propsdnu = 0.1
 
 
 TIMING = rep(NA,M)
@@ -49,8 +48,8 @@ resc   = matrix(NA,nrow=M,ncol=dm*2+1)
 LLH    = rep(NA,M)
 Vpred  = vector(mode = "list", length = M)
 nu     = 20
-b1     = rep(0.80,dm)
-b2     = rep(0.55,dm)
+b1     = rep(0.85,dm)
+b2     = rep(0.50,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
