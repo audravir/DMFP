@@ -28,12 +28,12 @@ data = Sigma[1:T0]
 rm(Sigma)
 
 # function arguments
-M = 1000
+M = 5000
 
 # 0.001 gives accp of 0.5
-propsdb  = 0.005 
+propsdb  = 0.001 
 #0.005 is ok
-propsdnu = 0.005
+propsdnu = 0.01
 
 
 TIMING = rep(NA,M)
@@ -48,9 +48,9 @@ bi     = min(M,10^4)
 resc   = matrix(NA,nrow=M,ncol=dm*2+1)
 LLH    = rep(NA,M)
 Vpred  = vector(mode = "list", length = M)
-nu     = 50
-b1     = rep(0.9,dm)
-b2     = rep(0.4,dm)
+nu     = 20
+b1     = rep(0.80,dm)
+b2     = rep(0.55,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
