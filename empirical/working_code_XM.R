@@ -9,8 +9,6 @@ library(future.apply)
 parallel::detectCores()
 plan(multisession, workers = 6)
 
-# profvis({
-
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
 if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
@@ -28,14 +26,12 @@ nn
 data = Sigma[1:T0]
 rm(Sigma)
 # function arguments
-M = 5000
+M = 1000
 
 # 0.001 gives accp 0.516
 propsdb  = 0.001
 propsdnu = 0.01
 
-
-TIMING = rep(NA,M)
 t0   = Sys.time()
 t1   = Sys.time()
 
@@ -44,13 +40,14 @@ diwish = function(Sig,nu,S){dinvwishart(Sig, nu, S, log=TRUE)}
 Sig    = data
 dm     = dim(Sig[[1]])[1]
 TT     = length(Sig)
-bi     = M
-resc   = matrix(NA,nrow=M,ncol=dm*2+2)
+bi     = min(M,25000)
+TIMING = rep(NA,M+bi)
+resc   = matrix(NA,nrow=M+bi,ncol=dm*2+2)
 Vpred  = vector(mode = "list", length = M)
 nu     = 25 #20 too low
 lag    = 15
-b1     = rep(0.43,dm)
-b2     = rep(0.76,dm)
+b1     = rep(0.43,dm) #0.43 ok starting value
+b2     = rep(0.76,dm) #0.76 ok starting value
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
@@ -58,7 +55,7 @@ B1     = Outer(b1,b1)
 B2     = Outer(b2,b2)
 B0     = (Oiota-B1-B2)*Sbar
 llo    = lln = rep(0,TT)
-LLH    = rep(NA,M)
+LLH    = rep(NA,M+bi)
 accB1  = accnu = accl = accB2 = rep(0,bi+M)
 V      = Vn = list()
 G1     = G2 = G2n = c(list(matrix(0,nrow=dm,ncol=dm)),Sig[-TT])
@@ -71,11 +68,12 @@ for(t in 1:TT){
 
 diwish.t = function(x,y){LaplacesDemon::dinvwishart(x, nu, (nu-dm-1)*y, log=TRUE)}
 llo <- future_mapply(diwish.t,Sig,V)
-fac1 = fac2 = 1
+
 
 
 for(m in 1:(bi+M)){
   t2   = Sys.time()
+  fac1 = fac2 = 1
   
   ##-----
   ## l
@@ -135,8 +133,8 @@ for(m in 1:(bi+M)){
     if(cond1 && cond2 && cond3 && cond4) {
       break
     }
-    if(counter >= 10){
-      print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'accp',round(mean(accB1[1:m]),2),'fac=',fac1,sep=','))
+    if(counter >= 5){
+      print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac1,sep=','))
       fac1=fac1/2
     }
   }
@@ -156,8 +154,7 @@ for(m in 1:(bi+M)){
     llo  = lln
     V    = Vn
   }
-  fac1 = 1
-  
+
   # block 2
   counter = 0
   repeat{
@@ -178,8 +175,8 @@ for(m in 1:(bi+M)){
     if(cond1 && cond2 && cond3 && cond4) {
       break
     }
-    if(counter >= 10){
-      print(paste('BL2',cond1,cond2,cond3,cond4,'iter=',m,'accp',round(mean(accB1[1:m]),2),'fac=',fac2,sep=','))
+    if(counter >= 5){
+      print(paste('BL2',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac2,sep=','))
       fac2=fac2/2
     }
   }
@@ -199,8 +196,7 @@ for(m in 1:(bi+M)){
     llo  = lln
     V    = Vn
   }
-  fac2 = 1
-  
+
   B1  = Outer(b1n,b1n)
   B2  = Outer(b2n,b2n)
   B0  = (Oiota-B1-B2)*Sbar
@@ -223,31 +219,26 @@ for(m in 1:(bi+M)){
     nu    = nun
   }
   
+  ##-----
+  ## Collect results and predict
+  ##-----
+  
+  resc[m,] = c(lag,nu,b1,b2)
+  LLH[m]   = sum(llo)
+  
   if (m>bi){
-    ##-----
-    ## Collect results
-    ##-----
-    resc[m-bi,] = c(lag,nu,b1,b2)
-    LLH[m-bi]   = sum(llo)
-    
-    ##-----
-    ## Prediction
-    ##-----
     Vpred[[m-bi]]    = B0+B1*Sig[[TT]]+B2*Reduce('+',Sig[(TT+1-lag):TT])/lag
   }
-  
   
   if(!m%%100){
     print(paste(round(m/(M+bi)*100,2),"%",sep=""))
     print(Sys.time()-t1)
     print(Sys.time()-t0)
-    print(c(mean(accB1[1:m]),mean(accB2[1:m])))
+    print(c(mean(accl[1:m]),mean(accnu[1:m]),mean(accB1[1:m]),mean(accB2[1:m])))
     t1   = Sys.time()
   }
   TIMING[m] = Sys.time()-t2
 }
-# })
-
 
 mean(accl[(bi+1):(bi+M)])
 mean(accnu[(bi+1):(bi+M)])
