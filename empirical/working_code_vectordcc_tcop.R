@@ -21,10 +21,10 @@ nn
 # the same
 
 data = stand[1:T0,]
-M    = 1000
+M    = 10000
 
-propsd   = 0.00005
-propsdnu = 1
+propsd   = 0.0001
+propsdnu = 0.5
 
 ###
 
@@ -33,7 +33,7 @@ t1   = Sys.time()
 
 TT   = dim(data)[1]
 dm   = dim(data)[2]
-bi   = min(M,10^4)
+bi   = min(M,2*10^4)
 TIMING = rep(NA,M+bi)
 
 udata = pnorm(data)*TT/(TT+1) 
