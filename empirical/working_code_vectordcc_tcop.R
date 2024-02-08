@@ -5,7 +5,6 @@ library(Rfast)
 library(mvnfast)
 library(profvis)
 
-# profvis({
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
 if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
@@ -22,40 +21,33 @@ nn
 # the same
 
 data = stand[1:T0,]
-M=5000
+M    = 1000
 
-# 0.001 gave accp 0.002
-# 0.0001 gave accp 0.068
-# 0.00001 0.82774
-# 0.001 0.0352
-propsd=0.00005
-
-# 0.1 gave accp 0.681
-# 1 gave accp 0.3854
+propsd   = 0.00005
 propsdnu = 1
 
 ###
 
-TIMING = rep(NA,M)
 t0   = Sys.time()
 t1   = Sys.time()
 
 TT   = dim(data)[1]
 dm   = dim(data)[2]
 bi   = min(M,10^4)
+TIMING = rep(NA,M+bi)
 
 udata = pnorm(data)*TT/(TT+1) 
 
 Qold = array(NA,c(dm, dm, TT))
-aold   <- rep(0.1,dm)
+aold   <- rep(0.12,dm)
 bold   <- rep(0.99,dm)
 nuold  <- 20
 tdata  <- qt(udata,nuold)
 llold  <- rep(0,TT)
-LLH    <- rep(NA,M)
+LLH    <- rep(NA,M+bi)
 Qold[,,1] = cor(tdata)
 
-resdcc <- matrix(NA,ncol=dm*2+1,nrow=M)
+resdcc <- matrix(NA,ncol=dm*2+1,nrow=M+bi)
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
 Sbar   = cov(tdata)
@@ -63,7 +55,7 @@ A      = Outer(aold,aold)
 B      = Outer(bold,bold)
 B0     = (Oiota-A-B)*Sbar
 
-accdcc <- rep(0,bi+M)
+accdcc1 = accdcc2 = rep(0,bi+M)
 accnu  <- rep(0,bi+M)
 Vpred  = Qpred = vector(mode = "list", length = M)
 
@@ -77,22 +69,45 @@ for(t in 2:TT){
 }
 
 for(m in 1:(M+bi)){
-  
   t2 = Sys.time()
+  
+  fac1=fac2=1 # in case the sampler is stuck, we can reduce the variance
+  
+  ##-----
+  ## bs split randomly
+  ##-----
+  
+  block1 <- sample(c(TRUE,FALSE),size=dm*2,replace = TRUE)
+  block2 <- (!block1)
+  
   ##-----
   ## bs
   ##-----
-  # 10% of the time sample from large variance 
-  fac = sample(c(1,sqrt(10)),size=2,replace=TRUE,prob = c(0.9,0.1))
-  
+
+  # block 1
+  counter = 0
   repeat{
-    bn   = rnorm(dm*2,c(aold,bold),sd=propsd*fac[1])
+    counter = counter+1
+    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd*fac1)
+    bn     = b.prop*block1+c(aold,bold)*block2
+    
     anew = bn[1:dm]
     bnew = bn[(dm+1):(2*dm)]
     A    = Outer(anew,anew)
     B    = Outer(bnew,bnew)
     B0   = (Oiota-A-B)*Sbar
-    if(anew[1]>0 && bnew[1]>0 && (prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 ) && (sum(abs(A+B)<1)==dm^2)) break
+    
+    cond1 = anew[1]>0
+    cond2 = bnew[1]>0
+    cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
+    cond4 = (sum(abs(A+B)<1)==dm^2)
+    if(cond1 && cond2 && cond3 && cond4) {
+      break
+    }
+    if(counter >= 5){
+      print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac1,sep=','))
+      fac1=fac1/sqrt(10)
+    }
   }
   
   llnew <- rep(0,TT)
@@ -115,15 +130,64 @@ for(m in 1:(M+bi)){
     aold   = anew
     bold   = bnew
     Qold   = Qnew
-    accdcc[m] = 1
+    accdcc1[m] = 1
   }
   
+  
+  # block 2
+  counter = 0
+  repeat{
+    counter = counter+1
+    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd*fac2)
+    bn     = b.prop*block2+c(aold,bold)*block1
+    
+    anew = bn[1:dm]
+    bnew = bn[(dm+1):(2*dm)]
+    A    = Outer(anew,anew)
+    B    = Outer(bnew,bnew)
+    B0   = (Oiota-A-B)*Sbar
+    
+    cond1 = anew[1]>0
+    cond2 = bnew[1]>0
+    cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
+    cond4 = (sum(abs(A+B)<1)==dm^2)
+    if(cond1 && cond2 && cond3 && cond4) {
+      break
+    }
+    if(counter >= 5){
+      print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac2,sep=','))
+      fac1=fac2/sqrt(10)
+    }
+  }
+  
+  llnew <- rep(0,TT)
+  Qnew  = Qold
+  
+  for(t in 2:TT){
+    Qnew[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Qnew[,,(t-1)]
+    t.ma  = Qnew[,,t]
+    t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
+    t.R   = Outer(t.dv,t.dv)*t.ma
+    inlik = sum(dt(tdata[t,],df=nuold,log=TRUE))
+    llnew[t]  <- mvnfast::dmvt(tdata[t,], rep(0,dm), t.R, nuold, log=TRUE)-inlik
+  }
+  
+  if((sum(llnew)-sum(llold)+
+      sum(dnorm(anew,0,sqrt(10),log=TRUE))-sum(dnorm(aold,0,sqrt(10),log=TRUE))+
+      sum(dnorm(bnew,0,sqrt(10),log=TRUE))-sum(dnorm(bold,0,sqrt(10),log=TRUE)))>log(runif(1)))
+  {
+    llold  = llnew
+    aold   = anew
+    bold   = bnew
+    Qold   = Qnew
+    accdcc2[m] = 1
+  }
   
   ##-----
   ## nu
   ##-----
   repeat{
-    nunew = rnorm(1,nuold,propsdnu*fac[2])
+    nunew = rnorm(1,nuold,propsdnu)
     if(nunew>dm) break
   }
   
@@ -136,16 +200,13 @@ for(m in 1:(M+bi)){
   B     = Outer(bold,bold)
   B0    = (Oiota-A-B)*Sbar
   
-  
   for(t in 2:TT){
     Qnew[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Qnew[,,(t-1)]
-    
     t.ma  = Qnew[,,t]
     t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
     t.R   = Outer(t.dv,t.dv)*t.ma
     inlik = sum(dt(tdata[t,],df=nunew,log=TRUE))
     llnew[t]  <- mvnfast::dmvt(tdata[t,], rep(0,dm), t.R, nunew, log=TRUE)-inlik
-      
   }
   
   if((sum(llnew)-sum(llold)+
@@ -159,13 +220,18 @@ for(m in 1:(M+bi)){
   
   tdata  = qt(udata,nuold)
   Sbar   = cov(tdata)
-  A      = Outer(aold,aold)
-  B      = Outer(bold,bold)
-  B0     = (Oiota-A-B)*Sbar
+  
+  ##-----
+  ## Collect results and prediction
+  ##-----
+  
+  resdcc[m,] <- c(nuold,aold,bold) 
+  LLH[m]     <- sum(llold)
   
   if(m>bi){
-    resdcc[m-bi,] <- c(nuold,aold,bold) 
-    LLH[m-bi]     <- sum(llold)
+    A      = Outer(aold,aold)
+    B      = Outer(bold,bold)
+    B0     = (Oiota-A-B)*Sbar
     Qpred[[m-bi]] <- B0+A*Outer(tdata[TT,],tdata[TT,])+B*Qold[,,TT]
     Vpred[[m-bi]] <- diag(diag(Qpred[[m-bi]])^{-1/2})%*%Qpred[[m-bi]]%*%diag(diag(Qpred[[m-bi]])^{-1/2})
   }
@@ -175,16 +241,17 @@ for(m in 1:(M+bi)){
     print(paste(round(m/(M+bi)*100,2),"%",sep=""))
     print(Sys.time()-t1)
     print(Sys.time()-t0)
-    print(round(c(mean(accnu[1:m]),mean(accdcc[1:m])),2))
+    print(round(c(mean(accnu[1:m]),mean(accdcc1[1:m]),mean(accdcc2[1:m])),2))
     t1   = Sys.time()
   }
   TIMING[m] = Sys.time()-t2
 }  
-# })
 
 
 mean(accnu[(bi+1):(bi+M)])
-mean(accdcc[(bi+1):(bi+M)])
+mean(accdcc1[(bi+1):(bi+M)])
+mean(accdcc2[(bi+1):(bi+M)])
+
 
 nu = resdcc[,1]
 b1 = resdcc[,2:(dm+1)]
@@ -201,6 +268,6 @@ for(i in 1:dm) {plot(b1[,i],type='l')}
 par(mfrow=c(3,5)) 
 for(i in 1:dm) {plot(b2[,i],type='l')}
 
-res = list(Vpred,Qpred,resdcc,accdcc[(bi+1):(bi+M)],accnu[(bi+1):(bi+M)])
-names(res) = c('Vpred','Qpred','resdcc','accdcc','accnu')
+res = list(Vpred,Qpred,resdcc,accdcc1[(bi+1):(bi+M)],accdcc2[(bi+1):(bi+M)],accnu[(bi+1):(bi+M)])
+names(res) = c('Vpred','Qpred','resdcc','accdcc1','accdcc2','accnu')
 save(res,file=paste('empirical/temp/results_vectordcc_tcop.Rdata',sep=''))
