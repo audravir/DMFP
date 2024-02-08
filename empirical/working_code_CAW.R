@@ -28,10 +28,10 @@ data = Sigma[1:T0]
 rm(Sigma)
 
 # function arguments
-M = 5000
+M = 15000
 
-# 0.001 gives accp of 0.5
-propsdb  = 0.0001 
+# 0.0001  gives accp of 0.35
+propsdb  = 0.0005 
 propsdnu = 0.1
 
 
@@ -48,8 +48,8 @@ resc   = matrix(NA,nrow=M,ncol=dm*2+1)
 LLH    = rep(NA,M)
 Vpred  = vector(mode = "list", length = M)
 nu     = 20
-b1     = rep(0.85,dm)
-b2     = rep(0.50,dm)
+b1     = rep(0.90,dm)
+b2     = rep(0.40,dm)
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
@@ -183,7 +183,7 @@ for(m in 1:(bi+M)){
     print(paste(round(m/(M+bi)*100,2),"%",sep=""))
     print(Sys.time()-t1)
     print(Sys.time()-t0)
-    print(round(c(mean(accnu),mean(accB1),mean(accB2)),2))
+    print(round(c(mean(accnu[1:m]),mean(accB1[1:m]),mean(accB2[1:m])),2))
     t1   = Sys.time()
   }
   TIMING[m] = Sys.time()-t2
