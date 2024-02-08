@@ -21,7 +21,7 @@ nn
 # the same
 
 data = stand[1:T0,]
-M    = 10000
+M    = 50000
 
 # 0.0001 gives 25%
 propsd = 0.0001
@@ -29,7 +29,7 @@ propsd = 0.0001
 t0   = t1 = Sys.time()
 TT   = dim(data)[1]
 dm   = dim(data)[2]
-bi   = min(M,10^4)
+bi   = min(M,25000)
 TIMING = rep(NA,M+bi)
 
 
@@ -215,7 +215,16 @@ for(i in 1:dm) {plot(b1[,i],type='l')}
 par(mfrow=c(3,5)) 
 for(i in 1:dm) {plot(b2[,i],type='l')}
 
-res = list(Vpred,Qpred,resdcc,accdcc1[(bi+1):(bi+M)],accdcc2[(bi+1):(bi+M)],LLH)
+library(corrplot)
+par(mfrow=c(1,1))
+corrplot(cor(resdcc)) 
+
+post.size = 5000
+ind       = round(seq(1,M,length=post.size))
+
+r   = resdcc[(bi+1):(bi+M),]
+res = list(Vpred[ind],Qpred[ind],r[ind,],
+           accdcc1[(bi+1):(bi+M)][ind],accdcc2[(bi+1):(bi+M)][ind],LLH[ind])
 names(res) = c('Vpred','Qpred','resdcc','accdcc1','accdcc2','LLH')
 save(res,file=paste('empirical/temp/results_vectordcc.Rdata',sep=''))
 
