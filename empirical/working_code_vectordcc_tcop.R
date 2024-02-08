@@ -21,7 +21,7 @@ nn
 # the same
 
 data = stand[1:T0,]
-M    = 10000
+M    = 50000
 
 propsd   = 0.0001
 propsdnu = 0.5
@@ -33,7 +33,7 @@ t1   = Sys.time()
 
 TT   = dim(data)[1]
 dm   = dim(data)[2]
-bi   = min(M,2*10^4)
+bi   = min(M,25000)
 TIMING = rep(NA,M+bi)
 
 udata = pnorm(data)*TT/(TT+1) 
@@ -156,7 +156,7 @@ for(m in 1:(M+bi)){
     }
     if(counter >= 5){
       print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac2,sep=','))
-      fac1=fac2/sqrt(10)
+      fac2=fac2/sqrt(10)
     }
   }
   
@@ -252,7 +252,6 @@ mean(accnu[(bi+1):(bi+M)])
 mean(accdcc1[(bi+1):(bi+M)])
 mean(accdcc2[(bi+1):(bi+M)])
 
-
 nu = resdcc[,1]
 b1 = resdcc[,2:(dm+1)]
 b2 = resdcc[,(dm+2):(2*dm+1)]
@@ -268,6 +267,17 @@ for(i in 1:dm) {plot(b1[,i],type='l')}
 par(mfrow=c(3,5)) 
 for(i in 1:dm) {plot(b2[,i],type='l')}
 
-res = list(Vpred,Qpred,resdcc,accdcc1[(bi+1):(bi+M)],accdcc2[(bi+1):(bi+M)],accnu[(bi+1):(bi+M)])
+library(corrplot)
+par(mfrow=c(1,1))
+corrplot(cor(resdcc)) 
+
+
+post.size = 5000
+ind       = round(seq(1,M,length=post.size))
+
+r   = resdcc[(bi+1):(bi+M),]
+res = list(Vpred[ind],Qpred[ind],r[ind,],
+           accdcc1[(bi+1):(bi+M)][ind],accdcc2[(bi+1):(bi+M)][ind],accnu[(bi+1):(bi+M)][ind])
 names(res) = c('Vpred','Qpred','resdcc','accdcc1','accdcc2','accnu')
 save(res,file=paste('empirical/temp/results_vectordcc_tcop.Rdata',sep=''))
+

@@ -40,32 +40,30 @@ t1   = Sys.time()
 
 TT   = dim(data)[1]
 dm   = dim(data)[2]
-bi   = min(M,10^4)
-
 
 R    = array(NA,c(dm, dm, TT))
-aold   <- rep(0.1,dm)
-bold   <- rep(0.8,dm)
-nuold  <- 30
+aold   <- rep(0.33,dm)
+bold   <- rep(0.94,dm)
+nuold  <- 16
 tdata  <- qt(udata,nuold)
 Rbar   <- cor(tdata)
 llold  <- rep(0,TT)
-LLH    <- rep(NA,M)
+bi     = min(M,25000)
+LLH    <- rep(NA,M+bi)
 R[,,1] <- cor(tdata)
 Pbar   = Reduce('+',Sig)/T0
 A      = Outer(aold,aold)
 B      = Outer(bold,bold)
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
-Rtilde = (Oiota-A-B)*Rbar
+Rtilde = (Oiota-A-B)*Pbar
 is.positive.definite(Rtilde)
 
 llold    <- rep(0,TT)
-restdcch <- matrix(NA,ncol=dm*2+1,nrow=M)
-accdcc   <- rep(0,bi+M)
+restdcch <- matrix(NA,ncol=dm*2+1,nrow=M+bi)
+accdcc1  = accdcc2 = rep(0,bi+M)
 accnu    <- rep(0,bi+M)
 Rpred = vector(mode = "list", length = M)
-
 
 for(t in 2:TT){
   R[,,t]   <- Rtilde+A*Sig[[t-1]]+B*R[,,t-1]
@@ -77,31 +75,42 @@ for(t in 2:TT){
 
 
 for(m in 1:(M+bi)){
-  
   t2 = Sys.time()
+  fac1=fac2=1
+  
+  
+  ##-----
+  ## bs split randomly
+  ##-----
+  
+  block1 <- sample(c(TRUE,FALSE),size=dm*2,replace = TRUE)
+  block2 <- (!block1)
+  
+  
   ##-----
   ## bs
   ##-----
-  # 10% of the time sample from large variance 
-  fac = sample(c(1,sqrt(10)),size=2,replace=TRUE,prob = c(0.9,0.1))
-  
+
+  # block 1
   counter = 0
   repeat{
     counter = counter+1
-    bn   = rnorm(dm*2,c(aold,bold),sd=propsd*fac[1])
+    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd*fac1)
+    bn     = b.prop*block1+c(aold,bold)*block2
+
     anew = bn[1:dm]
     bnew = bn[(dm+1):(2*dm)]
     A    = Outer(anew,anew)
     B    = Outer(bnew,bnew)
-    Rtilde = (Oiota-A-B)*Rbar
+    Rtilde = (Oiota-A-B)*Pbar
     cond1 = anew[1]>0
     cond2 = bnew[1]>0
     cond3 = (prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1)
     cond4 = (sum(abs(A+B)<1)==dm^2)
     if(cond1 && cond2 && cond3 && cond4) break
     if (counter>5){
-      print(c(cond1,cond2,cond3,cond4,m))
-      fac[1] = fac[1]/2
+      print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac1,sep=','))
+      fac1 = fac1/3.16
     }
   }
   
@@ -122,16 +131,58 @@ for(m in 1:(M+bi)){
     llold  = llnew
     aold   = anew
     bold   = bnew
-    accdcc[m] = 1
+    accdcc1[m] = 1
   }
   
+  
+  # block 2
+  counter = 0
+  repeat{
+    counter = counter+1
+    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd*fac2)
+    bn     = b.prop*block2+c(aold,bold)*block1
+    
+    anew = bn[1:dm]
+    bnew = bn[(dm+1):(2*dm)]
+    A    = Outer(anew,anew)
+    B    = Outer(bnew,bnew)
+    Rtilde = (Oiota-A-B)*Pbar
+    cond1 = anew[1]>0
+    cond2 = bnew[1]>0
+    cond3 = (prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1)
+    cond4 = (sum(abs(A+B)<1)==dm^2)
+    if(cond1 && cond2 && cond3 && cond4) break
+    if (counter>5){
+      print(paste('BL2',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac2,sep=','))
+      fac2 = fac2/3.16
+    }
+  }
+  
+  llnew <- rep(0,TT)
+  
+  for(t in 2:TT){
+    R[,,t]   <- Rtilde+A*Sig[[t-1]]+B*R[,,t-1]
+    inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
+    llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nuold, log=TRUE)-
+      inlik
+  }
+
+  if((sum(llnew)-sum(llold)+
+      sum(dnorm(anew,0,sqrt(10),log=TRUE))-sum(dnorm(aold,0,sqrt(10),log=TRUE))+
+      sum(dnorm(bnew,0,sqrt(10),log=TRUE))-sum(dnorm(bold,0,sqrt(10),log=TRUE)))>log(runif(1)))
+  {
+    llold  = llnew
+    aold   = anew
+    bold   = bnew
+    accdcc2[m] = 1
+  }
   
   
   ##-----
   ## nu
   ##-----
   repeat{
-    nunew = rnorm(1,nuold,propsdnu*fac[2])
+    nunew = rnorm(1,nuold,propsdnu)
     if(nunew>dm) break
   }
   
@@ -142,7 +193,7 @@ for(m in 1:(M+bi)){
   R[,,1] = Rbar
   A     = Outer(aold,aold)
   B     = Outer(bold,bold)
-  Rtilde = (Oiota-A-B)*Rbar
+  Rtilde = (Oiota-A-B)*Pbar
   
   
   for(t in 2:TT){
@@ -163,12 +214,16 @@ for(m in 1:(M+bi)){
   
   tdata  = qt(udata,nuold)
   Rbar   <- cor(tdata)
-  Rtilde = (Oiota-A-B)*Rbar
+  Rtilde = (Oiota-A-B)*Pbar
   
+  ##-----
+  ## Collect results and prediction
+  ##-----
+  
+  restdcch[m,] <- c(nuold,aold,bold) 
+  LLH[m]       <- sum(llold)
   
   if(m>bi){
-    restdcch[m-bi,] <- c(nuold,aold,bold) 
-    LLH[m-bi]     <- sum(llold)
     Rpred[[m-bi]] <- Rtilde+A*Sig[[TT]]+B*R[,,TT]
   }
   
@@ -177,14 +232,15 @@ for(m in 1:(M+bi)){
     print(paste(round(m/(M+bi)*100,2),"%",sep=""))
     print(Sys.time()-t1)
     print(Sys.time()-t0)
-    print(round(c(mean(accnu[1:m]),mean(accdcc[1:m])),2))
+    print(round(c(mean(accnu[1:m]),mean(accdcc1[1:m]),mean(accdcc2[1:m])),2))
     t1   = Sys.time()
   }
   TIMING[m] = Sys.time()-t2
 }  
 
 mean(accnu[(bi+1):(bi+M)])
-mean(accdcc[(bi+1):(bi+M)])
+mean(accdcc1[(bi+1):(bi+M)])
+mean(accdcc2[(bi+1):(bi+M)])
 
 nu = restdcch[,1]
 b1 = restdcch[,2:(dm+1)]
