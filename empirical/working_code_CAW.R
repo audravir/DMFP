@@ -8,7 +8,6 @@ library(profvis)
 library(future.apply)
 plan(multisession, workers = 4)
 
-# profvis({
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
 if(is.na(date[end.date])){end.date = which(zoo::as.yearmon(date)=="jan 2020")[1]-1}
@@ -35,7 +34,6 @@ propsdb  = 0.0005
 propsdnu = 0.1
 
 
-TIMING = rep(NA,M)
 t0   = Sys.time()
 t1   = Sys.time()
 # dwish  = function(Sig,nu,S){dwishart(Sig, nu, S/nu, log=TRUE)}
@@ -44,6 +42,7 @@ Sig    = data
 dm     = dim(Sig[[1]])[1]
 TT     = length(Sig)
 bi     = min(M,10^4)
+TIMING = rep(NA,M+bi)
 resc   = matrix(NA,nrow=M,ncol=dm*2+1)
 LLH    = rep(NA,M)
 Vpred  = vector(mode = "list", length = M)
@@ -164,16 +163,13 @@ for(m in 1:(bi+M)){
     nu    = nun
   }
 
+  ##-----
+  ## Collect results and prediction
+  ##-----
+  
   if(m>bi){
-    ##-----
-    ## Collect results
-    ##-----
     resc[m-bi,] = c(nu,b1,b2)
     LLH[m-bi]   = sum(llo)
-    
-    ##-----
-    ## Prediction
-    ##-----
     Vpred[[m-bi]]    = B0+B1*V[[TT]]+B2*Sig[[TT]]
   }
   
@@ -187,10 +183,8 @@ for(m in 1:(bi+M)){
     t1   = Sys.time()
   }
   TIMING[m] = Sys.time()-t2
-
 }
- 
-# })
+
 
 mean(accnu[(bi+1):(bi+M)])  
 mean(accB1[(bi+1):(bi+M)])

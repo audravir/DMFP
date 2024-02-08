@@ -191,7 +191,7 @@ tdata <- qt(udata,median(nu))
 Sbar  <- cova(tdata[start:nn,])
 B0    <- (Oiota-A-B)*Sbar
 R.dcct = array(NA,c(dm, dm, nn+K))
-tmp.llb = rep(NA,nn+K)
+tmp.dcct = rep(NA,nn+K)
 INL   <- dt(tdata,df=median(nu),log=TRUE)
 
 for(t in 2:(nn+K)){
@@ -200,10 +200,10 @@ for(t in 2:(nn+K)){
   t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
   t.R   = Outer(t.dv,t.dv)*t.ma
   R.dcct[,,t] = t.R
-  tmp.llb[t] = mvnfast::dmvt(tdata[t,], rep(0,dm),t.R, median(nu), log=TRUE)+sum(INL.N[t,])-sum(INL[t,])
+  tmp.dcct[t] = mvnfast::dmvt(tdata[t,], rep(0,dm),t.R, median(nu), log=TRUE)+sum(INL.N[t,])-sum(INL[t,])
 }
 
-sum(tail(tmp.llb,K))
+sum(tail(tmp.dcct,K))
 
 roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
@@ -335,10 +335,7 @@ sum(lL_static)
 sum(lL_rmf)
 sum(apply(lL_dcc,2,median))
 sum(apply(lL_tdcc,2,median))
-sum(apply(lL_tdcc,2,median))
 sum(apply(lL_xm1,2,median))
-
-
 
 # at the median of estimated parameters
 
@@ -346,50 +343,120 @@ B1  = Outer(apply(b1,2,median),apply(b1,2,median))
 B2  = Outer(apply(b2,2,median),apply(b2,2,median))
 B0  = (Oiota-B1-B2)*Sbar
 R.xm = array(NA,c(dm, dm, nn+K))
-tmp.ll  = rep(NA,nn+K)
+tmp.xm  = rep(NA,nn+K)
 tmp.true = rep(NA,nn+K)
 mtdf = median(nu)-dm
 tmp.dcc = rep(NA,nn+K)
 
 for(t in 2:(nn+K)){
   R.xm[,,t]   <- B0+B1*Sig[[t-1]]+B2*(Reduce('+',Sig[max(c(t-median(lag)),1):(t-1)])/min(c(t-1,median(lag))))
-  tmp.ll[t] = mvnfast::dmvt(data[t,], rep(0,dm), (mtdf-1)/(mtdf+1)*R.xm[,,t], df = mtdf+1, log=TRUE)
-  tmp.ll[t] = mvnfast::dmvn(data[t,], rep(0,dm), R.xm[,,t], log=TRUE)
+  tmp.xm[t] = mvnfast::dmvt(data[t,], rep(0,dm), (mtdf-1)/(mtdf+1)*R.xm[,,t], df = mtdf+1, log=TRUE)
   tmp.true[t] = mvnfast::dmvn(data[t,], rep(0,dm),RCor[,,t], log=TRUE)
   tmp.dcc[t] = mvnfast::dmvn(data[t,], rep(0,dm), R.dcc[,,t], log=TRUE)
 }
 
-sum(tail(tmp.ll,K))
-sum(tail(tmp.llb,K))
-sum(tail(tmp.true,K))
+sum(tail(tmp.xm,K))
+sum(tail(tmp.dcct,K))
 sum(tail(tmp.dcc,K))
+sum(tail(tmp.true,K))
+
 
 roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
                        align = "center",fill=NA)
-plot(roll_corr,type='l',ylim=c(-1,1),lwd=3)
+plot(RCor[p1,p2,],col=3,type='l',ylim=c(-1,1))
+lines(roll_corr,lwd=3)
 lines(R.dcct[p1,p2,],col=2)
 lines(R.xm[p1,p2,],col=4)
-lines(RCor[p1,p2,],col=3)
-
-plot(tmp.true,type='l',ylim=c(-100,10),lwd=2)
-lines(tmp.dcc,col=2)
-
-plot(data[,p1]*data[,p2],type='l')
-lines(R.dcc[p1,p2,],col=2,lwd=2)
-lines(RCor[p1,p2,],col=3)
-
 
 ##------
 ## CAW
 ##------
 
+llNW = function(y,S,nu,iter=1000){
+  fun=function(x) mvnfast::dmvn(y, rep(0,dm), x, log=TRUE)
+  V = rWishart(iter,nu,S/nu)
+  res = mean(apply(V,3,fun))
+  return(res)
+}
+
+load('empirical/temp/results_caw.Rdata')
+M   = dim(res$resc)[1]
+ind = round(seq(1,M,length=post.sample)) #thin every xth
+lL_caw = lL_cawN =matrix(NA,ncol=K,nrow=post.sample)
+
+nu=res$resc[ind,1]
+b1=res$resc[ind,2:(dm+1)]
+b2=res$resc[ind,(dm+2):(dm*2+1)]
+Vlast = res$Vpred[ind]
+
+for(m in 1:post.sample){
+  Vpred = vector(mode = "list", length = K)
+  B1  = Outer(b1[m,],b1[m,])
+  B2  = Outer(b2[m,],b2[m,])
+  B0  = (Oiota-B1-B2)*Sbar
+  
+  Vpred[[1]] = B0+B1*Vlast[[m]]+B2*Sig[[nn]]
+  lL_caw[m,1] = llNW(data[nn+1,],Vpred[[1]],nu[m])
+  lL_cawN[m,1] = mvnfast::dmvn(data[nn+1,], rep(0,dm), Vpred[[1]], log=TRUE)
+  
+  
+  for(t0 in 2:K){
+    Vpred[[t0]] = B0+B1*Vpred[[t0-1]]+B2*Sig[[nn+t0-1]]
+    lL_cawN[m,t0] = mvnfast::dmvn(data[nn+t0,], rep(0,dm), Vpred[[t0]], log=TRUE)
+    lL_caw[m,t0] = llNW(data[nn+t0,],Vpred[[t0]],nu[m])
+  }
+  
+}
+
+sum(lL_static)
+sum(lL_rmf)
+sum(apply(lL_dcc,2,median))
+sum(apply(lL_tdcc,2,median))
+sum(apply(lL_xm1,2,median))
+sum(apply(lL_caw,2,median))
+
+# at the median of estimated parameters
+
+B1  = Outer(apply(b1,2,median),apply(b1,2,median))
+B2  = Outer(apply(b2,2,median),apply(b2,2,median))
+B0  = (Oiota-B1-B2)*Sbar
+R.caw = array(NA,c(dm, dm, nn+K))
+tmp.caw  = rep(NA,nn+K)
+R.caw[,,1] = Sbar
+
+for(t in 2:(nn+K)){
+  R.caw[,,t]   <- B0+B1*R.caw[,,t-1]+B2*Sig[[t-1]]
+  tmp.caw[t] = mvnfast::dmvn(data[t,], rep(0,dm), R.caw[,,t], log=TRUE)
+}
+
+sum(tail(tmp.caw,K))
+
+roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
+                       function(z) cor(z[,1], z[,2]), by.column = FALSE,
+                       align = "center",fill=NA)
+plot(RCor[p1,p2,],col=3,type='l',ylim=c(-1,1))
+lines(roll_corr,lwd=3)
+lines(R.caw[p1,p2,],col=2)
+lines(R.xm[p1,p2,],col=4)
 
 
+plot(tail(date,K),tail(R.caw[p1,p2,],K),col='pink',type='l',lwd=2)
+lines(tail(date,K),tail(R.xm[p1,p2,],K),col=4)
 
-dcc  = cumsum(apply(log(lL_dcc),2,mean))
-dcct = cumsum(apply(log(lL_tdcc),2,mean))
-xm   = cumsum(apply(log(lL_xm1),2,mean))
+#### COMPARE
+
+dcct = cumsum(apply(lL_tdcc,2,mean))
+xm   = cumsum(apply(lL_xm1,2,mean))
+caw  = cumsum(apply(lL_caw,2,mean))
+
+plot(tail(date,K),xm-dcct,type='l')
+lines(tail(date,K),caw-dcct,col=2)
+lines(tail(date,K),xm-caw,col=4)
+
+mean((lL_xm1-lL_tdcc)<0)
+
+####
 
 
 standvol = matrix(NA,ncol=dm,nrow = K)
