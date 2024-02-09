@@ -26,7 +26,7 @@ nn
 data = Sigma[1:T0]
 rm(Sigma)
 # function arguments
-M = 5000
+M = 15000
 
 # 0.001 gives accp 0.516
 propsdb  = 0.001
@@ -128,8 +128,8 @@ for(m in 1:(bi+M)){
     
     cond1 = b1n[1]>0
     cond2 = b2n[1]>0
-    cond3 = (prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 )
-    cond4 = (sum(abs(B1+B2)<1)==dm^2)
+    cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
+    cond4 = sum(abs(B1+B2)<1)==dm^2
     if(cond1 && cond2 && cond3 && cond4) {
       break
     }
@@ -170,8 +170,8 @@ for(m in 1:(bi+M)){
     
     cond1 = b1n[1]>0
     cond2 = b2n[1]>0
-    cond3 = (prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 )
-    cond4 = (sum(abs(B1+B2)<1)==dm^2)
+    cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1
+    cond4 = sum(abs(B1+B2)<1)==dm^2
     if(cond1 && cond2 && cond3 && cond4) {
       break
     }
@@ -266,12 +266,17 @@ library(corrplot)
 par(mfrow=c(1,1))
 corrplot(cor(resc[,-c(1,2)])) 
 
+post.size = 5000
+ind       = round(seq(1,M,length=post.size))
+r         = resc[(bi+1):(bi+M),]
 
-res = list(Vpred,resc,
-           accl[(bi+1):(bi+M)],
-           accnu[(bi+1):(bi+M)],
-           accB1[(bi+1):(bi+M)],
-           accB2[(bi+1):(bi+M)],LLH)
+
+res = list(Vpred[ind],r[ind,],
+           accl[(bi+1):(bi+M)][ind],
+           accnu[(bi+1):(bi+M)][ind],
+           accB1[(bi+1):(bi+M)][ind],
+           accB2[(bi+1):(bi+M)][ind],LLH[ind])
 names(res) = c('Vpred','resc','accl','accnu','accB1','accB2','LLH')
 save(res,file='empirical/temp/results_xm.Rdata')
+
 
