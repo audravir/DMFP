@@ -26,7 +26,7 @@ nn
 data = Sigma[1:T0]
 rm(Sigma)
 # function arguments
-M = 1000
+M = 5000
 
 # 0.001 gives accp 0.516
 propsdb  = 0.001
@@ -44,10 +44,10 @@ bi     = min(M,25000)
 TIMING = rep(NA,M+bi)
 resc   = matrix(NA,nrow=M+bi,ncol=dm*2+2)
 Vpred  = vector(mode = "list", length = M)
-nu     = 25 #20 too low
+nu     = 20 
 lag    = 15
-b1     = rep(0.43,dm) #0.43 ok starting value
-b2     = rep(0.76,dm) #0.76 ok starting value
+b1     = rep(0.45,dm) #0.45 ok starting value
+b2     = rep(0.79,dm) #0.79 ok starting value
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
@@ -255,10 +255,10 @@ plot(resc[,2],type='l')
 b1=resc[,3:(dm+2)]
 b2=resc[,(dm+3):(dm*2+2)]
 
-par(mfrow=c(4,5)) 
+par(mfrow=c(3,5)) 
 for(i in 1:dm) {plot(b1[,i],type='l')}
 
-par(mfrow=c(4,5)) 
+par(mfrow=c(3,5)) 
 for(i in 1:dm) {plot(b2[,i],type='l')}
 
 

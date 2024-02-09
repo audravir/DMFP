@@ -33,7 +33,6 @@ M = 15000
 propsdb  = 0.0005 
 propsdnu = 0.1
 
-
 t0   = Sys.time()
 t1   = Sys.time()
 # dwish  = function(Sig,nu,S){dwishart(Sig, nu, S/nu, log=TRUE)}
@@ -41,12 +40,12 @@ t1   = Sys.time()
 Sig    = data
 dm     = dim(Sig[[1]])[1]
 TT     = length(Sig)
-bi     = min(M,10^4)
+bi     = min(M,25000)
 TIMING = rep(NA,M+bi)
-resc   = matrix(NA,nrow=M,ncol=dm*2+1)
-LLH    = rep(NA,M)
+resc   = matrix(NA,nrow=M+bi,ncol=dm*2+1)
+LLH    = rep(NA,M+bi)
 Vpred  = vector(mode = "list", length = M)
-nu     = 20
+nu     = 21
 b1     = rep(0.90,dm)
 b2     = rep(0.40,dm)
 Sbar   = Reduce('+',Sig)/TT
@@ -74,6 +73,7 @@ llo <- future_mapply(dwish.t,Sig,V)
 for(m in 1:(bi+M)){
   t2=Sys.time()
   
+  fac1=fac2=1
   ##-----
   ## bs split randomly
   ##-----
@@ -81,12 +81,9 @@ for(m in 1:(bi+M)){
   block1 <- sample(c(TRUE,FALSE),size=dm*2,replace = TRUE)
   block2 <- (!block1)
   
-  # 10% of the time sample from large variance 
-  fac = sample(c(1,sqrt(10)),size=3,replace=TRUE,prob = c(0.9,0.1))
-  
   # block 1
   repeat{
-    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac[1])
+    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac1)
     bn     = b.prop*block1+c(b1,b2)*block2
     
     b1n = bn[1:dm]
@@ -115,7 +112,7 @@ for(m in 1:(bi+M)){
  
   # block 2
   repeat{
-    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac[2])
+    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac2)
     bn     = b.prop*block2+c(b1,b2)*block1
     
     b1n = bn[1:dm]
@@ -149,7 +146,7 @@ for(m in 1:(bi+M)){
   # nu
   #-----
   repeat{
-    nun = rnorm(1,nu,sd=propsdnu*fac[3])
+    nun = rnorm(1,nu,sd=propsdnu)
     if(nun>(dm)) break
   }
 
@@ -166,14 +163,12 @@ for(m in 1:(bi+M)){
   ##-----
   ## Collect results and prediction
   ##-----
+  resc[m,] = c(nu,b1,b2)
+  LLH[m]   = sum(llo)
   
   if(m>bi){
-    resc[m-bi,] = c(nu,b1,b2)
-    LLH[m-bi]   = sum(llo)
     Vpred[[m-bi]]    = B0+B1*V[[TT]]+B2*Sig[[TT]]
   }
-  
-  
   
   if(!m%%100){
     print(paste(round(m/(M+bi)*100,2),"%",sep=""))
