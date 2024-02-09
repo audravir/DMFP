@@ -30,7 +30,7 @@ M     = 5000
 propsd = 0.001
 
 
-propsdnu = 1
+propsdnu = 0.1
 
 
 
@@ -257,11 +257,21 @@ for(i in 1:dm) {plot(b1[,i],type='l')}
 par(mfrow=c(3,5)) 
 for(i in 1:dm) {plot(b2[,i],type='l')}
 
+library(corrplot)
+par(mfrow=c(1,1))
+corrplot(cor(restdcch)) 
 
 
-res = list(restdcch,accnu[(bi+1):(bi+M)],accdcc[(bi+1):(bi+M)],Rpred)
-names(res) = c('restdcch','accnu','accdcc','Rpred')
+post.size = 5000
+ind       = round(seq(1,M,length=post.size))
+r         = restdcch[(bi+1):(bi+M),]
+
+res = list(Rpred[ind],r[ind,],accnu[(bi+1):(bi+M)][ind],
+           accdcc1[(bi+1):(bi+M)][ind],accdcc2[(bi+1):(bi+M)][ind],LLH[ind])
+names(res) = c('Rpred','restdcch','accnu','accdcc1','accdcc2','LLH')
 
 save(res,file='empirical/temp/results_heavy.Rdata')
+
+
 
 
