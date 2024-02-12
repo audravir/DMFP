@@ -91,7 +91,18 @@ for(m in 1:(bi+M)){
     B1  = Outer(b1n,b1n)
     B2  = Outer(b2n,b2n)
     B0  = (Oiota-B1-B2)*Sbar
-    if(b1n[1]>0 && b2n[1]>0 && (prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 ) && (sum(abs(B1+B2)<1)==dm^2)) break
+    
+    cond1 = b1n[1]>0
+    cond2 = b2n[1]>0
+    cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
+    cond4 = sum(abs(B1+B2)<1)==dm^2
+    if(cond1 && cond2 && cond3 && cond4) {
+      break
+    }
+    if(counter >= 5){
+      print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac1,sep=','))
+      fac1=fac1/2
+    }
   }
   for(t in 2:TT){
     Vn[[t]]   = B0+B1*Vn[[t-1]]+B2*Sig[[t-1]]
@@ -120,7 +131,18 @@ for(m in 1:(bi+M)){
     B1  = Outer(b1n,b1n)
     B2  = Outer(b2n,b2n)
     B0  = (Oiota-B1-B2)*Sbar
-    if(b1n[1]>0 && b2n[1]>0 && (prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 ) && (sum(abs(B1+B2)<1)==dm^2)) break
+
+    cond1 = b1n[1]>0
+    cond2 = b2n[1]>0
+    cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
+    cond4 = sum(abs(B1+B2)<1)==dm^2
+    if(cond1 && cond2 && cond3 && cond4) {
+      break
+    }
+    if(counter >= 5){
+      print(paste('BL2',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac2,sep=','))
+      fac2=fac2/2
+    }
   }
   for(t in 2:TT){
     Vn[[t]]   = B0+B1*Vn[[t-1]]+B2*Sig[[t-1]]
@@ -186,10 +208,8 @@ mean(accB1[(bi+1):(bi+M)])
 mean(accB2[(bi+1):(bi+M)])
 
 
-
-nu=resc[,1]
 par(mfrow=c(2,2))
-plot(nu,type='l')
+plot(resc[,1],type='l')
 plot(LLH,type='l')
 plot(TIMING,type='l')
 
@@ -206,8 +226,13 @@ library(corrplot)
 par(mfrow=c(1,1))
 corrplot(cor(resc[,-1])) 
 
+post.size = 5000
+ind       = round(seq(1,M,length=post.size))
+r         = resc[(bi+1):(bi+M),]
 
-res = list(Vpred,resc,accnu[(bi+1):(bi+M)],accB1[(bi+1):(bi+M)],accB2[(bi+1):(bi+M)],LLH)
+res = list(Vpred[ind],r[ind,],
+           accnu[(bi+1):(bi+M)][ind],accB1[(bi+1):(bi+M)][ind],accB2[(bi+1):(bi+M)][ind],
+           LLH[ind])
   names(res) = c('Vpred','resc','accnu','accB1','accB1','LLH')
   save(res,file='empirical/temp/results_caw.Rdata')
 
