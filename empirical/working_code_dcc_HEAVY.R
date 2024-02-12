@@ -4,7 +4,7 @@ load('data/FXdata.Rdata')
 
 library(Rfast)
 library(mvnfast)
-
+library(matrixcalc)
 
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
@@ -23,7 +23,7 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 5000
+M     = 25000
 
 
 
@@ -32,9 +32,6 @@ propsd = 0.001
 
 propsdnu = 0.1
 
-
-
-TIMING = rep(NA,M)
 t0   = Sys.time()
 t1   = Sys.time()
 
@@ -49,6 +46,7 @@ tdata  <- qt(udata,nuold)
 Rbar   <- cor(tdata)
 llold  <- rep(0,TT)
 bi     = min(M,25000)
+TIMING = rep(NA,M+bi)
 LLH    <- rep(NA,M+bi)
 R[,,1] <- cor(tdata)
 Pbar   = Reduce('+',Sig)/T0
@@ -149,8 +147,8 @@ for(m in 1:(M+bi)){
     Rtilde = (Oiota-A-B)*Pbar
     cond1 = anew[1]>0
     cond2 = bnew[1]>0
-    cond3 = (prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1)
-    cond4 = (sum(abs(A+B)<1)==dm^2)
+    cond3 = prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1
+    cond4 = sum(abs(A+B)<1)==dm^2
     if(cond1 && cond2 && cond3 && cond4) break
     if (counter>5){
       print(paste('BL2',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac2,sep=','))
