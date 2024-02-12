@@ -23,7 +23,7 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 25000
+M     = 1000
 
 
 
@@ -40,7 +40,7 @@ TT   = dim(data)[1]
 dm   = dim(data)[2]
 
 R    = array(NA,c(dm, dm, TT))
-aold   <- rep(0.33,dm) #.33 good starting value
+aold   <- rep(0.20,dm) #.33 good starting value
 bold   <- rep(0.94,dm) # .94 good starting value
 nuold  <- 16
 tdata  <- qt(udata,nuold)
@@ -55,7 +55,7 @@ A      = Outer(aold,aold)
 B      = Outer(bold,bold)
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
-Rtilde = (Oiota-A-B)*Pbar
+Rtilde = (Oiota-B)*Rbar-A*Pbar
 is.positive.definite(Rtilde)
 
 llold    <- rep(0,TT)
@@ -71,12 +71,9 @@ for(t in 2:TT){
     inlik
 }
 
-
-
 for(m in 1:(M+bi)){
   t2 = Sys.time()
   fac1=fac2=1
-  
   
   ##-----
   ## bs split randomly
@@ -89,19 +86,19 @@ for(m in 1:(M+bi)){
   ##-----
   ## bs
   ##-----
-
+  
   # block 1
   counter = 0
   repeat{
     counter = counter+1
     b.prop = rnorm(dm*2,c(aold,bold),sd=propsd*fac1)
     bn     = b.prop*block1+c(aold,bold)*block2
-
+    
     anew = bn[1:dm]
     bnew = bn[(dm+1):(2*dm)]
     A    = Outer(anew,anew)
     B    = Outer(bnew,bnew)
-    Rtilde = (Oiota-A-B)*Pbar
+    Rtilde = (Oiota-B)*Rbar-A*Pbar
     cond1 = anew[1]>0
     cond2 = bnew[1]>0
     cond3 = (prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1)
@@ -114,14 +111,14 @@ for(m in 1:(M+bi)){
   }
   
   llnew <- rep(0,TT)
-
+  
   for(t in 2:TT){
     R[,,t]   <- Rtilde+A*Sig[[t-1]]+B*R[,,t-1]
     inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
     llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nuold, log=TRUE)-
       inlik
   }
-
+  
   
   if((sum(llnew)-sum(llold)+
       sum(dnorm(anew,0,sqrt(10),log=TRUE))-sum(dnorm(aold,0,sqrt(10),log=TRUE))+
@@ -145,7 +142,7 @@ for(m in 1:(M+bi)){
     bnew = bn[(dm+1):(2*dm)]
     A    = Outer(anew,anew)
     B    = Outer(bnew,bnew)
-    Rtilde = (Oiota-A-B)*Pbar
+    Rtilde = (Oiota-B)*Rbar-A*Pbar
     cond1 = anew[1]>0
     cond2 = bnew[1]>0
     cond3 = prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1
@@ -165,7 +162,7 @@ for(m in 1:(M+bi)){
     llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nuold, log=TRUE)-
       inlik
   }
-
+  
   if((sum(llnew)-sum(llold)+
       sum(dnorm(anew,0,sqrt(10),log=TRUE))-sum(dnorm(aold,0,sqrt(10),log=TRUE))+
       sum(dnorm(bnew,0,sqrt(10),log=TRUE))-sum(dnorm(bold,0,sqrt(10),log=TRUE)))>log(runif(1)))
@@ -187,12 +184,12 @@ for(m in 1:(M+bi)){
   
   tdata  = qt(udata,nunew)
   Rbar   <- cor(tdata)
-
+  
   llnew  = rep(0,TT)
   R[,,1] = Rbar
   A     = Outer(aold,aold)
   B     = Outer(bold,bold)
-  Rtilde = (Oiota-A-B)*Pbar
+  Rtilde = (Oiota-B)*Rbar-A*Pbar
   
   
   for(t in 2:TT){
@@ -213,7 +210,7 @@ for(m in 1:(M+bi)){
   
   tdata  = qt(udata,nuold)
   Rbar   <- cor(tdata)
-  Rtilde = (Oiota-A-B)*Pbar
+  Rtilde = (Oiota-B)*Rbar-A*Pbar
   
   ##-----
   ## Collect results and prediction
