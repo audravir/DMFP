@@ -26,11 +26,18 @@ nn
 data = Sigma[1:T0]
 rm(Sigma)
 # function arguments
-M = 15000
+M = 25000
 
 # 0.001 gives accp 0.516
 propsdb  = 0.001
 propsdnu = 0.01
+
+# > mean(accnu[(bi+1):(bi+M)])
+# [1] 0.14844
+# > mean(accB1[(bi+1):(bi+M)])
+# [1] 0.10728
+# > mean(accB2[(bi+1):(bi+M)])
+# [1] 0.09972
 
 t0   = Sys.time()
 t1   = Sys.time()
@@ -46,8 +53,8 @@ resc   = matrix(NA,nrow=M+bi,ncol=dm*2+2)
 Vpred  = vector(mode = "list", length = M)
 nu     = 20 
 lag    = 15
-b1     = rep(0.45,dm) #0.45 ok starting value
-b2     = rep(0.79,dm) #0.79 ok starting value
+b1     = rep(0.46,dm) #0.46 ok starting value
+b2     = rep(0.76,dm) #0.76 ok starting value
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
