@@ -27,7 +27,7 @@ M     = 25000
 
 
 
-propsd = 0.001
+propsd = 0.005
 # 0.001 gave accp 0.85
 
 
