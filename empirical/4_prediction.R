@@ -397,14 +397,14 @@ for(m in 1:post.sample){
   B0  = (Oiota-B1-B2)*Sbar
   
   Vpred[[1]] = B0+B1*Vlast[[m]]+B2*Sig[[nn]]
-  lL_caw[m,1] = llNW(data[nn+1,],Vpred[[1]],nu[m])
+ # lL_caw[m,1] = llNW(data[nn+1,],Vpred[[1]],nu[m])
   lL_cawN[m,1] = mvnfast::dmvn(data[nn+1,], rep(0,dm), Vpred[[1]], log=TRUE)
   
   
   for(t0 in 2:K){
     Vpred[[t0]] = B0+B1*Vpred[[t0-1]]+B2*Sig[[nn+t0-1]]
+#    lL_caw[m,t0] = llNW(data[nn+t0,],Vpred[[t0]],nu[m])
     lL_cawN[m,t0] = mvnfast::dmvn(data[nn+t0,], rep(0,dm), Vpred[[t0]], log=TRUE)
-    lL_caw[m,t0] = llNW(data[nn+t0,],Vpred[[t0]],nu[m])
   }
   
 }
@@ -414,7 +414,7 @@ sum(lL_rmf)
 sum(apply(lL_dcc,2,median))
 sum(apply(lL_tdcc,2,median))
 sum(apply(lL_xm1,2,median))
-sum(apply(lL_caw,2,median))
+sum(apply(lL_cawN,2,median))
 
 # at the median of estimated parameters
 
@@ -434,25 +434,41 @@ sum(tail(tmp.caw,K))
 
 roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
-                       align = "center",fill=NA)
+                       align = "right",fill=NA)
 plot(RCor[p1,p2,],col=3,type='l',ylim=c(-1,1))
 lines(roll_corr,lwd=3)
 lines(R.caw[p1,p2,],col=2)
 lines(R.xm[p1,p2,],col=4)
 
+p1=4
+p2=6
 
-plot(tail(date,K),tail(R.caw[p1,p2,],K),col='pink',type='l',lwd=2)
+
+ALLRC = matrix(NA,nrow=50,ncol=nn+K)
+for(j in 1:50){
+  ALLRC[j,] = rollapply(data = cbind(data[,p1], data[,p2]), width = 25+j*2,
+                       function(z) cor(z[,1], z[,2]), by.column = FALSE,
+                       align = "right",fill=NA)
+}
+
+roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
+                       function(z) cor(z[,1], z[,2]), by.column = FALSE,
+                       align = "right",fill=NA)
+
+plot(tail(date,K),tail(ALLRC[1,],K),ylim=c(-1,1),col='gray90',type='l')
+for(j in 2:50) lines(tail(date,K),tail(ALLRC[j,],K),col='gray90')
+
+
+lines(tail(date,K),tail(R.caw[p1,p2,],K),col='pink',lwd=2)
 lines(tail(date,K),tail(R.xm[p1,p2,],K),col=4)
+lines(tail(date,K),tail(R.dcct[p1,p2,],K),col=6,lwd=2)
 
 #### COMPARE
 
 dcct = cumsum(apply(lL_tdcc,2,mean))
 xm   = cumsum(apply(lL_xm1,2,mean))
-caw  = cumsum(apply(lL_caw,2,mean))
 
 plot(tail(date,K),xm-dcct,type='l')
-lines(tail(date,K),caw-dcct,col=2)
-lines(tail(date,K),xm-caw,col=4)
 
 mean((lL_xm1-lL_tdcc)<0)
 
@@ -474,6 +490,15 @@ for(t0 in 1:K){
 
 
 
+par(mfrow=c(1,1))
+par(mfrow=c(1,1), mar=c(3, 3, 1, 1) + 0.1)
+plot(tail(date,K),mkvol,type='l',axes = FALSE,
+     col='gray90',lwd=3,ylab='',xlab='', xaxt="n")
+
+par(new = TRUE)
+plot(tail(date,K),cumsum(apply(lL_tdcc,2,median))-
+       cumsum(apply(lL_dcc,2,median)),type='l')
+
 
 ##------
 ## All models separately
@@ -485,21 +510,17 @@ plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='', xaxt="n")
 
 par(new = TRUE)
-plot(tail(date,K),cumsum(apply(log(lL_xm1[,]),2,median))-
-       cumsum(log(lL_static[,])), xaxt="n",
-     type='l',ylim=c(-5,30),lty=2,ylab='',xlab='',lwd=2)
+plot(tail(date,K),cumsum(apply((lL_xm1[,]),2,median))-
+       cumsum((lL_static[,])), xaxt="n",
+     type='l',ylim=c(-5,2500),lty=2,ylab='',xlab='',lwd=2)
 abline(h=0)
-lines(tail(date,K),cumsum(apply(log(lL_tdcc[,]),2,median))-
-        cumsum(log(lL_static[,])),lty=2)
-# lines(tail(date,K),cumsum(apply(log(lL_rme[,]),2,median))-
-#         cumsum(log(lL_static[,])),col='gray40',lwd=2)
-# lines(tail(date,K),cumsum(log(lL_rmf[,]))-
-#         cumsum(log(lL_static[,])),col='gray60',lwd=2,lty=4)
-lines(tail(date,K),cumsum(apply(log(lL_dcc[,]),2,median))-
-        cumsum(log(lL_static[,])))
-lines(tail(date,K),cumsum(apply(log(lL_tdcch),2,median))-
-        cumsum(log(lL_static[,])),col='gray40',lty=6,lwd=3)
-legend(x=date[nn]-5,y=30,col=c(1,1,1,'gray40','gray90'),
+lines(tail(date,K),cumsum(apply((lL_tdcc[,]),2,median))-
+        cumsum((lL_static[,])),lty=2)
+lines(tail(date,K),cumsum(apply((lL_dcc[,]),2,median))-
+        cumsum((lL_static[,])))
+lines(tail(date,K),cumsum(apply((lL_tdcch),2,median))-
+        cumsum((lL_static[,])),col='gray40',lty=6,lwd=3)
+legend(x=date[nn]-5,y=2500,col=c(1,1,1,'gray40','gray90'),
        lty=c(1,2,2,6,1),lwd=c(1,1,2,2,2),
        legend=c('DCC','DCC-t','AIW','DCC-HEAVY-t','avrg.stand.RV'))
 atx <- seq(date[(nn+1)], date[(nn+K)], by=30)
