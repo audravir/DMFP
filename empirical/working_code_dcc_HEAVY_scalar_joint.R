@@ -41,8 +41,8 @@ TT   = dim(data[1:T0,])[1]
 dm   = dim(data[1:T0,])[2]
 
 R    = array(NA,c(dm, dm, TT))
-aold   <- 0.11
-bold   <- 0.8
+aold   <- 0.20
+bold   <- 0.50
 nuold  <- 16
 tdata  <- qt(udata,nuold)
 Rbar   <- cor(tdata)
@@ -144,7 +144,7 @@ plot(restdcch[,2],type='l')
 plot(restdcch[,3],type='l')
 
 
-post.size = 5000
+post.size = 1000
 ind       = round(seq(1,M,length=post.size))
 r         = restdcch[(bi+1):(bi+M),]
 

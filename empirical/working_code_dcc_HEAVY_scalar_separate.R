@@ -23,7 +23,7 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 5000
+M     = 1000
 
 
 
@@ -39,9 +39,9 @@ TT   = dim(data)[1]
 dm   = dim(data)[2]
 
 R    = array(NA,c(dm, dm, TT))
-aold   <- 0.14
-bold   <- 0.69 
-nuold  <- 15
+aold   <- 0.2
+bold   <- 0.5 
+nuold  <- 16
 tdata  <- qt(udata,nuold)
 Rbar   <- cor(tdata)
 llold  <- rep(0,TT)
@@ -183,7 +183,7 @@ par(mfrow=c(1,1))
 corrplot(cor(restdcch)) 
 
 
-post.size = 5000
+post.size = 1000
 ind       = round(seq(1,M,length=post.size))
 r         = restdcch[(bi+1):(bi+M),]
 
