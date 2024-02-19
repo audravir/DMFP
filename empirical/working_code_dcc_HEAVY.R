@@ -23,7 +23,7 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 25000
+M     = 50000
 
 
 
@@ -108,7 +108,7 @@ for(m in 1:(M+bi)){
     cond4 = (sum(abs(A+B)<1)==dm^2)
     if(cond1 && cond2 && cond3 && cond4) break
     if (counter>10){
-      print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac1,sep=','))
+      # print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac1,sep=','))
       fac1 = fac1/3.16
     }
   }
@@ -152,7 +152,7 @@ for(m in 1:(M+bi)){
     cond4 = sum(abs(A+B)<1)==dm^2
     if(cond1 && cond2 && cond3 && cond4) break
     if (counter>10){
-      print(paste('BL2',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac2,sep=','))
+      # print(paste('BL2',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac2,sep=','))
       fac2 = fac2/3.16
     }
   }
