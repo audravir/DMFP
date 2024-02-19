@@ -27,7 +27,7 @@ M     = 50000
 
 
 
-propsd = 0.0001
+propsd = 0.0002
 
 
 propsdnu = 0.1
@@ -42,13 +42,14 @@ R    = array(NA,c(dm, dm, TT))
 aold   <- 0.1
 bold   <- 0.7 
 nuold  <- 16
-tdata  <- qt(udata,nuold)
+tdata  <- qt(udata[1:T0,],nuold)
 Rbar   <- cor(tdata)
 llold  <- rep(0,TT)
 bi     = min(M,25000)
 TIMING = rep(NA,M+bi)
 LLH    <- rep(NA,M+bi)
 R[,,1] <- cor(tdata)
+Rnew   = R
 Pbar   = Reduce('+',Sig)/T0
 Rtilde = (1-bold)*Rbar-aold*Pbar
 is.positive.definite(Rtilde)
@@ -88,9 +89,9 @@ for(m in 1:(M+bi)){
   llnew <- rep(0,TT)
   
   for(t in 2:TT){
-    R[,,t]   <- Rtilde+anew*Sig[[t-1]]+bnew*R[,,t-1]
+    Rnew[,,t]   <- Rtilde+anew*Sig[[t-1]]+bnew*Rnew[,,t-1]
     inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
-    llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nuold, log=TRUE)-
+    llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), Rnew[,,t], df = nuold, log=TRUE)-
       inlik
   }
   
@@ -101,6 +102,7 @@ for(m in 1:(M+bi)){
     llold  = llnew
     aold   = anew
     bold   = bnew
+    R      = Rnew
     accdcc[m] = 1
   }
   
@@ -115,17 +117,17 @@ for(m in 1:(M+bi)){
   nunew  = truncnorm::rtruncnorm(1,a = dm+1,mean = nuold,sd = propsdnu) 
   
   
-  tdata  = qt(udata,nunew)
+  tdata  = qt(udata[1:T0,],nunew)
   Rbar   <- cor(tdata)
   
   llnew  = rep(0,TT)
-  R[,,1] = Rbar
+  Rnew[,,1] = Rbar
   Rtilde = (1-bold)*Rbar-aold*Pbar
   
   for(t in 2:TT){
-    R[,,t]   <- Rtilde+aold*Sig[[t-1]]+bold*R[,,t-1]
+    Rnew[,,t]   <- Rtilde+aold*Sig[[t-1]]+bold*Rnew[,,t-1]
     inlik    <- sum(dt(tdata[t,],df=nunew,log=TRUE))
-    llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nunew, log=TRUE)-
+    llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), Rnew[,,t], df = nunew, log=TRUE)-
       inlik
   }
   
@@ -136,11 +138,12 @@ for(m in 1:(M+bi)){
   {
     llold  = llnew
     nuold  = nunew
+    R      = Rnew
     accnu[m] = 1
   }
   
   
-  tdata  = qt(udata,nuold)
+  tdata  = qt(udata[1:T0,],nuold)
   Rbar   <- cor(tdata)
   Rtilde = (1-bold)*Rbar-aold*Pbar
   

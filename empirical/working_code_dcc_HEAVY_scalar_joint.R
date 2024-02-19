@@ -27,7 +27,7 @@ M     = 50000
 
 
 
-propsd = 0.0001
+propsd = 0.0002
 
 propsdnu = 0.1
 
@@ -41,13 +41,14 @@ R    = array(NA,c(dm, dm, TT))
 aold   <- 0.1
 bold   <- 0.7
 nuold  <- 16
-tdata  <- qt(udata,nuold)
+tdata  <- qt(udata[1:T0,],nuold)
 Rbar   <- cor(tdata)
 llold  <- rep(0,TT)
 bi     <- min(M,25000)
 TIMING = rep(NA,M+bi)
 LLH    <- rep(NA,M+bi)
 R[,,1] <- cor(tdata)
+Rnew   = R
 Pbar = Reduce('+',Sig)/T0
 
 
@@ -79,20 +80,20 @@ for(m in 1:(M+bi)){
   anew   = parnew[1]
   bnew   = parnew[2]
   llnew  = rep(0,TT)
-  tdata  = qt(udata,nunew)
+  tdata  = qt(udata[1:T0,],nunew)
   Rbar   = cor(tdata)
-  R[,,1] = Rbar
+  Rnew[,,1] = Rbar
   
   IPD    = rep(1,TT)
   
   for(t in 2:TT){
-    R[,,t] <- Rbar+anew*(Sig[[t-1]]-Pbar)+bnew*(R[,,t-1]-Rbar)
-    IPD[t] =  prod(eigen(R[,,t],symmetric = TRUE,only.values = TRUE)$values>0)==1  
+    Rnew[,,t] <- Rbar+anew*(Sig[[t-1]]-Pbar)+bnew*(Rnew[,,t-1]-Rbar)
+    IPD[t] =  prod(eigen(Rnew[,,t],symmetric = TRUE,only.values = TRUE)$values>0)==1  
   }
   
   if(sum(IPD)==TT){
     for(t in 2:TT){
-      llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nunew, log=TRUE)-
+      llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), Rnew[,,t], df = nunew, log=TRUE)-
         sum(dt(tdata[t,],df=nunew,log=TRUE))
     } 
   } else {llnew=-Inf;print(paste('m=',m,',notPD'))}
@@ -108,10 +109,11 @@ for(m in 1:(M+bi)){
     aold   = anew
     bold   = bnew
     nuold  = nunew
+    R      = Rnew
     acctdcch[m] = 1
   }
   
-  tdata  = qt(udata,nuold)
+  tdata  = qt(udata[1:T0,],nuold)
   Rbar   = cor(tdata)
   
   ##-----
