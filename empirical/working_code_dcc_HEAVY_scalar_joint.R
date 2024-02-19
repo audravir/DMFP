@@ -23,12 +23,11 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 1000
+M     = 50000
 
 
 
-propsd = 0.0001
-# propsd = 0.0001, 0.01
+propsd = 0.0005
 # 0.001 gave accp 0.85
 
 # propsdnu = 0.1, 0.01
@@ -144,12 +143,12 @@ plot(restdcch[,2],type='l')
 plot(restdcch[,3],type='l')
 
 
-post.size = 1000
+post.size = 5000
 ind       = round(seq(1,M,length=post.size))
 r         = restdcch[(bi+1):(bi+M),]
 
 res = list(Rpred[ind],r[ind,],acctdcch[(bi+1):(bi+M)][ind],LLH[ind])
 names(res) = c('Rpred','r','acc','LLH')
 
-save(res,file='empirical/temp/results_heavy_scalar_previous.Rdata')
+save(res,file='empirical/temp/results_heavy_scalar_joint.Rdata')
 

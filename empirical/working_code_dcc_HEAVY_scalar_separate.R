@@ -23,7 +23,7 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 1000
+M     = 50000
 
 
 
@@ -95,8 +95,8 @@ for(m in 1:(M+bi)){
   }
   
   if((sum(llnew)-sum(llold)+
-      (dnorm(anew,0,sqrt(10),log=TRUE))-(dnorm(aold,0,sqrt(10),log=TRUE))+
-      (dnorm(bnew,0,sqrt(10),log=TRUE))-(dnorm(bold,0,sqrt(10),log=TRUE)))>log(runif(1)))
+      dbeta(anew,3,10,log=TRUE)-dbeta(aold,3,10,log=TRUE)+
+      dbeta(bnew,10,3,log=TRUE)-dbeta(bold,10,3,log=TRUE))>log(runif(1)))
   {
     llold  = llnew
     aold   = anew
@@ -183,7 +183,7 @@ par(mfrow=c(1,1))
 corrplot(cor(restdcch)) 
 
 
-post.size = 1000
+post.size = 5000
 ind       = round(seq(1,M,length=post.size))
 r         = restdcch[(bi+1):(bi+M),]
 
@@ -191,7 +191,7 @@ res = list(Rpred[ind],r[ind,],accnu[(bi+1):(bi+M)][ind],
            accdcc[(bi+1):(bi+M)][ind],LLH[ind])
 names(res) = c('Rpred','r','accnu','accdcc','LLH')
 
-save(res,file='empirical/temp/results_heavy_scalar.Rdata')
+save(res,file='empirical/temp/results_heavy_scalar_separate.Rdata')
 
 
 
