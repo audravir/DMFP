@@ -25,8 +25,71 @@ p2 = 2
 ##-----------------------
 ## dcc-HEAVY-scalar (joint) t Copula
 ##-----------------------
+# 
+# load('empirical/temp/results_heavy_scalar_joint.Rdata')
+# M   = dim(res$r)[1]
+# ind = round(seq(1,M,length=post.sample)) #thin every xth
+# lL_hsj = matrix(NA,ncol=K,nrow=post.sample)
+# 
+# nu = res$r[ind,1]
+# a  = res$r[ind,2]
+# b  = res$r[ind,3]
+# 
+# Pbar = Reduce('+',Sig[1:nn])/nn
+# 
+# 
+# for(m in 1:post.sample){
+#   Vpred = vector(mode = "list", length = K)
+#   tdata  <- qt(udata,nu[m])
+#   Rbar   <- cor(tdata[1:nn,])
+#   
+#   Vpred[[1]] = res$Rpred[[m]]
+#   lL_hsj[m,1] = mvnfast::dmvt(tdata[nn+1,], rep(0,dm), Vpred[[1]], df = nu[m], log=TRUE)-
+#     sum(dt(tdata[nn+1,],df=nu[m],log=TRUE))+sum(dnorm(data[nn+1,],log=TRUE))
+#   
+#   for(t0 in 2:K){
+#     Vpred[[t0]] = Rbar+a[m]*(Sig[[nn+t0-1]]-Pbar)+b[m]*(Vpred[[t0-1]]-Rbar)
+#     lL_hsj[m,t0] = mvnfast::dmvt(tdata[nn+t0,], rep(0,dm), Vpred[[t0]], df = nu[m], log=TRUE)-
+#       sum(dt(tdata[nn+t0,],df=nu[m],log=TRUE))+sum(dnorm(data[nn+t0,],log=TRUE))
+#   }
+# }
+# 
+# sum(apply(lL_hsj,2,median))
+# 
+# 
+# lL_hsj2 = matrix(NA,ncol=K,nrow=post.sample)
+# Pbar = Reduce('+',Sig[1:nn])/nn
+# R    = array(NA,c(dm, dm, nn+K))
+# INL.N    = dnorm(data,log=TRUE)
+# 
+# for(m in 1:post.sample){
+#   tdata  <- qt(udata,nu[m])
+#   Rbar   <- cor(tdata[1:nn,])
+#   R[,,1] <- Rbar
+#   INL   <- dt(tdata,df=nu[m],log=TRUE)
+# 
+#   for(t in 2:(nn+K)){
+#     R[,,t] = Rbar+a[m]*(Sig[[t-1]]-Pbar)+b[m]*(R[,,t-1]-Rbar)
+#     if(t>nn){
+#       lL_hsj2[m,(t-nn)]= mvnfast::dmvt(tdata[t,], rep(0,dm),R[,,t], nu[m], log=TRUE)+sum(INL.N[t,])-sum(INL[t,])
+#     }
+#   }
+# }
+# 
+# R[,,nn+K]
+# 
+# sum(apply(lL_hsj,2,median))
+# sum(apply(lL_hsj2,2,median))
+# 
+# 
+# 
 
-load('empirical/temp/results_heavy_scalar_joint.Rdata')
+
+##-----------------------
+## dcc-HEAVY-scalar (separate) t Copula
+##-----------------------
+
+load('empirical/temp/results_heavy_scalar_separate.Rdata')
 M   = dim(res$r)[1]
 ind = round(seq(1,M,length=post.sample)) #thin every xth
 lL_hsj = matrix(NA,ncol=K,nrow=post.sample)
@@ -41,7 +104,7 @@ Pbar = Reduce('+',Sig[1:nn])/nn
 for(m in 1:post.sample){
   Vpred = vector(mode = "list", length = K)
   tdata  <- qt(udata,nu[m])
-  Rbar   <- cor(tdata)
+  Rbar   <- cor(tdata[1:nn,])
   
   Vpred[[1]] = res$Rpred[[m]]
   lL_hsj[m,1] = mvnfast::dmvt(tdata[nn+1,], rep(0,dm), Vpred[[1]], df = nu[m], log=TRUE)-
@@ -64,10 +127,10 @@ INL.N    = dnorm(data,log=TRUE)
 
 for(m in 1:post.sample){
   tdata  <- qt(udata,nu[m])
-  Rbar   <- cor(tdata)
+  Rbar   <- cor(tdata[1:nn,])
   R[,,1] <- Rbar
   INL   <- dt(tdata,df=nu[m],log=TRUE)
-
+  
   for(t in 2:(nn+K)){
     R[,,t] = Rbar+a[m]*(Sig[[t-1]]-Pbar)+b[m]*(R[,,t-1]-Rbar)
     if(t>nn){
@@ -76,18 +139,12 @@ for(m in 1:post.sample){
   }
 }
 
-R[,,nn+K]
+R[,,nn+1]
 
 sum(apply(lL_hsj,2,median))
 sum(apply(lL_hsj2,2,median))
 
 
-
-
-
-##-----------------------
-## dcc-HEAVY-scalar (separate) t Copula
-##-----------------------
 
 ##-----------------------
 ## dcc-HEAVY-matrix t Copula
