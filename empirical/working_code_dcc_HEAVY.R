@@ -124,8 +124,8 @@ for(m in 1:(M+bi)){
 
   
   if((sum(llnew)-sum(llold)+
-      sum(dnorm(anew,0,sqrt(10),log=TRUE))-sum(dnorm(aold,0,sqrt(10),log=TRUE))+
-      sum(dnorm(bnew,0,sqrt(10),log=TRUE))-sum(dnorm(bold,0,sqrt(10),log=TRUE)))>log(runif(1)))
+      sum(dbeta(anew,3,10,log=TRUE))-sum(dbeta(aold,3,10,log=TRUE))+
+      sum(dbeta(bnew,10,3,log=TRUE))-sum(dbeta(bold,10,3,log=TRUE)))>log(runif(1)))
   {
     llold  = llnew
     aold   = anew
@@ -167,8 +167,8 @@ for(m in 1:(M+bi)){
   }
 
   if((sum(llnew)-sum(llold)+
-      sum(dnorm(anew,0,sqrt(10),log=TRUE))-sum(dnorm(aold,0,sqrt(10),log=TRUE))+
-      sum(dnorm(bnew,0,sqrt(10),log=TRUE))-sum(dnorm(bold,0,sqrt(10),log=TRUE)))>log(runif(1)))
+      sum(dbeta(anew,3,10,log=TRUE))-sum(dbeta(aold,3,10,log=TRUE))+
+      sum(dbeta(bnew,10,3,log=TRUE))-sum(dbeta(bold,10,3,log=TRUE)))>log(runif(1)))
   {
     llold  = llnew
     aold   = anew
@@ -180,10 +180,12 @@ for(m in 1:(M+bi)){
   ##-----
   ## nu
   ##-----
-  repeat{
-    nunew = rnorm(1,nuold,propsdnu)
-    if(nunew>dm) break
-  }
+  # repeat{
+  #   nunew = rnorm(1,nuold,propsdnu)
+  #   if(nunew>dm) break
+  # }
+  
+  nunew  = truncnorm::rtruncnorm(1,a = dm+1,mean = nuold,sd = propsdnu) 
   
   tdata  = qt(udata,nunew)
   Rbar   <- cor(tdata)
@@ -203,7 +205,9 @@ for(m in 1:(M+bi)){
   }
   
   if((sum(llnew)-sum(llold)+
-      dexp(nunew,0.1,log=TRUE)-dexp(nuold,0.1,log=TRUE))>log(runif(1)))
+      dexp(nunew,0.01,log=TRUE)-dexp(nuold,0.01,log=TRUE)+
+      log(truncnorm::dtruncnorm(nunew,a = dm+1,b=Inf,mean = nuold,sd = propsdnu))-
+      log(truncnorm::dtruncnorm(nuold,a = dm+1,b=Inf,mean = nunew,sd = propsdnu)))>log(runif(1)))
   {
     llold  = llnew
     nuold  = nunew
