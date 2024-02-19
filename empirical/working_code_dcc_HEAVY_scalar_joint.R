@@ -27,11 +27,9 @@ M     = 50000
 
 
 
-propsd = 0.0005
-# 0.001 gave accp 0.85
+propsd = 0.0001
 
-# propsdnu = 0.1, 0.01
-propsdnu = 0.01
+propsdnu = 0.1
 
 t0   = Sys.time()
 t1   = Sys.time()
@@ -40,8 +38,8 @@ TT   = dim(data[1:T0,])[1]
 dm   = dim(data[1:T0,])[2]
 
 R    = array(NA,c(dm, dm, TT))
-aold   <- 0.20
-bold   <- 0.50
+aold   <- 0.1
+bold   <- 0.7
 nuold  <- 16
 tdata  <- qt(udata,nuold)
 Rbar   <- cor(tdata)
@@ -94,7 +92,7 @@ for(m in 1:(M+bi)){
   
   if(sum(IPD)==TT){
     for(t in 2:TT){
-      llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nuold, log=TRUE)-
+      llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nunew, log=TRUE)-
         sum(dt(tdata[t,],df=nunew,log=TRUE))
     } 
   } else {llnew=-Inf;print(paste('m=',m,',notPD'))}
@@ -102,9 +100,9 @@ for(m in 1:(M+bi)){
   if((sum(llnew)-sum(llold)+
       dbeta(anew,3,10,log=TRUE)-dbeta(aold,3,10,log=TRUE)+
       dbeta(bnew,10,3,log=TRUE)-dbeta(bold,10,3,log=TRUE)+
-      dexp(nunew,0.1,log=TRUE)-dexp(nuold,0.1,log=TRUE)+
-      log(truncnorm::dtruncnorm(nunew,a = 4,mean = nuold,sd = 2))-
-      log(truncnorm::dtruncnorm(nuold,a = 4,mean = nunew,sd = 2)))>log(runif(1)))
+      dexp(nunew,0.01,log=TRUE)-dexp(nuold,0.01,log=TRUE)+
+      log(truncnorm::dtruncnorm(nunew,a = dm+1,b=Inf,mean = nuold,sd = propsdnu))-
+      log(truncnorm::dtruncnorm(nuold,a = dm+1,b=Inf,mean = nunew,sd = propsdnu)))>log(runif(1)))
   {
     llold  = llnew
     aold   = anew
@@ -116,7 +114,11 @@ for(m in 1:(M+bi)){
   tdata  = qt(udata,nuold)
   Rbar   = cor(tdata)
   
-  restdcch[m,] <- c(aold,bold,nuold) 
+  ##-----
+  ## Collect results and prediction
+  ##-----
+  
+  restdcch[m,] <- c(nuold,aold,bold) 
   LLH[m]       <- sum(llold)
   
   if(m>bi){
@@ -142,12 +144,15 @@ plot(restdcch[,1],type='l')
 plot(restdcch[,2],type='l')
 plot(restdcch[,3],type='l')
 
+library(corrplot)
+par(mfrow=c(1,1))
+corrplot(cor(restdcch)) 
 
 post.size = 5000
 ind       = round(seq(1,M,length=post.size))
 r         = restdcch[(bi+1):(bi+M),]
 
-res = list(Rpred[ind],r[ind,],acctdcch[(bi+1):(bi+M)][ind],LLH[ind])
+res = list(Rpred[ind],r[ind,],acctdcch[(bi+1):(bi+M)][ind],LLH[(bi+1):(bi+M)][ind])
 names(res) = c('Rpred','r','acc','LLH')
 
 save(res,file='empirical/temp/results_heavy_scalar_joint.Rdata')

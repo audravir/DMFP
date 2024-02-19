@@ -39,8 +39,8 @@ TT   = dim(data)[1]
 dm   = dim(data)[2]
 
 R    = array(NA,c(dm, dm, TT))
-aold   <- 0.2
-bold   <- 0.5 
+aold   <- 0.1
+bold   <- 0.7 
 nuold  <- 16
 tdata  <- qt(udata,nuold)
 Rbar   <- cor(tdata)
@@ -107,10 +107,13 @@ for(m in 1:(M+bi)){
   ##-----
   ## nu
   ##-----
-  repeat{
-    nunew = rnorm(1,nuold,propsdnu)
-    if(nunew>dm) break
-  }
+  # repeat{
+  #   nunew = rnorm(1,nuold,propsdnu)
+  #   if(nunew>dm) break
+  # }
+  # 
+  nunew  = truncnorm::rtruncnorm(1,a = dm+1,mean = nuold,sd = propsdnu) 
+  
   
   tdata  = qt(udata,nunew)
   Rbar   <- cor(tdata)
@@ -127,7 +130,9 @@ for(m in 1:(M+bi)){
   }
   
   if((sum(llnew)-sum(llold)+
-      dexp(nunew,0.1,log=TRUE)-dexp(nuold,0.1,log=TRUE))>log(runif(1)))
+      dexp(nunew,0.01,log=TRUE)-dexp(nuold,0.01,log=TRUE)+
+      log(truncnorm::dtruncnorm(nunew,a = dm+1,b=Inf,mean = nuold,sd = propsdnu))-
+      log(truncnorm::dtruncnorm(nuold,a = dm+1,b=Inf,mean = nunew,sd = propsdnu)))>log(runif(1)))
   {
     llold  = llnew
     nuold  = nunew
@@ -165,14 +170,9 @@ for(m in 1:(M+bi)){
 mean(accnu[(bi+1):(bi+M)])
 mean(accdcc[(bi+1):(bi+M)])
 
-
-nu = restdcch[,1]
-b1 = restdcch[,2]
-b2 = restdcch[,3]
-
 par(mfrow=c(2,3))
 plot(TIMING,type='l')
-plot(tail(LLH,M),type='l')
+plot(LLH,type='l')
 plot(restdcch[,1],type='l')
 plot(restdcch[,2],type='l')
 plot(restdcch[,3],type='l')
@@ -188,7 +188,7 @@ ind       = round(seq(1,M,length=post.size))
 r         = restdcch[(bi+1):(bi+M),]
 
 res = list(Rpred[ind],r[ind,],accnu[(bi+1):(bi+M)][ind],
-           accdcc[(bi+1):(bi+M)][ind],LLH[ind])
+           accdcc[(bi+1):(bi+M)][ind],LLH[(bi+1):(bi+M)][ind])
 names(res) = c('Rpred','r','accnu','accdcc','LLH')
 
 save(res,file='empirical/temp/results_heavy_scalar_separate.Rdata')
