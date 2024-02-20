@@ -27,19 +27,10 @@ data = Sigma[1:T0]
 rm(Sigma)
 
 # function arguments
-M = 25000
+M =1000
 
-# 0.0001  gives accp of 0.35
 propsdb  = 0.0001 
 propsdnu = 0.1
-
-# 0.0005
-# > mean(accnu[(bi+1):(bi+M)])  
-# [1] 0.34912
-# > mean(accB1[(bi+1):(bi+M)])
-# [1] 0.0016
-# > mean(accB2[(bi+1):(bi+M)])
-# [1] 0.00176
 
 t0   = Sys.time()
 t1   = Sys.time()
@@ -62,6 +53,7 @@ Oiota  = Outer(iota,iota)
 B1     = Outer(b1,b1) 
 B2     = Outer(b2,b2)
 B0     = (Oiota-B1-B2)*Sbar
+is.positive.definite(B0)
 llo    = lln = rep(0,TT)
 accB1  = accB2 = accnu = rep(0,bi+M)
 V      = Vn = list()
@@ -70,18 +62,15 @@ V[[1]] = Vn[[1]] = Sbar
 
 for(t in 2:TT){
   V[[t]]   = B0+B1*V[[t-1]]+B2*Sig[[t-1]]
-  # llo[t]   = dwish(Sig[[t]],nu,V[[t]])
 }
   
 dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
-
 # this is the best for home PC 
 llo <- future_mapply(dwish.t,Sig,V)
 
 for(m in 1:(bi+M)){
   t2=Sys.time()
   
-  fac1=fac2=1
   ##-----
   ## bs split randomly
   ##-----
@@ -91,7 +80,7 @@ for(m in 1:(bi+M)){
   
   # block 1
   repeat{
-    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac1)
+    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb)
     bn     = b.prop*block1+c(b1,b2)*block2
     
     b1n = bn[1:dm]
@@ -102,22 +91,24 @@ for(m in 1:(bi+M)){
     
     cond1 = b1n[1]>0
     cond2 = b2n[1]>0
-    cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
+    # cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
     cond4 = sum(abs(B1+B2)<1)==dm^2
-    if(cond1 && cond2 && cond3 && cond4) {
+    if(cond1 && cond2 && cond4) {
       break
     }
-    if(counter >= 5){
-      print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac1,sep=','))
-      fac1=fac1/2
-    }
   }
+  
+  IPD   <- rep(1,TT)
+  
   for(t in 2:TT){
     Vn[[t]]   = B0+B1*Vn[[t-1]]+B2*Sig[[t-1]]
-    # lln[t]   = dwish(Sig[[t]],nu,Vn[[t]])
+    IPD[t] =  prod(eigen(Vn[[t]],symmetric = TRUE,only.values = TRUE)$values>0)==1
   }
-  dwish.t <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
-  lln     <- future_mapply(dwish.t,Sig,Vn)
+  
+  if(sum(IPD)==TT){
+    dwish.t <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
+    lln     <- future_mapply(dwish.t,Sig,Vn)
+  } else {lln=-Inf}
   
   if((sum(lln)-sum(llo)+
       sum(dnorm(b1n,0,sqrt(10),log=TRUE))-sum(dnorm(b1,0,sqrt(10),log=TRUE))+
@@ -131,7 +122,7 @@ for(m in 1:(bi+M)){
  
   # block 2
   repeat{
-    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb*fac2)
+    b.prop = rnorm(dm*2,c(b1,b2),sd=propsdb)
     bn     = b.prop*block2+c(b1,b2)*block1
     
     b1n = bn[1:dm]
@@ -142,22 +133,24 @@ for(m in 1:(bi+M)){
 
     cond1 = b1n[1]>0
     cond2 = b2n[1]>0
-    cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
+    # cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
     cond4 = sum(abs(B1+B2)<1)==dm^2
-    if(cond1 && cond2 && cond3 && cond4) {
+    if(cond1 && cond2 && cond4) {
       break
     }
-    if(counter >= 5){
-      print(paste('BL2',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac2,sep=','))
-      fac2=fac2/2
-    }
   }
+  
+  IPD   <- rep(1,TT)
+  
   for(t in 2:TT){
     Vn[[t]]   = B0+B1*Vn[[t-1]]+B2*Sig[[t-1]]
-    # lln[t]   = dwish(Sig[[t]],nu,Vn[[t]])
+    IPD[t] =  prod(eigen(Vn[[t]],symmetric = TRUE,only.values = TRUE)$values>0)==1
   }
-  dwish.t <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
-  lln     <- future_mapply(dwish.t,Sig,Vn)
+  
+  if(sum(IPD)==TT){
+    dwish.t <- function(x,y){LaplacesDemon::dwishart(x, nu, y/nu, log=TRUE)}
+    lln     <- future_mapply(dwish.t,Sig,Vn)
+  } else {lln=-Inf}
   
   if((sum(lln)-sum(llo)+
       sum(dnorm(b1n,0,sqrt(10),log=TRUE))-sum(dnorm(b1,0,sqrt(10),log=TRUE))+
@@ -175,16 +168,16 @@ for(m in 1:(bi+M)){
   #-----
   # nu
   #-----
-  repeat{
-    nun = rnorm(1,nu,sd=propsdnu)
-    if(nun>(dm)) break
-  }
+
+  nun  = truncnorm::rtruncnorm(1,a = dm+1,mean = nu,sd = propsdnu)
 
   dwish.t   <- function(x,y){LaplacesDemon::dwishart(x, nun, y/nun, log=TRUE)}
   lln <- future_mapply(dwish.t,Sig,V)
 
   if((sum(lln)-sum(llo)+
-      dexp(nun,1/10,log=TRUE)-dexp(nu,1/10,log=TRUE))>log(runif(1))){
+      dexp(nun,0.01,log=TRUE)-dexp(nu,0.01,log=TRUE)+
+      log(truncnorm::dtruncnorm(nun,a = dm+1,b=Inf,mean = nu,sd = propsdnu))-
+      log(truncnorm::dtruncnorm(nu,a = dm+1,b=Inf,mean = nun,sd = propsdnu)))>log(runif(1))){
     llo   = lln
     accnu[m] = 1
     nu    = nun
@@ -197,7 +190,7 @@ for(m in 1:(bi+M)){
   LLH[m]   = sum(llo)
   
   if(m>bi){
-    Vpred[[m-bi]]    = B0+B1*V[[TT]]+B2*Sig[[TT]]
+    Vpred[[m-bi]] = B0+B1*V[[TT]]+B2*Sig[[TT]]
   }
   
   if(!m%%100){
@@ -234,14 +227,14 @@ library(corrplot)
 par(mfrow=c(1,1))
 corrplot(cor(resc[,-1])) 
 
-post.size = 5000
+post.size = 1000
 ind       = round(seq(1,M,length=post.size))
 r         = resc[(bi+1):(bi+M),]
 
 res = list(Vpred[ind],r[ind,],
            accnu[(bi+1):(bi+M)][ind],accB1[(bi+1):(bi+M)][ind],accB2[(bi+1):(bi+M)][ind],
            LLH[ind])
-  names(res) = c('Vpred','resc','accnu','accB1','accB1','LLH')
+  names(res) = c('Vpred','r','accnu','accB1','accB1','LLH')
   save(res,file='empirical/temp/results_caw.Rdata')
 
 
