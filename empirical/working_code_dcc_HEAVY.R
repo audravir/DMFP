@@ -76,9 +76,7 @@ for(t in 2:TT){
 
 for(m in 1:(M+bi)){
   t2 = Sys.time()
-  fac1=fac2=1
-  
-  
+
   ##-----
   ## bs split randomly
   ##-----
@@ -92,10 +90,8 @@ for(m in 1:(M+bi)){
   ##-----
 
   # block 1
-  counter = 0
   repeat{
-    counter = counter+1
-    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd*fac1)
+    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd)
     bn     = b.prop*block1+c(aold,bold)*block2
 
     anew = bn[1:dm]
@@ -105,25 +101,27 @@ for(m in 1:(M+bi)){
     Rtilde = (Oiota-A-B)*Pbar
     cond1 = anew[1]>0
     cond2 = bnew[1]>0
-    cond3 = (prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1)
+    # cond3 = (prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1)
     cond4 = (sum(abs(A+B)<1)==dm^2)
-    if(cond1 && cond2 && cond3 && cond4) break
-    if (counter>10){
-      # print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac1,sep=','))
-      fac1 = fac1/3.16
-    }
+    if(cond1 && cond2 && cond4) break
   }
   
+  IPD   <- rep(1,TT)
   llnew <- rep(0,TT)
-
+  
   for(t in 2:TT){
     Rnew[,,t]   <- Rtilde+A*Sig[[t-1]]+B*Rnew[,,t-1]
-    inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
-    llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), Rnew[,,t], df = nuold, log=TRUE)-
-      inlik
+    IPD[t] =  prod(eigen(Rnew[,,t],symmetric = TRUE,only.values = TRUE)$values>0)==1
   }
-
   
+  if(sum(IPD)==TT){
+    for(t in 2:TT){
+      inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
+      llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), Rnew[,,t], df = nuold, log=TRUE)-
+        inlik
+    } 
+  } else {llnew=-Inf}
+
   if((sum(llnew)-sum(llold)+
       sum(dbeta(anew,3,10,log=TRUE))-sum(dbeta(aold,3,10,log=TRUE))+
       sum(dbeta(bnew,10,3,log=TRUE))-sum(dbeta(bold,10,3,log=TRUE)))>log(runif(1)))
@@ -137,10 +135,8 @@ for(m in 1:(M+bi)){
   
   
   # block 2
-  counter = 0
   repeat{
-    counter = counter+1
-    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd*fac2)
+    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd)
     bn     = b.prop*block2+c(aold,bold)*block1
     
     anew = bn[1:dm]
@@ -150,23 +146,26 @@ for(m in 1:(M+bi)){
     Rtilde = (Oiota-A-B)*Pbar
     cond1 = anew[1]>0
     cond2 = bnew[1]>0
-    cond3 = prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1
+    # cond3 = prod(eigen(Rtilde,symmetric = TRUE,only.values = TRUE)$values>0)==1
     cond4 = sum(abs(A+B)<1)==dm^2
-    if(cond1 && cond2 && cond3 && cond4) break
-    if (counter>10){
-      # print(paste('BL2',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac2,sep=','))
-      fac2 = fac2/3.16
-    }
+    if(cond1 && cond2 && cond4) break
   }
   
+  IPD   <- rep(1,TT)
   llnew <- rep(0,TT)
   
   for(t in 2:TT){
     Rnew[,,t]   <- Rtilde+A*Sig[[t-1]]+B*Rnew[,,t-1]
-    inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
-    llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), Rnew[,,t], df = nuold, log=TRUE)-
-      inlik
+    IPD[t] =  prod(eigen(Rnew[,,t],symmetric = TRUE,only.values = TRUE)$values>0)==1
   }
+  
+  if(sum(IPD)==TT){
+    for(t in 2:TT){
+      inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
+      llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), Rnew[,,t], df = nuold, log=TRUE)-
+        inlik
+    } 
+  } else {llnew=-Inf}
 
   if((sum(llnew)-sum(llold)+
       sum(dbeta(anew,3,10,log=TRUE))-sum(dbeta(aold,3,10,log=TRUE))+
@@ -275,7 +274,7 @@ r         = restdcch[(bi+1):(bi+M),]
 
 res = list(Rpred[ind],r[ind,],accnu[(bi+1):(bi+M)][ind],
            accdcc1[(bi+1):(bi+M)][ind],accdcc2[(bi+1):(bi+M)][ind],LLH[ind])
-names(res) = c('Rpred','restdcch','accnu','accdcc1','accdcc2','LLH')
+names(res) = c('Rpred','r','accnu','accdcc1','accdcc2','LLH')
 
 save(res,file='empirical/temp/results_heavy.Rdata')
 

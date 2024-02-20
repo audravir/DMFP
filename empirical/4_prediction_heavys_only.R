@@ -76,7 +76,8 @@ for(m in 1:post.sample){
   }
 }
 
-R[,,nn+K]
+R[,,nn+1][1:3,1:3]
+Vpred[[1]][1:3,1:3]
 
 sum(apply(lL_hsj,2,median))
 sum(apply(lL_hsj2,2,median))
@@ -139,13 +140,13 @@ for(m in 1:post.sample){
   }
 }
 
+R[,,nn+1][1:3,1:3]
+Vpred[[1]][1:3,1:3]
 
 sum(apply(lL_hss,2,median))
 sum(apply(lL_hss2,2,median))
 
 
-
-#######################stopped here!
 ##-----------------------
 ## dcc-HEAVY-matrix t Copula
 ##-----------------------
@@ -159,6 +160,7 @@ lL_hm = matrix(NA,ncol=K,nrow=post.sample)
 nu = res$restdcch[ind,1]
 a  = res$restdcch[ind,2:(dm+1)]
 b  = res$restdcch[ind,(dm+2):(dm*2+1)]
+Rpred = res$Rpred[ind]
 
 Pbar  = Reduce('+',Sig[1:nn])/nn
 iota  = rep(1,dm)
@@ -172,7 +174,7 @@ for(m in 1:post.sample){
   B      = Outer(b[m,],b[m,])
   Rtilde = (Oiota-A-B)*Pbar
   
-  Vpred[[1]] = res$Rpred[[m]]
+  Vpred[[1]] = Rpred[[m]]
   lL_hm[m,1] = mvnfast::dmvt(tdata[nn+1,], rep(0,dm), Vpred[[1]], df = nu[m], log=TRUE)-
     sum(dt(tdata[nn+1,],df=nu[m],log=TRUE))+sum(dnorm(data[nn+1,],log=TRUE))
   
