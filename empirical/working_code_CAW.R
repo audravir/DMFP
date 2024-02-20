@@ -27,9 +27,9 @@ data = Sigma[1:T0]
 rm(Sigma)
 
 # function arguments
-M =1000
+M =25000
 
-propsdb  = 0.0001 
+propsdb  = 0.0002 
 propsdnu = 0.1
 
 t0   = Sys.time()
