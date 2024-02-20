@@ -34,7 +34,7 @@ lL_hsj = matrix(NA,ncol=K,nrow=post.sample)
 nu = res$r[ind,1]
 a  = res$r[ind,2]
 b  = res$r[ind,3]
-
+Rpred = res$Rpred[ind]
 Pbar = Reduce('+',Sig[1:nn])/nn
 
 
@@ -43,7 +43,7 @@ for(m in 1:post.sample){
   tdata  <- qt(udata,nu[m])
   Rbar   <- cor(tdata[1:nn,])
 
-  Vpred[[1]] = res$Rpred[[m]]
+  Vpred[[1]] = Rpred[[m]]
   lL_hsj[m,1] = mvnfast::dmvt(tdata[nn+1,], rep(0,dm), Vpred[[1]], df = nu[m], log=TRUE)-
     sum(dt(tdata[nn+1,],df=nu[m],log=TRUE))+sum(dnorm(data[nn+1,],log=TRUE))
 
@@ -97,7 +97,7 @@ lL_hss = matrix(NA,ncol=K,nrow=post.sample)
 nu = res$r[ind,1]
 a  = res$r[ind,2]
 b  = res$r[ind,3]
-
+Rpred = res$Rpred[ind]
 Pbar = Reduce('+',Sig[1:nn])/nn
 
 
@@ -106,7 +106,7 @@ for(m in 1:post.sample){
   tdata  <- qt(udata,nu[m])
   Rbar   <- cor(tdata[1:nn,])
   
-  Vpred[[1]] = res$Rpred[[m]]
+  Vpred[[1]] = Rpred[[m]]
   lL_hss[m,1] = mvnfast::dmvt(tdata[nn+1,], rep(0,dm), Vpred[[1]], df = nu[m], log=TRUE)-
     sum(dt(tdata[nn+1,],df=nu[m],log=TRUE))+sum(dnorm(data[nn+1,],log=TRUE))
   
