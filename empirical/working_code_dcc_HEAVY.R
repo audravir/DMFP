@@ -23,11 +23,11 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 10000
+M     = 50000
 
 
 
-propsd = 0.0001
+propsd = 0.0002
 
 
 propsdnu = 0.1
@@ -39,13 +39,13 @@ TT   = dim(data)[1]
 dm   = dim(data)[2]
 
 R    = array(NA,c(dm, dm, TT))
-aold   <- rep(0.33,dm) #.33 good starting value
-bold   <- rep(0.94,dm) # .94 good starting value
+aold   <- rep(0.35,dm) #.33 good starting value
+bold   <- rep(0.90,dm) # .94 good starting value
 nuold  <- 16
 tdata  <- qt(udata[1:T0,],nuold)
 Rbar   <- cor(tdata)
 llold  <- rep(0,TT)
-bi     = min(M,25000)
+bi     = min(M,50000)
 TIMING = rep(NA,M+bi)
 LLH    <- rep(NA,M+bi)
 R[,,1] <- cor(tdata)
