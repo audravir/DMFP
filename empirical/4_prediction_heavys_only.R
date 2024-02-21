@@ -37,7 +37,6 @@ b  = res$r[ind,3]
 Rpred = res$Rpred[ind]
 Pbar = Reduce('+',Sig[1:nn])/nn
 
-
 for(m in 1:post.sample){
   Vpred = vector(mode = "list", length = K)
   tdata  <- qt(udata,nu[m])
@@ -83,9 +82,6 @@ sum(apply(lL_hsj,2,median))
 sum(apply(lL_hsj2,2,median))
 
 
-
-
-
 ##-----------------------
 ## dcc-HEAVY-scalar (separate) t Copula
 ##-----------------------
@@ -100,7 +96,6 @@ a  = res$r[ind,2]
 b  = res$r[ind,3]
 Rpred = res$Rpred[ind]
 Pbar = Reduce('+',Sig[1:nn])/nn
-
 
 for(m in 1:post.sample){
   Vpred = vector(mode = "list", length = K)
@@ -119,7 +114,6 @@ for(m in 1:post.sample){
 }
 
 sum(apply(lL_hss,2,median))
-
 
 lL_hss2 = matrix(NA,ncol=K,nrow=post.sample)
 Pbar = Reduce('+',Sig[1:nn])/nn
@@ -146,6 +140,28 @@ Vpred[[1]][1:3,1:3]
 sum(apply(lL_hss,2,median))
 sum(apply(lL_hss2,2,median))
 
+# at the median of estimated parameters
+
+mnu = median(res$r[ind,1])
+a  = median(res$r[ind,2])
+b  = median(res$r[ind,3])
+R_hss = array(NA,c(dm, dm, nn+K))
+R_hss[,,1] <- Rbar
+tmp.hss  = rep(NA,nn+K)
+tdata  <- qt(udata,mnu)
+Rbar   <- cor(tdata[1:nn,])
+
+for(t in 2:(nn+K)){
+  R_hss[,,t] = Rbar+a*(Sig[[t-1]]-Pbar)+b*(R_hss[,,t-1]-Rbar)
+  tmp.hss[t]= mvnfast::dmvt(tdata[t,], rep(0,dm),R_hss[,,t], mnu, log=TRUE)+sum(INL.N[t,])-sum(INL[t,])
+}
+
+sum(tail(tmp.hss,K))
+sum(apply(lL_hss2,2,median))
+
+avrgmatrix = Reduce('+',res$Rpred[ind])/post.sample
+avrgmatrix[1:3,1:3]
+R_hss[1:3,1:3,nn+1]
 
 ##-----------------------
 ## dcc-HEAVY-matrix t Copula
@@ -153,13 +169,13 @@ sum(apply(lL_hss2,2,median))
 
 load("empirical/temp/results_heavy.Rdata")
 
-M   = dim(res$restdcch)[1]
+M   = dim(res$r)[1]
 ind = round(seq(1,M,length=post.sample)) #thin every xth
 lL_hm = matrix(NA,ncol=K,nrow=post.sample)
 
-nu = res$restdcch[ind,1]
-a  = res$restdcch[ind,2:(dm+1)]
-b  = res$restdcch[ind,(dm+2):(dm*2+1)]
+nu = res$r[ind,1]
+a  = res$r[ind,2:(dm+1)]
+b  = res$r[ind,(dm+2):(dm*2+1)]
 Rpred = res$Rpred[ind]
 
 Pbar  = Reduce('+',Sig[1:nn])/nn
@@ -212,6 +228,27 @@ for(m in 1:post.sample){
 
 sum(apply(lL_hm,2,median))
 sum(apply(lL_hm2,2,median))
+
+# at the median of estimated parameters
+
+A  = Outer(apply(a,2,median),apply(a,2,median))
+B  = Outer(apply(b,2,median),apply(b,2,median))
+Rtilde = (Oiota-A-B)*Pbar
+R_hm = array(NA,c(dm, dm, nn+K))
+R_hm[,,1] <- Rbar
+tmp.hm  = rep(NA,nn+K)
+mnu = median(nu)
+
+for(t in 2:(nn+K)){
+  R_hm[,,t] = Rtilde+A*Sig[[t-1]]+B*R_hm[,,t-1]
+  tmp.hm[t]= mvnfast::dmvt(tdata[t,], rep(0,dm),R_hm[,,t], nu[m], log=TRUE)+sum(INL.N[t,])-sum(INL[t,])
+}
+
+sum(tail(tmp.hm,K))
+avrgmatrix = Reduce('+',res$Rpred[ind])/post.sample
+avrgmatrix[1:3,1:3]
+R_hm[1:3,1:3,nn+1]
+
 
 
 # ##-----------------------
