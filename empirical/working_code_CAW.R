@@ -27,8 +27,9 @@ data = Sigma[1:T0]
 rm(Sigma)
 
 # function arguments
-M =25000
+M =50000
 
+# 0.0002 is ok , produces accp of 0.1
 propsdb  = 0.0002 
 propsdnu = 0.1
 
@@ -39,12 +40,12 @@ t1   = Sys.time()
 Sig    = data
 dm     = dim(Sig[[1]])[1]
 TT     = length(Sig)
-bi     = min(M,25000)
+bi     = min(M,50000)
 TIMING = rep(NA,M+bi)
 resc   = matrix(NA,nrow=M+bi,ncol=dm*2+1)
 LLH    = rep(NA,M+bi)
 Vpred  = vector(mode = "list", length = M)
-nu     = 18 # good starting value
+nu     = 19 # 19 good starting value
 b1     = rep(0.90,dm) # 0.9 good starting value
 b2     = rep(0.40,dm) # 0.4 good starting value
 Sbar   = Reduce('+',Sig)/TT
@@ -211,7 +212,7 @@ mean(accB2[(bi+1):(bi+M)])
 
 par(mfrow=c(2,2))
 plot(resc[,1],type='l')
-plot(LLH,type='l')
+plot(LLH[(bi+1):(bi+M)],type='l')
 plot(TIMING,type='l')
 
 b1=resc[,2:(dm+1)]
@@ -227,13 +228,13 @@ library(corrplot)
 par(mfrow=c(1,1))
 corrplot(cor(resc[,-1])) 
 
-post.size = 1000
+post.size = 5000
 ind       = round(seq(1,M,length=post.size))
 r         = resc[(bi+1):(bi+M),]
 
 res = list(Vpred[ind],r[ind,],
            accnu[(bi+1):(bi+M)][ind],accB1[(bi+1):(bi+M)][ind],accB2[(bi+1):(bi+M)][ind],
-           LLH[ind])
+           LLH[(bi+1):(bi+M)][ind])
   names(res) = c('Vpred','r','accnu','accB1','accB1','LLH')
   save(res,file='empirical/temp/results_caw.Rdata')
 
