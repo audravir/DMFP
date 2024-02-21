@@ -23,12 +23,11 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 50000
+M     = 10000
 
 
 
-propsd = 0.005
-# 0.001 gave accp 0.85
+propsd = 0.0001
 
 
 propsdnu = 0.1

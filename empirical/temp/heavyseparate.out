@@ -36,3006 +36,5006 @@ The following objects are masked from ‘package:Rfast’:
 [1] 3881
 [1] 3881
 [1] TRUE
-[1] "0.13%"
-Time difference of 24.73059 secs
-Time difference of 24.7314 secs
-[1] 0.49 0.61
-[1] "0.27%"
-Time difference of 24.61849 secs
-Time difference of 49.35024 secs
-[1] 0.50 0.58
+[1] "0.08%"
+Time difference of 24.25664 secs
+Time difference of 24.25749 secs
+[1] 0.25 0.62
+[1] "0.16%"
+Time difference of 23.68553 secs
+Time difference of 47.94339 secs
+[1] 0.26 0.52
+[1] "0.24%"
+Time difference of 23.43917 secs
+Time difference of 1.189714 mins
+[1] 0.27 0.44
+[1] "0.32%"
+Time difference of 23.40794 secs
+Time difference of 1.579851 mins
+[1] 0.28 0.36
 [1] "0.4%"
-Time difference of 24.30806 secs
-Time difference of 1.227642 mins
-[1] 0.52 0.56
-[1] "0.53%"
-Time difference of 23.84886 secs
-Time difference of 1.625127 mins
-[1] 0.54 0.57
-[1] "0.67%"
-Time difference of 23.89108 secs
-Time difference of 2.023316 mins
-[1] 0.54 0.54
+Time difference of 23.54225 secs
+Time difference of 1.972226 mins
+[1] 0.27 0.33
+[1] "0.48%"
+Time difference of 23.66734 secs
+Time difference of 2.366686 mins
+[1] 0.30 0.32
+[1] "0.56%"
+Time difference of 23.53198 secs
+Time difference of 2.75889 mins
+[1] 0.30 0.29
+[1] "0.64%"
+Time difference of 23.56162 secs
+Time difference of 3.151588 mins
+[1] 0.30 0.28
+[1] "0.72%"
+Time difference of 23.54716 secs
+Time difference of 3.544045 mins
+[1] 0.29 0.28
 [1] "0.8%"
-Time difference of 23.76376 secs
-Time difference of 2.419383 mins
-[1] 0.53 0.48
-[1] "0.93%"
-Time difference of 23.77534 secs
-Time difference of 2.815643 mins
-[1] 0.53 0.43
-[1] "1.07%"
-Time difference of 23.84092 secs
-Time difference of 3.212995 mins
-[1] 0.53 0.40
+Time difference of 23.55292 secs
+Time difference of 3.936599 mins
+[1] 0.29 0.28
+[1] "0.88%"
+Time difference of 23.49924 secs
+Time difference of 4.328258 mins
+[1] 0.29 0.29
+[1] "0.96%"
+Time difference of 23.55209 secs
+Time difference of 4.720797 mins
+[1] 0.29 0.28
+[1] "1.04%"
+Time difference of 23.50483 secs
+Time difference of 5.112549 mins
+[1] 0.29 0.27
+[1] "1.12%"
+Time difference of 23.54597 secs
+Time difference of 5.504986 mins
+[1] 0.29 0.26
 [1] "1.2%"
-Time difference of 23.6542 secs
-Time difference of 3.607236 mins
-[1] 0.52 0.37
-[1] "1.33%"
-Time difference of 23.87956 secs
-Time difference of 4.005233 mins
-[1] 0.51 0.36
-[1] "1.47%"
-Time difference of 23.94849 secs
-Time difference of 4.404378 mins
-[1] 0.52 0.34
+Time difference of 23.50622 secs
+Time difference of 5.896761 mins
+[1] 0.29 0.25
+[1] "1.28%"
+Time difference of 23.53875 secs
+Time difference of 6.289079 mins
+[1] 0.29 0.25
+[1] "1.36%"
+Time difference of 23.47662 secs
+Time difference of 6.68036 mins
+[1] 0.29 0.25
+[1] "1.44%"
+Time difference of 23.48341 secs
+Time difference of 7.071755 mins
+[1] 0.28 0.25
+[1] "1.52%"
+Time difference of 23.56686 secs
+Time difference of 7.464541 mins
+[1] 0.29 0.25
 [1] "1.6%"
-Time difference of 23.76161 secs
-Time difference of 4.800409 mins
-[1] 0.52 0.33
-[1] "1.73%"
-Time difference of 23.87417 secs
-Time difference of 5.198316 mins
-[1] 0.52 0.32
-[1] "1.87%"
-Time difference of 23.65992 secs
-Time difference of 5.592652 mins
-[1] 0.51 0.30
+Time difference of 23.55132 secs
+Time difference of 7.857068 mins
+[1] 0.29 0.24
+[1] "1.68%"
+Time difference of 23.50379 secs
+Time difference of 8.248802 mins
+[1] 0.29 0.24
+[1] "1.76%"
+Time difference of 23.52528 secs
+Time difference of 8.640894 mins
+[1] 0.29 0.24
+[1] "1.84%"
+Time difference of 23.59077 secs
+Time difference of 9.034079 mins
+[1] 0.29 0.24
+[1] "1.92%"
+Time difference of 23.50035 secs
+Time difference of 9.425849 mins
+[1] 0.29 0.24
 [1] "2%"
-Time difference of 24.00315 secs
-Time difference of 5.992709 mins
-[1] 0.51 0.29
-[1] "2.13%"
-Time difference of 23.83724 secs
-Time difference of 6.39 mins
-[1] 0.52 0.28
-[1] "2.27%"
-Time difference of 23.85695 secs
-Time difference of 6.78762 mins
-[1] 0.52 0.27
+Time difference of 23.46068 secs
+Time difference of 9.816865 mins
+[1] 0.29 0.24
+[1] "2.08%"
+Time difference of 23.57565 secs
+Time difference of 10.2098 mins
+[1] 0.29 0.24
+[1] "2.16%"
+Time difference of 23.58223 secs
+Time difference of 10.60284 mins
+[1] 0.29 0.24
+[1] "2.24%"
+Time difference of 23.52172 secs
+Time difference of 10.99487 mins
+[1] 0.29 0.24
+[1] "2.32%"
+Time difference of 23.50123 secs
+Time difference of 11.38657 mins
+[1] 0.29 0.24
 [1] "2.4%"
-Time difference of 23.70281 secs
-Time difference of 7.182671 mins
-[1] 0.52 0.27
-[1] "2.53%"
-Time difference of 23.78949 secs
-Time difference of 7.579167 mins
-[1] 0.51 0.26
-[1] "2.67%"
-Time difference of 23.88397 secs
-Time difference of 7.977237 mins
-[1] 0.51 0.26
+Time difference of 23.55074 secs
+Time difference of 11.77908 mins
+[1] 0.29 0.24
+[1] "2.48%"
+Time difference of 23.56895 secs
+Time difference of 12.1719 mins
+[1] 0.29 0.23
+[1] "2.56%"
+Time difference of 23.55357 secs
+Time difference of 12.56447 mins
+[1] 0.29 0.23
+[1] "2.64%"
+Time difference of 23.52065 secs
+Time difference of 12.95648 mins
+[1] 0.29 0.23
+[1] "2.72%"
+Time difference of 23.50201 secs
+Time difference of 13.34819 mins
+[1] 0.29 0.23
 [1] "2.8%"
-Time difference of 23.90462 secs
-Time difference of 8.375652 mins
-[1] 0.51 0.26
-[1] "2.93%"
-Time difference of 23.80517 secs
-Time difference of 8.772411 mins
-[1] 0.51 0.26
-[1] "3.07%"
-Time difference of 23.97847 secs
-Time difference of 9.172057 mins
-[1] 0.51 0.26
+Time difference of 23.52229 secs
+Time difference of 13.74023 mins
+[1] 0.29 0.23
+[1] "2.88%"
+Time difference of 23.58814 secs
+Time difference of 14.13337 mins
+[1] 0.28 0.24
+[1] "2.96%"
+Time difference of 23.51571 secs
+Time difference of 14.52531 mins
+[1] 0.28 0.24
+[1] "3.04%"
+Time difference of 23.58271 secs
+Time difference of 14.91836 mins
+[1] 0.28 0.24
+[1] "3.12%"
+Time difference of 23.58308 secs
+Time difference of 15.31141 mins
+[1] 0.28 0.24
 [1] "3.2%"
-Time difference of 24.30949 secs
-Time difference of 9.57722 mins
-[1] 0.51 0.26
-[1] "3.33%"
-Time difference of 24.03041 secs
-Time difference of 9.977731 mins
-[1] 0.51 0.26
-[1] "3.47%"
-Time difference of 24.00323 secs
-Time difference of 10.37779 mins
-[1] 0.51 0.25
+Time difference of 23.59657 secs
+Time difference of 15.70469 mins
+[1] 0.28 0.24
+[1] "3.28%"
+Time difference of 23.56216 secs
+Time difference of 16.0974 mins
+[1] 0.28 0.25
+[1] "3.36%"
+Time difference of 23.52676 secs
+Time difference of 16.48952 mins
+[1] 0.29 0.24
+[1] "3.44%"
+Time difference of 23.51264 secs
+Time difference of 16.8814 mins
+[1] 0.28 0.24
+[1] "3.52%"
+Time difference of 23.60696 secs
+Time difference of 17.27486 mins
+[1] 0.29 0.25
 [1] "3.6%"
-Time difference of 23.92149 secs
-Time difference of 10.77649 mins
-[1] 0.51 0.25
-[1] "3.73%"
-Time difference of 23.85666 secs
-Time difference of 11.1741 mins
-[1] 0.51 0.25
-[1] "3.87%"
-Time difference of 23.90848 secs
-Time difference of 11.57258 mins
-[1] 0.51 0.25
+Time difference of 23.53987 secs
+Time difference of 17.66719 mins
+[1] 0.29 0.25
+[1] "3.68%"
+Time difference of 23.48217 secs
+Time difference of 18.05857 mins
+[1] 0.29 0.24
+[1] "3.76%"
+Time difference of 23.53804 secs
+Time difference of 18.45087 mins
+[1] 0.29 0.25
+[1] "3.84%"
+Time difference of 23.59894 secs
+Time difference of 18.84419 mins
+[1] 0.29 0.25
+[1] "3.92%"
+Time difference of 23.44761 secs
+Time difference of 19.23499 mins
+[1] 0.29 0.25
 [1] "4%"
-Time difference of 23.97252 secs
-Time difference of 11.97213 mins
-[1] 0.51 0.25
-[1] "4.13%"
-Time difference of 23.94065 secs
-Time difference of 12.37114 mins
-[1] 0.50 0.25
-[1] "4.27%"
-Time difference of 23.89806 secs
-Time difference of 12.76945 mins
-[1] 0.50 0.24
+Time difference of 23.51316 secs
+Time difference of 19.62688 mins
+[1] 0.29 0.24
+[1] "4.08%"
+Time difference of 23.61809 secs
+Time difference of 20.02052 mins
+[1] 0.29 0.25
+[1] "4.16%"
+Time difference of 23.56203 secs
+Time difference of 20.41323 mins
+[1] 0.29 0.25
+[1] "4.24%"
+Time difference of 23.57282 secs
+Time difference of 20.80611 mins
+[1] 0.29 0.25
+[1] "4.32%"
+Time difference of 23.45296 secs
+Time difference of 21.197 mins
+[1] 0.29 0.25
 [1] "4.4%"
-Time difference of 24.08516 secs
-Time difference of 13.17087 mins
-[1] 0.50 0.24
-[1] "4.53%"
-Time difference of 23.95912 secs
-Time difference of 13.57019 mins
-[1] 0.50 0.24
-[1] "4.67%"
-Time difference of 23.99078 secs
-Time difference of 13.97005 mins
-[1] 0.50 0.24
+Time difference of 23.46274 secs
+Time difference of 21.58805 mins
+[1] 0.29 0.25
+[1] "4.48%"
+Time difference of 23.63789 secs
+Time difference of 21.98202 mins
+[1] 0.29 0.25
+[1] "4.56%"
+Time difference of 23.53629 secs
+Time difference of 22.3743 mins
+[1] 0.29 0.25
+[1] "4.64%"
+Time difference of 23.44429 secs
+Time difference of 22.76504 mins
+[1] 0.29 0.25
+[1] "4.72%"
+Time difference of 23.54212 secs
+Time difference of 23.15742 mins
+[1] 0.29 0.25
 [1] "4.8%"
-Time difference of 24.03191 secs
-Time difference of 14.37058 mins
-[1] 0.50 0.24
-[1] "4.93%"
-Time difference of 24.10356 secs
-Time difference of 14.77231 mins
-[1] 0.50 0.24
-[1] "5.07%"
-Time difference of 24.16425 secs
-Time difference of 15.17506 mins
-[1] 0.50 0.24
+Time difference of 23.4739 secs
+Time difference of 23.54865 mins
+[1] 0.29 0.24
+[1] "4.88%"
+Time difference of 23.56017 secs
+Time difference of 23.94133 mins
+[1] 0.29 0.24
+[1] "4.96%"
+Time difference of 23.48851 secs
+Time difference of 24.33281 mins
+[1] 0.29 0.24
+[1] "5.04%"
+Time difference of 23.4217 secs
+Time difference of 24.72318 mins
+[1] 0.29 0.24
+[1] "5.12%"
+Time difference of 23.5226 secs
+Time difference of 25.11522 mins
+[1] 0.29 0.24
 [1] "5.2%"
-Time difference of 24.00772 secs
-Time difference of 15.57519 mins
-[1] 0.50 0.23
-[1] "5.33%"
-Time difference of 24.11356 secs
-Time difference of 15.97709 mins
-[1] 0.50 0.23
-[1] "5.47%"
-Time difference of 23.9166 secs
-Time difference of 16.3757 mins
-[1] 0.50 0.23
+Time difference of 23.50847 secs
+Time difference of 25.50704 mins
+[1] 0.29 0.24
+[1] "5.28%"
+Time difference of 23.51014 secs
+Time difference of 25.89888 mins
+[1] 0.29 0.24
+[1] "5.36%"
+Time difference of 23.46748 secs
+Time difference of 26.29001 mins
+[1] 0.29 0.24
+[1] "5.44%"
+Time difference of 23.53989 secs
+Time difference of 26.68235 mins
+[1] 0.29 0.24
+[1] "5.52%"
+Time difference of 23.55066 secs
+Time difference of 27.07486 mins
+[1] 0.29 0.24
 [1] "5.6%"
-Time difference of 23.96268 secs
-Time difference of 16.77508 mins
-[1] 0.50 0.23
-[1] "5.73%"
-Time difference of 23.99273 secs
-Time difference of 17.17497 mins
-[1] 0.50 0.23
-[1] "5.87%"
-Time difference of 23.92751 secs
-Time difference of 17.57376 mins
-[1] 0.50 0.23
+Time difference of 23.40184 secs
+Time difference of 27.4649 mins
+[1] 0.29 0.24
+[1] "5.68%"
+Time difference of 23.47131 secs
+Time difference of 27.85609 mins
+[1] 0.29 0.24
+[1] "5.76%"
+Time difference of 23.47688 secs
+Time difference of 28.24738 mins
+[1] 0.29 0.24
+[1] "5.84%"
+Time difference of 23.44622 secs
+Time difference of 28.63816 mins
+[1] 0.29 0.24
+[1] "5.92%"
+Time difference of 23.5159 secs
+Time difference of 29.03009 mins
+[1] 0.29 0.24
 [1] "6%"
-Time difference of 24.02162 secs
-Time difference of 17.97413 mins
-[1] 0.50 0.23
-[1] "6.13%"
-Time difference of 24.04273 secs
-Time difference of 18.37485 mins
-[1] 0.50 0.23
-[1] "6.27%"
-Time difference of 24.04295 secs
-Time difference of 18.77557 mins
-[1] 0.50 0.23
+Time difference of 23.50712 secs
+Time difference of 29.42188 mins
+[1] 0.29 0.24
+[1] "6.08%"
+Time difference of 23.50521 secs
+Time difference of 29.81364 mins
+[1] 0.29 0.24
+[1] "6.16%"
+Time difference of 23.56137 secs
+Time difference of 30.20634 mins
+[1] 0.29 0.24
+[1] "6.24%"
+Time difference of 23.53347 secs
+Time difference of 30.59857 mins
+[1] 0.29 0.24
+[1] "6.32%"
+Time difference of 23.55306 secs
+Time difference of 30.99113 mins
+[1] 0.29 0.24
 [1] "6.4%"
-Time difference of 24.01345 secs
-Time difference of 19.1758 mins
-[1] 0.50 0.23
-[1] "6.53%"
-Time difference of 23.91274 secs
-Time difference of 19.57435 mins
-[1] 0.50 0.22
-[1] "6.67%"
-Time difference of 24.08991 secs
-Time difference of 19.97585 mins
-[1] 0.50 0.22
+Time difference of 23.50956 secs
+Time difference of 31.38296 mins
+[1] 0.29 0.24
+[1] "6.48%"
+Time difference of 23.48338 secs
+Time difference of 31.77435 mins
+[1] 0.29 0.24
+[1] "6.56%"
+Time difference of 23.45028 secs
+Time difference of 32.1652 mins
+[1] 0.29 0.24
+[1] "6.64%"
+Time difference of 23.53338 secs
+Time difference of 32.55743 mins
+[1] 0.29 0.24
+[1] "6.72%"
+Time difference of 23.50398 secs
+Time difference of 32.94916 mins
+[1] 0.29 0.24
 [1] "6.8%"
-Time difference of 23.99255 secs
-Time difference of 20.37573 mins
-[1] 0.50 0.22
-[1] "6.93%"
-Time difference of 23.98499 secs
-Time difference of 20.77549 mins
-[1] 0.50 0.22
-[1] "7.07%"
-Time difference of 24.09264 secs
-Time difference of 21.17703 mins
-[1] 0.50 0.22
+Time difference of 23.47985 secs
+Time difference of 33.3405 mins
+[1] 0.29 0.24
+[1] "6.88%"
+Time difference of 23.50563 secs
+Time difference of 33.73227 mins
+[1] 0.29 0.24
+[1] "6.96%"
+Time difference of 23.53247 secs
+Time difference of 34.12448 mins
+[1] 0.29 0.24
+[1] "7.04%"
+Time difference of 23.49964 secs
+Time difference of 34.51615 mins
+[1] 0.29 0.24
+[1] "7.12%"
+Time difference of 23.55763 secs
+Time difference of 34.90878 mins
+[1] 0.29 0.24
 [1] "7.2%"
-Time difference of 23.94788 secs
-Time difference of 21.57617 mins
-[1] 0.50 0.22
-[1] "7.33%"
-Time difference of 23.97134 secs
-Time difference of 21.9757 mins
-[1] 0.50 0.22
-[1] "7.47%"
-Time difference of 24.07491 secs
-Time difference of 22.37695 mins
-[1] 0.50 0.22
+Time difference of 23.56518 secs
+Time difference of 35.30154 mins
+[1] 0.29 0.24
+[1] "7.28%"
+Time difference of 23.46665 secs
+Time difference of 35.69266 mins
+[1] 0.29 0.24
+[1] "7.36%"
+Time difference of 23.50283 secs
+Time difference of 36.08438 mins
+[1] 0.28 0.24
+[1] "7.44%"
+Time difference of 23.52767 secs
+Time difference of 36.47651 mins
+[1] 0.28 0.24
+[1] "7.52%"
+Time difference of 23.55713 secs
+Time difference of 36.86914 mins
+[1] 0.28 0.24
 [1] "7.6%"
-Time difference of 24.07125 secs
-Time difference of 22.77814 mins
-[1] 0.50 0.22
-[1] "7.73%"
-Time difference of 24.08759 secs
-Time difference of 23.17961 mins
-[1] 0.50 0.22
-[1] "7.87%"
-Time difference of 23.98996 secs
-Time difference of 23.57945 mins
-[1] 0.50 0.22
+Time difference of 23.49649 secs
+Time difference of 37.26075 mins
+[1] 0.28 0.24
+[1] "7.68%"
+Time difference of 23.49152 secs
+Time difference of 37.65228 mins
+[1] 0.29 0.24
+[1] "7.76%"
+Time difference of 23.54973 secs
+Time difference of 38.04478 mins
+[1] 0.28 0.24
+[1] "7.84%"
+Time difference of 23.46955 secs
+Time difference of 38.43595 mins
+[1] 0.28 0.24
+[1] "7.92%"
+Time difference of 23.52311 secs
+Time difference of 38.828 mins
+[1] 0.28 0.24
 [1] "8%"
-Time difference of 24.12024 secs
-Time difference of 23.98146 mins
-[1] 0.50 0.22
-[1] "8.13%"
-Time difference of 23.98167 secs
-Time difference of 24.38116 mins
-[1] 0.50 0.22
-[1] "8.27%"
-Time difference of 24.08012 secs
-Time difference of 24.7825 mins
-[1] 0.50 0.22
+Time difference of 23.4609 secs
+Time difference of 39.21903 mins
+[1] 0.28 0.24
+[1] "8.08%"
+Time difference of 23.47621 secs
+Time difference of 39.6103 mins
+[1] 0.28 0.24
+[1] "8.16%"
+Time difference of 23.57442 secs
+Time difference of 40.00321 mins
+[1] 0.28 0.24
+[1] "8.24%"
+Time difference of 23.45407 secs
+Time difference of 40.39412 mins
+[1] 0.28 0.23
+[1] "8.32%"
+Time difference of 23.5022 secs
+Time difference of 40.78583 mins
+[1] 0.28 0.23
 [1] "8.4%"
-Time difference of 23.97419 secs
-Time difference of 25.18207 mins
-[1] 0.50 0.22
-[1] "8.53%"
-Time difference of 24.08764 secs
-Time difference of 25.58354 mins
-[1] 0.50 0.22
-[1] "8.67%"
-Time difference of 24.04571 secs
-Time difference of 25.98431 mins
-[1] 0.50 0.22
+Time difference of 23.61041 secs
+Time difference of 41.17934 mins
+[1] 0.28 0.23
+[1] "8.48%"
+Time difference of 23.46888 secs
+Time difference of 41.5705 mins
+[1] 0.28 0.23
+[1] "8.56%"
+Time difference of 23.59995 secs
+Time difference of 41.96384 mins
+[1] 0.28 0.23
+[1] "8.64%"
+Time difference of 23.49921 secs
+Time difference of 42.3555 mins
+[1] 0.28 0.24
+[1] "8.72%"
+Time difference of 23.46892 secs
+Time difference of 42.74665 mins
+[1] 0.28 0.24
 [1] "8.8%"
-Time difference of 24.02321 secs
-Time difference of 26.3847 mins
-[1] 0.50 0.22
-[1] "8.93%"
-Time difference of 24.0189 secs
-Time difference of 26.78502 mins
-[1] 0.50 0.22
-[1] "9.07%"
-Time difference of 24.10848 secs
-Time difference of 27.18683 mins
-[1] 0.50 0.21
+Time difference of 23.50955 secs
+Time difference of 43.13848 mins
+[1] 0.28 0.24
+[1] "8.88%"
+Time difference of 23.49432 secs
+Time difference of 43.53006 mins
+[1] 0.28 0.24
+[1] "8.96%"
+Time difference of 23.60817 secs
+Time difference of 43.92354 mins
+[1] 0.28 0.24
+[1] "9.04%"
+Time difference of 23.46167 secs
+Time difference of 44.31457 mins
+[1] 0.28 0.24
+[1] "9.12%"
+Time difference of 23.43673 secs
+Time difference of 44.70519 mins
+[1] 0.28 0.23
 [1] "9.2%"
-Time difference of 23.95707 secs
-Time difference of 27.58612 mins
-[1] 0.50 0.22
-[1] "9.33%"
-Time difference of 23.98561 secs
-Time difference of 27.98589 mins
-[1] 0.50 0.22
-[1] "9.47%"
-Time difference of 23.98074 secs
-Time difference of 28.38557 mins
-[1] 0.50 0.21
+Time difference of 23.55962 secs
+Time difference of 45.09786 mins
+[1] 0.28 0.23
+[1] "9.28%"
+Time difference of 23.50393 secs
+Time difference of 45.4896 mins
+[1] 0.28 0.23
+[1] "9.36%"
+Time difference of 23.49845 secs
+Time difference of 45.88124 mins
+[1] 0.29 0.23
+[1] "9.44%"
+Time difference of 23.49675 secs
+Time difference of 46.27286 mins
+[1] 0.29 0.23
+[1] "9.52%"
+Time difference of 23.6093 secs
+Time difference of 46.66636 mins
+[1] 0.29 0.23
 [1] "9.6%"
-Time difference of 24.0513 secs
-Time difference of 28.78643 mins
-[1] 0.50 0.21
-[1] "9.73%"
-Time difference of 24.01268 secs
-Time difference of 29.18665 mins
-[1] 0.50 0.21
-[1] "9.87%"
-Time difference of 23.95723 secs
-Time difference of 29.58594 mins
-[1] 0.50 0.21
+Time difference of 23.57795 secs
+Time difference of 47.05933 mins
+[1] 0.29 0.23
+[1] "9.68%"
+Time difference of 23.57151 secs
+Time difference of 47.45219 mins
+[1] 0.29 0.23
+[1] "9.76%"
+Time difference of 23.53367 secs
+Time difference of 47.84443 mins
+[1] 0.29 0.23
+[1] "9.84%"
+Time difference of 23.49008 secs
+Time difference of 48.23594 mins
+[1] 0.29 0.23
+[1] "9.92%"
+Time difference of 23.53453 secs
+Time difference of 48.62819 mins
+[1] 0.29 0.23
 [1] "10%"
-Time difference of 24.00037 secs
-Time difference of 29.98595 mins
-[1] 0.50 0.21
-[1] "10.13%"
-Time difference of 24.55548 secs
-Time difference of 30.39522 mins
-[1] 0.50 0.21
-[1] "10.27%"
-Time difference of 24.17636 secs
-Time difference of 30.79816 mins
-[1] 0.50 0.21
+Time difference of 23.42498 secs
+Time difference of 49.01861 mins
+[1] 0.29 0.23
+[1] "10.08%"
+Time difference of 23.56261 secs
+Time difference of 49.41133 mins
+[1] 0.29 0.23
+[1] "10.16%"
+Time difference of 23.47762 secs
+Time difference of 49.80263 mins
+[1] 0.29 0.23
+[1] "10.24%"
+Time difference of 23.53487 secs
+Time difference of 50.19488 mins
+[1] 0.29 0.23
+[1] "10.32%"
+Time difference of 23.49144 secs
+Time difference of 50.58641 mins
+[1] 0.29 0.23
 [1] "10.4%"
-Time difference of 24.09858 secs
-Time difference of 31.19982 mins
-[1] 0.50 0.21
-[1] "10.53%"
-Time difference of 24.06609 secs
-Time difference of 31.60092 mins
-[1] 0.50 0.21
-[1] "10.67%"
-Time difference of 24.04984 secs
-Time difference of 32.00176 mins
-[1] 0.50 0.21
+Time difference of 23.54155 secs
+Time difference of 50.97878 mins
+[1] 0.29 0.23
+[1] "10.48%"
+Time difference of 23.48036 secs
+Time difference of 51.37012 mins
+[1] 0.29 0.23
+[1] "10.56%"
+Time difference of 23.51872 secs
+Time difference of 51.76211 mins
+[1] 0.29 0.23
+[1] "10.64%"
+Time difference of 23.57998 secs
+Time difference of 52.15511 mins
+[1] 0.29 0.23
+[1] "10.72%"
+Time difference of 23.52153 secs
+Time difference of 52.54715 mins
+[1] 0.29 0.23
 [1] "10.8%"
-Time difference of 24.04453 secs
-Time difference of 32.40251 mins
-[1] 0.50 0.21
-[1] "10.93%"
-Time difference of 24.11006 secs
-Time difference of 32.80435 mins
-[1] 0.50 0.21
-[1] "11.07%"
-Time difference of 23.9985 secs
-Time difference of 33.20433 mins
-[1] 0.50 0.21
+Time difference of 23.4884 secs
+Time difference of 52.93863 mins
+[1] 0.29 0.23
+[1] "10.88%"
+Time difference of 23.53811 secs
+Time difference of 53.33094 mins
+[1] 0.29 0.23
+[1] "10.96%"
+Time difference of 23.51383 secs
+Time difference of 53.72284 mins
+[1] 0.29 0.23
+[1] "11.04%"
+Time difference of 23.50795 secs
+Time difference of 54.11464 mins
+[1] 0.29 0.23
+[1] "11.12%"
+Time difference of 23.47648 secs
+Time difference of 54.50593 mins
+[1] 0.29 0.23
 [1] "11.2%"
-Time difference of 24.04852 secs
-Time difference of 33.60514 mins
-[1] 0.50 0.21
-[1] "11.33%"
-Time difference of 24.07314 secs
-Time difference of 34.00637 mins
-[1] 0.50 0.21
-[1] "11.47%"
-Time difference of 23.89012 secs
-Time difference of 34.40454 mins
-[1] 0.50 0.21
+Time difference of 23.57352 secs
+Time difference of 54.89883 mins
+[1] 0.29 0.23
+[1] "11.28%"
+Time difference of 23.5756 secs
+Time difference of 55.29176 mins
+[1] 0.29 0.23
+[1] "11.36%"
+Time difference of 23.50768 secs
+Time difference of 55.68356 mins
+[1] 0.29 0.23
+[1] "11.44%"
+Time difference of 23.58591 secs
+Time difference of 56.07667 mins
+[1] 0.29 0.23
+[1] "11.52%"
+Time difference of 23.47955 secs
+Time difference of 56.468 mins
+[1] 0.29 0.23
 [1] "11.6%"
-Time difference of 23.90272 secs
-Time difference of 34.80293 mins
-[1] 0.50 0.21
-[1] "11.73%"
-Time difference of 23.96708 secs
-Time difference of 35.20238 mins
-[1] 0.50 0.21
-[1] "11.87%"
-Time difference of 23.97821 secs
-Time difference of 35.60202 mins
-[1] 0.49 0.21
+Time difference of 23.52552 secs
+Time difference of 56.8601 mins
+[1] 0.29 0.23
+[1] "11.68%"
+Time difference of 23.482 secs
+Time difference of 57.25147 mins
+[1] 0.29 0.23
+[1] "11.76%"
+Time difference of 23.50248 secs
+Time difference of 57.64319 mins
+[1] 0.29 0.23
+[1] "11.84%"
+Time difference of 23.60264 secs
+Time difference of 58.03657 mins
+[1] 0.29 0.23
+[1] "11.92%"
+Time difference of 23.53273 secs
+Time difference of 58.42879 mins
+[1] 0.29 0.23
 [1] "12%"
-Time difference of 24.12608 secs
-Time difference of 36.00413 mins
-[1] 0.49 0.21
-[1] "12.13%"
-Time difference of 23.92528 secs
-Time difference of 36.40289 mins
-[1] 0.49 0.21
-[1] "12.27%"
-Time difference of 24.11584 secs
-Time difference of 36.80483 mins
-[1] 0.49 0.21
+Time difference of 23.44384 secs
+Time difference of 58.81953 mins
+[1] 0.29 0.23
+[1] "12.08%"
+Time difference of 23.46542 secs
+Time difference of 59.21062 mins
+[1] 0.29 0.23
+[1] "12.16%"
+Time difference of 23.53842 secs
+Time difference of 59.60294 mins
+[1] 0.29 0.23
+[1] "12.24%"
+Time difference of 23.64149 secs
+Time difference of 59.99697 mins
+[1] 0.29 0.23
+[1] "12.32%"
+Time difference of 23.48778 secs
+Time difference of 1.006474 hours
+[1] 0.29 0.23
 [1] "12.4%"
-Time difference of 24.0208 secs
-Time difference of 37.20518 mins
-[1] 0.49 0.21
-[1] "12.53%"
-Time difference of 24.09505 secs
-Time difference of 37.60677 mins
-[1] 0.49 0.20
-[1] "12.67%"
-Time difference of 23.97123 secs
-Time difference of 38.0063 mins
-[1] 0.49 0.20
+Time difference of 23.50296 secs
+Time difference of 1.013003 hours
+[1] 0.29 0.23
+[1] "12.48%"
+Time difference of 23.52739 secs
+Time difference of 1.019538 hours
+[1] 0.29 0.23
+[1] "12.56%"
+Time difference of 23.52194 secs
+Time difference of 1.026072 hours
+[1] 0.29 0.23
+[1] "12.64%"
+Time difference of 23.5588 secs
+Time difference of 1.032616 hours
+[1] 0.29 0.23
+[1] "12.72%"
+Time difference of 23.4681 secs
+Time difference of 1.039135 hours
+[1] 0.29 0.23
 [1] "12.8%"
-Time difference of 24.05752 secs
-Time difference of 38.40726 mins
-[1] 0.49 0.21
-[1] "12.93%"
-Time difference of 24.09157 secs
-Time difference of 38.80879 mins
-[1] 0.49 0.21
-[1] "13.07%"
-Time difference of 23.99029 secs
-Time difference of 39.20864 mins
-[1] 0.49 0.21
+Time difference of 23.52122 secs
+Time difference of 1.045669 hours
+[1] 0.29 0.23
+[1] "12.88%"
+Time difference of 23.55549 secs
+Time difference of 1.052213 hours
+[1] 0.29 0.24
+[1] "12.96%"
+Time difference of 23.49911 secs
+Time difference of 1.05874 hours
+[1] 0.29 0.24
+[1] "13.04%"
+Time difference of 23.59081 secs
+Time difference of 1.065293 hours
+[1] 0.29 0.24
+[1] "13.12%"
+Time difference of 23.69462 secs
+Time difference of 1.071875 hours
+[1] 0.29 0.24
 [1] "13.2%"
-Time difference of 24.1857 secs
-Time difference of 39.61174 mins
-[1] 0.49 0.21
-[1] "13.33%"
-Time difference of 24.03371 secs
-Time difference of 40.01231 mins
-[1] 0.49 0.21
-[1] "13.47%"
-Time difference of 24.08124 secs
-Time difference of 40.41367 mins
-[1] 0.49 0.21
+Time difference of 23.46885 secs
+Time difference of 1.078395 hours
+[1] 0.29 0.23
+[1] "13.28%"
+Time difference of 23.55618 secs
+Time difference of 1.084938 hours
+[1] 0.29 0.23
+[1] "13.36%"
+Time difference of 24.20278 secs
+Time difference of 1.091661 hours
+[1] 0.29 0.23
+[1] "13.44%"
+Time difference of 24.42082 secs
+Time difference of 1.098445 hours
+[1] 0.29 0.23
+[1] "13.52%"
+Time difference of 24.37692 secs
+Time difference of 1.105216 hours
+[1] 0.29 0.23
 [1] "13.6%"
-Time difference of 24.05679 secs
-Time difference of 40.81462 mins
-[1] 0.49 0.21
-[1] "13.73%"
-Time difference of 23.94401 secs
-Time difference of 41.21369 mins
-[1] 0.49 0.21
-[1] "13.87%"
-Time difference of 23.94361 secs
-Time difference of 41.61276 mins
-[1] 0.49 0.21
+Time difference of 24.4296 secs
+Time difference of 1.112002 hours
+[1] 0.29 0.23
+[1] "13.68%"
+Time difference of 24.33686 secs
+Time difference of 1.118763 hours
+[1] 0.29 0.23
+[1] "13.76%"
+Time difference of 25.08549 secs
+Time difference of 1.125731 hours
+[1] 0.29 0.23
+[1] "13.84%"
+Time difference of 30.72797 secs
+Time difference of 1.134267 hours
+[1] 0.29 0.23
+[1] "13.92%"
+Time difference of 28.58543 secs
+Time difference of 1.142207 hours
+[1] 0.29 0.23
 [1] "14%"
-Time difference of 24.04073 secs
-Time difference of 42.01344 mins
-[1] 0.49 0.21
-[1] "14.13%"
-Time difference of 23.9679 secs
-Time difference of 42.41291 mins
-[1] 0.49 0.21
-[1] "14.27%"
-Time difference of 24.14608 secs
-Time difference of 42.81536 mins
-[1] 0.49 0.21
+Time difference of 28.65076 secs
+Time difference of 1.150166 hours
+[1] 0.29 0.23
+[1] "14.08%"
+Time difference of 32.65798 secs
+Time difference of 1.159238 hours
+[1] 0.29 0.23
+[1] "14.16%"
+Time difference of 31.91338 secs
+Time difference of 1.168103 hours
+[1] 0.29 0.23
+[1] "14.24%"
+Time difference of 29.64347 secs
+Time difference of 1.176337 hours
+[1] 0.29 0.23
+[1] "14.32%"
+Time difference of 32.73906 secs
+Time difference of 1.185432 hours
+[1] 0.29 0.23
 [1] "14.4%"
-Time difference of 24.01752 secs
-Time difference of 43.21565 mins
-[1] 0.49 0.21
-[1] "14.53%"
-Time difference of 24.00976 secs
-Time difference of 43.61582 mins
-[1] 0.49 0.21
-[1] "14.67%"
-Time difference of 24.16836 secs
-Time difference of 44.01863 mins
-[1] 0.49 0.21
+Time difference of 32.70903 secs
+Time difference of 1.194518 hours
+[1] 0.29 0.23
+[1] "14.48%"
+Time difference of 26.16761 secs
+Time difference of 1.201787 hours
+[1] 0.29 0.23
+[1] "14.56%"
+Time difference of 24.7293 secs
+Time difference of 1.208656 hours
+[1] 0.29 0.23
+[1] "14.64%"
+Time difference of 24.34867 secs
+Time difference of 1.21542 hours
+[1] 0.29 0.23
+[1] "14.72%"
+Time difference of 23.4875 secs
+Time difference of 1.221944 hours
+[1] 0.29 0.23
 [1] "14.8%"
-Time difference of 23.95313 secs
-Time difference of 44.41786 mins
-[1] 0.49 0.21
-[1] "14.93%"
-Time difference of 24.0853 secs
-Time difference of 44.81929 mins
-[1] 0.49 0.21
-[1] "15.07%"
-Time difference of 24.05007 secs
-Time difference of 45.22013 mins
-[1] 0.49 0.21
+Time difference of 23.52336 secs
+Time difference of 1.228478 hours
+[1] 0.29 0.23
+[1] "14.88%"
+Time difference of 23.44678 secs
+Time difference of 1.234991 hours
+[1] 0.29 0.23
+[1] "14.96%"
+Time difference of 23.58736 secs
+Time difference of 1.241544 hours
+[1] 0.29 0.23
+[1] "15.04%"
+Time difference of 23.45768 secs
+Time difference of 1.24806 hours
+[1] 0.29 0.23
+[1] "15.12%"
+Time difference of 23.46376 secs
+Time difference of 1.254578 hours
+[1] 0.29 0.23
 [1] "15.2%"
-Time difference of 23.94052 secs
-Time difference of 45.61914 mins
-[1] 0.49 0.21
-[1] "15.33%"
-Time difference of 23.99266 secs
-Time difference of 46.01902 mins
-[1] 0.49 0.21
-[1] "15.47%"
-Time difference of 23.87566 secs
-Time difference of 46.41696 mins
-[1] 0.49 0.21
+Time difference of 23.5141 secs
+Time difference of 1.261109 hours
+[1] 0.29 0.23
+[1] "15.28%"
+Time difference of 23.50346 secs
+Time difference of 1.267638 hours
+[1] 0.29 0.23
+[1] "15.36%"
+Time difference of 23.48508 secs
+Time difference of 1.274162 hours
+[1] 0.29 0.23
+[1] "15.44%"
+Time difference of 23.55125 secs
+Time difference of 1.280704 hours
+[1] 0.29 0.23
+[1] "15.52%"
+Time difference of 23.46283 secs
+Time difference of 1.287222 hours
+[1] 0.29 0.23
 [1] "15.6%"
-Time difference of 24.24435 secs
-Time difference of 46.82104 mins
-[1] 0.49 0.21
-[1] "15.73%"
-Time difference of 24.07517 secs
-Time difference of 47.2223 mins
-[1] 0.49 0.21
-[1] "15.87%"
-Time difference of 24.07407 secs
-Time difference of 47.62354 mins
-[1] 0.49 0.21
+Time difference of 23.42312 secs
+Time difference of 1.293728 hours
+[1] 0.29 0.23
+[1] "15.68%"
+Time difference of 23.44603 secs
+Time difference of 1.300241 hours
+[1] 0.29 0.23
+[1] "15.76%"
+Time difference of 23.50703 secs
+Time difference of 1.306771 hours
+[1] 0.29 0.23
+[1] "15.84%"
+Time difference of 23.54376 secs
+Time difference of 1.313311 hours
+[1] 0.29 0.23
+[1] "15.92%"
+Time difference of 23.52685 secs
+Time difference of 1.319847 hours
+[1] 0.29 0.23
 [1] "16%"
-Time difference of 23.88672 secs
-Time difference of 48.02165 mins
-[1] 0.49 0.21
-[1] "16.13%"
-Time difference of 24.18311 secs
-Time difference of 48.42471 mins
-[1] 0.49 0.21
-[1] "16.27%"
-Time difference of 23.99751 secs
-Time difference of 48.82468 mins
-[1] 0.49 0.21
+Time difference of 23.45479 secs
+Time difference of 1.326362 hours
+[1] 0.29 0.23
+[1] "16.08%"
+Time difference of 23.49184 secs
+Time difference of 1.332888 hours
+[1] 0.29 0.23
+[1] "16.16%"
+Time difference of 23.53491 secs
+Time difference of 1.339425 hours
+[1] 0.29 0.23
+[1] "16.24%"
+Time difference of 23.44387 secs
+Time difference of 1.345937 hours
+[1] 0.29 0.23
+[1] "16.32%"
+Time difference of 23.63459 secs
+Time difference of 1.352503 hours
+[1] 0.29 0.23
 [1] "16.4%"
-Time difference of 24.01148 secs
-Time difference of 49.22488 mins
-[1] 0.49 0.21
-[1] "16.53%"
-Time difference of 24.11886 secs
-Time difference of 49.62686 mins
-[1] 0.49 0.21
-[1] "16.67%"
-Time difference of 24.10871 secs
-Time difference of 50.02868 mins
-[1] 0.49 0.21
+Time difference of 23.50564 secs
+Time difference of 1.359032 hours
+[1] 0.29 0.23
+[1] "16.48%"
+Time difference of 23.55228 secs
+Time difference of 1.365575 hours
+[1] 0.29 0.23
+[1] "16.56%"
+Time difference of 23.49567 secs
+Time difference of 1.372101 hours
+[1] 0.29 0.23
+[1] "16.64%"
+Time difference of 23.54107 secs
+Time difference of 1.378641 hours
+[1] 0.29 0.23
+[1] "16.72%"
+Time difference of 23.53713 secs
+Time difference of 1.385179 hours
+[1] 0.29 0.23
 [1] "16.8%"
-Time difference of 24.22264 secs
-Time difference of 50.4324 mins
-[1] 0.49 0.21
-[1] "16.93%"
-Time difference of 23.9982 secs
-Time difference of 50.83237 mins
-[1] 0.49 0.21
-[1] "17.07%"
-Time difference of 24.06962 secs
-Time difference of 51.23354 mins
-[1] 0.49 0.21
+Time difference of 23.54382 secs
+Time difference of 1.391719 hours
+[1] 0.29 0.23
+[1] "16.88%"
+Time difference of 23.47275 secs
+Time difference of 1.398239 hours
+[1] 0.29 0.23
+[1] "16.96%"
+Time difference of 23.53064 secs
+Time difference of 1.404776 hours
+[1] 0.29 0.23
+[1] "17.04%"
+Time difference of 23.4579 secs
+Time difference of 1.411292 hours
+[1] 0.29 0.23
+[1] "17.12%"
+Time difference of 23.47513 secs
+Time difference of 1.417813 hours
+[1] 0.29 0.23
 [1] "17.2%"
-Time difference of 24.04576 secs
-Time difference of 51.63431 mins
-[1] 0.49 0.21
-[1] "17.33%"
-Time difference of 24.0333 secs
-Time difference of 52.03487 mins
-[1] 0.49 0.21
-[1] "17.47%"
-Time difference of 23.96879 secs
-Time difference of 52.43436 mins
-[1] 0.49 0.21
+Time difference of 23.53614 secs
+Time difference of 1.424351 hours
+[1] 0.29 0.23
+[1] "17.28%"
+Time difference of 23.52489 secs
+Time difference of 1.430886 hours
+[1] 0.29 0.23
+[1] "17.36%"
+Time difference of 23.5338 secs
+Time difference of 1.437423 hours
+[1] 0.29 0.23
+[1] "17.44%"
+Time difference of 23.49856 secs
+Time difference of 1.443951 hours
+[1] 0.29 0.23
+[1] "17.52%"
+Time difference of 23.5824 secs
+Time difference of 1.450501 hours
+[1] 0.29 0.24
 [1] "17.6%"
-Time difference of 24.16224 secs
-Time difference of 52.83707 mins
-[1] 0.49 0.21
-[1] "17.73%"
-Time difference of 24.68377 secs
-Time difference of 53.24847 mins
-[1] 0.49 0.21
-[1] "17.87%"
-Time difference of 23.99596 secs
-Time difference of 53.64841 mins
-[1] 0.49 0.21
+Time difference of 23.47002 secs
+Time difference of 1.457021 hours
+[1] 0.29 0.24
+[1] "17.68%"
+Time difference of 23.55176 secs
+Time difference of 1.463563 hours
+[1] 0.29 0.24
+[1] "17.76%"
+Time difference of 23.52964 secs
+Time difference of 1.470099 hours
+[1] 0.29 0.24
+[1] "17.84%"
+Time difference of 23.44475 secs
+Time difference of 1.476612 hours
+[1] 0.29 0.24
+[1] "17.92%"
+Time difference of 23.50512 secs
+Time difference of 1.483141 hours
+[1] 0.29 0.24
 [1] "18%"
-Time difference of 24.33957 secs
-Time difference of 54.05407 mins
-[1] 0.49 0.21
-[1] "18.13%"
-Time difference of 23.98155 secs
-Time difference of 54.45377 mins
-[1] 0.49 0.21
-[1] "18.27%"
-Time difference of 24.04928 secs
-Time difference of 54.8546 mins
-[1] 0.49 0.21
+Time difference of 23.47736 secs
+Time difference of 1.489663 hours
+[1] 0.29 0.24
+[1] "18.08%"
+Time difference of 23.50354 secs
+Time difference of 1.496192 hours
+[1] 0.29 0.24
+[1] "18.16%"
+Time difference of 23.48358 secs
+Time difference of 1.502715 hours
+[1] 0.29 0.24
+[1] "18.24%"
+Time difference of 23.50972 secs
+Time difference of 1.509246 hours
+[1] 0.29 0.24
+[1] "18.32%"
+Time difference of 23.52071 secs
+Time difference of 1.515779 hours
+[1] 0.29 0.24
 [1] "18.4%"
-Time difference of 23.96798 secs
-Time difference of 55.25407 mins
-[1] 0.49 0.21
-[1] "18.53%"
-Time difference of 24.02972 secs
-Time difference of 55.65458 mins
-[1] 0.49 0.21
-[1] "18.67%"
-Time difference of 23.96756 secs
-Time difference of 56.05404 mins
-[1] 0.49 0.21
+Time difference of 23.50773 secs
+Time difference of 1.52231 hours
+[1] 0.29 0.24
+[1] "18.48%"
+Time difference of 23.51761 secs
+Time difference of 1.528842 hours
+[1] 0.29 0.24
+[1] "18.56%"
+Time difference of 23.5378 secs
+Time difference of 1.535381 hours
+[1] 0.29 0.24
+[1] "18.64%"
+Time difference of 23.45923 secs
+Time difference of 1.541897 hours
+[1] 0.29 0.24
+[1] "18.72%"
+Time difference of 23.49709 secs
+Time difference of 1.548424 hours
+[1] 0.29 0.24
 [1] "18.8%"
-Time difference of 23.88822 secs
-Time difference of 56.45218 mins
-[1] 0.49 0.21
-[1] "18.93%"
-Time difference of 24.07413 secs
-Time difference of 56.85343 mins
-[1] 0.49 0.21
-[1] "19.07%"
-Time difference of 23.92249 secs
-Time difference of 57.25214 mins
-[1] 0.49 0.21
+Time difference of 23.5404 secs
+Time difference of 1.554964 hours
+[1] 0.29 0.24
+[1] "18.88%"
+Time difference of 23.51793 secs
+Time difference of 1.561497 hours
+[1] 0.29 0.24
+[1] "18.96%"
+Time difference of 23.53697 secs
+Time difference of 1.568036 hours
+[1] 0.29 0.24
+[1] "19.04%"
+Time difference of 23.55245 secs
+Time difference of 1.574579 hours
+[1] 0.29 0.24
+[1] "19.12%"
+Time difference of 23.42884 secs
+Time difference of 1.581087 hours
+[1] 0.29 0.24
 [1] "19.2%"
-Time difference of 23.96189 secs
-Time difference of 57.65151 mins
-[1] 0.49 0.21
-[1] "19.33%"
-Time difference of 24.02479 secs
-Time difference of 58.05193 mins
-[1] 0.49 0.21
-[1] "19.47%"
-Time difference of 24.03716 secs
-Time difference of 58.45256 mins
-[1] 0.49 0.21
+Time difference of 23.57379 secs
+Time difference of 1.587635 hours
+[1] 0.29 0.24
+[1] "19.28%"
+Time difference of 23.52172 secs
+Time difference of 1.594169 hours
+[1] 0.29 0.24
+[1] "19.36%"
+Time difference of 23.95061 secs
+Time difference of 1.600822 hours
+[1] 0.29 0.24
+[1] "19.44%"
+Time difference of 24.71535 secs
+Time difference of 1.607688 hours
+[1] 0.29 0.24
+[1] "19.52%"
+Time difference of 24.66234 secs
+Time difference of 1.614539 hours
+[1] 0.29 0.24
 [1] "19.6%"
-Time difference of 24.0394 secs
-Time difference of 58.85322 mins
-[1] 0.49 0.21
-[1] "19.73%"
-Time difference of 24.04806 secs
-Time difference of 59.25403 mins
-[1] 0.49 0.21
-[1] "19.87%"
-Time difference of 24.0961 secs
-Time difference of 59.65564 mins
-[1] 0.49 0.21
+Time difference of 23.60963 secs
+Time difference of 1.621097 hours
+[1] 0.29 0.24
+[1] "19.68%"
+Time difference of 23.52473 secs
+Time difference of 1.627632 hours
+[1] 0.29 0.24
+[1] "19.76%"
+Time difference of 23.5305 secs
+Time difference of 1.634168 hours
+[1] 0.29 0.24
+[1] "19.84%"
+Time difference of 24.4433 secs
+Time difference of 1.640958 hours
+[1] 0.29 0.24
+[1] "19.92%"
+Time difference of 24.75653 secs
+Time difference of 1.647835 hours
+[1] 0.29 0.24
 [1] "20%"
-Time difference of 24.00527 secs
-Time difference of 1.000929 hours
-[1] 0.49 0.21
-[1] "20.13%"
-Time difference of 24.01013 secs
-Time difference of 1.007598 hours
-[1] 0.49 0.21
-[1] "20.27%"
-Time difference of 24.15067 secs
-Time difference of 1.014307 hours
-[1] 0.49 0.21
+Time difference of 27.18017 secs
+Time difference of 1.655385 hours
+[1] 0.29 0.24
+[1] "20.08%"
+Time difference of 28.43787 secs
+Time difference of 1.663285 hours
+[1] 0.29 0.24
+[1] "20.16%"
+Time difference of 24.50463 secs
+Time difference of 1.670092 hours
+[1] 0.29 0.24
+[1] "20.24%"
+Time difference of 24.35307 secs
+Time difference of 1.676857 hours
+[1] 0.29 0.24
+[1] "20.32%"
+Time difference of 24.24836 secs
+Time difference of 1.683593 hours
+[1] 0.29 0.24
 [1] "20.4%"
-Time difference of 24.1047 secs
-Time difference of 1.021003 hours
-[1] 0.49 0.21
-[1] "20.53%"
-Time difference of 24.3405 secs
-Time difference of 1.027764 hours
-[1] 0.49 0.21
-[1] "20.67%"
-Time difference of 24.34893 secs
-Time difference of 1.034528 hours
-[1] 0.49 0.21
+Time difference of 23.49572 secs
+Time difference of 1.690119 hours
+[1] 0.29 0.24
+[1] "20.48%"
+Time difference of 23.59111 secs
+Time difference of 1.696673 hours
+[1] 0.29 0.24
+[1] "20.56%"
+Time difference of 24.57119 secs
+Time difference of 1.703498 hours
+[1] 0.29 0.24
+[1] "20.64%"
+Time difference of 24.60124 secs
+Time difference of 1.710332 hours
+[1] 0.29 0.24
+[1] "20.72%"
+Time difference of 24.69254 secs
+Time difference of 1.717191 hours
+[1] 0.29 0.24
 [1] "20.8%"
-Time difference of 23.98264 secs
-Time difference of 1.04119 hours
-[1] 0.49 0.21
-[1] "20.93%"
-Time difference of 24.12744 secs
-Time difference of 1.047892 hours
-[1] 0.49 0.21
-[1] "21.07%"
-Time difference of 23.9862 secs
-Time difference of 1.054555 hours
-[1] 0.49 0.21
+Time difference of 24.65778 secs
+Time difference of 1.724041 hours
+[1] 0.29 0.24
+[1] "20.88%"
+Time difference of 23.88232 secs
+Time difference of 1.730675 hours
+[1] 0.29 0.24
+[1] "20.96%"
+Time difference of 24.77251 secs
+Time difference of 1.737556 hours
+[1] 0.29 0.24
+[1] "21.04%"
+Time difference of 24.35194 secs
+Time difference of 1.744321 hours
+[1] 0.29 0.24
+[1] "21.12%"
+Time difference of 23.9429 secs
+Time difference of 1.750972 hours
+[1] 0.29 0.24
 [1] "21.2%"
-Time difference of 24.03705 secs
-Time difference of 1.061232 hours
-[1] 0.49 0.21
-[1] "21.33%"
-Time difference of 24.08351 secs
-Time difference of 1.067922 hours
-[1] 0.49 0.21
-[1] "21.47%"
-Time difference of 24.0459 secs
-Time difference of 1.074602 hours
-[1] 0.49 0.21
+Time difference of 25.00438 secs
+Time difference of 1.757918 hours
+[1] 0.29 0.24
+[1] "21.28%"
+Time difference of 24.99737 secs
+Time difference of 1.764861 hours
+[1] 0.29 0.24
+[1] "21.36%"
+Time difference of 23.86926 secs
+Time difference of 1.771492 hours
+[1] 0.29 0.24
+[1] "21.44%"
+Time difference of 23.5183 secs
+Time difference of 1.778025 hours
+[1] 0.29 0.24
+[1] "21.52%"
+Time difference of 23.47817 secs
+Time difference of 1.784547 hours
+[1] 0.29 0.24
 [1] "21.6%"
-Time difference of 24.1613 secs
-Time difference of 1.081313 hours
-[1] 0.49 0.21
-[1] "21.73%"
-Time difference of 24.01398 secs
-Time difference of 1.087984 hours
-[1] 0.49 0.21
-[1] "21.87%"
-Time difference of 23.87299 secs
-Time difference of 1.094616 hours
-[1] 0.49 0.21
+Time difference of 23.39833 secs
+Time difference of 1.791046 hours
+[1] 0.29 0.24
+[1] "21.68%"
+Time difference of 23.51504 secs
+Time difference of 1.797579 hours
+[1] 0.29 0.24
+[1] "21.76%"
+Time difference of 23.38907 secs
+Time difference of 1.804076 hours
+[1] 0.29 0.24
+[1] "21.84%"
+Time difference of 23.39967 secs
+Time difference of 1.810576 hours
+[1] 0.29 0.24
+[1] "21.92%"
+Time difference of 23.51276 secs
+Time difference of 1.817107 hours
+[1] 0.29 0.24
 [1] "22%"
-Time difference of 24.09714 secs
-Time difference of 1.101309 hours
-[1] 0.49 0.21
-[1] "22.13%"
-Time difference of 24.04924 secs
-Time difference of 1.10799 hours
-[1] 0.49 0.21
-[1] "22.27%"
-Time difference of 24.00101 secs
-Time difference of 1.114657 hours
-[1] 0.49 0.21
+Time difference of 23.39282 secs
+Time difference of 1.823605 hours
+[1] 0.29 0.24
+[1] "22.08%"
+Time difference of 23.45325 secs
+Time difference of 1.83012 hours
+[1] 0.29 0.24
+[1] "22.16%"
+Time difference of 23.42535 secs
+Time difference of 1.836628 hours
+[1] 0.29 0.24
+[1] "22.24%"
+Time difference of 23.48467 secs
+Time difference of 1.843151 hours
+[1] 0.29 0.24
+[1] "22.32%"
+Time difference of 23.47851 secs
+Time difference of 1.849673 hours
+[1] 0.29 0.24
 [1] "22.4%"
-Time difference of 23.95714 secs
-Time difference of 1.121312 hours
-[1] 0.49 0.21
-[1] "22.53%"
-Time difference of 23.97388 secs
-Time difference of 1.127971 hours
-[1] 0.49 0.21
-[1] "22.67%"
-Time difference of 23.95096 secs
-Time difference of 1.134624 hours
-[1] 0.49 0.21
+Time difference of 23.50101 secs
+Time difference of 1.856201 hours
+[1] 0.29 0.24
+[1] "22.48%"
+Time difference of 23.43928 secs
+Time difference of 1.862712 hours
+[1] 0.29 0.24
+[1] "22.56%"
+Time difference of 23.50858 secs
+Time difference of 1.869243 hours
+[1] 0.29 0.24
+[1] "22.64%"
+Time difference of 23.43686 secs
+Time difference of 1.875753 hours
+[1] 0.29 0.24
+[1] "22.72%"
+Time difference of 23.40519 secs
+Time difference of 1.882255 hours
+[1] 0.29 0.24
 [1] "22.8%"
-Time difference of 24.05721 secs
-Time difference of 1.141307 hours
-[1] 0.48 0.21
-[1] "22.93%"
-Time difference of 23.95167 secs
-Time difference of 1.14796 hours
-[1] 0.48 0.21
-[1] "23.07%"
-Time difference of 24.10109 secs
-Time difference of 1.154655 hours
-[1] 0.48 0.21
+Time difference of 23.44832 secs
+Time difference of 1.888768 hours
+[1] 0.29 0.24
+[1] "22.88%"
+Time difference of 23.48817 secs
+Time difference of 1.895293 hours
+[1] 0.29 0.24
+[1] "22.96%"
+Time difference of 23.43342 secs
+Time difference of 1.901802 hours
+[1] 0.29 0.24
+[1] "23.04%"
+Time difference of 23.5103 secs
+Time difference of 1.908333 hours
+[1] 0.29 0.24
+[1] "23.12%"
+Time difference of 23.49289 secs
+Time difference of 1.914859 hours
+[1] 0.29 0.24
 [1] "23.2%"
-Time difference of 24.08678 secs
-Time difference of 1.161346 hours
-[1] 0.48 0.21
-[1] "23.33%"
-Time difference of 24.09202 secs
-Time difference of 1.168039 hours
-[1] 0.48 0.21
-[1] "23.47%"
-Time difference of 24.02675 secs
-Time difference of 1.174713 hours
-[1] 0.48 0.21
+Time difference of 23.37936 secs
+Time difference of 1.921354 hours
+[1] 0.29 0.24
+[1] "23.28%"
+Time difference of 23.406 secs
+Time difference of 1.927855 hours
+[1] 0.29 0.24
+[1] "23.36%"
+Time difference of 23.3654 secs
+Time difference of 1.934346 hours
+[1] 0.29 0.24
+[1] "23.44%"
+Time difference of 23.53467 secs
+Time difference of 1.940884 hours
+[1] 0.29 0.24
+[1] "23.52%"
+Time difference of 23.45624 secs
+Time difference of 1.947399 hours
+[1] 0.29 0.24
 [1] "23.6%"
-Time difference of 24.08068 secs
-Time difference of 1.181402 hours
-[1] 0.48 0.21
-[1] "23.73%"
-Time difference of 24.07147 secs
-Time difference of 1.188089 hours
-[1] 0.48 0.21
-[1] "23.87%"
-Time difference of 24.02998 secs
-Time difference of 1.194764 hours
-[1] 0.48 0.21
+Time difference of 23.50165 secs
+Time difference of 1.953928 hours
+[1] 0.29 0.24
+[1] "23.68%"
+Time difference of 23.48861 secs
+Time difference of 1.960452 hours
+[1] 0.29 0.24
+[1] "23.76%"
+Time difference of 23.45147 secs
+Time difference of 1.966967 hours
+[1] 0.29 0.24
+[1] "23.84%"
+Time difference of 23.59198 secs
+Time difference of 1.97352 hours
+[1] 0.29 0.24
+[1] "23.92%"
+Time difference of 23.43284 secs
+Time difference of 1.98003 hours
+[1] 0.29 0.24
 [1] "24%"
-Time difference of 23.48185 secs
-Time difference of 1.201287 hours
-[1] 0.48 0.21
-[1] "24.13%"
-Time difference of 23.40307 secs
-Time difference of 1.207788 hours
-[1] 0.48 0.21
-[1] "24.27%"
-Time difference of 23.35464 secs
-Time difference of 1.214275 hours
-[1] 0.48 0.21
+Time difference of 23.58918 secs
+Time difference of 1.986582 hours
+[1] 0.29 0.24
+[1] "24.08%"
+Time difference of 23.46511 secs
+Time difference of 1.993101 hours
+[1] 0.29 0.24
+[1] "24.16%"
+Time difference of 23.52438 secs
+Time difference of 1.999635 hours
+[1] 0.29 0.24
+[1] "24.24%"
+Time difference of 23.42667 secs
+Time difference of 2.006143 hours
+[1] 0.29 0.24
+[1] "24.32%"
+Time difference of 23.55676 secs
+Time difference of 2.012687 hours
+[1] 0.29 0.24
 [1] "24.4%"
-Time difference of 23.44367 secs
-Time difference of 1.220787 hours
-[1] 0.48 0.21
-[1] "24.53%"
-Time difference of 23.47144 secs
-Time difference of 1.227307 hours
-[1] 0.48 0.21
-[1] "24.67%"
-Time difference of 23.475 secs
-Time difference of 1.233828 hours
-[1] 0.48 0.21
+Time difference of 23.41874 secs
+Time difference of 2.019192 hours
+[1] 0.29 0.24
+[1] "24.48%"
+Time difference of 23.50018 secs
+Time difference of 2.02572 hours
+[1] 0.29 0.24
+[1] "24.56%"
+Time difference of 23.46875 secs
+Time difference of 2.032239 hours
+[1] 0.29 0.24
+[1] "24.64%"
+Time difference of 23.43999 secs
+Time difference of 2.038751 hours
+[1] 0.29 0.24
+[1] "24.72%"
+Time difference of 23.36141 secs
+Time difference of 2.04524 hours
+[1] 0.29 0.24
 [1] "24.8%"
-Time difference of 23.49793 secs
-Time difference of 1.240356 hours
-[1] 0.48 0.21
-[1] "24.93%"
-Time difference of 23.45994 secs
-Time difference of 1.246872 hours
-[1] 0.48 0.21
-[1] "25.07%"
-Time difference of 23.68664 secs
-Time difference of 1.253452 hours
-[1] 0.48 0.21
+Time difference of 23.38454 secs
+Time difference of 2.051736 hours
+[1] 0.29 0.24
+[1] "24.88%"
+Time difference of 23.39008 secs
+Time difference of 2.058233 hours
+[1] 0.29 0.24
+[1] "24.96%"
+Time difference of 23.29742 secs
+Time difference of 2.064705 hours
+[1] 0.29 0.24
+[1] "25.04%"
+Time difference of 23.41506 secs
+Time difference of 2.071209 hours
+[1] 0.29 0.24
+[1] "25.12%"
+Time difference of 23.35373 secs
+Time difference of 2.077697 hours
+[1] 0.29 0.24
 [1] "25.2%"
-Time difference of 23.55156 secs
-Time difference of 1.259994 hours
-[1] 0.48 0.21
-[1] "25.33%"
-Time difference of 23.50429 secs
-Time difference of 1.266524 hours
-[1] 0.48 0.21
-[1] "25.47%"
-Time difference of 23.40608 secs
-Time difference of 1.273026 hours
-[1] 0.48 0.21
+Time difference of 23.41948 secs
+Time difference of 2.084202 hours
+[1] 0.29 0.24
+[1] "25.28%"
+Time difference of 23.36073 secs
+Time difference of 2.090691 hours
+[1] 0.29 0.24
+[1] "25.36%"
+Time difference of 23.35923 secs
+Time difference of 2.09718 hours
+[1] 0.29 0.24
+[1] "25.44%"
+Time difference of 23.39328 secs
+Time difference of 2.103679 hours
+[1] 0.29 0.24
+[1] "25.52%"
+Time difference of 23.40369 secs
+Time difference of 2.11018 hours
+[1] 0.29 0.24
 [1] "25.6%"
-Time difference of 23.34198 secs
-Time difference of 1.27951 hours
-[1] 0.48 0.21
-[1] "25.73%"
-Time difference of 23.37647 secs
-Time difference of 1.286004 hours
-[1] 0.48 0.21
-[1] "25.87%"
-Time difference of 23.28539 secs
-Time difference of 1.292472 hours
-[1] 0.48 0.21
+Time difference of 23.39312 secs
+Time difference of 2.116678 hours
+[1] 0.29 0.24
+[1] "25.68%"
+Time difference of 23.40108 secs
+Time difference of 2.123178 hours
+[1] 0.29 0.24
+[1] "25.76%"
+Time difference of 23.33707 secs
+Time difference of 2.129661 hours
+[1] 0.29 0.24
+[1] "25.84%"
+Time difference of 23.43393 secs
+Time difference of 2.136171 hours
+[1] 0.29 0.24
+[1] "25.92%"
+Time difference of 23.34004 secs
+Time difference of 2.142654 hours
+[1] 0.29 0.24
 [1] "26%"
-Time difference of 23.32878 secs
-Time difference of 1.298952 hours
-[1] 0.48 0.21
-[1] "26.13%"
-Time difference of 23.40081 secs
-Time difference of 1.305453 hours
-[1] 0.48 0.21
-[1] "26.27%"
-Time difference of 23.28124 secs
-Time difference of 1.31192 hours
-[1] 0.48 0.21
+Time difference of 23.3641 secs
+Time difference of 2.149144 hours
+[1] 0.29 0.24
+[1] "26.08%"
+Time difference of 23.43876 secs
+Time difference of 2.155655 hours
+[1] 0.29 0.24
+[1] "26.16%"
+Time difference of 23.31812 secs
+Time difference of 2.162133 hours
+[1] 0.29 0.24
+[1] "26.24%"
+Time difference of 23.38816 secs
+Time difference of 2.16863 hours
+[1] 0.29 0.24
+[1] "26.32%"
+Time difference of 23.36773 secs
+Time difference of 2.175121 hours
+[1] 0.29 0.24
 [1] "26.4%"
-Time difference of 23.41152 secs
-Time difference of 1.318423 hours
-[1] 0.48 0.21
-[1] "26.53%"
-Time difference of 23.26856 secs
-Time difference of 1.324887 hours
-[1] 0.48 0.21
-[1] "26.67%"
-Time difference of 23.30906 secs
-Time difference of 1.331361 hours
-[1] 0.48 0.21
+Time difference of 23.35389 secs
+Time difference of 2.181608 hours
+[1] 0.29 0.24
+[1] "26.48%"
+Time difference of 23.37656 secs
+Time difference of 2.188102 hours
+[1] 0.29 0.24
+[1] "26.56%"
+Time difference of 23.40604 secs
+Time difference of 2.194604 hours
+[1] 0.29 0.24
+[1] "26.64%"
+Time difference of 23.356 secs
+Time difference of 2.201092 hours
+[1] 0.29 0.24
+[1] "26.72%"
+Time difference of 23.40824 secs
+Time difference of 2.207594 hours
+[1] 0.29 0.24
 [1] "26.8%"
-Time difference of 23.3241 secs
-Time difference of 1.337841 hours
-[1] 0.48 0.21
-[1] "26.93%"
-Time difference of 23.27092 secs
-Time difference of 1.344305 hours
-[1] 0.48 0.21
-[1] "27.07%"
-Time difference of 23.43405 secs
-Time difference of 1.350814 hours
-[1] 0.48 0.21
+Time difference of 23.35939 secs
+Time difference of 2.214083 hours
+[1] 0.29 0.24
+[1] "26.88%"
+Time difference of 23.36913 secs
+Time difference of 2.220575 hours
+[1] 0.29 0.24
+[1] "26.96%"
+Time difference of 23.40256 secs
+Time difference of 2.227076 hours
+[1] 0.29 0.24
+[1] "27.04%"
+Time difference of 23.32623 secs
+Time difference of 2.233555 hours
+[1] 0.29 0.24
+[1] "27.12%"
+Time difference of 23.41782 secs
+Time difference of 2.24006 hours
+[1] 0.29 0.24
 [1] "27.2%"
-Time difference of 23.28028 secs
-Time difference of 1.357281 hours
-[1] 0.48 0.21
-[1] "27.33%"
-Time difference of 23.31854 secs
-Time difference of 1.363759 hours
-[1] 0.48 0.21
-[1] "27.47%"
-Time difference of 23.2047 secs
-Time difference of 1.370205 hours
-[1] 0.48 0.21
+Time difference of 23.3314 secs
+Time difference of 2.246541 hours
+[1] 0.29 0.24
+[1] "27.28%"
+Time difference of 23.30407 secs
+Time difference of 2.253015 hours
+[1] 0.29 0.24
+[1] "27.36%"
+Time difference of 23.42558 secs
+Time difference of 2.259522 hours
+[1] 0.29 0.24
+[1] "27.44%"
+Time difference of 23.30191 secs
+Time difference of 2.265995 hours
+[1] 0.29 0.24
+[1] "27.52%"
+Time difference of 23.42456 secs
+Time difference of 2.272502 hours
+[1] 0.29 0.24
 [1] "27.6%"
-Time difference of 23.37224 secs
-Time difference of 1.376697 hours
-[1] 0.48 0.21
-[1] "27.73%"
-Time difference of 23.396 secs
-Time difference of 1.383196 hours
-[1] 0.48 0.21
-[1] "27.87%"
-Time difference of 23.26993 secs
-Time difference of 1.38966 hours
-[1] 0.48 0.21
+Time difference of 23.40518 secs
+Time difference of 2.279004 hours
+[1] 0.29 0.24
+[1] "27.68%"
+Time difference of 23.44207 secs
+Time difference of 2.285516 hours
+[1] 0.29 0.24
+[1] "27.76%"
+Time difference of 23.40476 secs
+Time difference of 2.292017 hours
+[1] 0.29 0.24
+[1] "27.84%"
+Time difference of 23.40445 secs
+Time difference of 2.298519 hours
+[1] 0.29 0.24
+[1] "27.92%"
+Time difference of 23.39618 secs
+Time difference of 2.305018 hours
+[1] 0.29 0.24
 [1] "28%"
-Time difference of 23.26431 secs
-Time difference of 1.396122 hours
-[1] 0.48 0.21
-[1] "28.13%"
-Time difference of 23.31568 secs
-Time difference of 1.402599 hours
-[1] 0.48 0.21
-[1] "28.27%"
-Time difference of 23.3667 secs
-Time difference of 1.40909 hours
-[1] 0.48 0.21
+Time difference of 23.37653 secs
+Time difference of 2.311511 hours
+[1] 0.29 0.24
+[1] "28.08%"
+Time difference of 23.45213 secs
+Time difference of 2.318026 hours
+[1] 0.29 0.24
+[1] "28.16%"
+Time difference of 23.38 secs
+Time difference of 2.324521 hours
+[1] 0.29 0.24
+[1] "28.24%"
+Time difference of 23.37362 secs
+Time difference of 2.331013 hours
+[1] 0.29 0.24
+[1] "28.32%"
+Time difference of 23.43316 secs
+Time difference of 2.337523 hours
+[1] 0.29 0.24
 [1] "28.4%"
-Time difference of 23.33965 secs
-Time difference of 1.415573 hours
-[1] 0.48 0.21
-[1] "28.53%"
-Time difference of 23.28864 secs
-Time difference of 1.422043 hours
-[1] 0.48 0.21
-[1] "28.67%"
-Time difference of 23.30911 secs
-Time difference of 1.428518 hours
-[1] 0.48 0.21
+Time difference of 23.33974 secs
+Time difference of 2.344006 hours
+[1] 0.29 0.24
+[1] "28.48%"
+Time difference of 23.46566 secs
+Time difference of 2.350525 hours
+[1] 0.29 0.24
+[1] "28.56%"
+Time difference of 23.40224 secs
+Time difference of 2.357025 hours
+[1] 0.29 0.24
+[1] "28.64%"
+Time difference of 23.39143 secs
+Time difference of 2.363523 hours
+[1] 0.29 0.24
+[1] "28.72%"
+Time difference of 23.41811 secs
+Time difference of 2.370028 hours
+[1] 0.29 0.24
 [1] "28.8%"
-Time difference of 23.33058 secs
-Time difference of 1.434998 hours
-[1] 0.48 0.21
-[1] "28.93%"
-Time difference of 23.29771 secs
-Time difference of 1.44147 hours
-[1] 0.48 0.21
-[1] "29.07%"
-Time difference of 23.39558 secs
-Time difference of 1.447969 hours
-[1] 0.48 0.21
+Time difference of 23.40587 secs
+Time difference of 2.37653 hours
+[1] 0.29 0.24
+[1] "28.88%"
+Time difference of 23.32798 secs
+Time difference of 2.38301 hours
+[1] 0.29 0.24
+[1] "28.96%"
+Time difference of 23.47749 secs
+Time difference of 2.389532 hours
+[1] 0.29 0.24
+[1] "29.04%"
+Time difference of 23.41372 secs
+Time difference of 2.396036 hours
+[1] 0.29 0.24
+[1] "29.12%"
+Time difference of 23.44822 secs
+Time difference of 2.40255 hours
+[1] 0.29 0.24
 [1] "29.2%"
-Time difference of 23.40907 secs
-Time difference of 1.454472 hours
-[1] 0.48 0.21
-[1] "29.33%"
-Time difference of 23.31776 secs
-Time difference of 1.460949 hours
-[1] 0.48 0.21
-[1] "29.47%"
-Time difference of 23.32572 secs
-Time difference of 1.467428 hours
-[1] 0.48 0.21
-[1] "29.6%"
-Time difference of 23.27934 secs
-Time difference of 1.473895 hours
-[1] 0.48 0.21
-[1] "29.73%"
-Time difference of 23.36594 secs
-Time difference of 1.480386 hours
-[1] 0.48 0.21
-[1] "29.87%"
-Time difference of 23.32931 secs
-Time difference of 1.486866 hours
-[1] 0.48 0.21
-[1] "30%"
-Time difference of 23.3852 secs
-Time difference of 1.493362 hours
-[1] 0.49 0.21
-[1] "30.13%"
-Time difference of 23.33106 secs
-Time difference of 1.499843 hours
-[1] 0.49 0.21
-[1] "30.27%"
-Time difference of 23.36654 secs
-Time difference of 1.506334 hours
-[1] 0.49 0.21
-[1] "30.4%"
-Time difference of 23.3568 secs
-Time difference of 1.512822 hours
-[1] 0.49 0.21
-[1] "30.53%"
-Time difference of 23.32883 secs
-Time difference of 1.519302 hours
-[1] 0.49 0.21
-[1] "30.67%"
-Time difference of 23.28964 secs
-Time difference of 1.525772 hours
-[1] 0.48 0.21
-[1] "30.8%"
-Time difference of 23.34273 secs
-Time difference of 1.532256 hours
-[1] 0.48 0.21
-[1] "30.93%"
-Time difference of 23.30874 secs
-Time difference of 1.538731 hours
-[1] 0.48 0.21
-[1] "31.07%"
-Time difference of 23.31144 secs
-Time difference of 1.545207 hours
-[1] 0.48 0.21
-[1] "31.2%"
-Time difference of 23.33526 secs
-Time difference of 1.551689 hours
-[1] 0.48 0.21
-[1] "31.33%"
-Time difference of 23.28137 secs
-Time difference of 1.558156 hours
-[1] 0.48 0.21
-[1] "31.47%"
-Time difference of 23.31975 secs
-Time difference of 1.564634 hours
-[1] 0.48 0.21
-[1] "31.6%"
-Time difference of 23.35345 secs
-Time difference of 1.571121 hours
-[1] 0.48 0.21
-[1] "31.73%"
-Time difference of 23.3685 secs
-Time difference of 1.577612 hours
-[1] 0.48 0.21
-[1] "31.87%"
-Time difference of 23.3349 secs
-Time difference of 1.584094 hours
-[1] 0.48 0.21
-[1] "32%"
-Time difference of 23.32943 secs
-Time difference of 1.590575 hours
-[1] 0.48 0.21
-[1] "32.13%"
-Time difference of 23.27661 secs
-Time difference of 1.597041 hours
-[1] 0.48 0.21
-[1] "32.27%"
-Time difference of 23.35378 secs
-Time difference of 1.603528 hours
-[1] 0.48 0.21
-[1] "32.4%"
-Time difference of 23.30743 secs
-Time difference of 1.610003 hours
-[1] 0.48 0.21
-[1] "32.53%"
-Time difference of 23.3024 secs
-Time difference of 1.616476 hours
-[1] 0.48 0.20
-[1] "32.67%"
-Time difference of 23.4029 secs
-Time difference of 1.622977 hours
-[1] 0.48 0.21
-[1] "32.8%"
-Time difference of 23.29357 secs
-Time difference of 1.629448 hours
-[1] 0.48 0.21
-[1] "32.93%"
-Time difference of 23.38395 secs
-Time difference of 1.635943 hours
-[1] 0.48 0.21
-[1] "33.07%"
-Time difference of 23.30659 secs
-Time difference of 1.642417 hours
-[1] 0.48 0.21
-[1] "33.2%"
-Time difference of 23.31533 secs
-Time difference of 1.648894 hours
-[1] 0.48 0.20
-[1] "33.33%"
-Time difference of 23.34058 secs
-Time difference of 1.655378 hours
-[1] 0.48 0.20
-[1] "33.47%"
-Time difference of 23.37467 secs
-Time difference of 1.661871 hours
-[1] 0.48 0.21
-[1] "33.6%"
-Time difference of 23.35272 secs
-Time difference of 1.668358 hours
-[1] 0.48 0.21
-[1] "33.73%"
-Time difference of 23.29996 secs
-Time difference of 1.67483 hours
-[1] 0.48 0.20
-[1] "33.87%"
-Time difference of 23.16469 secs
-Time difference of 1.681265 hours
-[1] 0.48 0.20
-[1] "34%"
-Time difference of 23.17437 secs
-Time difference of 1.687702 hours
-[1] 0.48 0.20
-[1] "34.13%"
-Time difference of 23.24567 secs
-Time difference of 1.69416 hours
-[1] 0.48 0.20
-[1] "34.27%"
-Time difference of 23.28399 secs
-Time difference of 1.700628 hours
-[1] 0.48 0.21
-[1] "34.4%"
-Time difference of 23.18862 secs
-Time difference of 1.707069 hours
-[1] 0.48 0.21
-[1] "34.53%"
-Time difference of 23.24909 secs
-Time difference of 1.713527 hours
-[1] 0.48 0.20
-[1] "34.67%"
-Time difference of 23.25144 secs
-Time difference of 1.719986 hours
-[1] 0.48 0.20
-[1] "34.8%"
-Time difference of 23.24786 secs
-Time difference of 1.726444 hours
-[1] 0.48 0.20
-[1] "34.93%"
-Time difference of 23.24052 secs
-Time difference of 1.7329 hours
-[1] 0.48 0.20
-[1] "35.07%"
-Time difference of 23.23291 secs
-Time difference of 1.739354 hours
-[1] 0.48 0.20
-[1] "35.2%"
-Time difference of 23.14437 secs
-Time difference of 1.745783 hours
-[1] 0.48 0.20
-[1] "35.33%"
-Time difference of 23.25324 secs
-Time difference of 1.752242 hours
-[1] 0.48 0.20
-[1] "35.47%"
-Time difference of 23.20196 secs
-Time difference of 1.758687 hours
-[1] 0.48 0.20
-[1] "35.6%"
-Time difference of 23.22467 secs
-Time difference of 1.765139 hours
-[1] 0.48 0.20
-[1] "35.73%"
-Time difference of 23.21849 secs
-Time difference of 1.771588 hours
-[1] 0.48 0.20
-[1] "35.87%"
-Time difference of 23.22636 secs
-Time difference of 1.77804 hours
-[1] 0.48 0.20
-[1] "36%"
-Time difference of 23.22887 secs
-Time difference of 1.784493 hours
-[1] 0.48 0.20
-[1] "36.13%"
-Time difference of 23.26867 secs
-Time difference of 1.790957 hours
-[1] 0.48 0.20
-[1] "36.27%"
-Time difference of 23.20407 secs
-Time difference of 1.797402 hours
-[1] 0.48 0.20
-[1] "36.4%"
-Time difference of 23.15522 secs
-Time difference of 1.803834 hours
-[1] 0.48 0.20
-[1] "36.53%"
-Time difference of 23.17027 secs
-Time difference of 1.810271 hours
-[1] 0.48 0.20
-[1] "36.67%"
-Time difference of 23.24571 secs
-Time difference of 1.816728 hours
-[1] 0.48 0.20
-[1] "36.8%"
-Time difference of 23.22451 secs
-Time difference of 1.82318 hours
-[1] 0.48 0.20
-[1] "36.93%"
-Time difference of 23.21194 secs
-Time difference of 1.829627 hours
-[1] 0.48 0.20
-[1] "37.07%"
-Time difference of 23.25068 secs
-Time difference of 1.836086 hours
-[1] 0.48 0.20
-[1] "37.2%"
-Time difference of 23.21725 secs
-Time difference of 1.842535 hours
-[1] 0.48 0.20
-[1] "37.33%"
-Time difference of 23.26023 secs
-Time difference of 1.848997 hours
-[1] 0.48 0.20
-[1] "37.47%"
-Time difference of 23.19183 secs
-Time difference of 1.855439 hours
-[1] 0.48 0.20
-[1] "37.6%"
-Time difference of 23.2129 secs
-Time difference of 1.861887 hours
-[1] 0.48 0.20
-[1] "37.73%"
-Time difference of 23.25964 secs
-Time difference of 1.868348 hours
-[1] 0.48 0.20
-[1] "37.87%"
-Time difference of 23.13377 secs
-Time difference of 1.874775 hours
-[1] 0.48 0.20
-[1] "38%"
-Time difference of 23.25035 secs
-Time difference of 1.881233 hours
-[1] 0.48 0.20
-[1] "38.13%"
-Time difference of 23.26219 secs
-Time difference of 1.887695 hours
-[1] 0.48 0.20
-[1] "38.27%"
-Time difference of 23.20722 secs
-Time difference of 1.894142 hours
-[1] 0.48 0.20
-[1] "38.4%"
-Time difference of 23.27314 secs
-Time difference of 1.900607 hours
-[1] 0.48 0.20
-[1] "38.53%"
-Time difference of 23.17583 secs
-Time difference of 1.907045 hours
-[1] 0.48 0.20
-[1] "38.67%"
-Time difference of 23.24908 secs
-Time difference of 1.913503 hours
-[1] 0.48 0.20
-[1] "38.8%"
-Time difference of 23.23253 secs
-Time difference of 1.919956 hours
-[1] 0.48 0.20
-[1] "38.93%"
-Time difference of 23.19653 secs
-Time difference of 1.9264 hours
-[1] 0.48 0.20
-[1] "39.07%"
-Time difference of 23.22086 secs
-Time difference of 1.93285 hours
-[1] 0.48 0.20
-[1] "39.2%"
-Time difference of 23.12258 secs
-Time difference of 1.939273 hours
-[1] 0.48 0.20
-[1] "39.33%"
-Time difference of 23.19815 secs
-Time difference of 1.945718 hours
-[1] 0.48 0.20
-[1] "39.47%"
-Time difference of 23.19078 secs
-Time difference of 1.95216 hours
-[1] 0.48 0.20
-[1] "39.6%"
-Time difference of 23.22953 secs
-Time difference of 1.958612 hours
-[1] 0.48 0.20
-[1] "39.73%"
-Time difference of 23.21811 secs
-Time difference of 1.965062 hours
-[1] 0.48 0.20
-[1] "39.87%"
-Time difference of 23.30102 secs
-Time difference of 1.971535 hours
-[1] 0.49 0.20
-[1] "40%"
-Time difference of 23.19545 secs
-Time difference of 1.977978 hours
-[1] 0.48 0.20
-[1] "40.13%"
-Time difference of 23.23144 secs
-Time difference of 1.984431 hours
-[1] 0.49 0.20
-[1] "40.27%"
-Time difference of 23.25976 secs
-Time difference of 1.990893 hours
-[1] 0.49 0.20
-[1] "40.4%"
-Time difference of 23.19968 secs
-Time difference of 1.997337 hours
-[1] 0.48 0.20
-[1] "40.53%"
-Time difference of 23.32081 secs
-Time difference of 2.003815 hours
-[1] 0.49 0.20
-[1] "40.67%"
-Time difference of 23.23225 secs
-Time difference of 2.010269 hours
-[1] 0.49 0.20
-[1] "40.8%"
-Time difference of 23.19856 secs
-Time difference of 2.016713 hours
-[1] 0.48 0.20
-[1] "40.93%"
-Time difference of 23.22352 secs
-Time difference of 2.023164 hours
-[1] 0.49 0.20
-[1] "41.07%"
-Time difference of 23.20604 secs
-Time difference of 2.02961 hours
-[1] 0.49 0.20
-[1] "41.2%"
-Time difference of 23.25817 secs
-Time difference of 2.036071 hours
-[1] 0.49 0.20
-[1] "41.33%"
-Time difference of 23.27415 secs
-Time difference of 2.042536 hours
-[1] 0.49 0.20
-[1] "41.47%"
-Time difference of 23.30985 secs
-Time difference of 2.049011 hours
-[1] 0.49 0.20
-[1] "41.6%"
-Time difference of 23.28382 secs
-Time difference of 2.055479 hours
-[1] 0.49 0.20
-[1] "41.73%"
-Time difference of 23.21603 secs
-Time difference of 2.061928 hours
-[1] 0.49 0.20
-[1] "41.87%"
-Time difference of 23.22511 secs
-Time difference of 2.06838 hours
-[1] 0.49 0.20
-[1] "42%"
-Time difference of 23.20482 secs
-Time difference of 2.074826 hours
-[1] 0.49 0.20
-[1] "42.13%"
-Time difference of 23.17891 secs
-Time difference of 2.081265 hours
-[1] 0.49 0.20
-[1] "42.27%"
-Time difference of 23.18642 secs
-Time difference of 2.087706 hours
-[1] 0.49 0.20
-[1] "42.4%"
-Time difference of 23.19986 secs
-Time difference of 2.09415 hours
-[1] 0.49 0.20
-[1] "42.53%"
-Time difference of 23.27461 secs
-Time difference of 2.100615 hours
-[1] 0.49 0.20
-[1] "42.67%"
-Time difference of 23.19925 secs
-Time difference of 2.10706 hours
-[1] 0.49 0.20
-[1] "42.8%"
-Time difference of 23.23087 secs
-Time difference of 2.113513 hours
-[1] 0.49 0.20
-[1] "42.93%"
-Time difference of 23.2578 secs
-Time difference of 2.119974 hours
-[1] 0.49 0.20
-[1] "43.07%"
-Time difference of 23.27005 secs
-Time difference of 2.126438 hours
-[1] 0.49 0.20
-[1] "43.2%"
-Time difference of 23.24474 secs
-Time difference of 2.132895 hours
-[1] 0.49 0.20
-[1] "43.33%"
-Time difference of 23.2567 secs
-Time difference of 2.139355 hours
-[1] 0.49 0.20
-[1] "43.47%"
-Time difference of 23.26599 secs
-Time difference of 2.145818 hours
-[1] 0.49 0.20
-[1] "43.6%"
-Time difference of 23.29064 secs
-Time difference of 2.152288 hours
-[1] 0.49 0.20
-[1] "43.73%"
-Time difference of 23.21584 secs
-Time difference of 2.158737 hours
-[1] 0.49 0.20
-[1] "43.87%"
-Time difference of 23.2077 secs
-Time difference of 2.165184 hours
-[1] 0.49 0.20
-[1] "44%"
-Time difference of 23.2116 secs
-Time difference of 2.171631 hours
-[1] 0.49 0.20
-[1] "44.13%"
-Time difference of 23.24621 secs
-Time difference of 2.178089 hours
-[1] 0.49 0.20
-[1] "44.27%"
-Time difference of 23.23825 secs
-Time difference of 2.184544 hours
-[1] 0.49 0.20
-[1] "44.4%"
-Time difference of 23.1018 secs
-Time difference of 2.190961 hours
-[1] 0.49 0.20
-[1] "44.53%"
-Time difference of 23.12886 secs
-Time difference of 2.197386 hours
-[1] 0.49 0.20
-[1] "44.67%"
-Time difference of 23.19628 secs
-Time difference of 2.20383 hours
-[1] 0.49 0.20
-[1] "44.8%"
-Time difference of 23.17933 secs
-Time difference of 2.210269 hours
-[1] 0.49 0.20
-[1] "44.93%"
-Time difference of 23.12243 secs
-Time difference of 2.216692 hours
-[1] 0.49 0.20
-[1] "45.07%"
-Time difference of 23.12 secs
-Time difference of 2.223114 hours
-[1] 0.49 0.20
-[1] "45.2%"
-Time difference of 23.1383 secs
-Time difference of 2.229542 hours
-[1] 0.49 0.20
-[1] "45.33%"
-Time difference of 23.15638 secs
-Time difference of 2.235974 hours
-[1] 0.49 0.20
-[1] "45.47%"
-Time difference of 23.06028 secs
-Time difference of 2.24238 hours
-[1] 0.49 0.20
-[1] "45.6%"
-Time difference of 23.12849 secs
-Time difference of 2.248805 hours
-[1] 0.49 0.20
-[1] "45.73%"
-Time difference of 23.16371 secs
-Time difference of 2.255239 hours
-[1] 0.49 0.20
-[1] "45.87%"
-Time difference of 23.1309 secs
-Time difference of 2.261665 hours
-[1] 0.49 0.20
-[1] "46%"
-Time difference of 23.16779 secs
-Time difference of 2.2681 hours
-[1] 0.49 0.20
-[1] "46.13%"
-Time difference of 23.11951 secs
-Time difference of 2.274523 hours
-[1] 0.49 0.20
-[1] "46.27%"
-Time difference of 23.09623 secs
-Time difference of 2.280938 hours
-[1] 0.49 0.20
-[1] "46.4%"
-Time difference of 23.16801 secs
-Time difference of 2.287374 hours
-[1] 0.49 0.20
-[1] "46.53%"
-Time difference of 23.09969 secs
-Time difference of 2.293791 hours
-[1] 0.49 0.20
-[1] "46.67%"
-Time difference of 23.18501 secs
-Time difference of 2.300231 hours
-[1] 0.49 0.20
-[1] "46.8%"
-Time difference of 23.13261 secs
-Time difference of 2.306657 hours
-[1] 0.49 0.20
-[1] "46.93%"
-Time difference of 23.09392 secs
-Time difference of 2.313072 hours
-[1] 0.49 0.20
-[1] "47.07%"
-Time difference of 23.14171 secs
-Time difference of 2.319501 hours
-[1] 0.49 0.20
-[1] "47.2%"
-Time difference of 23.0866 secs
-Time difference of 2.325914 hours
-[1] 0.49 0.20
-[1] "47.33%"
-Time difference of 23.15234 secs
-Time difference of 2.332345 hours
-[1] 0.49 0.20
-[1] "47.47%"
-Time difference of 23.13376 secs
-Time difference of 2.338771 hours
-[1] 0.49 0.20
-[1] "47.6%"
-Time difference of 23.17358 secs
-Time difference of 2.345209 hours
-[1] 0.49 0.20
-[1] "47.73%"
-Time difference of 23.18411 secs
-Time difference of 2.351649 hours
-[1] 0.49 0.20
-[1] "47.87%"
-Time difference of 23.14132 secs
-Time difference of 2.358077 hours
-[1] 0.49 0.20
-[1] "48%"
-Time difference of 23.11626 secs
-Time difference of 2.364499 hours
-[1] 0.49 0.20
-[1] "48.13%"
-Time difference of 23.12746 secs
-Time difference of 2.370923 hours
-[1] 0.49 0.20
-[1] "48.27%"
-Time difference of 23.1179 secs
-Time difference of 2.377345 hours
-[1] 0.49 0.20
-[1] "48.4%"
-Time difference of 23.09165 secs
-Time difference of 2.383759 hours
-[1] 0.49 0.20
-[1] "48.53%"
-Time difference of 23.13549 secs
-Time difference of 2.390186 hours
-[1] 0.49 0.20
-[1] "48.67%"
-Time difference of 23.22058 secs
-Time difference of 2.396636 hours
-[1] 0.49 0.20
-[1] "48.8%"
-Time difference of 23.15485 secs
-Time difference of 2.403068 hours
-[1] 0.49 0.20
-[1] "48.93%"
-Time difference of 23.17179 secs
-Time difference of 2.409505 hours
-[1] 0.49 0.20
-[1] "49.07%"
-Time difference of 23.15114 secs
-Time difference of 2.415936 hours
-[1] 0.49 0.20
-[1] "49.2%"
-Time difference of 23.13167 secs
-Time difference of 2.422362 hours
-[1] 0.49 0.20
-[1] "49.33%"
-Time difference of 23.13867 secs
-Time difference of 2.428789 hours
-[1] 0.49 0.20
-[1] "49.47%"
-Time difference of 23.20077 secs
-Time difference of 2.435234 hours
-[1] 0.49 0.20
-[1] "49.6%"
-Time difference of 23.08814 secs
-Time difference of 2.441648 hours
-[1] 0.49 0.20
-[1] "49.73%"
-Time difference of 23.15217 secs
-Time difference of 2.448079 hours
-[1] 0.49 0.20
-[1] "49.87%"
-Time difference of 23.17642 secs
-Time difference of 2.454517 hours
-[1] 0.49 0.20
-[1] "50%"
-Time difference of 23.10981 secs
-Time difference of 2.460937 hours
-[1] 0.49 0.20
-[1] "50.13%"
-Time difference of 23.21762 secs
-Time difference of 2.467386 hours
-[1] 0.49 0.20
-[1] "50.27%"
-Time difference of 23.10101 secs
-Time difference of 2.473803 hours
-[1] 0.49 0.20
-[1] "50.4%"
-Time difference of 23.19582 secs
-Time difference of 2.480247 hours
-[1] 0.49 0.20
-[1] "50.53%"
-Time difference of 23.17816 secs
-Time difference of 2.486685 hours
-[1] 0.49 0.20
-[1] "50.67%"
-Time difference of 23.15657 secs
-Time difference of 2.493118 hours
-[1] 0.49 0.20
-[1] "50.8%"
-Time difference of 23.21159 secs
-Time difference of 2.499566 hours
-[1] 0.49 0.20
-[1] "50.93%"
-Time difference of 23.19833 secs
-Time difference of 2.50601 hours
-[1] 0.49 0.20
-[1] "51.07%"
-Time difference of 23.1724 secs
-Time difference of 2.512447 hours
-[1] 0.49 0.20
-[1] "51.2%"
-Time difference of 23.17738 secs
-Time difference of 2.518885 hours
-[1] 0.49 0.20
-[1] "51.33%"
-Time difference of 23.11232 secs
-Time difference of 2.525306 hours
-[1] 0.49 0.20
-[1] "51.47%"
-Time difference of 23.166 secs
-Time difference of 2.531741 hours
-[1] 0.49 0.20
-[1] "51.6%"
-Time difference of 23.26095 secs
-Time difference of 2.538202 hours
-[1] 0.49 0.20
-[1] "51.73%"
-Time difference of 23.21875 secs
-Time difference of 2.544652 hours
-[1] 0.48 0.20
-[1] "51.87%"
-Time difference of 23.22085 secs
-Time difference of 2.551103 hours
-[1] 0.48 0.20
-[1] "52%"
-Time difference of 23.35526 secs
-Time difference of 2.55759 hours
-[1] 0.48 0.20
-[1] "52.13%"
-Time difference of 23.43594 secs
-Time difference of 2.5641 hours
-[1] 0.49 0.20
-[1] "52.27%"
-Time difference of 23.48984 secs
-Time difference of 2.570626 hours
-[1] 0.49 0.20
-[1] "52.4%"
-Time difference of 23.57263 secs
-Time difference of 2.577174 hours
-[1] 0.49 0.20
-[1] "52.53%"
-Time difference of 23.68699 secs
-Time difference of 2.583754 hours
-[1] 0.49 0.20
-[1] "52.67%"
-Time difference of 23.54981 secs
-Time difference of 2.590295 hours
-[1] 0.48 0.20
-[1] "52.8%"
-Time difference of 23.71124 secs
-Time difference of 2.596882 hours
-[1] 0.49 0.20
-[1] "52.93%"
-Time difference of 23.7051 secs
-Time difference of 2.603467 hours
-[1] 0.49 0.20
-[1] "53.07%"
-Time difference of 23.66768 secs
-Time difference of 2.610042 hours
-[1] 0.49 0.20
-[1] "53.2%"
-Time difference of 23.63063 secs
-Time difference of 2.616606 hours
-[1] 0.49 0.20
-[1] "53.33%"
-Time difference of 23.66549 secs
-Time difference of 2.62318 hours
-[1] 0.49 0.21
-[1] "53.47%"
-Time difference of 23.60803 secs
-Time difference of 2.629738 hours
-[1] 0.49 0.21
-[1] "53.6%"
-Time difference of 23.64263 secs
-Time difference of 2.636305 hours
-[1] 0.49 0.21
-[1] "53.73%"
-Time difference of 23.58078 secs
-Time difference of 2.642856 hours
-[1] 0.49 0.21
-[1] "53.87%"
-Time difference of 23.64433 secs
-Time difference of 2.649424 hours
-[1] 0.49 0.21
-[1] "54%"
-Time difference of 23.67314 secs
-Time difference of 2.656 hours
-[1] 0.49 0.21
-[1] "54.13%"
-Time difference of 23.70312 secs
-Time difference of 2.662584 hours
-[1] 0.49 0.21
-[1] "54.27%"
-Time difference of 23.63876 secs
-Time difference of 2.669151 hours
-[1] 0.49 0.21
-[1] "54.4%"
-Time difference of 23.59542 secs
-Time difference of 2.675705 hours
-[1] 0.49 0.21
-[1] "54.53%"
-Time difference of 23.65946 secs
-Time difference of 2.682277 hours
-[1] 0.49 0.21
-[1] "54.67%"
-Time difference of 23.59475 secs
-Time difference of 2.688832 hours
-[1] 0.49 0.21
-[1] "54.8%"
-Time difference of 23.63215 secs
-Time difference of 2.695396 hours
-[1] 0.49 0.21
-[1] "54.93%"
-Time difference of 23.72441 secs
-Time difference of 2.701987 hours
-[1] 0.49 0.21
-[1] "55.07%"
-Time difference of 23.65206 secs
-Time difference of 2.708557 hours
-[1] 0.49 0.21
-[1] "55.2%"
-Time difference of 23.6598 secs
-Time difference of 2.715129 hours
-[1] 0.49 0.21
-[1] "55.33%"
-Time difference of 23.75407 secs
-Time difference of 2.721728 hours
-[1] 0.49 0.21
-[1] "55.47%"
-Time difference of 23.64075 secs
-Time difference of 2.728295 hours
-[1] 0.49 0.21
-[1] "55.6%"
-Time difference of 23.76903 secs
-Time difference of 2.734898 hours
-[1] 0.49 0.21
-[1] "55.73%"
-Time difference of 23.63017 secs
-Time difference of 2.741462 hours
-[1] 0.49 0.21
-[1] "55.87%"
-Time difference of 23.7411 secs
-Time difference of 2.748057 hours
-[1] 0.49 0.21
-[1] "56%"
-Time difference of 23.73007 secs
-Time difference of 2.754649 hours
-[1] 0.49 0.21
-[1] "56.13%"
-Time difference of 23.61843 secs
-Time difference of 2.761209 hours
-[1] 0.49 0.21
-[1] "56.27%"
-Time difference of 23.59798 secs
-Time difference of 2.767765 hours
-[1] 0.49 0.21
-[1] "56.4%"
-Time difference of 23.50485 secs
-Time difference of 2.774294 hours
-[1] 0.49 0.21
-[1] "56.53%"
-Time difference of 23.51182 secs
-Time difference of 2.780825 hours
-[1] 0.48 0.21
-[1] "56.67%"
-Time difference of 23.54334 secs
-Time difference of 2.787365 hours
-[1] 0.48 0.21
-[1] "56.8%"
-Time difference of 23.50378 secs
-Time difference of 2.793894 hours
-[1] 0.48 0.21
-[1] "56.93%"
-Time difference of 23.52108 secs
-Time difference of 2.800428 hours
-[1] 0.48 0.21
-[1] "57.07%"
-Time difference of 23.51809 secs
-Time difference of 2.806961 hours
-[1] 0.48 0.21
-[1] "57.2%"
-Time difference of 23.56666 secs
-Time difference of 2.813508 hours
-[1] 0.48 0.21
-[1] "57.33%"
-Time difference of 23.54362 secs
-Time difference of 2.820048 hours
-[1] 0.48 0.21
-[1] "57.47%"
-Time difference of 23.50527 secs
-Time difference of 2.826577 hours
-[1] 0.48 0.21
-[1] "57.6%"
-Time difference of 23.48484 secs
-Time difference of 2.833101 hours
-[1] 0.48 0.21
-[1] "57.73%"
-Time difference of 23.50853 secs
-Time difference of 2.839631 hours
-[1] 0.48 0.21
-[1] "57.87%"
-Time difference of 23.57812 secs
-Time difference of 2.846181 hours
-[1] 0.48 0.21
-[1] "58%"
-Time difference of 23.56037 secs
-Time difference of 2.852726 hours
-[1] 0.48 0.21
-[1] "58.13%"
-Time difference of 23.56744 secs
-Time difference of 2.859272 hours
-[1] 0.48 0.21
-[1] "58.27%"
-Time difference of 23.51664 secs
-Time difference of 2.865805 hours
-[1] 0.48 0.21
-[1] "58.4%"
-Time difference of 23.51573 secs
-Time difference of 2.872337 hours
-[1] 0.48 0.21
-[1] "58.53%"
-Time difference of 23.49065 secs
-Time difference of 2.878863 hours
-[1] 0.48 0.21
-[1] "58.67%"
-Time difference of 23.54358 secs
-Time difference of 2.885403 hours
-[1] 0.48 0.21
-[1] "58.8%"
-Time difference of 23.5612 secs
-Time difference of 2.891948 hours
-[1] 0.48 0.21
-[1] "58.93%"
-Time difference of 23.51453 secs
-Time difference of 2.89848 hours
-[1] 0.48 0.21
-[1] "59.07%"
-Time difference of 23.57269 secs
-Time difference of 2.905028 hours
-[1] 0.48 0.21
-[1] "59.2%"
-Time difference of 23.51549 secs
-Time difference of 2.91156 hours
-[1] 0.48 0.21
-[1] "59.33%"
-Time difference of 23.55857 secs
-Time difference of 2.918104 hours
-[1] 0.48 0.21
-[1] "59.47%"
-Time difference of 23.56102 secs
-Time difference of 2.924649 hours
-[1] 0.48 0.21
-[1] "59.6%"
-Time difference of 23.51161 secs
-Time difference of 2.931181 hours
-[1] 0.48 0.21
-[1] "59.73%"
-Time difference of 23.60894 secs
-Time difference of 2.937739 hours
-[1] 0.48 0.21
-[1] "59.87%"
-Time difference of 23.49594 secs
-Time difference of 2.944266 hours
-[1] 0.48 0.21
-[1] "60%"
-Time difference of 23.54602 secs
-Time difference of 2.950806 hours
-[1] 0.48 0.21
-[1] "60.13%"
-Time difference of 23.65717 secs
-Time difference of 2.957378 hours
-[1] 0.48 0.21
-[1] "60.27%"
-Time difference of 23.48842 secs
-Time difference of 2.963903 hours
-[1] 0.48 0.21
-[1] "60.4%"
-Time difference of 23.56322 secs
-Time difference of 2.970448 hours
-[1] 0.49 0.21
-[1] "60.53%"
-Time difference of 23.4914 secs
-Time difference of 2.976974 hours
-[1] 0.48 0.21
-[1] "60.67%"
-Time difference of 23.58129 secs
-Time difference of 2.983525 hours
-[1] 0.48 0.21
-[1] "60.8%"
-Time difference of 23.51353 secs
-Time difference of 2.990056 hours
-[1] 0.48 0.21
-[1] "60.93%"
-Time difference of 23.51059 secs
-Time difference of 2.996587 hours
-[1] 0.48 0.21
-[1] "61.07%"
-Time difference of 23.53326 secs
-Time difference of 3.003124 hours
-[1] 0.48 0.21
-[1] "61.2%"
-Time difference of 23.54823 secs
-Time difference of 3.009666 hours
-[1] 0.48 0.21
-[1] "61.33%"
-Time difference of 23.54822 secs
-Time difference of 3.016207 hours
-[1] 0.48 0.21
-[1] "61.47%"
-Time difference of 23.67722 secs
-Time difference of 3.022784 hours
-[1] 0.48 0.21
-[1] "61.6%"
-Time difference of 23.53038 secs
-Time difference of 3.029321 hours
-[1] 0.48 0.21
-[1] "61.73%"
-Time difference of 23.61678 secs
-Time difference of 3.035881 hours
-[1] 0.48 0.21
-[1] "61.87%"
-Time difference of 23.53279 secs
-Time difference of 3.042418 hours
-[1] 0.48 0.21
-[1] "62%"
-Time difference of 23.60053 secs
-Time difference of 3.048974 hours
-[1] 0.48 0.21
-[1] "62.13%"
-Time difference of 23.5233 secs
-Time difference of 3.055509 hours
-[1] 0.48 0.21
-[1] "62.27%"
-Time difference of 23.66012 secs
-Time difference of 3.062081 hours
-[1] 0.48 0.21
-[1] "62.4%"
-Time difference of 23.6097 secs
-Time difference of 3.06864 hours
-[1] 0.48 0.21
-[1] "62.53%"
-Time difference of 23.64221 secs
-Time difference of 3.075207 hours
-[1] 0.48 0.21
-[1] "62.67%"
-Time difference of 23.52951 secs
-Time difference of 3.081743 hours
-[1] 0.48 0.21
-[1] "62.8%"
-Time difference of 23.72113 secs
-Time difference of 3.088333 hours
-[1] 0.48 0.21
-[1] "62.93%"
-Time difference of 23.58732 secs
-Time difference of 3.094885 hours
-[1] 0.48 0.21
-[1] "63.07%"
-Time difference of 23.586 secs
-Time difference of 3.101437 hours
-[1] 0.48 0.21
-[1] "63.2%"
-Time difference of 23.59075 secs
-Time difference of 3.10799 hours
-[1] 0.48 0.21
-[1] "63.33%"
-Time difference of 23.6476 secs
-Time difference of 3.114559 hours
-[1] 0.48 0.21
-[1] "63.47%"
-Time difference of 23.61237 secs
-Time difference of 3.121118 hours
-[1] 0.48 0.21
-[1] "63.6%"
-Time difference of 23.5931 secs
-Time difference of 3.127672 hours
-[1] 0.48 0.21
-[1] "63.73%"
-Time difference of 23.64704 secs
-Time difference of 3.134241 hours
-[1] 0.48 0.21
-[1] "63.87%"
-Time difference of 23.67627 secs
-Time difference of 3.140818 hours
-[1] 0.48 0.21
-[1] "64%"
-Time difference of 23.51553 secs
-Time difference of 3.14735 hours
-[1] 0.48 0.21
-[1] "64.13%"
-Time difference of 23.59189 secs
-Time difference of 3.153904 hours
-[1] 0.48 0.21
-[1] "64.27%"
-Time difference of 23.51477 secs
-Time difference of 3.160436 hours
-[1] 0.48 0.21
-[1] "64.4%"
-Time difference of 23.5514 secs
-Time difference of 3.166978 hours
-[1] 0.48 0.21
-[1] "64.53%"
-Time difference of 24.6583 secs
-Time difference of 3.173828 hours
-[1] 0.48 0.21
-[1] "64.67%"
-Time difference of 24.08662 secs
-Time difference of 3.18052 hours
-[1] 0.48 0.21
-[1] "64.8%"
-Time difference of 23.68505 secs
-Time difference of 3.187099 hours
-[1] 0.48 0.21
-[1] "64.93%"
-Time difference of 23.58878 secs
-Time difference of 3.193652 hours
-[1] 0.48 0.21
-[1] "65.07%"
-Time difference of 23.64001 secs
-Time difference of 3.200219 hours
-[1] 0.48 0.21
-[1] "65.2%"
-Time difference of 23.71633 secs
-Time difference of 3.206807 hours
-[1] 0.48 0.21
-[1] "65.33%"
-Time difference of 23.59378 secs
-Time difference of 3.213361 hours
-[1] 0.48 0.21
-[1] "65.47%"
-Time difference of 23.66318 secs
-Time difference of 3.219934 hours
-[1] 0.48 0.21
-[1] "65.6%"
-Time difference of 23.64645 secs
-Time difference of 3.226503 hours
-[1] 0.48 0.21
-[1] "65.73%"
-Time difference of 23.64935 secs
-Time difference of 3.233072 hours
-[1] 0.48 0.21
-[1] "65.87%"
-Time difference of 23.69369 secs
-Time difference of 3.239654 hours
-[1] 0.48 0.21
-[1] "66%"
-Time difference of 23.64873 secs
-Time difference of 3.246223 hours
-[1] 0.48 0.21
-[1] "66.13%"
-Time difference of 23.73009 secs
-Time difference of 3.252815 hours
-[1] 0.48 0.21
-[1] "66.27%"
-Time difference of 23.66652 secs
-Time difference of 3.25939 hours
-[1] 0.48 0.21
-[1] "66.4%"
-Time difference of 23.62624 secs
-Time difference of 3.265953 hours
-[1] 0.48 0.21
-[1] "66.53%"
-Time difference of 23.53663 secs
-Time difference of 3.272491 hours
-[1] 0.48 0.21
-[1] "66.67%"
-Time difference of 23.52155 secs
-Time difference of 3.279025 hours
-[1] 0.48 0.21
-[1] "66.8%"
-Time difference of 23.43246 secs
-Time difference of 3.285534 hours
-[1] 0.48 0.21
-[1] "66.93%"
-Time difference of 23.37099 secs
-Time difference of 3.292026 hours
-[1] 0.48 0.21
-[1] "67.07%"
-Time difference of 23.33988 secs
-Time difference of 3.29851 hours
-[1] 0.48 0.21
-[1] "67.2%"
-Time difference of 23.38556 secs
-Time difference of 3.305006 hours
-[1] 0.48 0.21
-[1] "67.33%"
-Time difference of 23.36974 secs
-Time difference of 3.311498 hours
-[1] 0.48 0.21
-[1] "67.47%"
-Time difference of 23.46764 secs
-Time difference of 3.318017 hours
-[1] 0.48 0.21
-[1] "67.6%"
-Time difference of 23.3177 secs
-Time difference of 3.324494 hours
-[1] 0.48 0.21
-[1] "67.73%"
-Time difference of 23.36326 secs
-Time difference of 3.330984 hours
-[1] 0.48 0.21
-[1] "67.87%"
-Time difference of 23.40555 secs
-Time difference of 3.337486 hours
-[1] 0.48 0.21
-[1] "68%"
-Time difference of 23.38249 secs
-Time difference of 3.343981 hours
-[1] 0.48 0.21
-[1] "68.13%"
-Time difference of 23.42365 secs
-Time difference of 3.350488 hours
-[1] 0.48 0.21
-[1] "68.27%"
-Time difference of 23.28332 secs
-Time difference of 3.356956 hours
-[1] 0.48 0.21
-[1] "68.4%"
-Time difference of 23.41696 secs
-Time difference of 3.363461 hours
-[1] 0.48 0.21
-[1] "68.53%"
-Time difference of 23.37857 secs
-Time difference of 3.369955 hours
-[1] 0.48 0.21
-[1] "68.67%"
-Time difference of 23.34496 secs
-Time difference of 3.37644 hours
-[1] 0.48 0.21
-[1] "68.8%"
-Time difference of 23.42006 secs
-Time difference of 3.382946 hours
-[1] 0.48 0.21
-[1] "68.93%"
-Time difference of 23.46103 secs
-Time difference of 3.389463 hours
-[1] 0.48 0.21
-[1] "69.07%"
-Time difference of 23.38789 secs
-Time difference of 3.39596 hours
-[1] 0.48 0.21
-[1] "69.2%"
-Time difference of 23.32814 secs
-Time difference of 3.40244 hours
-[1] 0.48 0.21
-[1] "69.33%"
-Time difference of 23.40133 secs
-Time difference of 3.40894 hours
-[1] 0.48 0.21
-[1] "69.47%"
-Time difference of 23.37238 secs
-Time difference of 3.415433 hours
-[1] 0.48 0.21
-[1] "69.6%"
-Time difference of 23.32282 secs
-Time difference of 3.421912 hours
-[1] 0.48 0.21
-[1] "69.73%"
-Time difference of 23.42587 secs
-Time difference of 3.428419 hours
-[1] 0.48 0.21
-[1] "69.87%"
-Time difference of 23.37989 secs
-Time difference of 3.434914 hours
-[1] 0.48 0.21
-[1] "70%"
-Time difference of 23.36241 secs
-Time difference of 3.441403 hours
-[1] 0.48 0.21
-[1] "70.13%"
-Time difference of 23.41002 secs
-Time difference of 3.447906 hours
-[1] 0.48 0.21
-[1] "70.27%"
-Time difference of 23.43556 secs
-Time difference of 3.454416 hours
-[1] 0.48 0.21
-[1] "70.4%"
-Time difference of 23.47406 secs
-Time difference of 3.460937 hours
-[1] 0.48 0.21
-[1] "70.53%"
-Time difference of 23.43391 secs
-Time difference of 3.467447 hours
-[1] 0.48 0.21
-[1] "70.67%"
-Time difference of 23.43818 secs
-Time difference of 3.473958 hours
-[1] 0.48 0.21
-[1] "70.8%"
-Time difference of 23.28276 secs
-Time difference of 3.480425 hours
-[1] 0.48 0.21
-[1] "70.93%"
-Time difference of 23.25707 secs
-Time difference of 3.486886 hours
-[1] 0.48 0.21
-[1] "71.07%"
-Time difference of 23.27355 secs
-Time difference of 3.493351 hours
-[1] 0.48 0.21
-[1] "71.2%"
-Time difference of 23.27388 secs
-Time difference of 3.499816 hours
-[1] 0.48 0.21
-[1] "71.33%"
-Time difference of 23.29112 secs
-Time difference of 3.506286 hours
-[1] 0.48 0.21
-[1] "71.47%"
-Time difference of 23.26516 secs
-Time difference of 3.512749 hours
-[1] 0.48 0.21
-[1] "71.6%"
-Time difference of 23.24846 secs
-Time difference of 3.519207 hours
-[1] 0.48 0.21
-[1] "71.73%"
-Time difference of 23.27804 secs
-Time difference of 3.525673 hours
-[1] 0.48 0.21
-[1] "71.87%"
-Time difference of 23.27109 secs
-Time difference of 3.532138 hours
-[1] 0.48 0.21
-[1] "72%"
-Time difference of 23.28428 secs
-Time difference of 3.538606 hours
-[1] 0.48 0.21
-[1] "72.13%"
-Time difference of 23.27714 secs
-Time difference of 3.545072 hours
-[1] 0.48 0.21
-[1] "72.27%"
-Time difference of 23.28728 secs
-Time difference of 3.551541 hours
-[1] 0.48 0.21
-[1] "72.4%"
-Time difference of 23.29325 secs
-Time difference of 3.558011 hours
-[1] 0.48 0.21
-[1] "72.53%"
-Time difference of 23.27808 secs
-Time difference of 3.564478 hours
-[1] 0.48 0.21
-[1] "72.67%"
-Time difference of 23.31202 secs
-Time difference of 3.570953 hours
-[1] 0.48 0.21
-[1] "72.8%"
-Time difference of 23.27605 secs
-Time difference of 3.577419 hours
-[1] 0.48 0.21
-[1] "72.93%"
-Time difference of 23.3041 secs
-Time difference of 3.583893 hours
-[1] 0.48 0.21
-[1] "73.07%"
-Time difference of 23.28354 secs
-Time difference of 3.590361 hours
-[1] 0.48 0.21
-[1] "73.2%"
-Time difference of 23.29091 secs
-Time difference of 3.596831 hours
-[1] 0.48 0.21
-[1] "73.33%"
-Time difference of 23.28151 secs
-Time difference of 3.603298 hours
-[1] 0.48 0.21
-[1] "73.47%"
-Time difference of 23.25026 secs
-Time difference of 3.609757 hours
-[1] 0.48 0.21
-[1] "73.6%"
-Time difference of 23.30165 secs
-Time difference of 3.616229 hours
-[1] 0.48 0.21
-[1] "73.73%"
-Time difference of 23.27246 secs
-Time difference of 3.622694 hours
-[1] 0.48 0.21
-[1] "73.87%"
-Time difference of 23.26963 secs
-Time difference of 3.629158 hours
-[1] 0.48 0.21
-[1] "74%"
-Time difference of 23.25326 secs
-Time difference of 3.635618 hours
-[1] 0.48 0.21
-[1] "74.13%"
-Time difference of 23.2952 secs
-Time difference of 3.642089 hours
-[1] 0.48 0.21
-[1] "74.27%"
-Time difference of 23.27796 secs
-Time difference of 3.648555 hours
-[1] 0.48 0.21
-[1] "74.4%"
-Time difference of 23.31044 secs
-Time difference of 3.65503 hours
-[1] 0.48 0.21
-[1] "74.53%"
-Time difference of 23.27975 secs
-Time difference of 3.661497 hours
-[1] 0.48 0.21
-[1] "74.67%"
-Time difference of 23.26769 secs
-Time difference of 3.667961 hours
-[1] 0.48 0.21
-[1] "74.8%"
-Time difference of 23.32343 secs
-Time difference of 3.67444 hours
-[1] 0.48 0.21
-[1] "74.93%"
-Time difference of 23.26282 secs
-Time difference of 3.680902 hours
-[1] 0.48 0.21
-[1] "75.07%"
-Time difference of 23.25918 secs
-Time difference of 3.687363 hours
-[1] 0.48 0.21
-[1] "75.2%"
-Time difference of 23.25375 secs
-Time difference of 3.693822 hours
-[1] 0.48 0.21
-[1] "75.33%"
-Time difference of 23.30486 secs
-Time difference of 3.700297 hours
-[1] 0.48 0.21
-[1] "75.47%"
-Time difference of 23.29537 secs
-Time difference of 3.706768 hours
-[1] 0.48 0.21
-[1] "75.6%"
-Time difference of 23.26133 secs
-Time difference of 3.71323 hours
-[1] 0.48 0.21
-[1] "75.73%"
-Time difference of 23.24491 secs
-Time difference of 3.719687 hours
-[1] 0.48 0.21
-[1] "75.87%"
-Time difference of 23.29531 secs
-Time difference of 3.726158 hours
-[1] 0.48 0.21
-[1] "76%"
-Time difference of 23.26336 secs
-Time difference of 3.73262 hours
-[1] 0.48 0.21
-[1] "76.13%"
-Time difference of 23.28398 secs
-Time difference of 3.739088 hours
-[1] 0.48 0.21
-[1] "76.27%"
-Time difference of 23.2566 secs
-Time difference of 3.745549 hours
-[1] 0.48 0.21
-[1] "76.4%"
-Time difference of 23.30179 secs
-Time difference of 3.752022 hours
-[1] 0.48 0.21
-[1] "76.53%"
-Time difference of 23.33423 secs
-Time difference of 3.758504 hours
-[1] 0.48 0.21
-[1] "76.67%"
-Time difference of 23.33383 secs
-Time difference of 3.764986 hours
-[1] 0.48 0.21
-[1] "76.8%"
-Time difference of 23.30662 secs
-Time difference of 3.77146 hours
-[1] 0.48 0.21
-[1] "76.93%"
-Time difference of 23.24956 secs
-Time difference of 3.777918 hours
-[1] 0.48 0.21
-[1] "77.07%"
-Time difference of 23.32081 secs
-Time difference of 3.784396 hours
-[1] 0.48 0.21
-[1] "77.2%"
-Time difference of 23.38776 secs
-Time difference of 3.790893 hours
-[1] 0.48 0.21
-[1] "77.33%"
-Time difference of 23.28894 secs
-Time difference of 3.797363 hours
-[1] 0.48 0.21
-[1] "77.47%"
-Time difference of 23.34063 secs
-Time difference of 3.803846 hours
-[1] 0.48 0.21
-[1] "77.6%"
-Time difference of 23.29997 secs
-Time difference of 3.810319 hours
-[1] 0.48 0.21
-[1] "77.73%"
-Time difference of 23.37147 secs
-Time difference of 3.816811 hours
-[1] 0.48 0.21
-[1] "77.87%"
-Time difference of 23.42458 secs
-Time difference of 3.823318 hours
-[1] 0.48 0.21
-[1] "78%"
-Time difference of 23.24881 secs
-Time difference of 3.829776 hours
-[1] 0.48 0.21
-[1] "78.13%"
-Time difference of 23.29542 secs
-Time difference of 3.836248 hours
-[1] 0.48 0.21
-[1] "78.27%"
-Time difference of 23.28086 secs
-Time difference of 3.842715 hours
-[1] 0.48 0.21
-[1] "78.4%"
-Time difference of 23.34416 secs
-Time difference of 3.849199 hours
-[1] 0.48 0.21
-[1] "78.53%"
-Time difference of 23.43723 secs
-Time difference of 3.85571 hours
-[1] 0.48 0.21
-[1] "78.67%"
-Time difference of 23.37333 secs
-Time difference of 3.862203 hours
-[1] 0.48 0.21
-[1] "78.8%"
-Time difference of 23.30578 secs
-Time difference of 3.868677 hours
-[1] 0.48 0.21
-[1] "78.93%"
-Time difference of 23.39214 secs
-Time difference of 3.875175 hours
-[1] 0.48 0.21
-[1] "79.07%"
-Time difference of 23.30975 secs
-Time difference of 3.88165 hours
-[1] 0.48 0.21
-[1] "79.2%"
-Time difference of 23.31696 secs
-Time difference of 3.888127 hours
-[1] 0.48 0.21
-[1] "79.33%"
-Time difference of 23.31341 secs
-Time difference of 3.894603 hours
-[1] 0.48 0.21
-[1] "79.47%"
-Time difference of 23.28827 secs
-Time difference of 3.901073 hours
-[1] 0.48 0.21
-[1] "79.6%"
-Time difference of 23.27935 secs
-Time difference of 3.907539 hours
-[1] 0.48 0.21
-[1] "79.73%"
-Time difference of 23.3741 secs
-Time difference of 3.914032 hours
-[1] 0.48 0.21
-[1] "79.87%"
-Time difference of 23.29074 secs
-Time difference of 3.920502 hours
-[1] 0.48 0.21
-[1] "80%"
-Time difference of 23.2826 secs
-Time difference of 3.92697 hours
-[1] 0.48 0.21
-[1] "80.13%"
-Time difference of 23.34343 secs
-Time difference of 3.933454 hours
-[1] 0.48 0.21
-[1] "80.27%"
-Time difference of 23.29433 secs
-Time difference of 3.939925 hours
-[1] 0.48 0.21
-[1] "80.4%"
-Time difference of 23.36621 secs
-Time difference of 3.946416 hours
-[1] 0.48 0.21
-[1] "80.53%"
-Time difference of 23.43204 secs
-Time difference of 3.952925 hours
-[1] 0.48 0.21
-[1] "80.67%"
-Time difference of 23.34686 secs
-Time difference of 3.959411 hours
-[1] 0.48 0.21
-[1] "80.8%"
-Time difference of 23.34888 secs
-Time difference of 3.965897 hours
-[1] 0.48 0.21
-[1] "80.93%"
-Time difference of 23.29122 secs
-Time difference of 3.972367 hours
-[1] 0.48 0.21
-[1] "81.07%"
-Time difference of 23.37235 secs
-Time difference of 3.978859 hours
-[1] 0.48 0.21
-[1] "81.2%"
+Time difference of 23.36907 secs
+Time difference of 2.409041 hours
+[1] 0.29 0.24
+[1] "29.28%"
 Time difference of 23.40098 secs
-Time difference of 3.98536 hours
-[1] 0.48 0.21
-[1] "81.33%"
-Time difference of 23.33746 secs
-Time difference of 3.991843 hours
-[1] 0.48 0.21
-[1] "81.47%"
-Time difference of 23.43854 secs
-Time difference of 3.998354 hours
-[1] 0.48 0.21
-[1] "81.6%"
-Time difference of 23.36183 secs
-Time difference of 4.004843 hours
-[1] 0.48 0.21
-[1] "81.73%"
-Time difference of 23.38652 secs
-Time difference of 4.01134 hours
-[1] 0.48 0.21
-[1] "81.87%"
-Time difference of 23.3035 secs
-Time difference of 4.017813 hours
-[1] 0.48 0.21
-[1] "82%"
-Time difference of 23.42947 secs
-Time difference of 4.024322 hours
-[1] 0.48 0.21
-[1] "82.13%"
-Time difference of 23.45587 secs
-Time difference of 4.030837 hours
-[1] 0.48 0.21
-[1] "82.27%"
-Time difference of 23.32855 secs
-Time difference of 4.037318 hours
-[1] 0.48 0.21
-[1] "82.4%"
-Time difference of 23.40666 secs
-Time difference of 4.04382 hours
-[1] 0.48 0.21
-[1] "82.53%"
-Time difference of 23.41171 secs
-Time difference of 4.050323 hours
-[1] 0.48 0.21
-[1] "82.67%"
-Time difference of 23.33213 secs
-Time difference of 4.056805 hours
-[1] 0.48 0.21
-[1] "82.8%"
-Time difference of 23.36608 secs
-Time difference of 4.063295 hours
-[1] 0.48 0.21
-[1] "82.93%"
-Time difference of 23.3925 secs
-Time difference of 4.069794 hours
-[1] 0.48 0.21
-[1] "83.07%"
-Time difference of 23.3977 secs
-Time difference of 4.076293 hours
-[1] 0.48 0.21
-[1] "83.2%"
-Time difference of 23.36564 secs
-Time difference of 4.082784 hours
-[1] 0.48 0.21
-[1] "83.33%"
-Time difference of 23.3727 secs
-Time difference of 4.089277 hours
-[1] 0.48 0.21
-[1] "83.47%"
-Time difference of 23.42192 secs
-Time difference of 4.095783 hours
-[1] 0.48 0.21
-[1] "83.6%"
-Time difference of 23.38298 secs
-Time difference of 4.102278 hours
-[1] 0.48 0.21
-[1] "83.73%"
-Time difference of 23.35481 secs
-Time difference of 4.108766 hours
-[1] 0.48 0.21
-[1] "83.87%"
-Time difference of 23.41285 secs
-Time difference of 4.11527 hours
-[1] 0.48 0.21
-[1] "84%"
-Time difference of 23.34855 secs
-Time difference of 4.121756 hours
-[1] 0.48 0.21
-[1] "84.13%"
-Time difference of 23.40091 secs
-Time difference of 4.128256 hours
-[1] 0.48 0.21
-[1] "84.27%"
-Time difference of 23.38645 secs
-Time difference of 4.134753 hours
-[1] 0.48 0.21
-[1] "84.4%"
-Time difference of 23.38656 secs
-Time difference of 4.141249 hours
-[1] 0.48 0.21
-[1] "84.53%"
-Time difference of 23.4231 secs
-Time difference of 4.147756 hours
-[1] 0.48 0.21
-[1] "84.67%"
-Time difference of 23.39317 secs
-Time difference of 4.154254 hours
-[1] 0.48 0.21
-[1] "84.8%"
+Time difference of 2.415542 hours
+[1] 0.29 0.24
+[1] "29.36%"
+Time difference of 23.451 secs
+Time difference of 2.422056 hours
+[1] 0.29 0.24
+[1] "29.44%"
+Time difference of 23.34728 secs
+Time difference of 2.428542 hours
+[1] 0.29 0.24
+[1] "29.52%"
+Time difference of 23.5048 secs
+Time difference of 2.435071 hours
+[1] 0.29 0.24
+[1] "29.6%"
+Time difference of 23.3883 secs
+Time difference of 2.441568 hours
+[1] 0.29 0.24
+[1] "29.68%"
+Time difference of 23.41704 secs
+Time difference of 2.448073 hours
+[1] 0.29 0.24
+[1] "29.76%"
+Time difference of 23.41296 secs
+Time difference of 2.454577 hours
+[1] 0.29 0.24
+[1] "29.84%"
+Time difference of 23.41964 secs
+Time difference of 2.461082 hours
+[1] 0.29 0.24
+[1] "29.92%"
+Time difference of 23.42807 secs
+Time difference of 2.46759 hours
+[1] 0.29 0.24
+[1] "30%"
+Time difference of 23.39356 secs
+Time difference of 2.474089 hours
+[1] 0.29 0.24
+[1] "30.08%"
+Time difference of 23.3969 secs
+Time difference of 2.480588 hours
+[1] 0.29 0.24
+[1] "30.16%"
+Time difference of 23.49692 secs
+Time difference of 2.487115 hours
+[1] 0.29 0.24
+[1] "30.24%"
+Time difference of 23.5308 secs
+Time difference of 2.493652 hours
+[1] 0.29 0.24
+[1] "30.32%"
+Time difference of 23.41734 secs
+Time difference of 2.500157 hours
+[1] 0.29 0.24
+[1] "30.4%"
+Time difference of 23.44199 secs
+Time difference of 2.506668 hours
+[1] 0.29 0.24
+[1] "30.48%"
+Time difference of 23.48201 secs
+Time difference of 2.513191 hours
+[1] 0.29 0.24
+[1] "30.56%"
+Time difference of 23.44255 secs
+Time difference of 2.519703 hours
+[1] 0.29 0.24
+[1] "30.64%"
+Time difference of 23.4469 secs
+Time difference of 2.526217 hours
+[1] 0.29 0.24
+[1] "30.72%"
+Time difference of 23.45228 secs
+Time difference of 2.532731 hours
+[1] 0.29 0.24
+[1] "30.8%"
+Time difference of 23.45628 secs
+Time difference of 2.539247 hours
+[1] 0.29 0.24
+[1] "30.88%"
+Time difference of 23.42347 secs
+Time difference of 2.545754 hours
+[1] 0.29 0.24
+[1] "30.96%"
+Time difference of 23.49907 secs
+Time difference of 2.552282 hours
+[1] 0.29 0.24
+[1] "31.04%"
+Time difference of 23.42632 secs
+Time difference of 2.558789 hours
+[1] 0.29 0.24
+[1] "31.12%"
+Time difference of 23.4447 secs
+Time difference of 2.565302 hours
+[1] 0.29 0.24
+[1] "31.2%"
+Time difference of 23.49459 secs
+Time difference of 2.571828 hours
+[1] 0.29 0.24
+[1] "31.28%"
+Time difference of 23.4613 secs
+Time difference of 2.578345 hours
+[1] 0.29 0.24
+[1] "31.36%"
+Time difference of 23.50464 secs
+Time difference of 2.584875 hours
+[1] 0.29 0.24
+[1] "31.44%"
+Time difference of 23.54885 secs
+Time difference of 2.591416 hours
+[1] 0.29 0.24
+[1] "31.52%"
+Time difference of 23.47015 secs
+Time difference of 2.597936 hours
+[1] 0.29 0.24
+[1] "31.6%"
+Time difference of 23.45811 secs
+Time difference of 2.604452 hours
+[1] 0.29 0.24
+[1] "31.68%"
+Time difference of 23.44917 secs
+Time difference of 2.610966 hours
+[1] 0.29 0.24
+[1] "31.76%"
+Time difference of 23.52161 secs
+Time difference of 2.6175 hours
+[1] 0.29 0.24
+[1] "31.84%"
+Time difference of 23.42807 secs
+Time difference of 2.624008 hours
+[1] 0.29 0.24
+[1] "31.92%"
+Time difference of 23.47922 secs
+Time difference of 2.63053 hours
+[1] 0.29 0.24
+[1] "32%"
+Time difference of 23.48098 secs
+Time difference of 2.637053 hours
+[1] 0.29 0.24
+[1] "32.08%"
+Time difference of 23.5732 secs
+Time difference of 2.643601 hours
+[1] 0.29 0.24
+[1] "32.16%"
+Time difference of 23.35255 secs
+Time difference of 2.650088 hours
+[1] 0.29 0.24
+[1] "32.24%"
+Time difference of 23.36253 secs
+Time difference of 2.656578 hours
+[1] 0.29 0.24
+[1] "32.32%"
+Time difference of 23.29401 secs
+Time difference of 2.663049 hours
+[1] 0.29 0.24
+[1] "32.4%"
+Time difference of 23.3103 secs
+Time difference of 2.669524 hours
+[1] 0.29 0.24
+[1] "32.48%"
+Time difference of 23.36417 secs
+Time difference of 2.676014 hours
+[1] 0.29 0.24
+[1] "32.56%"
+Time difference of 23.38611 secs
+Time difference of 2.68251 hours
+[1] 0.29 0.24
+[1] "32.64%"
+Time difference of 23.33661 secs
+Time difference of 2.688993 hours
+[1] 0.29 0.24
+[1] "32.72%"
+Time difference of 23.35987 secs
+Time difference of 2.695482 hours
+[1] 0.29 0.24
+[1] "32.8%"
+Time difference of 23.33286 secs
+Time difference of 2.701964 hours
+[1] 0.29 0.24
+[1] "32.88%"
+Time difference of 23.37329 secs
+Time difference of 2.708456 hours
+[1] 0.29 0.24
+[1] "32.96%"
+Time difference of 23.36435 secs
+Time difference of 2.714947 hours
+[1] 0.29 0.24
+[1] "33.04%"
+Time difference of 23.3534 secs
+Time difference of 2.721434 hours
+[1] 0.29 0.24
+[1] "33.12%"
+Time difference of 23.33613 secs
+Time difference of 2.727916 hours
+[1] 0.29 0.24
+[1] "33.2%"
+Time difference of 23.33438 secs
+Time difference of 2.734398 hours
+[1] 0.29 0.24
+[1] "33.28%"
+Time difference of 23.2989 secs
+Time difference of 2.74087 hours
+[1] 0.29 0.24
+[1] "33.36%"
+Time difference of 23.4076 secs
+Time difference of 2.747373 hours
+[1] 0.29 0.24
+[1] "33.44%"
+Time difference of 23.44542 secs
+Time difference of 2.753886 hours
+[1] 0.29 0.24
+[1] "33.52%"
+Time difference of 23.3569 secs
+Time difference of 2.760374 hours
+[1] 0.29 0.24
+[1] "33.6%"
+Time difference of 23.35129 secs
+Time difference of 2.76686 hours
+[1] 0.29 0.24
+[1] "33.68%"
+Time difference of 23.39985 secs
+Time difference of 2.773361 hours
+[1] 0.29 0.24
+[1] "33.76%"
+Time difference of 23.37106 secs
+Time difference of 2.779853 hours
+[1] 0.29 0.24
+[1] "33.84%"
+Time difference of 23.4091 secs
+Time difference of 2.786356 hours
+[1] 0.29 0.24
+[1] "33.92%"
+Time difference of 23.41665 secs
+Time difference of 2.79286 hours
+[1] 0.29 0.24
+[1] "34%"
+Time difference of 23.35382 secs
+Time difference of 2.799348 hours
+[1] 0.29 0.24
+[1] "34.08%"
+Time difference of 23.41425 secs
+Time difference of 2.805852 hours
+[1] 0.29 0.24
+[1] "34.16%"
+Time difference of 23.36334 secs
+Time difference of 2.812342 hours
+[1] 0.29 0.24
+[1] "34.24%"
+Time difference of 23.28985 secs
+Time difference of 2.818812 hours
+[1] 0.29 0.24
+[1] "34.32%"
+Time difference of 23.38881 secs
+Time difference of 2.825309 hours
+[1] 0.29 0.24
+[1] "34.4%"
+Time difference of 23.39237 secs
+Time difference of 2.831807 hours
+[1] 0.29 0.24
+[1] "34.48%"
+Time difference of 23.40348 secs
+Time difference of 2.838308 hours
+[1] 0.29 0.24
+[1] "34.56%"
+Time difference of 23.32555 secs
+Time difference of 2.844787 hours
+[1] 0.29 0.24
+[1] "34.64%"
+Time difference of 23.41116 secs
+Time difference of 2.851291 hours
+[1] 0.29 0.24
+[1] "34.72%"
+Time difference of 23.41483 secs
+Time difference of 2.857795 hours
+[1] 0.29 0.24
+[1] "34.8%"
+Time difference of 23.36526 secs
+Time difference of 2.864286 hours
+[1] 0.28 0.24
+[1] "34.88%"
+Time difference of 23.39711 secs
+Time difference of 2.870785 hours
+[1] 0.28 0.24
+[1] "34.96%"
 Time difference of 23.37721 secs
-Time difference of 4.160748 hours
-[1] 0.48 0.21
-[1] "84.93%"
-Time difference of 23.40532 secs
-Time difference of 4.16725 hours
-[1] 0.48 0.21
-[1] "85.07%"
-Time difference of 23.38799 secs
-Time difference of 4.173747 hours
-[1] 0.48 0.21
+Time difference of 2.877279 hours
+[1] 0.28 0.24
+[1] "35.04%"
+Time difference of 23.459 secs
+Time difference of 2.883795 hours
+[1] 0.28 0.24
+[1] "35.12%"
+Time difference of 23.45988 secs
+Time difference of 2.890312 hours
+[1] 0.28 0.24
+[1] "35.2%"
+Time difference of 23.35889 secs
+Time difference of 2.896801 hours
+[1] 0.28 0.24
+[1] "35.28%"
+Time difference of 23.41103 secs
+Time difference of 2.903304 hours
+[1] 0.28 0.24
+[1] "35.36%"
+Time difference of 23.38486 secs
+Time difference of 2.9098 hours
+[1] 0.28 0.24
+[1] "35.44%"
+Time difference of 23.39258 secs
+Time difference of 2.916298 hours
+[1] 0.28 0.24
+[1] "35.52%"
+Time difference of 23.47658 secs
+Time difference of 2.92282 hours
+[1] 0.28 0.24
+[1] "35.6%"
+Time difference of 23.42865 secs
+Time difference of 2.929328 hours
+[1] 0.28 0.24
+[1] "35.68%"
+Time difference of 23.35213 secs
+Time difference of 2.935815 hours
+[1] 0.28 0.24
+[1] "35.76%"
+Time difference of 23.4244 secs
+Time difference of 2.942322 hours
+[1] 0.28 0.24
+[1] "35.84%"
+Time difference of 23.42053 secs
+Time difference of 2.948828 hours
+[1] 0.28 0.24
+[1] "35.92%"
+Time difference of 23.4344 secs
+Time difference of 2.955338 hours
+[1] 0.28 0.24
+[1] "36%"
+Time difference of 23.31639 secs
+Time difference of 2.961815 hours
+[1] 0.28 0.24
+[1] "36.08%"
+Time difference of 23.39911 secs
+Time difference of 2.968314 hours
+[1] 0.28 0.24
+[1] "36.16%"
+Time difference of 23.29667 secs
+Time difference of 2.974786 hours
+[1] 0.28 0.24
+[1] "36.24%"
+Time difference of 23.3253 secs
+Time difference of 2.981265 hours
+[1] 0.28 0.24
+[1] "36.32%"
+Time difference of 23.40749 secs
+Time difference of 2.987768 hours
+[1] 0.28 0.24
+[1] "36.4%"
+Time difference of 23.32478 secs
+Time difference of 2.994247 hours
+[1] 0.28 0.24
+[1] "36.48%"
+Time difference of 23.49194 secs
+Time difference of 3.000773 hours
+[1] 0.28 0.24
+[1] "36.56%"
+Time difference of 23.41197 secs
+Time difference of 3.007276 hours
+[1] 0.28 0.24
+[1] "36.64%"
+Time difference of 23.38624 secs
+Time difference of 3.013773 hours
+[1] 0.28 0.24
+[1] "36.72%"
+Time difference of 23.40361 secs
+Time difference of 3.020274 hours
+[1] 0.28 0.24
+[1] "36.8%"
+Time difference of 23.3932 secs
+Time difference of 3.026772 hours
+[1] 0.28 0.24
+[1] "36.88%"
+Time difference of 23.32277 secs
+Time difference of 3.033251 hours
+[1] 0.28 0.24
+[1] "36.96%"
+Time difference of 23.48056 secs
+Time difference of 3.039774 hours
+[1] 0.28 0.24
+[1] "37.04%"
+Time difference of 23.43163 secs
+Time difference of 3.046283 hours
+[1] 0.28 0.24
+[1] "37.12%"
+Time difference of 23.32506 secs
+Time difference of 3.052762 hours
+[1] 0.28 0.24
+[1] "37.2%"
+Time difference of 23.46547 secs
+Time difference of 3.059281 hours
+[1] 0.28 0.24
+[1] "37.28%"
+Time difference of 23.41949 secs
+Time difference of 3.065786 hours
+[1] 0.28 0.24
+[1] "37.36%"
+Time difference of 23.43193 secs
+Time difference of 3.072295 hours
+[1] 0.28 0.24
+[1] "37.44%"
+Time difference of 23.36146 secs
+Time difference of 3.078785 hours
+[1] 0.28 0.24
+[1] "37.52%"
+Time difference of 25.80378 secs
+Time difference of 3.085953 hours
+[1] 0.28 0.24
+[1] "37.6%"
+Time difference of 23.44485 secs
+Time difference of 3.092465 hours
+[1] 0.28 0.24
+[1] "37.68%"
+Time difference of 23.45088 secs
+Time difference of 3.09898 hours
+[1] 0.28 0.24
+[1] "37.76%"
+Time difference of 23.52663 secs
+Time difference of 3.105515 hours
+[1] 0.28 0.24
+[1] "37.84%"
+Time difference of 23.43827 secs
+Time difference of 3.112026 hours
+[1] 0.28 0.24
+[1] "37.92%"
+Time difference of 23.39474 secs
+Time difference of 3.118525 hours
+[1] 0.28 0.24
+[1] "38%"
+Time difference of 23.39224 secs
+Time difference of 3.125023 hours
+[1] 0.28 0.24
+[1] "38.08%"
+Time difference of 23.45423 secs
+Time difference of 3.131538 hours
+[1] 0.28 0.24
+[1] "38.16%"
+Time difference of 23.47748 secs
+Time difference of 3.13806 hours
+[1] 0.28 0.24
+[1] "38.24%"
+Time difference of 23.4155 secs
+Time difference of 3.144564 hours
+[1] 0.28 0.24
+[1] "38.32%"
+Time difference of 23.35143 secs
+Time difference of 3.151051 hours
+[1] 0.28 0.24
+[1] "38.4%"
+Time difference of 23.55616 secs
+Time difference of 3.157595 hours
+[1] 0.28 0.24
+[1] "38.48%"
+Time difference of 23.38096 secs
+Time difference of 3.16409 hours
+[1] 0.28 0.24
+[1] "38.56%"
+Time difference of 23.49232 secs
+Time difference of 3.170615 hours
+[1] 0.28 0.24
+[1] "38.64%"
+Time difference of 23.45354 secs
+Time difference of 3.17713 hours
+[1] 0.28 0.24
+[1] "38.72%"
+Time difference of 23.44946 secs
+Time difference of 3.183644 hours
+[1] 0.28 0.24
+[1] "38.8%"
+Time difference of 23.42785 secs
+Time difference of 3.190152 hours
+[1] 0.28 0.24
+[1] "38.88%"
+Time difference of 23.36507 secs
+Time difference of 3.196643 hours
+[1] 0.28 0.24
+[1] "38.96%"
+Time difference of 23.45783 secs
+Time difference of 3.203159 hours
+[1] 0.28 0.24
+[1] "39.04%"
+Time difference of 23.43762 secs
+Time difference of 3.20967 hours
+[1] 0.28 0.24
+[1] "39.12%"
+Time difference of 23.53128 secs
+Time difference of 3.216207 hours
+[1] 0.28 0.24
+[1] "39.2%"
+Time difference of 23.39505 secs
+Time difference of 3.222705 hours
+[1] 0.28 0.24
+[1] "39.28%"
+Time difference of 23.33633 secs
+Time difference of 3.229188 hours
+[1] 0.28 0.24
+[1] "39.36%"
+Time difference of 23.42021 secs
+Time difference of 3.235694 hours
+[1] 0.28 0.24
+[1] "39.44%"
+Time difference of 23.50925 secs
+Time difference of 3.242224 hours
+[1] 0.28 0.24
+[1] "39.52%"
+Time difference of 23.41594 secs
+Time difference of 3.248729 hours
+[1] 0.28 0.24
+[1] "39.6%"
+Time difference of 23.4924 secs
+Time difference of 3.255255 hours
+[1] 0.28 0.24
+[1] "39.68%"
+Time difference of 23.41673 secs
+Time difference of 3.26176 hours
+[1] 0.28 0.24
+[1] "39.76%"
+Time difference of 23.47019 secs
+Time difference of 3.268279 hours
+[1] 0.28 0.24
+[1] "39.84%"
+Time difference of 23.47976 secs
+Time difference of 3.274802 hours
+[1] 0.28 0.24
+[1] "39.92%"
+Time difference of 23.44237 secs
+Time difference of 3.281314 hours
+[1] 0.28 0.24
+[1] "40%"
+Time difference of 23.48864 secs
+Time difference of 3.287839 hours
+[1] 0.28 0.24
+[1] "40.08%"
+Time difference of 23.41107 secs
+Time difference of 3.294342 hours
+[1] 0.28 0.24
+[1] "40.16%"
+Time difference of 23.49861 secs
+Time difference of 3.300869 hours
+[1] 0.28 0.24
+[1] "40.24%"
+Time difference of 23.48287 secs
+Time difference of 3.307393 hours
+[1] 0.28 0.24
+[1] "40.32%"
+Time difference of 23.48828 secs
+Time difference of 3.313917 hours
+[1] 0.28 0.24
+[1] "40.4%"
+Time difference of 23.58901 secs
+Time difference of 3.32047 hours
+[1] 0.28 0.24
+[1] "40.48%"
+Time difference of 23.46176 secs
+Time difference of 3.326988 hours
+[1] 0.28 0.24
+[1] "40.56%"
+Time difference of 23.45158 secs
+Time difference of 3.333502 hours
+[1] 0.28 0.24
+[1] "40.64%"
+Time difference of 23.52008 secs
+Time difference of 3.340036 hours
+[1] 0.28 0.24
+[1] "40.72%"
+Time difference of 23.51417 secs
+Time difference of 3.346568 hours
+[1] 0.28 0.24
+[1] "40.8%"
+Time difference of 23.56216 secs
+Time difference of 3.353113 hours
+[1] 0.28 0.24
+[1] "40.88%"
+Time difference of 23.39351 secs
+Time difference of 3.359611 hours
+[1] 0.28 0.24
+[1] "40.96%"
+Time difference of 23.33546 secs
+Time difference of 3.366094 hours
+[1] 0.28 0.24
+[1] "41.04%"
+Time difference of 23.39886 secs
+Time difference of 3.372594 hours
+[1] 0.28 0.24
+[1] "41.12%"
+Time difference of 23.32538 secs
+Time difference of 3.379073 hours
+[1] 0.28 0.24
+[1] "41.2%"
+Time difference of 23.35936 secs
+Time difference of 3.385562 hours
+[1] 0.28 0.24
+[1] "41.28%"
+Time difference of 23.32786 secs
+Time difference of 3.392042 hours
+[1] 0.28 0.24
+[1] "41.36%"
+Time difference of 23.39903 secs
+Time difference of 3.398542 hours
+[1] 0.28 0.24
+[1] "41.44%"
+Time difference of 23.38125 secs
+Time difference of 3.405037 hours
+[1] 0.28 0.24
+[1] "41.52%"
+Time difference of 23.34874 secs
+Time difference of 3.411523 hours
+[1] 0.28 0.24
+[1] "41.6%"
+Time difference of 23.39084 secs
+Time difference of 3.418021 hours
+[1] 0.28 0.24
+[1] "41.68%"
+Time difference of 23.36645 secs
+Time difference of 3.424512 hours
+[1] 0.28 0.24
+[1] "41.76%"
+Time difference of 23.423 secs
+Time difference of 3.431018 hours
+[1] 0.28 0.24
+[1] "41.84%"
+Time difference of 23.35197 secs
+Time difference of 3.437505 hours
+[1] 0.28 0.24
+[1] "41.92%"
+Time difference of 23.3191 secs
+Time difference of 3.443983 hours
+[1] 0.28 0.24
+[1] "42%"
+Time difference of 23.30458 secs
+Time difference of 3.450457 hours
+[1] 0.28 0.24
+[1] "42.08%"
+Time difference of 23.27062 secs
+Time difference of 3.456921 hours
+[1] 0.28 0.24
+[1] "42.16%"
+Time difference of 23.2914 secs
+Time difference of 3.463391 hours
+[1] 0.28 0.24
+[1] "42.24%"
+Time difference of 23.36503 secs
+Time difference of 3.469882 hours
+[1] 0.28 0.24
+[1] "42.32%"
+Time difference of 23.35824 secs
+Time difference of 3.47637 hours
+[1] 0.28 0.24
+[1] "42.4%"
+Time difference of 23.37522 secs
+Time difference of 3.482863 hours
+[1] 0.28 0.24
+[1] "42.48%"
+Time difference of 23.35502 secs
+Time difference of 3.489351 hours
+[1] 0.28 0.24
+[1] "42.56%"
+Time difference of 23.30471 secs
+Time difference of 3.495825 hours
+[1] 0.28 0.24
+[1] "42.64%"
+Time difference of 23.36278 secs
+Time difference of 3.502315 hours
+[1] 0.28 0.24
+[1] "42.72%"
+Time difference of 23.28276 secs
+Time difference of 3.508783 hours
+[1] 0.28 0.24
+[1] "42.8%"
+Time difference of 23.34336 secs
+Time difference of 3.515267 hours
+[1] 0.28 0.24
+[1] "42.88%"
+Time difference of 23.29012 secs
+Time difference of 3.521737 hours
+[1] 0.28 0.24
+[1] "42.96%"
+Time difference of 23.28781 secs
+Time difference of 3.528206 hours
+[1] 0.28 0.24
+[1] "43.04%"
+Time difference of 23.40253 secs
+Time difference of 3.534707 hours
+[1] 0.28 0.24
+[1] "43.12%"
+Time difference of 23.40186 secs
+Time difference of 3.541208 hours
+[1] 0.28 0.24
+[1] "43.2%"
+Time difference of 23.38225 secs
+Time difference of 3.547703 hours
+[1] 0.28 0.24
+[1] "43.28%"
+Time difference of 23.34596 secs
+Time difference of 3.554188 hours
+[1] 0.28 0.24
+[1] "43.36%"
+Time difference of 23.39441 secs
+Time difference of 3.560687 hours
+[1] 0.28 0.24
+[1] "43.44%"
+Time difference of 23.35883 secs
+Time difference of 3.567176 hours
+[1] 0.28 0.24
+[1] "43.52%"
+Time difference of 23.31662 secs
+Time difference of 3.573653 hours
+[1] 0.28 0.24
+[1] "43.6%"
+Time difference of 23.38429 secs
+Time difference of 3.580149 hours
+[1] 0.28 0.24
+[1] "43.68%"
+Time difference of 23.39651 secs
+Time difference of 3.586648 hours
+[1] 0.28 0.24
+[1] "43.76%"
+Time difference of 23.40312 secs
+Time difference of 3.593149 hours
+[1] 0.28 0.24
+[1] "43.84%"
+Time difference of 23.37609 secs
+Time difference of 3.599642 hours
+[1] 0.28 0.24
+[1] "43.92%"
+Time difference of 23.39284 secs
+Time difference of 3.606141 hours
+[1] 0.28 0.24
+[1] "44%"
+Time difference of 23.41735 secs
+Time difference of 3.612646 hours
+[1] 0.28 0.24
+[1] "44.08%"
+Time difference of 23.42922 secs
+Time difference of 3.619154 hours
+[1] 0.28 0.24
+[1] "44.16%"
+Time difference of 23.46489 secs
+Time difference of 3.625672 hours
+[1] 0.28 0.24
+[1] "44.24%"
+Time difference of 23.33647 secs
+Time difference of 3.632155 hours
+[1] 0.28 0.24
+[1] "44.32%"
+Time difference of 23.41202 secs
+Time difference of 3.638659 hours
+[1] 0.28 0.24
+[1] "44.4%"
+Time difference of 23.36447 secs
+Time difference of 3.645149 hours
+[1] 0.28 0.24
+[1] "44.48%"
+Time difference of 23.44699 secs
+Time difference of 3.651662 hours
+[1] 0.28 0.24
+[1] "44.56%"
+Time difference of 23.42531 secs
+Time difference of 3.65817 hours
+[1] 0.28 0.24
+[1] "44.64%"
+Time difference of 23.42054 secs
+Time difference of 3.664675 hours
+[1] 0.28 0.24
+[1] "44.72%"
+Time difference of 23.38473 secs
+Time difference of 3.671171 hours
+[1] 0.28 0.24
+[1] "44.8%"
+Time difference of 23.4318 secs
+Time difference of 3.677681 hours
+[1] 0.28 0.24
+[1] "44.88%"
+Time difference of 23.4038 secs
+Time difference of 3.684182 hours
+[1] 0.28 0.24
+[1] "44.96%"
+Time difference of 23.3802 secs
+Time difference of 3.690677 hours
+[1] 0.28 0.24
+[1] "45.04%"
+Time difference of 23.30883 secs
+Time difference of 3.697151 hours
+[1] 0.28 0.24
+[1] "45.12%"
+Time difference of 23.39858 secs
+Time difference of 3.703653 hours
+[1] 0.28 0.24
+[1] "45.2%"
+Time difference of 23.35555 secs
+Time difference of 3.71014 hours
+[1] 0.28 0.24
+[1] "45.28%"
+Time difference of 23.39502 secs
+Time difference of 3.716639 hours
+[1] 0.28 0.24
+[1] "45.36%"
+Time difference of 23.40886 secs
+Time difference of 3.723142 hours
+[1] 0.28 0.24
+[1] "45.44%"
+Time difference of 23.33629 secs
+Time difference of 3.729624 hours
+[1] 0.28 0.24
+[1] "45.52%"
+Time difference of 23.4034 secs
+Time difference of 3.736126 hours
+[1] 0.28 0.24
+[1] "45.6%"
+Time difference of 23.38638 secs
+Time difference of 3.742622 hours
+[1] 0.28 0.24
+[1] "45.68%"
+Time difference of 23.36797 secs
+Time difference of 3.749113 hours
+[1] 0.28 0.24
+[1] "45.76%"
+Time difference of 23.28483 secs
+Time difference of 3.755582 hours
+[1] 0.28 0.24
+[1] "45.84%"
+Time difference of 23.22752 secs
+Time difference of 3.762034 hours
+[1] 0.28 0.24
+[1] "45.92%"
+Time difference of 23.14844 secs
+Time difference of 3.768464 hours
+[1] 0.28 0.24
+[1] "46%"
+Time difference of 23.08529 secs
+Time difference of 3.774877 hours
+[1] 0.28 0.24
+[1] "46.08%"
+Time difference of 23.12034 secs
+Time difference of 3.7813 hours
+[1] 0.28 0.24
+[1] "46.16%"
+Time difference of 23.08385 secs
+Time difference of 3.787712 hours
+[1] 0.28 0.24
+[1] "46.24%"
+Time difference of 23.10566 secs
+Time difference of 3.794131 hours
+[1] 0.28 0.24
+[1] "46.32%"
+Time difference of 23.08639 secs
+Time difference of 3.800544 hours
+[1] 0.28 0.24
+[1] "46.4%"
+Time difference of 23.07766 secs
+Time difference of 3.806954 hours
+[1] 0.28 0.24
+[1] "46.48%"
+Time difference of 23.06113 secs
+Time difference of 3.81336 hours
+[1] 0.28 0.24
+[1] "46.56%"
+Time difference of 23.12387 secs
+Time difference of 3.819784 hours
+[1] 0.28 0.24
+[1] "46.64%"
+Time difference of 23.11751 secs
+Time difference of 3.826206 hours
+[1] 0.28 0.24
+[1] "46.72%"
+Time difference of 23.14839 secs
+Time difference of 3.832636 hours
+[1] 0.28 0.24
+[1] "46.8%"
+Time difference of 23.13099 secs
+Time difference of 3.839062 hours
+[1] 0.28 0.24
+[1] "46.88%"
+Time difference of 23.19458 secs
+Time difference of 3.845505 hours
+[1] 0.28 0.24
+[1] "46.96%"
+Time difference of 23.07579 secs
+Time difference of 3.851915 hours
+[1] 0.28 0.24
+[1] "47.04%"
+Time difference of 23.19435 secs
+Time difference of 3.858358 hours
+[1] 0.28 0.24
+[1] "47.12%"
+Time difference of 23.13832 secs
+Time difference of 3.864786 hours
+[1] 0.28 0.24
+[1] "47.2%"
+Time difference of 23.16248 secs
+Time difference of 3.87122 hours
+[1] 0.28 0.24
+[1] "47.28%"
+Time difference of 23.23027 secs
+Time difference of 3.877673 hours
+[1] 0.28 0.24
+[1] "47.36%"
+Time difference of 23.20057 secs
+Time difference of 3.884118 hours
+[1] 0.28 0.24
+[1] "47.44%"
+Time difference of 23.14855 secs
+Time difference of 3.890548 hours
+[1] 0.28 0.24
+[1] "47.52%"
+Time difference of 23.15488 secs
+Time difference of 3.89698 hours
+[1] 0.28 0.24
+[1] "47.6%"
+Time difference of 23.15205 secs
+Time difference of 3.903412 hours
+[1] 0.28 0.24
+[1] "47.68%"
+Time difference of 23.1523 secs
+Time difference of 3.909843 hours
+[1] 0.28 0.24
+[1] "47.76%"
+Time difference of 23.14982 secs
+Time difference of 3.916274 hours
+[1] 0.28 0.24
+[1] "47.84%"
+Time difference of 23.25716 secs
+Time difference of 3.922734 hours
+[1] 0.28 0.24
+[1] "47.92%"
+Time difference of 23.19838 secs
+Time difference of 3.929178 hours
+[1] 0.28 0.24
+[1] "48%"
+Time difference of 23.17808 secs
+Time difference of 3.935617 hours
+[1] 0.28 0.24
+[1] "48.08%"
+Time difference of 23.17105 secs
+Time difference of 3.942054 hours
+[1] 0.28 0.24
+[1] "48.16%"
+Time difference of 23.2339 secs
+Time difference of 3.948508 hours
+[1] 0.28 0.24
+[1] "48.24%"
+Time difference of 23.15098 secs
+Time difference of 3.954939 hours
+[1] 0.28 0.24
+[1] "48.32%"
+Time difference of 23.2438 secs
+Time difference of 3.961396 hours
+[1] 0.28 0.24
+[1] "48.4%"
+Time difference of 23.21812 secs
+Time difference of 3.967845 hours
+[1] 0.28 0.24
+[1] "48.48%"
+Time difference of 23.19994 secs
+Time difference of 3.97429 hours
+[1] 0.28 0.24
+[1] "48.56%"
+Time difference of 23.17778 secs
+Time difference of 3.980728 hours
+[1] 0.28 0.24
+[1] "48.64%"
+Time difference of 23.1401 secs
+Time difference of 3.987157 hours
+[1] 0.28 0.24
+[1] "48.72%"
+Time difference of 23.16984 secs
+Time difference of 3.993593 hours
+[1] 0.28 0.24
+[1] "48.8%"
+Time difference of 23.21562 secs
+Time difference of 4.000042 hours
+[1] 0.28 0.24
+[1] "48.88%"
+Time difference of 23.2164 secs
+Time difference of 4.006491 hours
+[1] 0.28 0.24
+[1] "48.96%"
+Time difference of 23.22624 secs
+Time difference of 4.012943 hours
+[1] 0.28 0.24
+[1] "49.04%"
+Time difference of 23.15547 secs
+Time difference of 4.019375 hours
+[1] 0.28 0.24
+[1] "49.12%"
+Time difference of 23.14362 secs
+Time difference of 4.025804 hours
+[1] 0.28 0.24
+[1] "49.2%"
+Time difference of 23.17081 secs
+Time difference of 4.032241 hours
+[1] 0.28 0.24
+[1] "49.28%"
+Time difference of 23.24533 secs
+Time difference of 4.038698 hours
+[1] 0.28 0.24
+[1] "49.36%"
+Time difference of 23.23822 secs
+Time difference of 4.045153 hours
+[1] 0.28 0.24
+[1] "49.44%"
+Time difference of 23.22172 secs
+Time difference of 4.051604 hours
+[1] 0.28 0.24
+[1] "49.52%"
+Time difference of 23.26698 secs
+Time difference of 4.058067 hours
+[1] 0.28 0.24
+[1] "49.6%"
+Time difference of 23.27324 secs
+Time difference of 4.064532 hours
+[1] 0.28 0.24
+[1] "49.68%"
+Time difference of 23.25734 secs
+Time difference of 4.070993 hours
+[1] 0.28 0.24
+[1] "49.76%"
+Time difference of 23.29519 secs
+Time difference of 4.077464 hours
+[1] 0.28 0.24
+[1] "49.84%"
+Time difference of 23.23955 secs
+Time difference of 4.08392 hours
+[1] 0.28 0.24
+[1] "49.92%"
+Time difference of 23.30348 secs
+Time difference of 4.090393 hours
+[1] 0.28 0.24
+[1] "50%"
+Time difference of 23.21464 secs
+Time difference of 4.096842 hours
+[1] 0.28 0.24
+[1] "50.08%"
+Time difference of 23.29661 secs
+Time difference of 4.103314 hours
+[1] 0.28 0.24
+[1] "50.16%"
+Time difference of 23.27931 secs
+Time difference of 4.10978 hours
+[1] 0.28 0.24
+[1] "50.24%"
+Time difference of 23.32653 secs
+Time difference of 4.11626 hours
+[1] 0.28 0.24
+[1] "50.32%"
+Time difference of 23.22157 secs
+Time difference of 4.122711 hours
+[1] 0.28 0.24
+[1] "50.4%"
+Time difference of 23.25892 secs
+Time difference of 4.129172 hours
+[1] 0.28 0.24
+[1] "50.48%"
+Time difference of 23.26373 secs
+Time difference of 4.135634 hours
+[1] 0.28 0.24
+[1] "50.56%"
+Time difference of 23.30073 secs
+Time difference of 4.142107 hours
+[1] 0.28 0.24
+[1] "50.64%"
+Time difference of 23.22928 secs
+Time difference of 4.14856 hours
+[1] 0.28 0.24
+[1] "50.72%"
+Time difference of 23.27759 secs
+Time difference of 4.155026 hours
+[1] 0.28 0.24
+[1] "50.8%"
+Time difference of 23.38296 secs
+Time difference of 4.161521 hours
+[1] 0.28 0.24
+[1] "50.88%"
+Time difference of 23.33558 secs
+Time difference of 4.168004 hours
+[1] 0.28 0.24
+[1] "50.96%"
+Time difference of 23.31776 secs
+Time difference of 4.174481 hours
+[1] 0.28 0.24
+[1] "51.04%"
+Time difference of 23.2325 secs
+Time difference of 4.180935 hours
+[1] 0.28 0.24
+[1] "51.12%"
+Time difference of 23.21945 secs
+Time difference of 4.187385 hours
+[1] 0.28 0.24
+[1] "51.2%"
+Time difference of 23.19839 secs
+Time difference of 4.193829 hours
+[1] 0.28 0.24
+[1] "51.28%"
+Time difference of 23.15732 secs
+Time difference of 4.200262 hours
+[1] 0.28 0.24
+[1] "51.36%"
+Time difference of 23.1077 secs
+Time difference of 4.206681 hours
+[1] 0.28 0.24
+[1] "51.44%"
+Time difference of 23.15403 secs
+Time difference of 4.213113 hours
+[1] 0.28 0.24
+[1] "51.52%"
+Time difference of 23.1316 secs
+Time difference of 4.219539 hours
+[1] 0.28 0.24
+[1] "51.6%"
+Time difference of 23.11041 secs
+Time difference of 4.225958 hours
+[1] 0.28 0.24
+[1] "51.68%"
+Time difference of 23.10432 secs
+Time difference of 4.232377 hours
+[1] 0.28 0.24
+[1] "51.76%"
+Time difference of 23.08955 secs
+Time difference of 4.238791 hours
+[1] 0.28 0.24
+[1] "51.84%"
+Time difference of 23.14407 secs
+Time difference of 4.24522 hours
+[1] 0.28 0.24
+[1] "51.92%"
+Time difference of 23.12097 secs
+Time difference of 4.251642 hours
+[1] 0.28 0.24
+[1] "52%"
+Time difference of 23.10818 secs
+Time difference of 4.258062 hours
+[1] 0.28 0.24
+[1] "52.08%"
+Time difference of 23.11269 secs
+Time difference of 4.264482 hours
+[1] 0.28 0.24
+[1] "52.16%"
+Time difference of 23.14099 secs
+Time difference of 4.27091 hours
+[1] 0.28 0.24
+[1] "52.24%"
+Time difference of 23.17834 secs
+Time difference of 4.277349 hours
+[1] 0.28 0.24
+[1] "52.32%"
+Time difference of 23.1268 secs
+Time difference of 4.283773 hours
+[1] 0.28 0.24
+[1] "52.4%"
+Time difference of 23.11594 secs
+Time difference of 4.290195 hours
+[1] 0.28 0.24
+[1] "52.48%"
+Time difference of 23.17796 secs
+Time difference of 4.296633 hours
+[1] 0.28 0.24
+[1] "52.56%"
+Time difference of 23.13057 secs
+Time difference of 4.303059 hours
+[1] 0.28 0.24
+[1] "52.64%"
+Time difference of 23.15978 secs
+Time difference of 4.309492 hours
+[1] 0.28 0.24
+[1] "52.72%"
+Time difference of 23.14909 secs
+Time difference of 4.315923 hours
+[1] 0.28 0.24
+[1] "52.8%"
+Time difference of 23.1447 secs
+Time difference of 4.322352 hours
+[1] 0.28 0.24
+[1] "52.88%"
+Time difference of 23.16613 secs
+Time difference of 4.328787 hours
+[1] 0.28 0.24
+[1] "52.96%"
+Time difference of 23.18675 secs
+Time difference of 4.335228 hours
+[1] 0.28 0.24
+[1] "53.04%"
+Time difference of 23.13467 secs
+Time difference of 4.341655 hours
+[1] 0.28 0.24
+[1] "53.12%"
+Time difference of 23.17878 secs
+Time difference of 4.348094 hours
+[1] 0.28 0.24
+[1] "53.2%"
+Time difference of 23.13922 secs
+Time difference of 4.354522 hours
+[1] 0.28 0.24
+[1] "53.28%"
+Time difference of 23.13019 secs
+Time difference of 4.360947 hours
+[1] 0.28 0.24
+[1] "53.36%"
+Time difference of 23.17042 secs
+Time difference of 4.367383 hours
+[1] 0.28 0.24
+[1] "53.44%"
+Time difference of 23.12825 secs
+Time difference of 4.373808 hours
+[1] 0.28 0.24
+[1] "53.52%"
+Time difference of 23.11859 secs
+Time difference of 4.38023 hours
+[1] 0.28 0.24
+[1] "53.6%"
+Time difference of 23.17198 secs
+Time difference of 4.386667 hours
+[1] 0.28 0.24
+[1] "53.68%"
+Time difference of 23.14499 secs
+Time difference of 4.393096 hours
+[1] 0.28 0.24
+[1] "53.76%"
+Time difference of 23.14781 secs
+Time difference of 4.399527 hours
+[1] 0.28 0.24
+[1] "53.84%"
+Time difference of 23.1786 secs
+Time difference of 4.405965 hours
+[1] 0.28 0.24
+[1] "53.92%"
+Time difference of 23.13782 secs
+Time difference of 4.412393 hours
+[1] 0.28 0.24
+[1] "54%"
+Time difference of 23.1626 secs
+Time difference of 4.418827 hours
+[1] 0.28 0.24
+[1] "54.08%"
+Time difference of 23.13641 secs
+Time difference of 4.425254 hours
+[1] 0.28 0.24
+[1] "54.16%"
+Time difference of 23.17904 secs
+Time difference of 4.431693 hours
+[1] 0.28 0.24
+[1] "54.24%"
+Time difference of 23.12367 secs
+Time difference of 4.438117 hours
+[1] 0.28 0.24
+[1] "54.32%"
+Time difference of 23.18207 secs
+Time difference of 4.444556 hours
+[1] 0.28 0.24
+[1] "54.4%"
+Time difference of 23.17491 secs
+Time difference of 4.450994 hours
+[1] 0.28 0.24
+[1] "54.48%"
+Time difference of 23.19199 secs
+Time difference of 4.457436 hours
+[1] 0.28 0.24
+[1] "54.56%"
+Time difference of 23.19683 secs
+Time difference of 4.46388 hours
+[1] 0.28 0.24
+[1] "54.64%"
+Time difference of 23.15635 secs
+Time difference of 4.470313 hours
+[1] 0.28 0.24
+[1] "54.72%"
+Time difference of 23.13543 secs
+Time difference of 4.47674 hours
+[1] 0.28 0.24
+[1] "54.8%"
+Time difference of 23.18892 secs
+Time difference of 4.483181 hours
+[1] 0.28 0.24
+[1] "54.88%"
+Time difference of 23.23288 secs
+Time difference of 4.489635 hours
+[1] 0.28 0.24
+[1] "54.96%"
+Time difference of 23.23076 secs
+Time difference of 4.496088 hours
+[1] 0.28 0.24
+[1] "55.04%"
+Time difference of 23.14726 secs
+Time difference of 4.502518 hours
+[1] 0.28 0.24
+[1] "55.12%"
+Time difference of 23.17846 secs
+Time difference of 4.508957 hours
+[1] 0.28 0.24
+[1] "55.2%"
+Time difference of 23.15705 secs
+Time difference of 4.51539 hours
+[1] 0.28 0.24
+[1] "55.28%"
+Time difference of 23.18338 secs
+Time difference of 4.52183 hours
+[1] 0.28 0.24
+[1] "55.36%"
+Time difference of 23.19419 secs
+Time difference of 4.528273 hours
+[1] 0.28 0.24
+[1] "55.44%"
+Time difference of 23.16563 secs
+Time difference of 4.534708 hours
+[1] 0.28 0.24
+[1] "55.52%"
+Time difference of 23.19411 secs
+Time difference of 4.541151 hours
+[1] 0.28 0.24
+[1] "55.6%"
+Time difference of 23.18748 secs
+Time difference of 4.547592 hours
+[1] 0.28 0.24
+[1] "55.68%"
+Time difference of 23.15128 secs
+Time difference of 4.554024 hours
+[1] 0.28 0.24
+[1] "55.76%"
+Time difference of 23.23719 secs
+Time difference of 4.560479 hours
+[1] 0.28 0.24
+[1] "55.84%"
+Time difference of 23.21458 secs
+Time difference of 4.566927 hours
+[1] 0.28 0.24
+[1] "55.92%"
+Time difference of 23.19324 secs
+Time difference of 4.57337 hours
+[1] 0.28 0.24
+[1] "56%"
+Time difference of 23.1567 secs
+Time difference of 4.579803 hours
+[1] 0.28 0.24
+[1] "56.08%"
+Time difference of 23.18718 secs
+Time difference of 4.586244 hours
+[1] 0.28 0.24
+[1] "56.16%"
+Time difference of 23.14865 secs
+Time difference of 4.592674 hours
+[1] 0.28 0.24
+[1] "56.24%"
+Time difference of 23.14615 secs
+Time difference of 4.599104 hours
+[1] 0.28 0.24
+[1] "56.32%"
+Time difference of 23.16059 secs
+Time difference of 4.605538 hours
+[1] 0.28 0.24
+[1] "56.4%"
+Time difference of 23.13432 secs
+Time difference of 4.611964 hours
+[1] 0.28 0.24
+[1] "56.48%"
+Time difference of 23.23854 secs
+Time difference of 4.61842 hours
+[1] 0.28 0.24
+[1] "56.56%"
+Time difference of 23.21754 secs
+Time difference of 4.624869 hours
+[1] 0.28 0.24
+[1] "56.64%"
+Time difference of 23.2404 secs
+Time difference of 4.631325 hours
+[1] 0.28 0.24
+[1] "56.72%"
+Time difference of 23.19236 secs
+Time difference of 4.637768 hours
+[1] 0.28 0.24
+[1] "56.8%"
+Time difference of 23.25739 secs
+Time difference of 4.644229 hours
+[1] 0.28 0.24
+[1] "56.88%"
+Time difference of 23.27133 secs
+Time difference of 4.650693 hours
+[1] 0.28 0.24
+[1] "56.96%"
+Time difference of 23.18787 secs
+Time difference of 4.657134 hours
+[1] 0.28 0.24
+[1] "57.04%"
+Time difference of 23.14959 secs
+Time difference of 4.663565 hours
+[1] 0.28 0.24
+[1] "57.12%"
+Time difference of 23.15776 secs
+Time difference of 4.669998 hours
+[1] 0.28 0.24
+[1] "57.2%"
+Time difference of 23.1868 secs
+Time difference of 4.676439 hours
+[1] 0.28 0.24
+[1] "57.28%"
+Time difference of 23.18897 secs
+Time difference of 4.682881 hours
+[1] 0.28 0.24
+[1] "57.36%"
+Time difference of 23.24621 secs
+Time difference of 4.689338 hours
+[1] 0.28 0.24
+[1] "57.44%"
+Time difference of 23.1578 secs
+Time difference of 4.695771 hours
+[1] 0.28 0.24
+[1] "57.52%"
+Time difference of 23.23225 secs
+Time difference of 4.702225 hours
+[1] 0.28 0.24
+[1] "57.6%"
+Time difference of 23.17342 secs
+Time difference of 4.708662 hours
+[1] 0.28 0.24
+[1] "57.68%"
+Time difference of 23.19015 secs
+Time difference of 4.715104 hours
+[1] 0.28 0.24
+[1] "57.76%"
+Time difference of 23.17003 secs
+Time difference of 4.721541 hours
+[1] 0.28 0.24
+[1] "57.84%"
+Time difference of 23.20019 secs
+Time difference of 4.727985 hours
+[1] 0.28 0.24
+[1] "57.92%"
+Time difference of 23.24256 secs
+Time difference of 4.734442 hours
+[1] 0.28 0.24
+[1] "58%"
+Time difference of 23.21859 secs
+Time difference of 4.740892 hours
+[1] 0.28 0.24
+[1] "58.08%"
+Time difference of 23.21815 secs
+Time difference of 4.747342 hours
+[1] 0.28 0.24
+[1] "58.16%"
+Time difference of 23.24142 secs
+Time difference of 4.753798 hours
+[1] 0.28 0.24
+[1] "58.24%"
+Time difference of 23.19833 secs
+Time difference of 4.760242 hours
+[1] 0.28 0.24
+[1] "58.32%"
+Time difference of 23.19591 secs
+Time difference of 4.766686 hours
+[1] 0.28 0.24
+[1] "58.4%"
+Time difference of 23.20761 secs
+Time difference of 4.773132 hours
+[1] 0.28 0.24
+[1] "58.48%"
+Time difference of 23.29316 secs
+Time difference of 4.779603 hours
+[1] 0.28 0.24
+[1] "58.56%"
+Time difference of 23.20933 secs
+Time difference of 4.78605 hours
+[1] 0.28 0.24
+[1] "58.64%"
+Time difference of 23.14265 secs
+Time difference of 4.792479 hours
+[1] 0.28 0.24
+[1] "58.72%"
+Time difference of 23.35434 secs
+Time difference of 4.798967 hours
+[1] 0.28 0.24
+[1] "58.8%"
+Time difference of 23.23482 secs
+Time difference of 4.805421 hours
+[1] 0.28 0.24
+[1] "58.88%"
+Time difference of 23.31374 secs
+Time difference of 4.811897 hours
+[1] 0.28 0.24
+[1] "58.96%"
+Time difference of 23.25168 secs
+Time difference of 4.818356 hours
+[1] 0.28 0.24
+[1] "59.04%"
+Time difference of 23.19738 secs
+Time difference of 4.8248 hours
+[1] 0.28 0.24
+[1] "59.12%"
+Time difference of 23.32653 secs
+Time difference of 4.83128 hours
+[1] 0.28 0.24
+[1] "59.2%"
+Time difference of 23.27881 secs
+Time difference of 4.837747 hours
+[1] 0.28 0.24
+[1] "59.28%"
+Time difference of 23.20908 secs
+Time difference of 4.844194 hours
+[1] 0.28 0.24
+[1] "59.36%"
+Time difference of 23.35317 secs
+Time difference of 4.850681 hours
+[1] 0.28 0.24
+[1] "59.44%"
+Time difference of 23.28584 secs
+Time difference of 4.85715 hours
+[1] 0.28 0.24
+[1] "59.52%"
+Time difference of 23.3198 secs
+Time difference of 4.863628 hours
+[1] 0.28 0.24
+[1] "59.6%"
+Time difference of 23.25231 secs
+Time difference of 4.870087 hours
+[1] 0.28 0.24
+[1] "59.68%"
+Time difference of 23.28602 secs
+Time difference of 4.876556 hours
+[1] 0.28 0.24
+[1] "59.76%"
+Time difference of 23.30134 secs
+Time difference of 4.883029 hours
+[1] 0.28 0.24
+[1] "59.84%"
+Time difference of 23.28024 secs
+Time difference of 4.889496 hours
+[1] 0.28 0.24
+[1] "59.92%"
+Time difference of 23.23061 secs
+Time difference of 4.895949 hours
+[1] 0.28 0.24
+[1] "60%"
+Time difference of 23.32018 secs
+Time difference of 4.902427 hours
+[1] 0.28 0.24
+[1] "60.08%"
+Time difference of 23.1894 secs
+Time difference of 4.908869 hours
+[1] 0.28 0.24
+[1] "60.16%"
+Time difference of 23.20864 secs
+Time difference of 4.915316 hours
+[1] 0.28 0.24
+[1] "60.24%"
+Time difference of 23.2082 secs
+Time difference of 4.921763 hours
+[1] 0.28 0.24
+[1] "60.32%"
+Time difference of 23.30743 secs
+Time difference of 4.928237 hours
+[1] 0.28 0.24
+[1] "60.4%"
+Time difference of 23.22524 secs
+Time difference of 4.934689 hours
+[1] 0.28 0.24
+[1] "60.48%"
+Time difference of 23.26722 secs
+Time difference of 4.941153 hours
+[1] 0.28 0.24
+[1] "60.56%"
+Time difference of 23.34523 secs
+Time difference of 4.947638 hours
+[1] 0.28 0.24
+[1] "60.64%"
+Time difference of 23.20584 secs
+Time difference of 4.954084 hours
+[1] 0.28 0.24
+[1] "60.72%"
+Time difference of 23.35214 secs
+Time difference of 4.960571 hours
+[1] 0.28 0.24
+[1] "60.8%"
+Time difference of 23.24551 secs
+Time difference of 4.967028 hours
+[1] 0.28 0.24
+[1] "60.88%"
+Time difference of 23.39555 secs
+Time difference of 4.973527 hours
+[1] 0.28 0.24
+[1] "60.96%"
+Time difference of 23.27367 secs
+Time difference of 4.979992 hours
+[1] 0.28 0.24
+[1] "61.04%"
+Time difference of 23.32175 secs
+Time difference of 4.986471 hours
+[1] 0.28 0.24
+[1] "61.12%"
+Time difference of 23.38353 secs
+Time difference of 4.992967 hours
+[1] 0.28 0.24
+[1] "61.2%"
+Time difference of 23.32828 secs
+Time difference of 4.999447 hours
+[1] 0.28 0.24
+[1] "61.28%"
+Time difference of 23.28007 secs
+Time difference of 5.005914 hours
+[1] 0.28 0.24
+[1] "61.36%"
+Time difference of 23.31783 secs
+Time difference of 5.012391 hours
+[1] 0.28 0.24
+[1] "61.44%"
+Time difference of 23.38589 secs
+Time difference of 5.018888 hours
+[1] 0.28 0.24
+[1] "61.52%"
+Time difference of 23.33176 secs
+Time difference of 5.025369 hours
+[1] 0.28 0.24
+[1] "61.6%"
+Time difference of 23.24465 secs
+Time difference of 5.031826 hours
+[1] 0.28 0.24
+[1] "61.68%"
+Time difference of 23.32274 secs
+Time difference of 5.038305 hours
+[1] 0.28 0.24
+[1] "61.76%"
+Time difference of 23.27527 secs
+Time difference of 5.044771 hours
+[1] 0.28 0.24
+[1] "61.84%"
+Time difference of 23.35706 secs
+Time difference of 5.051259 hours
+[1] 0.28 0.24
+[1] "61.92%"
+Time difference of 23.2887 secs
+Time difference of 5.057728 hours
+[1] 0.28 0.24
+[1] "62%"
+Time difference of 23.37619 secs
+Time difference of 5.064222 hours
+[1] 0.28 0.24
+[1] "62.08%"
+Time difference of 23.28329 secs
+Time difference of 5.07069 hours
+[1] 0.28 0.24
+[1] "62.16%"
+Time difference of 23.32947 secs
+Time difference of 5.077171 hours
+[1] 0.28 0.24
+[1] "62.24%"
+Time difference of 23.36264 secs
+Time difference of 5.08366 hours
+[1] 0.28 0.24
+[1] "62.32%"
+Time difference of 23.23582 secs
+Time difference of 5.090115 hours
+[1] 0.28 0.24
+[1] "62.4%"
+Time difference of 23.33679 secs
+Time difference of 5.096598 hours
+[1] 0.28 0.24
+[1] "62.48%"
+Time difference of 23.30162 secs
+Time difference of 5.103071 hours
+[1] 0.28 0.24
+[1] "62.56%"
+Time difference of 23.27854 secs
+Time difference of 5.109537 hours
+[1] 0.28 0.24
+[1] "62.64%"
+Time difference of 23.37658 secs
+Time difference of 5.116031 hours
+[1] 0.28 0.24
+[1] "62.72%"
+Time difference of 23.31976 secs
+Time difference of 5.122509 hours
+[1] 0.28 0.24
+[1] "62.8%"
+Time difference of 23.30835 secs
+Time difference of 5.128984 hours
+[1] 0.28 0.24
+[1] "62.88%"
+Time difference of 23.41885 secs
+Time difference of 5.13549 hours
+[1] 0.28 0.24
+[1] "62.96%"
+Time difference of 23.39501 secs
+Time difference of 5.141988 hours
+[1] 0.28 0.24
+[1] "63.04%"
+Time difference of 23.26286 secs
+Time difference of 5.148451 hours
+[1] 0.28 0.24
+[1] "63.12%"
+Time difference of 23.22583 secs
+Time difference of 5.154903 hours
+[1] 0.28 0.24
+[1] "63.2%"
+Time difference of 23.34665 secs
+Time difference of 5.161388 hours
+[1] 0.28 0.24
+[1] "63.28%"
+Time difference of 23.48995 secs
+Time difference of 5.167913 hours
+[1] 0.28 0.24
+[1] "63.36%"
+Time difference of 23.28119 secs
+Time difference of 5.174381 hours
+[1] 0.28 0.24
+[1] "63.44%"
+Time difference of 23.43721 secs
+Time difference of 5.180891 hours
+[1] 0.28 0.24
+[1] "63.52%"
+Time difference of 23.40668 secs
+Time difference of 5.187393 hours
+[1] 0.28 0.24
+[1] "63.6%"
+Time difference of 23.4006 secs
+Time difference of 5.193894 hours
+[1] 0.28 0.24
+[1] "63.68%"
+Time difference of 23.21404 secs
+Time difference of 5.200342 hours
+[1] 0.28 0.24
+[1] "63.76%"
+Time difference of 23.19611 secs
+Time difference of 5.206786 hours
+[1] 0.28 0.24
+[1] "63.84%"
+Time difference of 23.19442 secs
+Time difference of 5.213229 hours
+[1] 0.28 0.24
+[1] "63.92%"
+Time difference of 23.27636 secs
+Time difference of 5.219695 hours
+[1] 0.28 0.24
+[1] "64%"
+Time difference of 23.19316 secs
+Time difference of 5.226138 hours
+[1] 0.28 0.24
+[1] "64.08%"
+Time difference of 23.1785 secs
+Time difference of 5.232577 hours
+[1] 0.28 0.24
+[1] "64.16%"
+Time difference of 23.18243 secs
+Time difference of 5.239017 hours
+[1] 0.28 0.24
+[1] "64.24%"
+Time difference of 23.23094 secs
+Time difference of 5.24547 hours
+[1] 0.28 0.24
+[1] "64.32%"
+Time difference of 23.21013 secs
+Time difference of 5.251917 hours
+[1] 0.28 0.24
+[1] "64.4%"
+Time difference of 23.20019 secs
+Time difference of 5.258362 hours
+[1] 0.28 0.24
+[1] "64.48%"
+Time difference of 23.21541 secs
+Time difference of 5.264811 hours
+[1] 0.28 0.24
+[1] "64.56%"
+Time difference of 23.2108 secs
+Time difference of 5.271259 hours
+[1] 0.28 0.24
+[1] "64.64%"
+Time difference of 23.24057 secs
+Time difference of 5.277715 hours
+[1] 0.28 0.24
+[1] "64.72%"
+Time difference of 23.21675 secs
+Time difference of 5.284164 hours
+[1] 0.28 0.24
+[1] "64.8%"
+Time difference of 23.21914 secs
+Time difference of 5.290614 hours
+[1] 0.28 0.24
+[1] "64.88%"
+Time difference of 23.21763 secs
+Time difference of 5.297064 hours
+[1] 0.28 0.24
+[1] "64.96%"
+Time difference of 23.26881 secs
+Time difference of 5.303528 hours
+[1] 0.28 0.24
+[1] "65.04%"
+Time difference of 23.1968 secs
+Time difference of 5.309972 hours
+[1] 0.28 0.24
+[1] "65.12%"
+Time difference of 23.22192 secs
+Time difference of 5.316423 hours
+[1] 0.28 0.24
+[1] "65.2%"
+Time difference of 23.23749 secs
+Time difference of 5.322878 hours
+[1] 0.28 0.24
+[1] "65.28%"
+Time difference of 23.21327 secs
+Time difference of 5.329326 hours
+[1] 0.28 0.24
+[1] "65.36%"
+Time difference of 23.2149 secs
+Time difference of 5.335775 hours
+[1] 0.28 0.24
+[1] "65.44%"
+Time difference of 23.19458 secs
+Time difference of 5.342218 hours
+[1] 0.28 0.24
+[1] "65.52%"
+Time difference of 23.26143 secs
+Time difference of 5.34868 hours
+[1] 0.28 0.24
+[1] "65.6%"
+Time difference of 23.22755 secs
+Time difference of 5.355132 hours
+[1] 0.28 0.24
+[1] "65.68%"
+Time difference of 23.21123 secs
+Time difference of 5.36158 hours
+[1] 0.28 0.24
+[1] "65.76%"
+Time difference of 23.25771 secs
+Time difference of 5.368041 hours
+[1] 0.28 0.24
+[1] "65.84%"
+Time difference of 23.22302 secs
+Time difference of 5.374492 hours
+[1] 0.28 0.24
+[1] "65.92%"
+Time difference of 23.20885 secs
+Time difference of 5.380939 hours
+[1] 0.28 0.24
+[1] "66%"
+Time difference of 23.27251 secs
+Time difference of 5.387404 hours
+[1] 0.28 0.24
+[1] "66.08%"
+Time difference of 23.22422 secs
+Time difference of 5.393856 hours
+[1] 0.28 0.24
+[1] "66.16%"
+Time difference of 23.27796 secs
+Time difference of 5.400322 hours
+[1] 0.28 0.24
+[1] "66.24%"
+Time difference of 23.22653 secs
+Time difference of 5.406774 hours
+[1] 0.28 0.24
+[1] "66.32%"
+Time difference of 23.24703 secs
+Time difference of 5.413232 hours
+[1] 0.28 0.24
+[1] "66.4%"
+Time difference of 23.26307 secs
+Time difference of 5.419694 hours
+[1] 0.28 0.24
+[1] "66.48%"
+Time difference of 23.21786 secs
+Time difference of 5.426144 hours
+[1] 0.28 0.24
+[1] "66.56%"
+Time difference of 23.23848 secs
+Time difference of 5.432599 hours
+[1] 0.28 0.24
+[1] "66.64%"
+Time difference of 23.21867 secs
+Time difference of 5.439049 hours
+[1] 0.28 0.24
+[1] "66.72%"
+Time difference of 23.25896 secs
+Time difference of 5.44551 hours
+[1] 0.28 0.24
+[1] "66.8%"
+Time difference of 23.22722 secs
+Time difference of 5.451963 hours
+[1] 0.28 0.24
+[1] "66.88%"
+Time difference of 24.01316 secs
+Time difference of 5.458633 hours
+[1] 0.28 0.24
+[1] "66.96%"
+Time difference of 23.22655 secs
+Time difference of 5.465086 hours
+[1] 0.28 0.24
+[1] "67.04%"
+Time difference of 23.2412 secs
+Time difference of 5.471542 hours
+[1] 0.28 0.24
+[1] "67.12%"
+Time difference of 23.28255 secs
+Time difference of 5.478009 hours
+[1] 0.28 0.24
+[1] "67.2%"
+Time difference of 23.24825 secs
+Time difference of 5.484468 hours
+[1] 0.28 0.24
+[1] "67.28%"
+Time difference of 23.28123 secs
+Time difference of 5.490935 hours
+[1] 0.28 0.24
+[1] "67.36%"
+Time difference of 23.29995 secs
+Time difference of 5.497407 hours
+[1] 0.28 0.24
+[1] "67.44%"
+Time difference of 23.23845 secs
+Time difference of 5.503863 hours
+[1] 0.28 0.24
+[1] "67.52%"
+Time difference of 23.23243 secs
+Time difference of 5.510317 hours
+[1] 0.28 0.24
+[1] "67.6%"
+Time difference of 23.21019 secs
+Time difference of 5.516764 hours
+[1] 0.28 0.24
+[1] "67.68%"
+Time difference of 23.27864 secs
+Time difference of 5.523231 hours
+[1] 0.28 0.24
+[1] "67.76%"
+Time difference of 23.22843 secs
+Time difference of 5.529683 hours
+[1] 0.28 0.24
+[1] "67.84%"
+Time difference of 23.28743 secs
+Time difference of 5.536152 hours
+[1] 0.28 0.24
+[1] "67.92%"
+Time difference of 23.23262 secs
+Time difference of 5.542606 hours
+[1] 0.28 0.24
+[1] "68%"
+Time difference of 23.29392 secs
+Time difference of 5.549077 hours
+[1] 0.28 0.24
+[1] "68.08%"
+Time difference of 23.21885 secs
+Time difference of 5.555527 hours
+[1] 0.28 0.24
+[1] "68.16%"
+Time difference of 23.2145 secs
+Time difference of 5.561976 hours
+[1] 0.28 0.24
+[1] "68.24%"
+Time difference of 23.27728 secs
+Time difference of 5.568442 hours
+[1] 0.28 0.24
+[1] "68.32%"
+Time difference of 23.2289 secs
+Time difference of 5.574895 hours
+[1] 0.28 0.24
+[1] "68.4%"
+Time difference of 23.28526 secs
+Time difference of 5.581363 hours
+[1] 0.28 0.24
+[1] "68.48%"
+Time difference of 23.24155 secs
+Time difference of 5.587819 hours
+[1] 0.28 0.24
+[1] "68.56%"
+Time difference of 23.31389 secs
+Time difference of 5.594296 hours
+[1] 0.28 0.24
+[1] "68.64%"
+Time difference of 23.2616 secs
+Time difference of 5.600758 hours
+[1] 0.28 0.24
+[1] "68.72%"
+Time difference of 23.29084 secs
+Time difference of 5.607228 hours
+[1] 0.28 0.24
+[1] "68.8%"
+Time difference of 23.23816 secs
+Time difference of 5.613684 hours
+[1] 0.28 0.24
+[1] "68.88%"
+Time difference of 23.27002 secs
+Time difference of 5.620148 hours
+[1] 0.28 0.24
+[1] "68.96%"
+Time difference of 23.29506 secs
+Time difference of 5.626619 hours
+[1] 0.28 0.24
+[1] "69.04%"
+Time difference of 23.26943 secs
+Time difference of 5.633083 hours
+[1] 0.28 0.24
+[1] "69.12%"
+Time difference of 23.3201 secs
+Time difference of 5.639561 hours
+[1] 0.28 0.24
+[1] "69.2%"
+Time difference of 23.26613 secs
+Time difference of 5.646024 hours
+[1] 0.28 0.24
+[1] "69.28%"
+Time difference of 23.29983 secs
+Time difference of 5.652497 hours
+[1] 0.28 0.24
+[1] "69.36%"
+Time difference of 23.25182 secs
+Time difference of 5.658956 hours
+[1] 0.28 0.24
+[1] "69.44%"
+Time difference of 23.30779 secs
+Time difference of 5.665431 hours
+[1] 0.28 0.24
+[1] "69.52%"
+Time difference of 23.24482 secs
+Time difference of 5.671888 hours
+[1] 0.28 0.24
+[1] "69.6%"
+Time difference of 23.32971 secs
+Time difference of 5.678369 hours
+[1] 0.28 0.24
+[1] "69.68%"
+Time difference of 23.28227 secs
+Time difference of 5.684836 hours
+[1] 0.28 0.24
+[1] "69.76%"
+Time difference of 23.30327 secs
+Time difference of 5.69131 hours
+[1] 0.28 0.24
+[1] "69.84%"
+Time difference of 23.24819 secs
+Time difference of 5.697768 hours
+[1] 0.28 0.24
+[1] "69.92%"
+Time difference of 23.2481 secs
+Time difference of 5.704226 hours
+[1] 0.28 0.24
+[1] "70%"
+Time difference of 23.29614 secs
+Time difference of 5.710698 hours
+[1] 0.28 0.24
+[1] "70.08%"
+Time difference of 23.30989 secs
+Time difference of 5.717173 hours
+[1] 0.28 0.24
+[1] "70.16%"
+Time difference of 23.25904 secs
+Time difference of 5.723634 hours
+[1] 0.28 0.24
+[1] "70.24%"
+Time difference of 23.29983 secs
+Time difference of 5.730106 hours
+[1] 0.28 0.24
+[1] "70.32%"
+Time difference of 23.33482 secs
+Time difference of 5.736589 hours
+[1] 0.28 0.24
+[1] "70.4%"
+Time difference of 23.32472 secs
+Time difference of 5.743068 hours
+[1] 0.28 0.24
+[1] "70.48%"
+Time difference of 23.32638 secs
+Time difference of 5.749548 hours
+[1] 0.28 0.24
+[1] "70.56%"
+Time difference of 23.2712 secs
+Time difference of 5.756012 hours
+[1] 0.28 0.24
+[1] "70.64%"
+Time difference of 23.3131 secs
+Time difference of 5.762489 hours
+[1] 0.28 0.24
+[1] "70.72%"
+Time difference of 23.32029 secs
+Time difference of 5.768967 hours
+[1] 0.28 0.24
+[1] "70.8%"
+Time difference of 23.32902 secs
+Time difference of 5.775447 hours
+[1] 0.28 0.24
+[1] "70.88%"
+Time difference of 23.26452 secs
+Time difference of 5.78191 hours
+[1] 0.28 0.24
+[1] "70.96%"
+Time difference of 23.31185 secs
+Time difference of 5.788386 hours
+[1] 0.28 0.24
+[1] "71.04%"
+Time difference of 23.31596 secs
+Time difference of 5.794863 hours
+[1] 0.28 0.24
+[1] "71.12%"
+Time difference of 23.32022 secs
+Time difference of 5.801341 hours
+[1] 0.28 0.24
+[1] "71.2%"
+Time difference of 23.26725 secs
+Time difference of 5.807804 hours
+[1] 0.28 0.24
+[1] "71.28%"
+Time difference of 23.29433 secs
+Time difference of 5.814275 hours
+[1] 0.28 0.24
+[1] "71.36%"
+Time difference of 23.33444 secs
+Time difference of 5.820758 hours
+[1] 0.28 0.24
+[1] "71.44%"
+Time difference of 23.27703 secs
+Time difference of 5.827224 hours
+[1] 0.28 0.24
+[1] "71.52%"
+Time difference of 23.3238 secs
+Time difference of 5.833703 hours
+[1] 0.28 0.24
+[1] "71.6%"
+Time difference of 23.32179 secs
+Time difference of 5.840181 hours
+[1] 0.28 0.24
+[1] "71.68%"
+Time difference of 23.32895 secs
+Time difference of 5.846662 hours
+[1] 0.28 0.24
+[1] "71.76%"
+Time difference of 23.30023 secs
+Time difference of 5.853135 hours
+[1] 0.28 0.24
+[1] "71.84%"
+Time difference of 23.32181 secs
+Time difference of 5.859613 hours
+[1] 0.28 0.24
+[1] "71.92%"
+Time difference of 23.34924 secs
+Time difference of 5.866099 hours
+[1] 0.28 0.24
+[1] "72%"
+Time difference of 23.29331 secs
+Time difference of 5.87257 hours
+[1] 0.28 0.24
+[1] "72.08%"
+Time difference of 23.32432 secs
+Time difference of 5.879049 hours
+[1] 0.28 0.24
+[1] "72.16%"
+Time difference of 23.32335 secs
+Time difference of 5.885528 hours
+[1] 0.28 0.24
+[1] "72.24%"
+Time difference of 23.35466 secs
+Time difference of 5.892016 hours
+[1] 0.28 0.24
+[1] "72.32%"
+Time difference of 23.3017 secs
+Time difference of 5.898489 hours
+[1] 0.28 0.24
+[1] "72.4%"
+Time difference of 23.38822 secs
+Time difference of 5.904986 hours
+[1] 0.28 0.24
+[1] "72.48%"
+Time difference of 23.34401 secs
+Time difference of 5.911471 hours
+[1] 0.28 0.24
+[1] "72.56%"
+Time difference of 23.34886 secs
+Time difference of 5.917957 hours
+[1] 0.28 0.24
+[1] "72.64%"
+Time difference of 23.34697 secs
+Time difference of 5.924443 hours
+[1] 0.28 0.24
+[1] "72.72%"
+Time difference of 23.35464 secs
+Time difference of 5.93093 hours
+[1] 0.28 0.24
+[1] "72.8%"
+Time difference of 23.36497 secs
+Time difference of 5.937421 hours
+[1] 0.28 0.24
+[1] "72.88%"
+Time difference of 23.29881 secs
+Time difference of 5.943893 hours
+[1] 0.28 0.24
+[1] "72.96%"
+Time difference of 23.40216 secs
+Time difference of 5.950394 hours
+[1] 0.28 0.24
+[1] "73.04%"
+Time difference of 23.42062 secs
+Time difference of 5.9569 hours
+[1] 0.28 0.24
+[1] "73.12%"
+Time difference of 23.37723 secs
+Time difference of 5.963394 hours
+[1] 0.28 0.24
+[1] "73.2%"
+Time difference of 23.40323 secs
+Time difference of 5.969895 hours
+[1] 0.28 0.24
+[1] "73.28%"
+Time difference of 23.4345 secs
+Time difference of 5.976405 hours
+[1] 0.28 0.24
+[1] "73.36%"
+Time difference of 23.42897 secs
+Time difference of 5.982913 hours
+[1] 0.28 0.24
+[1] "73.44%"
+Time difference of 23.36062 secs
+Time difference of 5.989403 hours
+[1] 0.28 0.24
+[1] "73.52%"
+Time difference of 23.36669 secs
+Time difference of 5.995894 hours
+[1] 0.28 0.24
+[1] "73.6%"
+Time difference of 23.38951 secs
+Time difference of 6.002391 hours
+[1] 0.28 0.24
+[1] "73.68%"
+Time difference of 23.41563 secs
+Time difference of 6.008896 hours
+[1] 0.28 0.24
+[1] "73.76%"
+Time difference of 23.37558 secs
+Time difference of 6.015389 hours
+[1] 0.28 0.24
+[1] "73.84%"
+Time difference of 23.40356 secs
+Time difference of 6.021891 hours
+[1] 0.28 0.24
+[1] "73.92%"
+Time difference of 23.28706 secs
+Time difference of 6.02836 hours
+[1] 0.28 0.24
+[1] "74%"
+Time difference of 23.46228 secs
+Time difference of 6.034877 hours
+[1] 0.28 0.24
+[1] "74.08%"
+Time difference of 23.3716 secs
+Time difference of 6.04137 hours
+[1] 0.28 0.24
+[1] "74.16%"
+Time difference of 23.38073 secs
+Time difference of 6.047865 hours
+[1] 0.28 0.24
+[1] "74.24%"
+Time difference of 23.37333 secs
+Time difference of 6.054358 hours
+[1] 0.28 0.24
+[1] "74.32%"
+Time difference of 23.39927 secs
+Time difference of 6.060858 hours
+[1] 0.28 0.24
+[1] "74.4%"
+Time difference of 23.38153 secs
+Time difference of 6.067353 hours
+[1] 0.28 0.24
+[1] "74.48%"
+Time difference of 23.43994 secs
+Time difference of 6.073864 hours
+[1] 0.28 0.24
+[1] "74.56%"
+Time difference of 23.38206 secs
+Time difference of 6.08036 hours
+[1] 0.28 0.24
+[1] "74.64%"
+Time difference of 23.36394 secs
+Time difference of 6.08685 hours
+[1] 0.28 0.24
+[1] "74.72%"
+Time difference of 23.36116 secs
+Time difference of 6.09334 hours
+[1] 0.28 0.24
+[1] "74.8%"
+Time difference of 23.42546 secs
+Time difference of 6.099847 hours
+[1] 0.28 0.24
+[1] "74.88%"
+Time difference of 23.37481 secs
+Time difference of 6.10634 hours
+[1] 0.28 0.24
+[1] "74.96%"
+Time difference of 23.44424 secs
+Time difference of 6.112853 hours
+[1] 0.28 0.24
+[1] "75.04%"
+Time difference of 23.42335 secs
+Time difference of 6.11936 hours
+[1] 0.28 0.24
+[1] "75.12%"
+Time difference of 23.49113 secs
+Time difference of 6.125885 hours
+[1] 0.28 0.24
+[1] "75.2%"
+Time difference of 23.32902 secs
+Time difference of 6.132366 hours
+[1] 0.28 0.24
+[1] "75.28%"
+Time difference of 23.51064 secs
+Time difference of 6.138897 hours
+[1] 0.28 0.24
+[1] "75.36%"
+Time difference of 23.2962 secs
+Time difference of 6.145369 hours
+[1] 0.28 0.24
+[1] "75.44%"
+Time difference of 23.47772 secs
+Time difference of 6.15189 hours
+[1] 0.28 0.24
+[1] "75.52%"
+Time difference of 23.38483 secs
+Time difference of 6.158387 hours
+[1] 0.28 0.24
+[1] "75.6%"
+Time difference of 23.36835 secs
+Time difference of 6.164878 hours
+[1] 0.28 0.24
+[1] "75.68%"
+Time difference of 23.44721 secs
+Time difference of 6.171391 hours
+[1] 0.28 0.24
+[1] "75.76%"
+Time difference of 23.43499 secs
+Time difference of 6.177902 hours
+[1] 0.28 0.24
+[1] "75.84%"
+Time difference of 23.43939 secs
+Time difference of 6.184413 hours
+[1] 0.28 0.24
+[1] "75.92%"
+Time difference of 23.39518 secs
+Time difference of 6.190912 hours
+[1] 0.28 0.24
+[1] "76%"
+Time difference of 23.54512 secs
+Time difference of 6.197452 hours
+[1] 0.28 0.24
+[1] "76.08%"
+Time difference of 23.35884 secs
+Time difference of 6.203941 hours
+[1] 0.28 0.24
+[1] "76.16%"
+Time difference of 23.33957 secs
+Time difference of 6.210425 hours
+[1] 0.28 0.24
+[1] "76.24%"
+Time difference of 23.25308 secs
+Time difference of 6.216884 hours
+[1] 0.28 0.24
+[1] "76.32%"
+Time difference of 23.31015 secs
+Time difference of 6.22336 hours
+[1] 0.28 0.24
+[1] "76.4%"
+Time difference of 23.39074 secs
+Time difference of 6.229857 hours
+[1] 0.28 0.24
+[1] "76.48%"
+Time difference of 23.24163 secs
+Time difference of 6.236314 hours
+[1] 0.28 0.24
+[1] "76.56%"
+Time difference of 23.29365 secs
+Time difference of 6.242785 hours
+[1] 0.28 0.24
+[1] "76.64%"
+Time difference of 23.30183 secs
+Time difference of 6.249258 hours
+[1] 0.28 0.24
+[1] "76.72%"
+Time difference of 23.32017 secs
+Time difference of 6.255736 hours
+[1] 0.28 0.24
+[1] "76.8%"
+Time difference of 23.313 secs
+Time difference of 6.262212 hours
+[1] 0.28 0.24
+[1] "76.88%"
+Time difference of 23.22915 secs
+Time difference of 6.268665 hours
+[1] 0.28 0.24
+[1] "76.96%"
+Time difference of 23.34851 secs
+Time difference of 6.275151 hours
+[1] 0.28 0.24
+[1] "77.04%"
+Time difference of 23.33939 secs
+Time difference of 6.281634 hours
+[1] 0.28 0.24
+[1] "77.12%"
+Time difference of 23.31662 secs
+Time difference of 6.288111 hours
+[1] 0.28 0.24
+[1] "77.2%"
+Time difference of 23.22456 secs
+Time difference of 6.294563 hours
+[1] 0.28 0.24
+[1] "77.28%"
+Time difference of 23.31449 secs
+Time difference of 6.30104 hours
+[1] 0.28 0.24
+[1] "77.36%"
+Time difference of 23.25956 secs
+Time difference of 6.307501 hours
+[1] 0.28 0.24
+[1] "77.44%"
+Time difference of 23.24609 secs
+Time difference of 6.313959 hours
+[1] 0.28 0.24
+[1] "77.52%"
+Time difference of 23.27066 secs
+Time difference of 6.320423 hours
+[1] 0.28 0.24
+[1] "77.6%"
+Time difference of 23.31944 secs
+Time difference of 6.326901 hours
+[1] 0.28 0.24
+[1] "77.68%"
+Time difference of 23.36219 secs
+Time difference of 6.333391 hours
+[1] 0.28 0.25
+[1] "77.76%"
+Time difference of 23.25351 secs
+Time difference of 6.33985 hours
+[1] 0.28 0.25
+[1] "77.84%"
+Time difference of 23.22331 secs
+Time difference of 6.346302 hours
+[1] 0.28 0.25
+[1] "77.92%"
+Time difference of 23.24017 secs
+Time difference of 6.352758 hours
+[1] 0.28 0.25
+[1] "78%"
+Time difference of 23.26324 secs
+Time difference of 6.35922 hours
+[1] 0.28 0.25
+[1] "78.08%"
+Time difference of 23.25966 secs
+Time difference of 6.365681 hours
+[1] 0.28 0.25
+[1] "78.16%"
+Time difference of 23.37805 secs
+Time difference of 6.372175 hours
+[1] 0.28 0.25
+[1] "78.24%"
+Time difference of 23.37864 secs
+Time difference of 6.37867 hours
+[1] 0.28 0.25
+[1] "78.32%"
+Time difference of 23.30414 secs
+Time difference of 6.385144 hours
+[1] 0.28 0.25
+[1] "78.4%"
+Time difference of 23.40571 secs
+Time difference of 6.391646 hours
+[1] 0.28 0.25
+[1] "78.48%"
+Time difference of 23.33013 secs
+Time difference of 6.398126 hours
+[1] 0.28 0.25
+[1] "78.56%"
+Time difference of 23.34536 secs
+Time difference of 6.404612 hours
+[1] 0.28 0.25
+[1] "78.64%"
+Time difference of 23.14358 secs
+Time difference of 6.411041 hours
+[1] 0.28 0.25
+[1] "78.72%"
+Time difference of 23.16988 secs
+Time difference of 6.417477 hours
+[1] 0.28 0.25
+[1] "78.8%"
+Time difference of 23.17914 secs
+Time difference of 6.423916 hours
+[1] 0.28 0.25
+[1] "78.88%"
+Time difference of 23.19819 secs
+Time difference of 6.43036 hours
+[1] 0.28 0.25
+[1] "78.96%"
+Time difference of 23.14583 secs
+Time difference of 6.43679 hours
+[1] 0.28 0.25
+[1] "79.04%"
+Time difference of 23.1331 secs
+Time difference of 6.443216 hours
+[1] 0.28 0.25
+[1] "79.12%"
+Time difference of 23.16372 secs
+Time difference of 6.449651 hours
+[1] 0.28 0.25
+[1] "79.2%"
+Time difference of 23.16336 secs
+Time difference of 6.456086 hours
+[1] 0.28 0.25
+[1] "79.28%"
+Time difference of 23.18453 secs
+Time difference of 6.462526 hours
+[1] 0.28 0.25
+[1] "79.36%"
+Time difference of 23.22894 secs
+Time difference of 6.468979 hours
+[1] 0.28 0.25
+[1] "79.44%"
+Time difference of 23.1554 secs
+Time difference of 6.475411 hours
+[1] 0.28 0.25
+[1] "79.52%"
+Time difference of 23.21672 secs
+Time difference of 6.481861 hours
+[1] 0.28 0.25
+[1] "79.6%"
+Time difference of 23.21524 secs
+Time difference of 6.48831 hours
+[1] 0.28 0.25
+[1] "79.68%"
+Time difference of 23.13795 secs
+Time difference of 6.494738 hours
+[1] 0.28 0.25
+[1] "79.76%"
+Time difference of 23.15109 secs
+Time difference of 6.501169 hours
+[1] 0.28 0.25
+[1] "79.84%"
+Time difference of 23.16325 secs
+Time difference of 6.507603 hours
+[1] 0.28 0.25
+[1] "79.92%"
+Time difference of 23.13938 secs
+Time difference of 6.514031 hours
+[1] 0.28 0.25
+[1] "80%"
+Time difference of 23.20077 secs
+Time difference of 6.520476 hours
+[1] 0.28 0.25
+[1] "80.08%"
+Time difference of 23.141 secs
+Time difference of 6.526905 hours
+[1] 0.28 0.25
+[1] "80.16%"
+Time difference of 23.20148 secs
+Time difference of 6.53335 hours
+[1] 0.28 0.25
+[1] "80.24%"
+Time difference of 23.14907 secs
+Time difference of 6.539781 hours
+[1] 0.28 0.25
+[1] "80.32%"
+Time difference of 23.19342 secs
+Time difference of 6.546223 hours
+[1] 0.28 0.25
+[1] "80.4%"
+Time difference of 23.15299 secs
+Time difference of 6.552655 hours
+[1] 0.28 0.25
+[1] "80.48%"
+Time difference of 23.19015 secs
+Time difference of 6.559097 hours
+[1] 0.28 0.25
+[1] "80.56%"
+Time difference of 23.18838 secs
+Time difference of 6.565539 hours
+[1] 0.28 0.25
+[1] "80.64%"
+Time difference of 23.18189 secs
+Time difference of 6.571979 hours
+[1] 0.28 0.25
+[1] "80.72%"
+Time difference of 23.14973 secs
+Time difference of 6.578409 hours
+[1] 0.28 0.25
+[1] "80.8%"
+Time difference of 23.21858 secs
+Time difference of 6.584859 hours
+[1] 0.28 0.25
+[1] "80.88%"
+Time difference of 23.23735 secs
+Time difference of 6.591315 hours
+[1] 0.28 0.25
+[1] "80.96%"
+Time difference of 23.22988 secs
+Time difference of 6.597768 hours
+[1] 0.28 0.25
+[1] "81.04%"
+Time difference of 23.1518 secs
+Time difference of 6.604199 hours
+[1] 0.28 0.25
+[1] "81.12%"
+Time difference of 23.1549 secs
+Time difference of 6.610631 hours
+[1] 0.28 0.25
+[1] "81.2%"
+Time difference of 23.19531 secs
+Time difference of 6.617075 hours
+[1] 0.28 0.25
+[1] "81.28%"
+Time difference of 23.21463 secs
+Time difference of 6.623524 hours
+[1] 0.28 0.25
+[1] "81.36%"
+Time difference of 23.16413 secs
+Time difference of 6.629959 hours
+[1] 0.28 0.25
+[1] "81.44%"
+Time difference of 23.19757 secs
+Time difference of 6.636403 hours
+[1] 0.28 0.25
+[1] "81.52%"
+Time difference of 23.1681 secs
+Time difference of 6.642839 hours
+[1] 0.28 0.25
+[1] "81.6%"
+Time difference of 23.2189 secs
+Time difference of 6.649289 hours
+[1] 0.28 0.25
+[1] "81.68%"
+Time difference of 23.20443 secs
+Time difference of 6.655735 hours
+[1] 0.28 0.25
+[1] "81.76%"
+Time difference of 23.16726 secs
+Time difference of 6.66217 hours
+[1] 0.28 0.25
+[1] "81.84%"
+Time difference of 23.1937 secs
+Time difference of 6.668613 hours
+[1] 0.28 0.25
+[1] "81.92%"
+Time difference of 23.20559 secs
+Time difference of 6.67506 hours
+[1] 0.28 0.25
+[1] "82%"
+Time difference of 23.192 secs
+Time difference of 6.681502 hours
+[1] 0.28 0.25
+[1] "82.08%"
+Time difference of 23.18673 secs
+Time difference of 6.687943 hours
+[1] 0.28 0.25
+[1] "82.16%"
+Time difference of 23.20413 secs
+Time difference of 6.694389 hours
+[1] 0.28 0.25
+[1] "82.24%"
+Time difference of 23.15368 secs
+Time difference of 6.700821 hours
+[1] 0.28 0.25
+[1] "82.32%"
+Time difference of 23.20108 secs
+Time difference of 6.707266 hours
+[1] 0.28 0.25
+[1] "82.4%"
+Time difference of 23.20189 secs
+Time difference of 6.713712 hours
+[1] 0.28 0.25
+[1] "82.48%"
+Time difference of 23.16798 secs
+Time difference of 6.720148 hours
+[1] 0.28 0.25
+[1] "82.56%"
+Time difference of 23.20291 secs
+Time difference of 6.726593 hours
+[1] 0.28 0.25
+[1] "82.64%"
+Time difference of 23.24534 secs
+Time difference of 6.733051 hours
+[1] 0.28 0.25
+[1] "82.72%"
+Time difference of 23.23023 secs
+Time difference of 6.739504 hours
+[1] 0.28 0.25
+[1] "82.8%"
+Time difference of 23.21499 secs
+Time difference of 6.745953 hours
+[1] 0.28 0.25
+[1] "82.88%"
+Time difference of 23.16443 secs
+Time difference of 6.752388 hours
+[1] 0.28 0.25
+[1] "82.96%"
+Time difference of 23.1978 secs
+Time difference of 6.758832 hours
+[1] 0.28 0.25
+[1] "83.04%"
+Time difference of 23.18522 secs
+Time difference of 6.765273 hours
+[1] 0.28 0.25
+[1] "83.12%"
+Time difference of 23.22297 secs
+Time difference of 6.771724 hours
+[1] 0.28 0.25
+[1] "83.2%"
+Time difference of 23.23602 secs
+Time difference of 6.778179 hours
+[1] 0.28 0.25
+[1] "83.28%"
+Time difference of 23.1632 secs
+Time difference of 6.784613 hours
+[1] 0.28 0.25
+[1] "83.36%"
+Time difference of 23.18551 secs
+Time difference of 6.791054 hours
+[1] 0.28 0.25
+[1] "83.44%"
+Time difference of 23.18195 secs
+Time difference of 6.797494 hours
+[1] 0.28 0.25
+[1] "83.52%"
+Time difference of 23.13841 secs
+Time difference of 6.803921 hours
+[1] 0.28 0.25
+[1] "83.6%"
+Time difference of 23.21224 secs
+Time difference of 6.81037 hours
+[1] 0.28 0.25
+[1] "83.68%"
+Time difference of 23.21663 secs
+Time difference of 6.816819 hours
+[1] 0.28 0.25
+[1] "83.76%"
+Time difference of 23.15398 secs
+Time difference of 6.823251 hours
+[1] 0.28 0.25
+[1] "83.84%"
+Time difference of 23.22309 secs
+Time difference of 6.829702 hours
+[1] 0.28 0.25
+[1] "83.92%"
+Time difference of 23.22011 secs
+Time difference of 6.836153 hours
+[1] 0.28 0.25
+[1] "84%"
+Time difference of 23.17931 secs
+Time difference of 6.842592 hours
+[1] 0.28 0.25
+[1] "84.08%"
+Time difference of 23.18787 secs
+Time difference of 6.849033 hours
+[1] 0.28 0.25
+[1] "84.16%"
+Time difference of 23.2437 secs
+Time difference of 6.85549 hours
+[1] 0.28 0.25
+[1] "84.24%"
+Time difference of 23.22059 secs
+Time difference of 6.861941 hours
+[1] 0.28 0.25
+[1] "84.32%"
+Time difference of 23.2161 secs
+Time difference of 6.86839 hours
+[1] 0.28 0.25
+[1] "84.4%"
+Time difference of 23.17534 secs
+Time difference of 6.874828 hours
+[1] 0.28 0.25
+[1] "84.48%"
+Time difference of 23.23374 secs
+Time difference of 6.881282 hours
+[1] 0.28 0.25
+[1] "84.56%"
+Time difference of 23.20501 secs
+Time difference of 6.887728 hours
+[1] 0.28 0.25
+[1] "84.64%"
+Time difference of 23.20006 secs
+Time difference of 6.894173 hours
+[1] 0.28 0.25
+[1] "84.72%"
+Time difference of 23.17597 secs
+Time difference of 6.900611 hours
+[1] 0.28 0.25
+[1] "84.8%"
+Time difference of 23.23452 secs
+Time difference of 6.907066 hours
+[1] 0.28 0.25
+[1] "84.88%"
+Time difference of 23.21906 secs
+Time difference of 6.913516 hours
+[1] 0.28 0.25
+[1] "84.96%"
+Time difference of 23.17243 secs
+Time difference of 6.919953 hours
+[1] 0.28 0.25
+[1] "85.04%"
+Time difference of 23.22281 secs
+Time difference of 6.926404 hours
+[1] 0.28 0.25
+[1] "85.12%"
+Time difference of 23.22995 secs
+Time difference of 6.932857 hours
+[1] 0.28 0.25
 [1] "85.2%"
-Time difference of 23.50656 secs
-Time difference of 4.180277 hours
-[1] 0.48 0.21
-[1] "85.33%"
-Time difference of 23.49909 secs
-Time difference of 4.186804 hours
-[1] 0.48 0.21
-[1] "85.47%"
-Time difference of 23.52341 secs
-Time difference of 4.193339 hours
-[1] 0.48 0.21
+Time difference of 23.23071 secs
+Time difference of 6.939312 hours
+[1] 0.28 0.25
+[1] "85.28%"
+Time difference of 23.23553 secs
+Time difference of 6.945767 hours
+[1] 0.28 0.25
+[1] "85.36%"
+Time difference of 23.1628 secs
+Time difference of 6.952201 hours
+[1] 0.28 0.25
+[1] "85.44%"
+Time difference of 23.22072 secs
+Time difference of 6.958652 hours
+[1] 0.28 0.25
+[1] "85.52%"
+Time difference of 23.24821 secs
+Time difference of 6.96511 hours
+[1] 0.28 0.25
 [1] "85.6%"
-Time difference of 23.46155 secs
-Time difference of 4.199856 hours
-[1] 0.48 0.21
-[1] "85.73%"
-Time difference of 23.51436 secs
-Time difference of 4.206388 hours
-[1] 0.48 0.21
-[1] "85.87%"
-Time difference of 23.38864 secs
-Time difference of 4.212885 hours
-[1] 0.48 0.21
+Time difference of 23.23225 secs
+Time difference of 6.971564 hours
+[1] 0.28 0.25
+[1] "85.68%"
+Time difference of 23.22851 secs
+Time difference of 6.978016 hours
+[1] 0.28 0.25
+[1] "85.76%"
+Time difference of 23.20317 secs
+Time difference of 6.984462 hours
+[1] 0.28 0.25
+[1] "85.84%"
+Time difference of 23.21342 secs
+Time difference of 6.990911 hours
+[1] 0.28 0.25
+[1] "85.92%"
+Time difference of 23.3185 secs
+Time difference of 6.997388 hours
+[1] 0.28 0.25
 [1] "86%"
-Time difference of 23.40539 secs
-Time difference of 4.219387 hours
-[1] 0.48 0.21
-[1] "86.13%"
-Time difference of 23.50124 secs
-Time difference of 4.225915 hours
-[1] 0.48 0.21
-[1] "86.27%"
-Time difference of 23.53812 secs
-Time difference of 4.232454 hours
-[1] 0.48 0.21
+Time difference of 23.21082 secs
+Time difference of 7.003836 hours
+[1] 0.28 0.25
+[1] "86.08%"
+Time difference of 23.29131 secs
+Time difference of 7.010306 hours
+[1] 0.28 0.25
+[1] "86.16%"
+Time difference of 23.19271 secs
+Time difference of 7.016749 hours
+[1] 0.28 0.25
+[1] "86.24%"
+Time difference of 23.22939 secs
+Time difference of 7.023202 hours
+[1] 0.28 0.25
+[1] "86.32%"
+Time difference of 23.21938 secs
+Time difference of 7.029652 hours
+[1] 0.28 0.25
 [1] "86.4%"
-Time difference of 23.46448 secs
-Time difference of 4.238972 hours
-[1] 0.48 0.21
-[1] "86.53%"
-Time difference of 23.41911 secs
-Time difference of 4.245478 hours
-[1] 0.48 0.21
-[1] "86.67%"
-Time difference of 23.44872 secs
-Time difference of 4.251992 hours
-[1] 0.48 0.21
+Time difference of 23.27498 secs
+Time difference of 7.036118 hours
+[1] 0.28 0.25
+[1] "86.48%"
+Time difference of 23.25784 secs
+Time difference of 7.042579 hours
+[1] 0.28 0.25
+[1] "86.56%"
+Time difference of 23.17989 secs
+Time difference of 7.049018 hours
+[1] 0.28 0.25
+[1] "86.64%"
+Time difference of 23.22924 secs
+Time difference of 7.055471 hours
+[1] 0.28 0.25
+[1] "86.72%"
+Time difference of 23.23311 secs
+Time difference of 7.061925 hours
+[1] 0.28 0.25
 [1] "86.8%"
-Time difference of 23.4493 secs
-Time difference of 4.258505 hours
-[1] 0.48 0.21
-[1] "86.93%"
-Time difference of 23.46964 secs
-Time difference of 4.265025 hours
-[1] 0.48 0.21
-[1] "87.07%"
-Time difference of 23.47053 secs
-Time difference of 4.271545 hours
-[1] 0.48 0.21
+Time difference of 23.20902 secs
+Time difference of 7.068372 hours
+[1] 0.28 0.25
+[1] "86.88%"
+Time difference of 23.24214 secs
+Time difference of 7.074829 hours
+[1] 0.28 0.25
+[1] "86.96%"
+Time difference of 23.24777 secs
+Time difference of 7.081287 hours
+[1] 0.28 0.25
+[1] "87.04%"
+Time difference of 23.25994 secs
+Time difference of 7.087748 hours
+[1] 0.28 0.25
+[1] "87.12%"
+Time difference of 23.22863 secs
+Time difference of 7.094201 hours
+[1] 0.28 0.25
 [1] "87.2%"
-Time difference of 23.52842 secs
-Time difference of 4.278081 hours
-[1] 0.48 0.21
-[1] "87.33%"
-Time difference of 23.53094 secs
-Time difference of 4.284617 hours
-[1] 0.48 0.21
-[1] "87.47%"
-Time difference of 23.49957 secs
-Time difference of 4.291145 hours
-[1] 0.48 0.21
+Time difference of 23.18375 secs
+Time difference of 7.100641 hours
+[1] 0.28 0.25
+[1] "87.28%"
+Time difference of 23.26104 secs
+Time difference of 7.107103 hours
+[1] 0.28 0.25
+[1] "87.36%"
+Time difference of 23.25856 secs
+Time difference of 7.113564 hours
+[1] 0.28 0.25
+[1] "87.44%"
+Time difference of 23.23425 secs
+Time difference of 7.120019 hours
+[1] 0.28 0.25
+[1] "87.52%"
+Time difference of 23.23095 secs
+Time difference of 7.126472 hours
+[1] 0.28 0.25
 [1] "87.6%"
-Time difference of 23.46991 secs
-Time difference of 4.297665 hours
-[1] 0.48 0.21
-[1] "87.73%"
-Time difference of 23.43777 secs
-Time difference of 4.304176 hours
-[1] 0.48 0.21
-[1] "87.87%"
-Time difference of 23.52565 secs
-Time difference of 4.310711 hours
-[1] 0.48 0.21
+Time difference of 23.22598 secs
+Time difference of 7.132924 hours
+[1] 0.28 0.25
+[1] "87.68%"
+Time difference of 23.23378 secs
+Time difference of 7.139378 hours
+[1] 0.28 0.25
+[1] "87.76%"
+Time difference of 23.27836 secs
+Time difference of 7.145845 hours
+[1] 0.28 0.25
+[1] "87.84%"
+Time difference of 23.25927 secs
+Time difference of 7.152306 hours
+[1] 0.28 0.25
+[1] "87.92%"
+Time difference of 23.25254 secs
+Time difference of 7.158766 hours
+[1] 0.28 0.25
 [1] "88%"
-Time difference of 23.50276 secs
-Time difference of 4.31724 hours
-[1] 0.48 0.21
-[1] "88.13%"
-Time difference of 23.25429 secs
-Time difference of 4.323699 hours
-[1] 0.48 0.21
-[1] "88.27%"
-Time difference of 23.24135 secs
-Time difference of 4.330156 hours
-[1] 0.48 0.21
+Time difference of 23.25869 secs
+Time difference of 7.165227 hours
+[1] 0.28 0.25
+[1] "88.08%"
+Time difference of 23.27763 secs
+Time difference of 7.171693 hours
+[1] 0.28 0.25
+[1] "88.16%"
+Time difference of 23.23829 secs
+Time difference of 7.178149 hours
+[1] 0.28 0.25
+[1] "88.24%"
+Time difference of 23.2574 secs
+Time difference of 7.184609 hours
+[1] 0.28 0.25
+[1] "88.32%"
+Time difference of 23.24344 secs
+Time difference of 7.191066 hours
+[1] 0.28 0.25
 [1] "88.4%"
-Time difference of 23.29682 secs
-Time difference of 4.336627 hours
-[1] 0.48 0.21
-[1] "88.53%"
-Time difference of 23.3034 secs
-Time difference of 4.343101 hours
-[1] 0.48 0.21
-[1] "88.67%"
-Time difference of 23.27039 secs
-Time difference of 4.349565 hours
-[1] 0.48 0.21
+Time difference of 23.27362 secs
+Time difference of 7.197532 hours
+[1] 0.28 0.25
+[1] "88.48%"
+Time difference of 23.26797 secs
+Time difference of 7.203995 hours
+[1] 0.28 0.25
+[1] "88.56%"
+Time difference of 23.27972 secs
+Time difference of 7.210462 hours
+[1] 0.28 0.25
+[1] "88.64%"
+Time difference of 23.23076 secs
+Time difference of 7.216916 hours
+[1] 0.28 0.25
+[1] "88.72%"
+Time difference of 23.25297 secs
+Time difference of 7.223375 hours
+[1] 0.28 0.25
 [1] "88.8%"
-Time difference of 23.28947 secs
-Time difference of 4.356034 hours
-[1] 0.48 0.21
-[1] "88.93%"
-Time difference of 23.26182 secs
-Time difference of 4.362496 hours
-[1] 0.48 0.21
-[1] "89.07%"
-Time difference of 23.30799 secs
-Time difference of 4.368971 hours
-[1] 0.48 0.21
+Time difference of 23.23763 secs
+Time difference of 7.22983 hours
+[1] 0.28 0.25
+[1] "88.88%"
+Time difference of 23.32015 secs
+Time difference of 7.236309 hours
+[1] 0.28 0.25
+[1] "88.96%"
+Time difference of 23.20846 secs
+Time difference of 7.242756 hours
+[1] 0.28 0.25
+[1] "89.04%"
+Time difference of 23.24423 secs
+Time difference of 7.249213 hours
+[1] 0.28 0.25
+[1] "89.12%"
+Time difference of 23.24185 secs
+Time difference of 7.255669 hours
+[1] 0.28 0.25
 [1] "89.2%"
-Time difference of 23.30791 secs
-Time difference of 4.375446 hours
-[1] 0.48 0.21
-[1] "89.33%"
-Time difference of 23.24529 secs
-Time difference of 4.381903 hours
-[1] 0.48 0.21
-[1] "89.47%"
-Time difference of 23.29679 secs
-Time difference of 4.388374 hours
-[1] 0.48 0.21
+Time difference of 23.31127 secs
+Time difference of 7.262145 hours
+[1] 0.28 0.25
+[1] "89.28%"
+Time difference of 23.2143 secs
+Time difference of 7.268594 hours
+[1] 0.28 0.25
+[1] "89.36%"
+Time difference of 23.24088 secs
+Time difference of 7.27505 hours
+[1] 0.28 0.25
+[1] "89.44%"
+Time difference of 23.3199 secs
+Time difference of 7.281528 hours
+[1] 0.28 0.25
+[1] "89.52%"
+Time difference of 23.27124 secs
+Time difference of 7.287993 hours
+[1] 0.28 0.25
 [1] "89.6%"
-Time difference of 23.30203 secs
-Time difference of 4.394847 hours
-[1] 0.48 0.21
-[1] "89.73%"
-Time difference of 23.30548 secs
-Time difference of 4.401321 hours
-[1] 0.48 0.21
-[1] "89.87%"
-Time difference of 23.63404 secs
-Time difference of 4.407887 hours
-[1] 0.48 0.21
+Time difference of 23.28694 secs
+Time difference of 7.294462 hours
+[1] 0.28 0.25
+[1] "89.68%"
+Time difference of 23.26123 secs
+Time difference of 7.300923 hours
+[1] 0.28 0.25
+[1] "89.76%"
+Time difference of 23.28357 secs
+Time difference of 7.307392 hours
+[1] 0.28 0.25
+[1] "89.84%"
+Time difference of 23.33736 secs
+Time difference of 7.313874 hours
+[1] 0.28 0.25
+[1] "89.92%"
+Time difference of 23.27738 secs
+Time difference of 7.320341 hours
+[1] 0.28 0.25
 [1] "90%"
-Time difference of 23.30135 secs
-Time difference of 4.41436 hours
-[1] 0.48 0.21
-[1] "90.13%"
-Time difference of 23.21026 secs
-Time difference of 4.420807 hours
-[1] 0.48 0.21
-[1] "90.27%"
-Time difference of 23.22097 secs
-Time difference of 4.427258 hours
-[1] 0.48 0.21
+Time difference of 23.26506 secs
+Time difference of 7.326804 hours
+[1] 0.28 0.25
+[1] "90.08%"
+Time difference of 23.2576 secs
+Time difference of 7.333265 hours
+[1] 0.28 0.25
+[1] "90.16%"
+Time difference of 23.28913 secs
+Time difference of 7.339734 hours
+[1] 0.28 0.25
+[1] "90.24%"
+Time difference of 23.35381 secs
+Time difference of 7.346222 hours
+[1] 0.28 0.25
+[1] "90.32%"
+Time difference of 23.28077 secs
+Time difference of 7.352689 hours
+[1] 0.28 0.25
 [1] "90.4%"
-Time difference of 23.25029 secs
-Time difference of 4.433716 hours
-[1] 0.48 0.21
-[1] "90.53%"
-Time difference of 23.18751 secs
-Time difference of 4.440158 hours
-[1] 0.48 0.21
-[1] "90.67%"
-Time difference of 23.2343 secs
-Time difference of 4.446612 hours
-[1] 0.48 0.21
+Time difference of 23.27832 secs
+Time difference of 7.359156 hours
+[1] 0.28 0.25
+[1] "90.48%"
+Time difference of 23.28173 secs
+Time difference of 7.365623 hours
+[1] 0.28 0.25
+[1] "90.56%"
+Time difference of 23.24982 secs
+Time difference of 7.372082 hours
+[1] 0.28 0.25
+[1] "90.64%"
+Time difference of 23.28099 secs
+Time difference of 7.378549 hours
+[1] 0.28 0.25
+[1] "90.72%"
+Time difference of 23.36139 secs
+Time difference of 7.385039 hours
+[1] 0.28 0.25
 [1] "90.8%"
-Time difference of 23.25637 secs
-Time difference of 4.453072 hours
-[1] 0.48 0.21
-[1] "90.93%"
-Time difference of 23.18327 secs
-Time difference of 4.459512 hours
-[1] 0.48 0.21
-[1] "91.07%"
-Time difference of 23.24699 secs
-Time difference of 4.46597 hours
-[1] 0.48 0.21
+Time difference of 23.223 secs
+Time difference of 7.39149 hours
+[1] 0.28 0.25
+[1] "90.88%"
+Time difference of 23.34151 secs
+Time difference of 7.397974 hours
+[1] 0.28 0.25
+[1] "90.96%"
+Time difference of 23.28841 secs
+Time difference of 7.404444 hours
+[1] 0.28 0.25
+[1] "91.04%"
+Time difference of 23.33328 secs
+Time difference of 7.410925 hours
+[1] 0.28 0.25
+[1] "91.12%"
+Time difference of 23.27673 secs
+Time difference of 7.417392 hours
+[1] 0.28 0.25
 [1] "91.2%"
-Time difference of 23.19321 secs
-Time difference of 4.472413 hours
-[1] 0.48 0.21
-[1] "91.33%"
-Time difference of 23.28633 secs
-Time difference of 4.478882 hours
-[1] 0.48 0.21
-[1] "91.47%"
-Time difference of 23.24842 secs
-Time difference of 4.48534 hours
-[1] 0.48 0.21
+Time difference of 23.35124 secs
+Time difference of 7.423878 hours
+[1] 0.28 0.25
+[1] "91.28%"
+Time difference of 23.2944 secs
+Time difference of 7.430349 hours
+[1] 0.28 0.25
+[1] "91.36%"
+Time difference of 23.32739 secs
+Time difference of 7.43683 hours
+[1] 0.28 0.25
+[1] "91.44%"
+Time difference of 23.23348 secs
+Time difference of 7.443284 hours
+[1] 0.28 0.25
+[1] "91.52%"
+Time difference of 23.35686 secs
+Time difference of 7.449772 hours
+[1] 0.28 0.25
 [1] "91.6%"
-Time difference of 23.23639 secs
-Time difference of 4.491794 hours
-[1] 0.48 0.21
-[1] "91.73%"
-Time difference of 23.18297 secs
-Time difference of 4.498234 hours
-[1] 0.48 0.21
-[1] "91.87%"
-Time difference of 23.22983 secs
-Time difference of 4.504687 hours
-[1] 0.48 0.21
+Time difference of 23.27519 secs
+Time difference of 7.456238 hours
+[1] 0.28 0.25
+[1] "91.68%"
+Time difference of 23.2543 secs
+Time difference of 7.462698 hours
+[1] 0.28 0.25
+[1] "91.76%"
+Time difference of 23.2719 secs
+Time difference of 7.469163 hours
+[1] 0.28 0.25
+[1] "91.84%"
+Time difference of 23.32852 secs
+Time difference of 7.475643 hours
+[1] 0.28 0.25
+[1] "91.92%"
+Time difference of 23.30745 secs
+Time difference of 7.482118 hours
+[1] 0.28 0.25
 [1] "92%"
-Time difference of 23.24814 secs
-Time difference of 4.511145 hours
-[1] 0.48 0.21
-[1] "92.13%"
-Time difference of 23.2506 secs
-Time difference of 4.517604 hours
-[1] 0.48 0.21
-[1] "92.27%"
-Time difference of 23.25053 secs
-Time difference of 4.524063 hours
-[1] 0.48 0.21
+Time difference of 23.3143 secs
+Time difference of 7.488594 hours
+[1] 0.28 0.25
+[1] "92.08%"
+Time difference of 23.25705 secs
+Time difference of 7.495055 hours
+[1] 0.28 0.25
+[1] "92.16%"
+Time difference of 23.36639 secs
+Time difference of 7.501546 hours
+[1] 0.28 0.25
+[1] "92.24%"
+Time difference of 23.26281 secs
+Time difference of 7.508008 hours
+[1] 0.28 0.25
+[1] "92.32%"
+Time difference of 23.30361 secs
+Time difference of 7.514482 hours
+[1] 0.28 0.25
 [1] "92.4%"
-Time difference of 23.24259 secs
-Time difference of 4.530519 hours
-[1] 0.48 0.21
-[1] "92.53%"
-Time difference of 23.19475 secs
-Time difference of 4.536963 hours
-[1] 0.48 0.21
-[1] "92.67%"
-Time difference of 23.245 secs
-Time difference of 4.54342 hours
-[1] 0.48 0.21
+Time difference of 23.25229 secs
+Time difference of 7.520941 hours
+[1] 0.28 0.25
+[1] "92.48%"
+Time difference of 23.3338 secs
+Time difference of 7.527423 hours
+[1] 0.28 0.25
+[1] "92.56%"
+Time difference of 23.29059 secs
+Time difference of 7.533893 hours
+[1] 0.28 0.25
+[1] "92.64%"
+Time difference of 23.27804 secs
+Time difference of 7.54036 hours
+[1] 0.28 0.25
+[1] "92.72%"
+Time difference of 23.33904 secs
+Time difference of 7.546843 hours
+[1] 0.28 0.25
 [1] "92.8%"
-Time difference of 23.22619 secs
-Time difference of 4.549872 hours
-[1] 0.48 0.21
-[1] "92.93%"
-Time difference of 23.26274 secs
-Time difference of 4.556334 hours
-[1] 0.48 0.21
-[1] "93.07%"
-Time difference of 23.23178 secs
-Time difference of 4.562788 hours
-[1] 0.48 0.21
+Time difference of 23.28685 secs
+Time difference of 7.553312 hours
+[1] 0.28 0.25
+[1] "92.88%"
+Time difference of 23.30893 secs
+Time difference of 7.559787 hours
+[1] 0.28 0.25
+[1] "92.96%"
+Time difference of 23.35134 secs
+Time difference of 7.566274 hours
+[1] 0.28 0.25
+[1] "93.04%"
+Time difference of 23.31278 secs
+Time difference of 7.572751 hours
+[1] 0.28 0.25
+[1] "93.12%"
+Time difference of 23.28612 secs
+Time difference of 7.579219 hours
+[1] 0.28 0.25
 [1] "93.2%"
-Time difference of 23.22394 secs
-Time difference of 4.569239 hours
-[1] 0.48 0.21
-[1] "93.33%"
-Time difference of 23.25431 secs
-Time difference of 4.575699 hours
-[1] 0.48 0.21
-[1] "93.47%"
-Time difference of 23.24223 secs
-Time difference of 4.582155 hours
-[1] 0.48 0.21
+Time difference of 23.35867 secs
+Time difference of 7.585708 hours
+[1] 0.28 0.25
+[1] "93.28%"
+Time difference of 23.26117 secs
+Time difference of 7.59217 hours
+[1] 0.28 0.25
+[1] "93.36%"
+Time difference of 23.30624 secs
+Time difference of 7.598644 hours
+[1] 0.28 0.25
+[1] "93.44%"
+Time difference of 23.38751 secs
+Time difference of 7.605141 hours
+[1] 0.28 0.25
+[1] "93.52%"
+Time difference of 23.28123 secs
+Time difference of 7.611609 hours
+[1] 0.28 0.25
 [1] "93.6%"
-Time difference of 23.23852 secs
-Time difference of 4.588611 hours
-[1] 0.48 0.21
-[1] "93.73%"
-Time difference of 23.2058 secs
-Time difference of 4.595057 hours
-[1] 0.48 0.21
-[1] "93.87%"
-Time difference of 23.25877 secs
-Time difference of 4.601518 hours
-[1] 0.48 0.21
+Time difference of 23.31015 secs
+Time difference of 7.618084 hours
+[1] 0.28 0.25
+[1] "93.68%"
+Time difference of 23.42128 secs
+Time difference of 7.62459 hours
+[1] 0.28 0.25
+[1] "93.76%"
+Time difference of 23.38488 secs
+Time difference of 7.631087 hours
+[1] 0.28 0.25
+[1] "93.84%"
+Time difference of 23.35135 secs
+Time difference of 7.637574 hours
+[1] 0.28 0.25
+[1] "93.92%"
+Time difference of 23.27742 secs
+Time difference of 7.64404 hours
+[1] 0.28 0.25
 [1] "94%"
-Time difference of 23.24481 secs
-Time difference of 4.607975 hours
-[1] 0.48 0.21
-[1] "94.13%"
-Time difference of 23.26704 secs
-Time difference of 4.614438 hours
-[1] 0.48 0.21
-[1] "94.27%"
-Time difference of 23.19225 secs
-Time difference of 4.620881 hours
-[1] 0.48 0.21
+Time difference of 23.36354 secs
+Time difference of 7.65053 hours
+[1] 0.28 0.25
+[1] "94.08%"
+Time difference of 23.28003 secs
+Time difference of 7.656997 hours
+[1] 0.28 0.25
+[1] "94.16%"
+Time difference of 23.37473 secs
+Time difference of 7.663491 hours
+[1] 0.28 0.25
+[1] "94.24%"
+Time difference of 23.38769 secs
+Time difference of 7.669988 hours
+[1] 0.28 0.25
+[1] "94.32%"
+Time difference of 23.37763 secs
+Time difference of 7.676482 hours
+[1] 0.28 0.25
 [1] "94.4%"
-Time difference of 23.23775 secs
-Time difference of 4.627336 hours
-[1] 0.48 0.21
-[1] "94.53%"
-Time difference of 23.2553 secs
-Time difference of 4.633796 hours
-[1] 0.48 0.21
-[1] "94.67%"
-Time difference of 23.24707 secs
-Time difference of 4.640254 hours
-[1] 0.48 0.21
+Time difference of 23.31188 secs
+Time difference of 7.682958 hours
+[1] 0.28 0.25
+[1] "94.48%"
+Time difference of 23.43737 secs
+Time difference of 7.689469 hours
+[1] 0.28 0.25
+[1] "94.56%"
+Time difference of 23.3299 secs
+Time difference of 7.695949 hours
+[1] 0.28 0.25
+[1] "94.64%"
+Time difference of 23.44764 secs
+Time difference of 7.702463 hours
+[1] 0.28 0.25
+[1] "94.72%"
+Time difference of 23.43546 secs
+Time difference of 7.708973 hours
+[1] 0.28 0.25
 [1] "94.8%"
-Time difference of 23.23203 secs
-Time difference of 4.646707 hours
-[1] 0.48 0.21
-[1] "94.93%"
-Time difference of 23.27385 secs
-Time difference of 4.653173 hours
-[1] 0.48 0.21
-[1] "95.07%"
-Time difference of 23.25822 secs
-Time difference of 4.659634 hours
-[1] 0.48 0.21
+Time difference of 23.30027 secs
+Time difference of 7.715446 hours
+[1] 0.28 0.25
+[1] "94.88%"
+Time difference of 23.45487 secs
+Time difference of 7.721962 hours
+[1] 0.28 0.25
+[1] "94.96%"
+Time difference of 23.37774 secs
+Time difference of 7.728456 hours
+[1] 0.28 0.25
+[1] "95.04%"
+Time difference of 23.41282 secs
+Time difference of 7.73496 hours
+[1] 0.28 0.25
+[1] "95.12%"
+Time difference of 23.33966 secs
+Time difference of 7.741443 hours
+[1] 0.28 0.25
 [1] "95.2%"
-Time difference of 23.26662 secs
-Time difference of 4.666097 hours
-[1] 0.48 0.21
-[1] "95.33%"
-Time difference of 23.31655 secs
-Time difference of 4.672574 hours
-[1] 0.48 0.21
-[1] "95.47%"
-Time difference of 23.26442 secs
-Time difference of 4.679036 hours
-[1] 0.48 0.21
+Time difference of 23.37325 secs
+Time difference of 7.747936 hours
+[1] 0.28 0.25
+[1] "95.28%"
+Time difference of 23.32049 secs
+Time difference of 7.754415 hours
+[1] 0.28 0.25
+[1] "95.36%"
+Time difference of 23.32713 secs
+Time difference of 7.760895 hours
+[1] 0.28 0.25
+[1] "95.44%"
+Time difference of 23.39259 secs
+Time difference of 7.767393 hours
+[1] 0.28 0.25
+[1] "95.52%"
+Time difference of 23.44539 secs
+Time difference of 7.773906 hours
+[1] 0.28 0.25
 [1] "95.6%"
-Time difference of 23.22622 secs
-Time difference of 4.685488 hours
-[1] 0.48 0.21
-[1] "95.73%"
-Time difference of 23.30054 secs
-Time difference of 4.691961 hours
-[1] 0.48 0.21
-[1] "95.87%"
-Time difference of 23.27502 secs
-Time difference of 4.698427 hours
-[1] 0.48 0.21
+Time difference of 23.31165 secs
+Time difference of 7.780382 hours
+[1] 0.28 0.25
+[1] "95.68%"
+Time difference of 23.36115 secs
+Time difference of 7.786872 hours
+[1] 0.28 0.25
+[1] "95.76%"
+Time difference of 23.39083 secs
+Time difference of 7.79337 hours
+[1] 0.28 0.25
+[1] "95.84%"
+Time difference of 23.39998 secs
+Time difference of 7.79987 hours
+[1] 0.28 0.25
+[1] "95.92%"
+Time difference of 23.37851 secs
+Time difference of 7.806364 hours
+[1] 0.28 0.25
 [1] "96%"
-Time difference of 23.28134 secs
-Time difference of 4.704894 hours
-[1] 0.48 0.21
-[1] "96.13%"
-Time difference of 23.25673 secs
-Time difference of 4.711354 hours
-[1] 0.48 0.21
-[1] "96.27%"
-Time difference of 23.34385 secs
-Time difference of 4.717839 hours
-[1] 0.48 0.21
+Time difference of 23.2799 secs
+Time difference of 7.812831 hours
+[1] 0.28 0.25
+[1] "96.08%"
+Time difference of 23.36547 secs
+Time difference of 7.819322 hours
+[1] 0.28 0.25
+[1] "96.16%"
+Time difference of 23.4048 secs
+Time difference of 7.825824 hours
+[1] 0.28 0.25
+[1] "96.24%"
+Time difference of 23.30028 secs
+Time difference of 7.832297 hours
+[1] 0.28 0.25
+[1] "96.32%"
+Time difference of 23.40224 secs
+Time difference of 7.838798 hours
+[1] 0.28 0.25
 [1] "96.4%"
-Time difference of 23.28883 secs
-Time difference of 4.724308 hours
-[1] 0.48 0.21
-[1] "96.53%"
-Time difference of 23.26757 secs
-Time difference of 4.730772 hours
-[1] 0.48 0.21
-[1] "96.67%"
-Time difference of 23.33566 secs
-Time difference of 4.737254 hours
-[1] 0.48 0.21
+Time difference of 23.51217 secs
+Time difference of 7.845329 hours
+[1] 0.28 0.25
+[1] "96.48%"
+Time difference of 23.30891 secs
+Time difference of 7.851804 hours
+[1] 0.28 0.25
+[1] "96.56%"
+Time difference of 23.34368 secs
+Time difference of 7.858289 hours
+[1] 0.28 0.25
+[1] "96.64%"
+Time difference of 23.28165 secs
+Time difference of 7.864757 hours
+[1] 0.28 0.25
+[1] "96.72%"
+Time difference of 23.36703 secs
+Time difference of 7.871248 hours
+[1] 0.28 0.25
 [1] "96.8%"
-Time difference of 23.268 secs
-Time difference of 4.743718 hours
-[1] 0.48 0.21
-[1] "96.93%"
-Time difference of 23.24863 secs
-Time difference of 4.750176 hours
-[1] 0.48 0.21
-[1] "97.07%"
-Time difference of 23.2474 secs
-Time difference of 4.756634 hours
-[1] 0.48 0.21
+Time difference of 23.3163 secs
+Time difference of 7.877725 hours
+[1] 0.28 0.25
+[1] "96.88%"
+Time difference of 23.40506 secs
+Time difference of 7.884227 hours
+[1] 0.28 0.25
+[1] "96.96%"
+Time difference of 23.27244 secs
+Time difference of 7.890692 hours
+[1] 0.28 0.25
+[1] "97.04%"
+Time difference of 23.33451 secs
+Time difference of 7.897174 hours
+[1] 0.28 0.25
+[1] "97.12%"
+Time difference of 23.28257 secs
+Time difference of 7.903642 hours
+[1] 0.28 0.25
 [1] "97.2%"
-Time difference of 23.30663 secs
-Time difference of 4.763108 hours
-[1] 0.48 0.21
-[1] "97.33%"
-Time difference of 23.40873 secs
-Time difference of 4.769611 hours
-[1] 0.48 0.21
-[1] "97.47%"
-Time difference of 23.44071 secs
-Time difference of 4.776123 hours
-[1] 0.48 0.21
+Time difference of 23.32682 secs
+Time difference of 7.910122 hours
+[1] 0.28 0.25
+[1] "97.28%"
+Time difference of 23.3687 secs
+Time difference of 7.916614 hours
+[1] 0.28 0.25
+[1] "97.36%"
+Time difference of 23.27822 secs
+Time difference of 7.92308 hours
+[1] 0.28 0.25
+[1] "97.44%"
+Time difference of 23.35538 secs
+Time difference of 7.929568 hours
+[1] 0.28 0.25
+[1] "97.52%"
+Time difference of 23.29225 secs
+Time difference of 7.936039 hours
+[1] 0.28 0.25
 [1] "97.6%"
-Time difference of 23.40969 secs
-Time difference of 4.782626 hours
-[1] 0.48 0.21
-[1] "97.73%"
-Time difference of 23.34801 secs
-Time difference of 4.789111 hours
-[1] 0.48 0.22
-[1] "97.87%"
-Time difference of 23.32527 secs
-Time difference of 4.795591 hours
-[1] 0.48 0.21
+Time difference of 23.35408 secs
+Time difference of 7.942526 hours
+[1] 0.28 0.25
+[1] "97.68%"
+Time difference of 23.29801 secs
+Time difference of 7.948998 hours
+[1] 0.28 0.25
+[1] "97.76%"
+Time difference of 23.33052 secs
+Time difference of 7.95548 hours
+[1] 0.28 0.25
+[1] "97.84%"
+Time difference of 23.3005 secs
+Time difference of 7.961952 hours
+[1] 0.28 0.25
+[1] "97.92%"
+Time difference of 23.36287 secs
+Time difference of 7.968442 hours
+[1] 0.28 0.25
 [1] "98%"
-Time difference of 23.368 secs
-Time difference of 4.802082 hours
-[1] 0.48 0.22
-[1] "98.13%"
-Time difference of 23.43259 secs
-Time difference of 4.808592 hours
-[1] 0.48 0.22
-[1] "98.27%"
-Time difference of 23.33968 secs
-Time difference of 4.815075 hours
-[1] 0.48 0.22
+Time difference of 23.30739 secs
+Time difference of 7.974917 hours
+[1] 0.28 0.25
+[1] "98.08%"
+Time difference of 23.34649 secs
+Time difference of 7.981403 hours
+[1] 0.28 0.25
+[1] "98.16%"
+Time difference of 23.28866 secs
+Time difference of 7.987872 hours
+[1] 0.28 0.25
+[1] "98.24%"
+Time difference of 23.34181 secs
+Time difference of 7.994356 hours
+[1] 0.28 0.25
+[1] "98.32%"
+Time difference of 23.38366 secs
+Time difference of 8.000852 hours
+[1] 0.28 0.25
 [1] "98.4%"
-Time difference of 23.42925 secs
-Time difference of 4.821584 hours
-[1] 0.48 0.22
-[1] "98.53%"
-Time difference of 23.36316 secs
-Time difference of 4.828074 hours
-[1] 0.48 0.22
-[1] "98.67%"
-Time difference of 23.35733 secs
-Time difference of 4.834562 hours
-[1] 0.48 0.22
+Time difference of 23.29276 secs
+Time difference of 8.007323 hours
+[1] 0.28 0.25
+[1] "98.48%"
+Time difference of 23.36843 secs
+Time difference of 8.013815 hours
+[1] 0.28 0.25
+[1] "98.56%"
+Time difference of 23.2932 secs
+Time difference of 8.020285 hours
+[1] 0.28 0.25
+[1] "98.64%"
+Time difference of 23.35578 secs
+Time difference of 8.026773 hours
+[1] 0.28 0.25
+[1] "98.72%"
+Time difference of 23.31995 secs
+Time difference of 8.033252 hours
+[1] 0.28 0.25
 [1] "98.8%"
-Time difference of 23.409 secs
-Time difference of 4.841065 hours
-[1] 0.48 0.22
-[1] "98.93%"
-Time difference of 23.38285 secs
-Time difference of 4.84756 hours
-[1] 0.48 0.22
-[1] "99.07%"
-Time difference of 23.34271 secs
-Time difference of 4.854045 hours
-[1] 0.48 0.22
+Time difference of 23.3823 secs
+Time difference of 8.039747 hours
+[1] 0.28 0.25
+[1] "98.88%"
+Time difference of 23.39983 secs
+Time difference of 8.046248 hours
+[1] 0.28 0.25
+[1] "98.96%"
+Time difference of 23.31859 secs
+Time difference of 8.052725 hours
+[1] 0.28 0.25
+[1] "99.04%"
+Time difference of 23.352 secs
+Time difference of 8.059213 hours
+[1] 0.28 0.25
+[1] "99.12%"
+Time difference of 23.30765 secs
+Time difference of 8.065687 hours
+[1] 0.28 0.25
 [1] "99.2%"
-Time difference of 23.40395 secs
-Time difference of 4.860546 hours
-[1] 0.48 0.22
-[1] "99.33%"
-Time difference of 23.35595 secs
-Time difference of 4.867034 hours
-[1] 0.48 0.22
-[1] "99.47%"
-Time difference of 23.41761 secs
-Time difference of 4.873539 hours
-[1] 0.48 0.22
+Time difference of 23.35972 secs
+Time difference of 8.072177 hours
+[1] 0.28 0.25
+[1] "99.28%"
+Time difference of 23.38476 secs
+Time difference of 8.078673 hours
+[1] 0.28 0.25
+[1] "99.36%"
+Time difference of 23.29432 secs
+Time difference of 8.085144 hours
+[1] 0.28 0.25
+[1] "99.44%"
+Time difference of 23.34785 secs
+Time difference of 8.09163 hours
+[1] 0.28 0.25
+[1] "99.52%"
+Time difference of 23.28963 secs
+Time difference of 8.098099 hours
+[1] 0.28 0.25
 [1] "99.6%"
-Time difference of 23.41095 secs
-Time difference of 4.880043 hours
-[1] 0.48 0.22
-[1] "99.73%"
-Time difference of 23.41032 secs
-Time difference of 4.886546 hours
-[1] 0.48 0.22
-[1] "99.87%"
-Time difference of 23.36555 secs
-Time difference of 4.893036 hours
-[1] 0.48 0.22
+Time difference of 23.35617 secs
+Time difference of 8.104588 hours
+[1] 0.28 0.25
+[1] "99.68%"
+Time difference of 23.36671 secs
+Time difference of 8.111079 hours
+[1] 0.28 0.25
+[1] "99.76%"
+Time difference of 23.31606 secs
+Time difference of 8.117556 hours
+[1] 0.28 0.25
+[1] "99.84%"
+Time difference of 23.37981 secs
+Time difference of 8.124051 hours
+[1] 0.28 0.25
+[1] "99.92%"
+Time difference of 23.37613 secs
+Time difference of 8.130545 hours
+[1] 0.28 0.25
 [1] "100%"
-Time difference of 23.42895 secs
-Time difference of 4.899545 hours
-[1] 0.48 0.22
-[1] 0.4806
-[1] 0.22154
+Time difference of 23.30769 secs
+Time difference of 8.137019 hours
+[1] 0.28 0.25
+[1] 0.2809
+[1] 0.24766
 corrplot 0.92 loaded

@@ -23,13 +23,13 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 50000
+M     = 100000
 
 
 
 propsd = 0.0002
 
-propsdnu = 0.1
+propsdnu = 0.2
 
 t0   = Sys.time()
 t1   = Sys.time()
@@ -38,8 +38,8 @@ TT   = dim(data[1:T0,])[1]
 dm   = dim(data[1:T0,])[2]
 
 R    = array(NA,c(dm, dm, TT))
-aold   <- 0.1
-bold   <- 0.7
+aold   <- 0.15
+bold   <- 0.65
 nuold  <- 16
 tdata  <- qt(udata[1:T0,],nuold)
 Rbar   <- cor(tdata)
