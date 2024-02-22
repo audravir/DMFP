@@ -21,7 +21,7 @@ nn
 # the same
 
 data = stand[1:T0,]
-M    = 50000
+M    = 1000
 
 propsd   = 0.0001
 propsdnu = 0.5
@@ -33,19 +33,20 @@ t1   = Sys.time()
 
 TT   = dim(data)[1]
 dm   = dim(data)[2]
-bi   = min(M,25000)
+bi   = min(M,50000)
 TIMING = rep(NA,M+bi)
 
 udata = pnorm(data)*TT/(TT+1) 
 
-Qold = array(NA,c(dm, dm, TT))
+Qold   = array(NA,c(dm, dm, TT))
 aold   <- rep(0.12,dm)
 bold   <- rep(0.99,dm)
 nuold  <- 20
 tdata  <- qt(udata,nuold)
 llold  <- rep(0,TT)
 LLH    <- rep(NA,M+bi)
-Qold[,,1] = cor(tdata)
+Qold[,,1] = cora(tdata)
+Rold   <- Qold
 
 resdcc <- matrix(NA,ncol=dm*2+1,nrow=M+bi)
 iota   = rep(1,dm)
@@ -64,14 +65,13 @@ for(t in 2:TT){
   t.ma  = Qold[,,t]
   t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
   t.R   = Outer(t.dv,t.dv)*t.ma
+  Rold[,,t] = t.R
   inlik = sum(dt(tdata[t,],df=nuold,log=TRUE))
   llold[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm),t.R, nuold, log=TRUE)-inlik
 }
 
 for(m in 1:(M+bi)){
   t2 = Sys.time()
-  
-  fac1=fac2=1 # in case the sampler is stuck, we can reduce the variance
   
   ##-----
   ## bs split randomly
@@ -85,10 +85,8 @@ for(m in 1:(M+bi)){
   ##-----
 
   # block 1
-  counter = 0
   repeat{
-    counter = counter+1
-    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd*fac1)
+    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd)
     bn     = b.prop*block1+c(aold,bold)*block2
     
     anew = bn[1:dm]
@@ -99,28 +97,34 @@ for(m in 1:(M+bi)){
     
     cond1 = anew[1]>0
     cond2 = bnew[1]>0
-    cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
+    # cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
     cond4 = (sum(abs(A+B)<1)==dm^2)
-    if(cond1 && cond2 && cond3 && cond4) {
+    if(cond1 && cond2 && cond4) {
       break
-    }
-    if(counter >= 5){
-      print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac1,sep=','))
-      fac1=fac1/sqrt(10)
     }
   }
   
+  IPD   <- rep(1,TT)
   llnew <- rep(0,TT)
   Qnew  = Qold
+  Rnew  = Rold
   
   for(t in 2:TT){
     Qnew[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Qnew[,,(t-1)]
     t.ma  = Qnew[,,t]
     t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
     t.R   = Outer(t.dv,t.dv)*t.ma
-    inlik = sum(dt(tdata[t,],df=nuold,log=TRUE))
-    llnew[t]  <- mvnfast::dmvt(tdata[t,], rep(0,dm), t.R, nuold, log=TRUE)-inlik
+    Rnew[,,t] = t.R
+    IPD[t] =  prod(eigen(t.R,symmetric = TRUE,only.values = TRUE)$values>0)==1
   }
+  
+  if(sum(IPD)==TT){
+    for(t in 2:TT){
+      inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
+      llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), Rnew[,,t], df = nuold, log=TRUE)-
+        inlik
+    } 
+  } else {llnew=-Inf}
   
   if((sum(llnew)-sum(llold)+
       sum(dnorm(anew,0,sqrt(10),log=TRUE))-sum(dnorm(aold,0,sqrt(10),log=TRUE))+
@@ -129,16 +133,15 @@ for(m in 1:(M+bi)){
     llold  = llnew
     aold   = anew
     bold   = bnew
+    Rold   = Rnew
     Qold   = Qnew
     accdcc1[m] = 1
   }
   
   
   # block 2
-  counter = 0
   repeat{
-    counter = counter+1
-    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd*fac2)
+    b.prop = rnorm(dm*2,c(aold,bold),sd=propsd)
     bn     = b.prop*block2+c(aold,bold)*block1
     
     anew = bn[1:dm]
@@ -149,28 +152,34 @@ for(m in 1:(M+bi)){
     
     cond1 = anew[1]>0
     cond2 = bnew[1]>0
-    cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
+    # cond3 = prod(eigen(B0,symmetric = TRUE,only.values = TRUE)$values>0)==1 
     cond4 = (sum(abs(A+B)<1)==dm^2)
-    if(cond1 && cond2 && cond3 && cond4) {
+    if(cond1 && cond2 && cond4) {
       break
-    }
-    if(counter >= 5){
-      print(paste('BL1',cond1,cond2,cond3,cond4,'iter=',m,'fac=',fac2,sep=','))
-      fac2=fac2/sqrt(10)
     }
   }
   
+  IPD   <- rep(1,TT)
   llnew <- rep(0,TT)
   Qnew  = Qold
+  Rnew  = Rold
   
   for(t in 2:TT){
     Qnew[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Qnew[,,(t-1)]
     t.ma  = Qnew[,,t]
     t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
     t.R   = Outer(t.dv,t.dv)*t.ma
-    inlik = sum(dt(tdata[t,],df=nuold,log=TRUE))
-    llnew[t]  <- mvnfast::dmvt(tdata[t,], rep(0,dm), t.R, nuold, log=TRUE)-inlik
+    Rnew[,,t] = t.R
+    IPD[t] =  prod(eigen(t.R,symmetric = TRUE,only.values = TRUE)$values>0)==1
   }
+  
+  if(sum(IPD)==TT){
+    for(t in 2:TT){
+      inlik    <- sum(dt(tdata[t,],df=nuold,log=TRUE))
+      llnew[t] <- mvnfast::dmvt(tdata[t,], rep(0,dm), Rnew[,,t], df = nuold, log=TRUE)-
+        inlik
+    } 
+  } else {llnew=-Inf}
   
   if((sum(llnew)-sum(llold)+
       sum(dnorm(anew,0,sqrt(10),log=TRUE))-sum(dnorm(aold,0,sqrt(10),log=TRUE))+
@@ -179,6 +188,7 @@ for(m in 1:(M+bi)){
     llold  = llnew
     aold   = anew
     bold   = bnew
+    Rold   = Rnew
     Qold   = Qnew
     accdcc2[m] = 1
   }
@@ -186,16 +196,16 @@ for(m in 1:(M+bi)){
   ##-----
   ## nu
   ##-----
-  repeat{
-    nunew = rnorm(1,nuold,propsdnu)
-    if(nunew>dm) break
-  }
+
+  nunew  = truncnorm::rtruncnorm(1,a = dm+1,mean = nuold,sd = propsdnu)
   
   tdata  = qt(udata,nunew)
-  Sbar   = cov(tdata)
+  Sbar   = cova(tdata)
   
   llnew <- rep(0,TT)
   Qnew  = Qold
+  Qnew[,,1] = cora(tdata)
+  Rnew  = Qnew
   A     = Outer(aold,aold)
   B     = Outer(bold,bold)
   B0    = (Oiota-A-B)*Sbar
@@ -205,21 +215,25 @@ for(m in 1:(M+bi)){
     t.ma  = Qnew[,,t]
     t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
     t.R   = Outer(t.dv,t.dv)*t.ma
+    Rnew[,,t] = t.R
     inlik = sum(dt(tdata[t,],df=nunew,log=TRUE))
     llnew[t]  <- mvnfast::dmvt(tdata[t,], rep(0,dm), t.R, nunew, log=TRUE)-inlik
   }
   
   if((sum(llnew)-sum(llold)+
-      dexp(nunew,0.1,log=TRUE)-dexp(nuold,0.1,log=TRUE))>log(runif(1)))
+      dexp(nunew,0.1,log=TRUE)-dexp(nuold,0.1,log=TRUE)+
+      log(truncnorm::dtruncnorm(nunew,a = dm+1,b=Inf,mean = nuold,sd = propsdnu))-
+      log(truncnorm::dtruncnorm(nuold,a = dm+1,b=Inf,mean = nunew,sd = propsdnu)))>log(runif(1)))
   {
     llold  = llnew
     nuold  = nunew
     Qold   = Qnew
+    Rold   = Rnew
     accnu[m] = 1
   }
   
   tdata  = qt(udata,nuold)
-  Sbar   = cov(tdata)
+  Sbar   = cova(tdata)
   
   ##-----
   ## Collect results and prediction
@@ -272,12 +286,13 @@ par(mfrow=c(1,1))
 corrplot(cor(resdcc)) 
 
 
-post.size = 5000
+post.size = 1000
 ind       = round(seq(1,M,length=post.size))
 
 r   = resdcc[(bi+1):(bi+M),]
-res = list(Vpred[ind],Qpred[ind],r[ind,],
-           accdcc1[(bi+1):(bi+M)][ind],accdcc2[(bi+1):(bi+M)][ind],accnu[(bi+1):(bi+M)][ind])
-names(res) = c('Vpred','Qpred','resdcc','accdcc1','accdcc2','accnu')
+res = list(Vpred[ind],r[ind,],
+           accdcc1[(bi+1):(bi+M)][ind],accdcc2[(bi+1):(bi+M)][ind],accnu[(bi+1):(bi+M)][ind],
+           LLH[(bi+1):(bi+M)][ind])
+names(res) = c('Vpred','r','accdcc1','accdcc2','accnu','LLH')
 save(res,file=paste('empirical/temp/results_vectordcc_tcop.Rdata',sep=''))
 
