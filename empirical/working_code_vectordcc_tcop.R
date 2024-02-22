@@ -21,7 +21,7 @@ nn
 # the same
 
 data = stand[1:T0,]
-M    = 1000
+M    = 50000
 
 propsd   = 0.0001
 propsdnu = 0.5
@@ -36,7 +36,7 @@ dm   = dim(data)[2]
 bi   = min(M,50000)
 TIMING = rep(NA,M+bi)
 
-udata = pnorm(data)*TT/(TT+1) 
+udata = udata[1:TT,]
 
 Qold   = array(NA,c(dm, dm, TT))
 aold   <- rep(0.12,dm)
@@ -286,7 +286,7 @@ par(mfrow=c(1,1))
 corrplot(cor(resdcc)) 
 
 
-post.size = 1000
+post.size = 5000
 ind       = round(seq(1,M,length=post.size))
 
 r   = resdcc[(bi+1):(bi+M),]

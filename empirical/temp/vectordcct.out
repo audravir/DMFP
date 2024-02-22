@@ -1,0 +1,121 @@
+Loading required package: Rcpp
+Loading required package: RcppZiggurat
+Loading required package: RcppParallel
+
+Attaching package: ‘RcppParallel’
+
+The following object is masked from ‘package:Rcpp’:
+
+    LdFlags
+
+
+Rfast: 2.1.0
+ ___ __ __ __ __    __ __ __ __ __ _             _               __ __ __ __ __     __ __ __ __ __ __   
+|  __ __ __ __  |  |  __ __ __ __ _/            / \             |  __ __ __ __ /   /__ __ _   _ __ __\  
+| |           | |  | |                         / _ \            | |                        / /          
+| |           | |  | |                        / / \ \           | |                       / /          
+| |           | |  | |                       / /   \ \          | |                      / /          
+| |__ __ __ __| |  | |__ __ __ __           / /     \ \         | |__ __ __ __ _        / /__/\          
+|    __ __ __ __|  |  __ __ __ __|         / /__ _ __\ \        |_ __ __ __ _   |      / ___  /           
+|   \              | |                    / _ _ _ _ _ _ \                     | |      \/  / /       
+| |\ \             | |                   / /           \ \                    | |         / /          
+| | \ \            | |                  / /             \ \                   | |        / /          
+| |  \ \           | |                 / /               \ \                  | |       / /          
+| |   \ \__ __ _   | |                / /                 \ \     _ __ __ __ _| |      / /          
+|_|    \__ __ __\  |_|               /_/                   \_\   /_ __ __ __ ___|      \/             team
+
+Attaching package: ‘mvnfast’
+
+The following objects are masked from ‘package:Rfast’:
+
+    dmvt, rmvt
+
+[1] "2019-12-31"
+[1] 3084
+[1] 797
+[1] 3881
+[1] 3881
+[1] "5%"
+Time difference of 1.041259 mins
+Time difference of 1.041274 mins
+[1] 0.23 0.34 0.31
+[1] "10%"
+Time difference of 1.035207 mins
+Time difference of 2.076487 mins
+[1] 0.16 0.30 0.26
+[1] "15%"
+Time difference of 1.034946 mins
+Time difference of 3.111437 mins
+[1] 0.16 0.26 0.25
+[1] "20%"
+Time difference of 1.033893 mins
+Time difference of 4.145335 mins
+[1] 0.14 0.26 0.24
+[1] "25%"
+Time difference of 1.032456 mins
+Time difference of 5.177796 mins
+[1] 0.13 0.26 0.24
+[1] "30%"
+Time difference of 1.03326 mins
+Time difference of 6.211061 mins
+[1] 0.12 0.26 0.23
+[1] "35%"
+Time difference of 1.03387 mins
+Time difference of 7.244936 mins
+[1] 0.12 0.25 0.23
+[1] "40%"
+Time difference of 1.031515 mins
+Time difference of 8.276455 mins
+[1] 0.12 0.24 0.21
+[1] "45%"
+Time difference of 1.03172 mins
+Time difference of 9.30818 mins
+[1] 0.12 0.23 0.21
+[1] "50%"
+Time difference of 1.022986 mins
+Time difference of 10.33117 mins
+[1] 0.11 0.23 0.20
+[1] "55%"
+Time difference of 1.023859 mins
+Time difference of 11.35503 mins
+[1] 0.12 0.22 0.20
+[1] "60%"
+Time difference of 1.022321 mins
+Time difference of 12.37736 mins
+[1] 0.12 0.22 0.20
+[1] "65%"
+Time difference of 1.024601 mins
+Time difference of 13.40197 mins
+[1] 0.12 0.21 0.20
+[1] "70%"
+Time difference of 1.024296 mins
+Time difference of 14.42627 mins
+[1] 0.12 0.21 0.20
+[1] "75%"
+Time difference of 1.023556 mins
+Time difference of 15.44983 mins
+[1] 0.12 0.21 0.20
+[1] "80%"
+Time difference of 1.026463 mins
+Time difference of 16.47629 mins
+[1] 0.12 0.21 0.21
+[1] "85%"
+Time difference of 1.024816 mins
+Time difference of 17.50112 mins
+[1] 0.12 0.21 0.21
+[1] "90%"
+Time difference of 1.023244 mins
+Time difference of 18.52436 mins
+[1] 0.12 0.21 0.20
+[1] "95%"
+Time difference of 1.024024 mins
+Time difference of 19.54839 mins
+[1] 0.12 0.21 0.20
+[1] "100%"
+Time difference of 1.024302 mins
+Time difference of 20.5727 mins
+[1] 0.12 0.21 0.20
+[1] 0.129
+[1] 0.182
+[1] 0.2
+corrplot 0.92 loaded
