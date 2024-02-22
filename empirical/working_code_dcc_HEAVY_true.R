@@ -23,7 +23,7 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 5000
+M     = 50000
 
 
 
@@ -45,7 +45,7 @@ nuold  <- 16
 tdata  <- qt(udata[1:T0,],nuold)
 Rbar   <- cor(tdata)
 llold  <- rep(0,TT)
-bi     = min(M,5000)
+bi     = min(M,50000)
 TIMING = rep(NA,M+bi)
 LLH    <- rep(NA,M+bi)
 R[,,1] <- cor(tdata)
