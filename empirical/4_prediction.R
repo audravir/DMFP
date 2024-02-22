@@ -19,7 +19,7 @@ nn    = end.date
 Sig   = Sigma
 K     = nn.all-end.date
 c(nn,K,nn+K)
-post.sample = 1000
+post.sample = 100
 p1 = 1
 p2 = 2
 
@@ -73,7 +73,7 @@ load('empirical/temp/results_vectordcc.Rdata')
 M   = dim(res$resdcc)[1] # size of MCMC
 ind = round(seq(1,M,length=post.sample)) #thin every xth
 
-Q       = array(NA,c(dm, dm, nn+K))
+Q       = R = array(NA,c(dm, dm, nn+K))
 Q[,,1] <- cor(data[start:nn,])
 a      <- res$resdcc[ind,1:dm]
 b      <- res$resdcc[ind,(dm+1):(dm*2)]
@@ -93,12 +93,16 @@ for(m in 1:post.sample){
     t.ma  = Q[,,t]
     t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
     t.R   = Outer(t.dv,t.dv)*t.ma
+    R[,,t] = t.R
     if(t>nn){
       lL_dcc[m,(t-nn)] <- mvnfast::dmvn(data[t,], rep(0,dm), t.R, log=TRUE)
     }
   }
 }
 
+# should be the same!
+res$Vpred[ind][[post.sample]][1:3,1:3]
+R[1:3,1:3,nn+1]
 
 sum(lL_static)
 sum(lL_rmf)
@@ -109,7 +113,7 @@ sum(apply(lL_dcc,2,median))
 A      = Outer(apply(a,2,median),apply(a,2,median))
 B      = Outer(apply(b,2,median),apply(b,2,median))
 R.dcc  = array(NA,c(dm, dm, nn+K))
-tmp.ll = rep(NA,nn+K)
+tmp.dcc = rep(NA,nn+K)
 
 for(t in 2:(nn+K)){
   Q[,,t]   <- (Oiota-A-B)*Sbar+A*Outer(data[t-1,],data[t-1,])+B*Q[,,(t-1)]
@@ -117,18 +121,11 @@ for(t in 2:(nn+K)){
   t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
   t.R   = Outer(t.dv,t.dv)*t.ma
   R.dcc[,,t] = t.R
-  tmp.ll[t] = mvnfast::dmvn(data[t,], rep(0,dm), t.R, log=TRUE)
+  tmp.dcc[t] = mvnfast::dmvn(data[t,], rep(0,dm), t.R, log=TRUE)
 }
 
-sum(tail(tmp.ll,K))
-
-roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
-                       function(z) cor(z[,1], z[,2]), by.column = FALSE,
-                       align = "center",fill=NA)
-par(mfrow=c(1,1))
-plot(roll_corr,type='l',ylim=c(-1,1))
-lines(R.rmf[p1,p2,],type='l',ylim=c(0,1))
-lines(R.dcc[p1,p2,],col=2)
+sum(tail(tmp.dcc,K))
+sum(apply(lL_dcc,2,median))
 
 ##-----------------------
 ## vector dcc t Copula
@@ -136,19 +133,18 @@ lines(R.dcc[p1,p2,],col=2)
 
 load('empirical/temp/results_vectordcc_tcop.Rdata')
 
-M   = dim(res$resdcc)[1]
+M   = dim(res$r)[1]
 ind = round(seq(1,M,length=post.sample)) #thin every xth
 
-Q       = array(NA,c(dm, dm, nn+K))
-a      <- res$resdcc[ind,2:(dm+1)]
-b      <- res$resdcc[ind,(dm+2):(2*dm+1)]
-nu     <- res$resdcc[ind,1]
+Q  = R = array(NA,c(dm, dm, nn+K))
+a  <- res$r[ind,2:(dm+1)]
+b  <- res$r[ind,(dm+2):(2*dm+1)]
+nu <- res$r[ind,1]
 
-Q[,,1] <- cor(data[start:nn,])
 lL_tdcc = matrix(NA,ncol=K,nrow=post.sample)
 iota    = rep(1,dm)
 Oiota   = Outer(iota,iota)
-INL.N    = dnorm(data,log=TRUE)
+INL.N   = dnorm(data,log=TRUE)
 
 for(m in 1:post.sample){
   tdata <- qt(udata,nu[m])
@@ -157,20 +153,23 @@ for(m in 1:post.sample){
   B     <- Outer(b[m,],b[m,])
   B0    <- (Oiota-A-B)*Sbar
   INL   <- dt(tdata,df=nu[m],log=TRUE)
+  Q[,,1] <- cora(tdata[start:nn,])
   
   for(t in 2:(nn+K)){
     Q[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Q[,,(t-1)]
     t.ma  = Q[,,t]
     t.dv  = t.ma[ col(t.ma)==row(t.ma) ]^{-1/2} 
     t.R   = Outer(t.dv,t.dv)*t.ma
+    R[,,t] = t.R
     if(t>nn){
       lL_tdcc[m,(t-nn)] = mvnfast::dmvt(tdata[t,], rep(0,dm),t.R, nu[m], log=TRUE)+sum(INL.N[t,])-sum(INL[t,])
     }
   }
 }
 
-
-dim(lL_tdcc)
+# should be the same!
+res$Vpred[ind][[post.sample]][1:3,1:3]
+R[1:3,1:3,nn+1]
 
 zoomin = c(1:100)
 
@@ -214,92 +213,66 @@ lines(R.dcc[p1,p2,],col=2)
 lines(R.dcct[p1,p2,],col=4)
 
 
-# ##-----------------------
-# ## dcc-HEAVY t Copula
-# ##-----------------------
-# 
-# load('empirical/temp/results_heavy.Rdata')
-# M   = dim(res$restdcch)[1]
-# ind = round(seq(1,M,length=post.sample)) #thin every xth
-# 
-# R       = array(NA,c(dm, dm, nn+K))
-# a      <- res$restdcch[ind,2:(dm+1)]
-# b      <- res$restdcch[ind,(dm+2):(dm*2+1)]
-# nu     <- res$restdcch[ind,1]
-# 
-# Pbar = Reduce('+',Sig[1:nn])/nn
-# Rbar = cor(data[start:nn,])
-# 
-# R[,,1] <- Rbar
-# 
-# lL_tdcch = matrix(NA,ncol=K,nrow=length(ind))
-# 
-# for(m in 1:length(ind)){
-#   tdata <- qt(udata,nu[m])
-#   Rbar  <- cor(tdata[start:nn,])
-#   A     <- diag (a[m,])
-#   B     <- diag (b[m,])
-#   INL   <- dt(tdata,nu[m],log=TRUE)
-#   
-#   for(t in 2:(nn+K)){
-#     R[,,t]   <- Rbar+A*(Sig[[t-1]]-Pbar)+B*(R[,,t-1]-Rbar)
-#     
-#     if(t>nn){
-#       lL_tdcch[m,(t-nn)] <- mvnfast::dmvt(tdata[t,], rep(0,dm), R[,,t], df = nu[m], log=TRUE)+
-#         sum(INL.N[t,])-sum(INL[t,])
-#     }
-#   }
-# }
-# 
-# dim(lL_tdcch)
-# 
-# zoomin = c(1:100)
-# 
-# par(mfrow=c(1,1))
-# plot(apply(lL_dcc,2,median)[zoomin],type='l')
-# lines(apply(lL_tdcch,2,median)[zoomin],col=2)
-# 
-# sum(lL_static)
-# sum(lL_rmf)
-# sum(apply(lL_dcc,2,median))
-# sum(apply(lL_tdcc,2,median))
-# sum(apply(lL_tdcch,2,median))
-# 
-# ###############################
-# 
-# # at the median of estimated parameters
-# 
-# A       = diag(apply(a,2,median))
-# B       = diag(apply(b,2,median))
-# tdata   <- qt(udata,median(nu))
-# Rbar    = cor(tdata[start:nn,])
-# R.heavy = array(NA,c(dm, dm, nn+K))
-# tmp.ll  = rep(NA,nn+K)
-# R.heavy[,,1] <- Rbar
-# INL   <- dt(tdata,median(nu),log=TRUE)
-# 
-# microbenchmark(A%*%(Sig[[t-1]]-Pbar),mat.mult(A,(Sig[[t-1]]-Pbar)),unit = 'relative',times = 1000)
-# 
-# mm1=A%*%(Sig[[t-1]]-Pbar)
-# mm2=diag(A)*(Sig[[t-1]]-Pbar)
-# 
-# mm1-mm2
-# 
-# for(t in 2:(nn+K)){
-#   R.heavy[,,t]   <- Rbar+A*(Sig[[t-1]]-Pbar)+B*(R.heavy[,,t-1]-Rbar)
-#   tmp.ll[t] = mvnfast::dmvt(tdata[t,], rep(0,dm), R.heavy[,,t], df = median(nu), log=TRUE)+
-#     sum(INL.N[t,])-sum(INL[t,])
-# }
-# 
-# sum(tail(tmp.ll,K))
-# 
-# roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
-#                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
-#                        align = "center",fill=NA)
-# plot(roll_corr,type='l',ylim=c(-1,1))
-# lines(R.rmf[p1,p2,],type='l',ylim=c(0,1))
-# lines(R.dcc[p1,p2,],col=2)
-# lines(R.heavy[p1,p2,],col=4)
+load("empirical/temp/results_heavy_true.Rdata")
+
+M   = dim(res$r)[1]
+ind = round(seq(1,M,length=post.sample)) #thin every xth
+lL_hm = matrix(NA,ncol=K,nrow=post.sample)
+
+nu = res$r[ind,1]
+a  = res$r[ind,2:(dm+1)]
+b  = res$r[ind,(dm+2):(dm*2+1)]
+Rpred = res$Rpred[ind]
+Pbar  = Reduce('+',Sig[1:nn])/nn
+iota  = rep(1,dm)
+Oiota = Outer(iota,iota)
+
+# one way
+for(m in 1:post.sample){
+  Vpred = vector(mode = "list", length = K)
+  tdata  <- qt(udata,nu[m])
+  Rbar   <- cor(tdata[1:nn,])
+  A      = Outer(a[m,],a[m,])
+  B      = Outer(b[m,],b[m,])
+  Rtilde = (Oiota-B)*Rbar-A*Pbar
+  
+  Vpred[[1]] = Rpred[[m]]
+  lL_hm[m,1] = mvnfast::dmvt(tdata[nn+1,], rep(0,dm), Vpred[[1]], df = nu[m], log=TRUE)-
+    sum(dt(tdata[nn+1,],df=nu[m],log=TRUE))+sum(dnorm(data[nn+1,],log=TRUE))
+  
+  for(t0 in 2:K){
+    Vpred[[t0]] = Rtilde+A*Sig[[nn+t0-1]]+B*Vpred[[t0-1]]
+    lL_hm[m,t0] = mvnfast::dmvt(tdata[nn+t0,], rep(0,dm), Vpred[[t0]], df = nu[m], log=TRUE)-
+      sum(dt(tdata[nn+t0,],df=nu[m],log=TRUE))+sum(dnorm(data[nn+t0,],log=TRUE))
+  }
+}
+
+sum(apply(lL_hm,2,median))
+
+# at the median of estimated parameters
+
+A  = Outer(apply(a,2,median),apply(a,2,median))
+B  = Outer(apply(b,2,median),apply(b,2,median))
+nu = median(nu)
+tdata  <- qt(udata,nu)
+Rbar   <- cor(tdata[1:nn,])
+Rtilde = (Oiota-B)*Rbar-A*Pbar
+R_hm = array(NA,c(dm, dm, nn+K))
+R_hm[,,1] <- Rbar
+tmp.hm  = rep(NA,nn+K)
+INL   <- dt(tdata,df=nu,log=TRUE)
+
+for(t in 2:(nn+K)){
+  R_hm[,,t] = Rtilde+A*Sig[[t-1]]+B*R_hm[,,t-1]
+  tmp.hm[t]= mvnfast::dmvt(tdata[t,], rep(0,dm),R_hm[,,t], nu, log=TRUE)+sum(INL.N[t,])-sum(INL[t,])
+}
+
+sum(tail(tmp.hm,K))
+sum(apply(lL_hm,2,median))
+
+avrgmatrix = Reduce('+',res$Rpred[ind])/post.sample
+avrgmatrix[1:3,1:3]
+R_hm[1:3,1:3,nn+1]
 
 ##------
 ## XM
@@ -381,13 +354,13 @@ llNW = function(y,S,nu,iter=1000){
 }
 
 load('empirical/temp/results_caw.Rdata')
-M   = dim(res$resc)[1]
+M   = dim(res$r)[1]
 ind = round(seq(1,M,length=post.sample)) #thin every xth
 lL_caw = lL_cawN =matrix(NA,ncol=K,nrow=post.sample)
 
-nu=res$resc[ind,1]
-b1=res$resc[ind,2:(dm+1)]
-b2=res$resc[ind,(dm+2):(dm*2+1)]
+nu=res$r[ind,1]
+b1=res$r[ind,2:(dm+1)]
+b2=res$r[ind,(dm+2):(dm*2+1)]
 Vlast = res$Vpred[ind]
 
 for(m in 1:post.sample){
