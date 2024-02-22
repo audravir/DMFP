@@ -27,7 +27,7 @@ M     = 50000
 
 
 
-propsd = 0.0002
+propsd = 0.0003
 
 
 propsdnu = 0.1
@@ -39,8 +39,8 @@ TT   = dim(data)[1]
 dm   = dim(data)[2]
 
 R    = array(NA,c(dm, dm, TT))
-aold   <- rep(0.20,dm) #
-bold   <- rep(0.90,dm) #
+aold   <- rep(0.30,dm) #
+bold   <- rep(0.85,dm) #
 nuold  <- 16
 tdata  <- qt(udata[1:T0,],nuold)
 Rbar   <- cor(tdata)
@@ -266,7 +266,7 @@ ind       = round(seq(1,M,length=post.size))
 r         = restdcch[(bi+1):(bi+M),]
 
 res = list(Rpred[ind],r[ind,],accnu[(bi+1):(bi+M)][ind],
-           accdcc1[(bi+1):(bi+M)][ind],accdcc2[(bi+1):(bi+M)][ind],LLH[ind])
+           accdcc1[(bi+1):(bi+M)][ind],accdcc2[(bi+1):(bi+M)][ind],LLH[(bi+1):(bi+M)][ind])
 names(res) = c('Rpred','r','accnu','accdcc1','accdcc2','LLH')
 
 save(res,file='empirical/temp/results_heavy_true.Rdata')
