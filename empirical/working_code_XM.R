@@ -7,7 +7,7 @@ library(Rfast)
 library(profvis)
 library(future.apply)
 parallel::detectCores()
-plan(multisession, workers = 6)
+plan(multisession, workers = 4)
 
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
@@ -26,7 +26,7 @@ nn
 data = Sigma[1:T0]
 rm(Sigma)
 # function arguments
-M = 1000
+M = 50000
 
 # 0.001 gives accp 0.516
 propsdb  = 0.001
@@ -261,7 +261,7 @@ library(corrplot)
 par(mfrow=c(1,1))
 corrplot(cor(resc[,-c(1,2)])) 
 
-post.size = 1000
+post.size = 5000
 ind       = round(seq(1,M,length=post.size))
 r         = resc[(bi+1):(bi+M),]
 

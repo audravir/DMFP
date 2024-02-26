@@ -6,7 +6,7 @@ library(LaplacesDemon)
 library(Rfast)
 library(profvis)
 library(future.apply)
-plan(multisession, workers = 4)
+plan(multisession, workers = 6)
 
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
