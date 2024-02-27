@@ -23,11 +23,11 @@ nn
 
 data  = stand[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 5000
+M     = 1000
 
 
 
-propsd   = 0.0002
+propsd   = 0.002
 
 t0   = Sys.time()
 t1   = Sys.time()
@@ -36,7 +36,7 @@ TT   = dim(data)[1]
 dm   = dim(data)[2]
 
 R    = array(NA,c(dm, dm, TT))
-pold   <- c(0.07,0.85)
+pold   <- c(0.1,0.8)
 
 Rbar   <- cor(data)
 llold  <- rep(0,TT)
@@ -110,4 +110,29 @@ for(m in 1:(M+bi)){
   }
   TIMING[m] = Sys.time()-t2
 }
+
+mean(accdcc[(bi+1):(bi+M)])
+
+par(mfrow=c(2,3))
+plot(TIMING,type='l')
+plot(tail(LLH,M),type='l')
+plot(tail(res[,1],M),type='l')
+plot(tail(res[,2],M),type='l')
+
+library(corrplot)
+par(mfrow=c(1,1))
+corrplot(cor(res)) 
+
+apply(tail(res,M),2,median)
+
+
+post.size = 5000
+ind       = round(seq(1,M,length=post.size))
+r         = res[(bi+1):(bi+M),]
+
+res = list(Rpred[ind],r[ind,],
+           accdcc[(bi+1):(bi+M)][ind],LLH[(bi+1):(bi+M)][ind])
+names(res) = c('Rpred','r','accdcc','LLH')
+
+save(res,file='empirical/temp/results_heavy_normal.Rdata')
 
