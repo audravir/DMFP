@@ -322,7 +322,7 @@ for(m in 1:post.sample){
   }
 }
 
-# should be the same! not the same
+# should be the same! ok
 res$Vpred[ind][[post.sample]][1:3,1:3]
 Vpred[[1]][1:3,1:3]
 
@@ -342,7 +342,6 @@ R.xm = array(NA,c(dm, dm, nn+K))
 tmp.xm  = rep(NA,nn+K)
 tmp.true = rep(NA,nn+K)
 mtdf = median(nu)-dm
-tmp.dcc = rep(NA,nn+K)
 
 for(t in 2:(nn+K)){
   R.xm[,,t]   <- B0+B1*Sig[[t-1]]+B2*(Reduce('+',Sig[max(c(t-median(lag)),1):(t-1)])/min(c(t-1,median(lag))))
@@ -363,51 +362,56 @@ lines(tail(R.xm[p1,p2,],K),col=4,lwd=2)
 lines(tail(R.hm[p1,p2,],K),col=3,lwd=2)
 
 ##------
-## CAW
+## CAW-iw
 ##------
 
-llNW = function(y,S,nu,iter=1000){
-  fun=function(x) mvnfast::dmvn(y, rep(0,dm), x, log=TRUE)
-  V = rWishart(iter,nu,S/nu)
-  res = mean(apply(V,3,fun))
-  return(res)
-}
+Sbar   = Reduce('+',Sig[1:nn])/nn
+iota   = rep(1,dm)
 
-load('empirical/temp/results_caw.Rdata')
+load('empirical/temp/results_caw_iw.Rdata')
 M   = dim(res$r)[1]
 ind = round(seq(1,M,length=post.sample)) #thin every xth
-lL_caw = lL_cawN =matrix(NA,ncol=K,nrow=post.sample)
+lL_caw = matrix(NA,ncol=K,nrow=post.sample)
 
-nu=res$r[ind,1]
-b1=res$r[ind,2:(dm+1)]
-b2=res$r[ind,(dm+2):(dm*2+1)]
+nu  = res$r[ind,1]
+b1  = res$r[ind,2:(dm+1)]
+b2  = res$r[ind,(dm+2):(2*dm+1)]
 Vlast = res$Vpred[ind]
+# R = vector(mode = "list", length = K+nn)
+# R[[1]] = Sbar
 
 for(m in 1:post.sample){
   Vpred = vector(mode = "list", length = K)
   B1  = Outer(b1[m,],b1[m,])
   B2  = Outer(b2[m,],b2[m,])
   B0  = (Oiota-B1-B2)*Sbar
+  mtdf = nu[m]-dm
   
-  Vpred[[1]] = B0+B1*Vlast[[m]]+B2*Sig[[nn]]
- # lL_caw[m,1] = llNW(data[nn+1,],Vpred[[1]],nu[m])
-  lL_cawN[m,1] = mvnfast::dmvn(data[nn+1,], rep(0,dm), Vpred[[1]], log=TRUE)
-  
+  # for(t in 2:(K+nn)){
+  #   R[[t]] = B0+B1*Sig[[t-1]]+B2*R[[t-1]]
+  # }
+  # 
+  Vpred[[1]]=Vlast[[m]]
+  lL_caw[m,1] = mvnfast::dmvt(data[nn+1,], rep(0,dm), (mtdf-1)/(mtdf+1)*Vpred[[1]], df = mtdf+1, log=TRUE)
   
   for(t0 in 2:K){
-    Vpred[[t0]] = B0+B1*Vpred[[t0-1]]+B2*Sig[[nn+t0-1]]
-#    lL_caw[m,t0] = llNW(data[nn+t0,],Vpred[[t0]],nu[m])
-    lL_cawN[m,t0] = mvnfast::dmvn(data[nn+t0,], rep(0,dm), Vpred[[t0]], log=TRUE)
+    Vpred[[t0]] = B0+B1*Sig[[nn+t0-1]]+B2*Vpred[[t0-1]]
+    lL_caw[m,t0] = mvnfast::dmvt(data[nn+t0,], rep(0,dm), (mtdf-1)/(mtdf+1)*Vpred[[t0]], df = mtdf+1, log=TRUE)
   }
-  
 }
+
+# should be the same!
+# R[[nn+1]][1:3,1:3]
+res$Vpred[ind][[post.sample]][1:3,1:3]
+Vpred[[1]][1:3,1:3]
 
 sum(lL_static)
 sum(lL_rmf)
 sum(apply(lL_dcc,2,median))
 sum(apply(lL_tdcc,2,median))
+sum(apply(lL_hm,2,median))
 sum(apply(lL_xm1,2,median))
-sum(apply(lL_cawN,2,median))
+sum(apply(lL_caw,2,median))
 
 # at the median of estimated parameters
 
@@ -416,22 +420,30 @@ B2  = Outer(apply(b2,2,median),apply(b2,2,median))
 B0  = (Oiota-B1-B2)*Sbar
 R.caw = array(NA,c(dm, dm, nn+K))
 tmp.caw  = rep(NA,nn+K)
+mtdf = median(nu)-dm
 R.caw[,,1] = Sbar
 
 for(t in 2:(nn+K)){
-  R.caw[,,t]   <- B0+B1*R.caw[,,t-1]+B2*Sig[[t-1]]
-  tmp.caw[t] = mvnfast::dmvn(data[t,], rep(0,dm), R.caw[,,t], log=TRUE)
+  R.caw[,,t]   <- B0+B1*Sig[[t-1]]+B2*R.caw[,,t-1]
+  tmp.caw[t] = mvnfast::dmvt(data[t,], rep(0,dm), (mtdf-1)/(mtdf+1)*R.caw[,,t], df = mtdf+1, log=TRUE)
 }
 
 sum(tail(tmp.caw,K))
+sum(apply(lL_caw,2,median))
 
 roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
                        align = "right",fill=NA)
-plot(RCor[p1,p2,],col=3,type='l',ylim=c(-1,1))
-lines(roll_corr,lwd=3)
-lines(R.caw[p1,p2,],col=2)
-lines(R.xm[p1,p2,],col=4)
+plot(tail(RCor[p1,p2,],K),col='gray80',type='l',ylim=c(-1,1))
+lines(tail(roll_corr,K),lwd=3)
+lines(tail(R.dcct[p1,p2,],K),col=2,lwd=2)
+lines(tail(R.xm[p1,p2,],K),col=4,lwd=2)
+lines(tail(R.hm[p1,p2,],K),col=3,lwd=2)
+lines(tail(R.caw[p1,p2,],K),col=6,lwd=2)
+
+
+
+
 
 p1=4
 p2=6
@@ -459,11 +471,15 @@ lines(tail(date,K),tail(R.dcct[p1,p2,],K),col=6,lwd=2)
 #### COMPARE
 
 dcct = cumsum(apply(lL_tdcc,2,mean))
+caw  = cumsum(apply(lL_caw,2,mean))
 xm   = cumsum(apply(lL_xm1,2,mean))
 
-plot(tail(date,K),xm-dcct,type='l')
+plot(tail(date,K),caw-dcct,type='l')
+lines(tail(date,K),xm-dcct,col=2)
 
-mean((lL_xm1-lL_tdcc)<0)
+plot(tail(date,K),caw-xm,type='l')
+
+mean((lL_caw-lL_tdcc)<0)
 
 ####
 
@@ -560,7 +576,7 @@ ws_jore25 = lL_jore25 = matrix(NA,ncol=K,nrow=post.sample)
 lL_equal  = lL_DN = matrix(NA,ncol=K,nrow=post.sample)
 
 library(DMFP)
-resDN= PMCMC_delNegro(lL_xm1,lL_tdcc,1000,c(0,2),10000,propsd = 0.5)
+resDN= PMCMC_delNegro(lL_caw,lL_tdcc,1000,c(0,2),1000,propsd = 0.5)
 
 ws_DN = t(pnorm(resDN$weights_xs))
 
@@ -577,49 +593,50 @@ c(quantile(resDN$beta,0.025),median(resDN$beta),quantile(resDN$beta,0.975))
 median(bp)
 pacf(bp)
 
-
+lhf = exp(lL_caw)
+llf = exp(lL_tdcc)
 
 for(m in 1:post.sample){
   for (t in 1:K){
     # weights geweke
-    a1p = lL_xm1[m,1:t]
-    a2p = lL_tdcc[m,1:t]
+    a1p = lhf[m,1:t]
+    a2p = llf[m,1:t]
     opw = function(x){
       -sum(log(x*a1p+(1-x)*a2p))
     }
     ws_gew[m,t] = optim(0.5, opw, gr = NULL,
                       method = c("L-BFGS-B"),
                       lower = 0, upper = 1, hessian = FALSE)$par
-    lL_gew[m,t] = log(ws_gew[m,t]*lL_xm1[m,t]+(1-ws_gew[m,t])*lL_tdcc[m,t])
+    lL_gew[m,t] = log(ws_gew[m,t]*lhf[m,t]+(1-ws_gew[m,t])*llf[m,t])
     
     # DN
     
-    lL_DN[m,t] = log(ws_DN[m,t]*lL_xm1[m,t]+(1-ws_DN[m,t])*lL_tdcc[m,t])
+    lL_DN[m,t] = log(ws_DN[m,t]*lhf[m,t]+(1-ws_DN[m,t])*llf[m,t])
     
     # jore 1 past
     ws_jore1[m,t] = a1p[t]/(a1p[t]+a2p[t])
-    lL_jore1[m,t] = log(ws_jore1[m,t]*lL_xm1[m,t]+(1-ws_jore1[m,t])*lL_tdcc[m,t])
+    lL_jore1[m,t] = log(ws_jore1[m,t]*lhf[m,t]+(1-ws_jore1[m,t])*lL_tdcc[m,t])
     
     # jore 5 past
     pst = 5
     ws_jore5[m,t] = exp(sum(log(a1p[max(t-pst+1,1):t])))/
       (exp(sum(log(a1p[max(t-pst+1,1):t])))+exp(sum(log(a2p[max(t-pst+1,1):t]))))
-    lL_jore5[m,t] = log(ws_jore5[m,t]*lL_xm1[m,t]+(1-ws_jore5[m,t])*lL_tdcc[m,t])
+    lL_jore5[m,t] = log(ws_jore5[m,t]*lhf[m,t]+(1-ws_jore5[m,t])*llf[m,t])
     
     # jore 10 past
     pst = 10
     ws_jore10[m,t] = exp(sum(log(a1p[max(t-pst+1,1):t])))/
       (exp(sum(log(a1p[max(t-pst+1,1):t])))+exp(sum(log(a2p[max(t-pst+1,1):t]))))
-    lL_jore10[m,t] = log(ws_jore10[m,t]*lL_xm1[m,t]+(1-ws_jore10[m,t])*lL_tdcc[m,t])
+    lL_jore10[m,t] = log(ws_jore10[m,t]*lhf[m,t]+(1-ws_jore10[m,t])*llf[m,t])
     
     # jore 25 past
     pst = 25
     ws_jore25[m,t] = exp(sum(log(a1p[max(t-pst+1,1):t])))/
       (exp(sum(log(a1p[max(t-pst+1,1):t])))+exp(sum(log(a2p[max(t-pst+1,1):t]))))
-    lL_jore25[m,t] = log(ws_jore25[m,t]*lL_xm1[m,t]+(1-ws_jore25[m,t])*lL_tdcc[m,t])
+    lL_jore25[m,t] = log(ws_jore25[m,t]*lhf[m,t]+(1-ws_jore25[m,t])*llf[m,t])
     
     # equally-weighted
-    lL_equal[m,t] = log(0.5*lL_xm1[m,t]+0.5*lL_tdcc[m,t])
+    lL_equal[m,t] = log(0.5*lhf[m,t]+0.5*llf[m,t])
   }
 }
 

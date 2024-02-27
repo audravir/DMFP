@@ -1,7 +1,7 @@
 #' @export
-PMCMC_delNegro = function(first_lik,second_lik,Npart,prior,M,propsd){
-  y1 = apply(first_lik,2,median)
-  y2 = apply(second_lik,2,median)
+PMCMC_delNegro = function(first_llik,second_llik,Npart,prior,M,propsd){
+  y1 = apply(exp(first_llik),2,median)
+  y2 = apply(exp(second_llik),2,median)
   K = length(y1)
   priorm = prior[1]
   priorsd = prior[2]
