@@ -168,5 +168,5 @@ res = list(Rpred[ind],r[ind,],
            accdcc[(bi+1):(bi+M)][ind],LLH[(bi+1):(bi+M)][ind])
 names(res) = c('Rpred','r','accdcc','LLH')
 
-save(res,file='empirical/temp/results_heavy_normal.Rdata')
+save(res,file='empirical/temp/results_heavy_t.Rdata')
 
