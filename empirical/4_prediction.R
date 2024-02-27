@@ -20,8 +20,8 @@ Sig   = Sigma
 K     = nn.all-end.date
 c(nn,K,nn+K)
 post.sample = 100
-p1 = 1
-p2 = 2
+p1 = 5
+p2 = 6
 
 ##------
 ## Static
@@ -302,7 +302,7 @@ iota   = rep(1,dm)
 load('empirical/temp/results_xm.Rdata')
 M   = dim(res$r)[1]
 ind = round(seq(1,M,length=post.sample)) #thin every xth
-lL_xm1 = matrix(NA,ncol=K,nrow=post.sample)
+lL_xm = matrix(NA,ncol=K,nrow=post.sample)
 
 lag = res$r[ind,1]
 nu  = res$r[ind,2]
@@ -318,7 +318,7 @@ for(m in 1:post.sample){
   for(t0 in 1:K){
     Vpred[[t0]] = B0+B1*Sig[[nn+t0-1]]+B2*(Reduce('+',Sig[(nn+t0-lag[m]):(nn+t0-1)])/lag[m])
     mtdf = nu[m]-dm
-    lL_xm1[m,t0] = mvnfast::dmvt(data[nn+t0,], rep(0,dm), (mtdf-1)/(mtdf+1)*Vpred[[t0]], df = mtdf+1, log=TRUE)
+    lL_xm[m,t0] = mvnfast::dmvt(data[nn+t0,], rep(0,dm), (mtdf-1)/(mtdf+1)*Vpred[[t0]], df = mtdf+1, log=TRUE)
   }
 }
 
@@ -331,7 +331,7 @@ sum(lL_rmf)
 sum(apply(lL_dcc,2,median))
 sum(apply(lL_tdcc,2,median))
 sum(apply(lL_hm,2,median))
-sum(apply(lL_xm1,2,median))
+sum(apply(lL_xm,2,median))
 
 # at the median of estimated parameters
 
@@ -350,7 +350,7 @@ for(t in 2:(nn+K)){
 }
 
 sum(tail(tmp.xm,K))
-sum(apply(lL_xm1,2,median))
+sum(apply(lL_xm,2,median))
 
 roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
@@ -390,7 +390,7 @@ for(m in 1:post.sample){
   # for(t in 2:(K+nn)){
   #   R[[t]] = B0+B1*Sig[[t-1]]+B2*R[[t-1]]
   # }
-  # 
+
   Vpred[[1]]=Vlast[[m]]
   lL_caw[m,1] = mvnfast::dmvt(data[nn+1,], rep(0,dm), (mtdf-1)/(mtdf+1)*Vpred[[1]], df = mtdf+1, log=TRUE)
   
@@ -410,7 +410,7 @@ sum(lL_rmf)
 sum(apply(lL_dcc,2,median))
 sum(apply(lL_tdcc,2,median))
 sum(apply(lL_hm,2,median))
-sum(apply(lL_xm1,2,median))
+sum(apply(lL_xm,2,median))
 sum(apply(lL_caw,2,median))
 
 # at the median of estimated parameters
@@ -444,11 +444,6 @@ lines(tail(R.caw[p1,p2,],K),col=6,lwd=2)
 
 
 
-
-p1=4
-p2=6
-
-
 ALLRC = matrix(NA,nrow=50,ncol=nn+K)
 for(j in 1:50){
   ALLRC[j,] = rollapply(data = cbind(data[,p1], data[,p2]), width = 25+j*2,
@@ -468,21 +463,7 @@ lines(tail(date,K),tail(R.caw[p1,p2,],K),col='pink',lwd=2)
 lines(tail(date,K),tail(R.xm[p1,p2,],K),col=4)
 lines(tail(date,K),tail(R.dcct[p1,p2,],K),col=6,lwd=2)
 
-#### COMPARE
-
-dcct = cumsum(apply(lL_tdcc,2,mean))
-caw  = cumsum(apply(lL_caw,2,mean))
-xm   = cumsum(apply(lL_xm1,2,mean))
-
-plot(tail(date,K),caw-dcct,type='l')
-lines(tail(date,K),xm-dcct,col=2)
-
-plot(tail(date,K),caw-xm,type='l')
-
-mean((lL_caw-lL_tdcc)<0)
-
 ####
-
 
 standvol = matrix(NA,ncol=dm,nrow = K)
 
@@ -513,13 +494,13 @@ plot(tail(date,K),cumsum(apply(lL_tdcc,2,median))-
 ## All models separately
 ##------
 
-pdf('tables_and_figures/all_bfs_EX.pdf',height=4,width=10)
+# pdf('tables_and_figures/all_bfs_EX.pdf',height=4,width=10)
 par(mfrow=c(1,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='', xaxt="n")
 
 par(new = TRUE)
-plot(tail(date,K),cumsum(apply((lL_xm1[,]),2,median))-
+plot(tail(date,K),cumsum(apply((lL_xm[,]),2,median))-
        cumsum((lL_static[,])), xaxt="n",
      type='l',ylim=c(-5,2500),lty=2,ylab='',xlab='',lwd=2)
 abline(h=0)
@@ -534,14 +515,14 @@ legend(x=date[nn]-5,y=2500,col=c(1,1,1,'gray40','gray90'),
        legend=c('DCC','DCC-t','AIW','DCC-HEAVY-t','avrg.stand.RV'))
 atx <- seq(date[(nn+1)], date[(nn+K)], by=30)
 axis(1, at=atx, labels=format(atx, "%Y/%m"))
-dev.off()
+# dev.off()
 
 lpbf = c(sum(log(lL_static[,])),
          sum(log(lL_rmf[,])),
          sum(apply(log(lL_rme[,]),2,median)),
          sum(apply(log(lL_dcc[,]),2,median)),
          sum(apply(log(lL_tdcc[,]),2,median)),
-         sum(apply(log(lL_xm1[,]),2,median)),
+         sum(apply(log(lL_xm[,]),2,median)),
          sum(apply(log(lL_tdcch),2,median)))
 names(lpbf) = c('Static','RMf','RMe','DCC','DCC-t','AIW','DCC-HEAVY-t')
 lpbfdf = as.data.frame(t(lpbf))
@@ -615,7 +596,7 @@ for(m in 1:post.sample){
     
     # jore 1 past
     ws_jore1[m,t] = a1p[t]/(a1p[t]+a2p[t])
-    lL_jore1[m,t] = log(ws_jore1[m,t]*lhf[m,t]+(1-ws_jore1[m,t])*lL_tdcc[m,t])
+    lL_jore1[m,t] = log(ws_jore1[m,t]*lhf[m,t]+(1-ws_jore1[m,t])*llf[m,t])
     
     # jore 5 past
     pst = 5
@@ -645,10 +626,13 @@ par(mfrow=c(2,1))
 plot(apply(ws_jore1,2,median),col=2,type='l',lwd=2)
 lines(apply(ws_DN,2,median),lwd=2)
 
-plot(cumsum(apply(lL_jore1,2,median))-cumsum(apply(log(lL_xm1),2,median)),
-     col=2,type='l',lwd=2)
-lines(cumsum(apply(lL_DN,2,median))-cumsum(apply(log(lL_xm1),2,median)),
+plot(cumsum(apply(lL_jore1,2,median))-cumsum(apply(lL_caw,2,median)),
+     col=2,type='l',lwd=2,ylim=c(-100,400))
+lines(cumsum(apply(lL_DN,2,median))-cumsum(apply(lL_caw,2,median)),
       lwd=2)
+lines(cumsum(apply(lL_jore1,2,median))-cumsum(apply(lL_hm,2,median)),
+      lwd=2,col=4)
+abline(h=0)
 
 
 
@@ -677,9 +661,9 @@ plot(tail(date,K),mkvol,type='l',axes = FALSE,
      xlim=c(date[(nn+1)]-60,date[(nn+K)]))
 par(new = TRUE)
 
-best.model = lL_xm1
+best.model = lL_xm
 
-plot(tail(date,K),cumsum(apply(log(lL_xm1[,]),2,median))-
+plot(tail(date,K),cumsum(apply(log(lL_xm[,]),2,median))-
        cumsum(apply(log(best.model[,]),2,median)),
      type='l',ylim=c(-15,15),ylab='',xlab='',xaxt="n",
      xlim=c(date[(nn+1)]-60,date[(nn+K)]))
@@ -772,7 +756,7 @@ for(m in 1:length(ind)){
     corrs[m,3,i] = cor(ws_jore5[m,],marketvols[,i])
     corrs[m,4,i] = cor(ws_jore10[m,],marketvols[,i])
     corrs[m,5,i] = cor(ws_DN[m,],marketvols[,i])
-    corrs[m,6,i] = cor((log(lL_xm1)-log(lL_tdcc))[m,],marketvols[,i])
+    corrs[m,6,i] = cor((log(lL_xm)-log(lL_tdcc))[m,],marketvols[,i])
   }
 }
 
