@@ -24,7 +24,7 @@ nn
 data  = stand[1:T0,]
 udata = udata[1:T0,]
 Sig   = Sigma[1:T0]
-M     = 5000
+M     = 50000
 
 
 
@@ -103,9 +103,15 @@ for(m in 1:(M+bi)){
    
    for(t in 2:TT){
      Rnew[,,t]   <- (1-pold[2])*Rbar-pold[1]*Pbar+pold[1]*Sig[[t-1]]+pold[2]*Rnew[,,t-1]
-     llnew[t] = mvnfast::dmvt(tdata[t,], rep(0,dm),Rnew[,,t],df=nunew,log=TRUE)-
-       sum(dt(tdata[t,],df=nunew,log = TRUE))
+     IPD[t] = prod(eigen(Rnew[,,t],symmetric = TRUE,only.values = TRUE)$values>0)==1 
    }
+   
+   if (all(IPD==TRUE)){
+     for(t in 2:TT){
+       llnew[t] = mvnfast::dmvt(tdata[t,], rep(0,dm),Rnew[,,t],df=nunew,log=TRUE)-
+         sum(dt(tdata[t,],df=nunew,log = TRUE))
+     }
+   } else {llnew = -Inf}
   
    if((sum(llnew)-sum(llold)+
        dexp(nunew,0.01,log=TRUE)-dexp(nuold,0.01,log=TRUE)+
