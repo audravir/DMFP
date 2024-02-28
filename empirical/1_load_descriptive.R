@@ -5,6 +5,8 @@ load('data/FXdata.Rdata')
 nn = dim(rets)[1]
 dm = dim(rets)[2]
 
+assets = assets[-c(10,15,16)]
+
 ##----------------------------------------
 ## descriptive stats for crude returns
 ##----------------------------------------
@@ -26,6 +28,7 @@ desc = cbind(apply(rets,2,mean),
              apply(rets^2,2,lbM,10))
 
 ncol(desc)
+nrow(desc)
 
 rownames(desc) = assets
 colnames(desc) = c('mean','median','sd','skew.','kurt.',
@@ -109,5 +112,27 @@ print(xtable(desc, type = "latex",digits = c(1,2,2,2,2,2,4,4,4,4,4),
       file = 'tables_and_figures/standrets_desc_FX.tex')
 
 round(desc,4)
+
+##----------------------------------------
+## descriptive plots for EUR/USD and EUR/GBP
+##----------------------------------------
+
+par(mfrow=c(2,4))
+plot(date,rets[,1],type='l',main='EUR/USD: rt and RVt',ylab = '',xlab = '',col='gray60')
+lines(date,sqrt(RCov[1,1,]))
+qqPlot(stand[,1],x="norm",main='EUR/USD: QQ-plot',ylab='',xlab='',pch=20,cex=1.2,plot.it=TRUE,confidence=.95)
+hist(stand[,1],main='EUR/USD: rt and N(0,1)',freq=FALSE,ylab='',xlab='',xlim=c(-4,4),ylim=c(0,0.5))
+lines(seq(-4,4,length=500),dnorm(seq(-4,4,length=500)), lwd=2)
+hist(pnorm(stand[,1]),main='EUR/USD: ut', ylab = '',xlab = '',freq=FALSE)
+abline(h=1,lwd=2)
+
+
+plot(date,rets[,2],type='l',main='EUR/GBP: rt and RVt',ylab = '',xlab = '',col='gray60')
+lines(date,sqrt(RCov[2,2,]))
+qqPlot(stand[,2],x="norm",main='EUR/GBP: QQ-plot',ylab='',xlab='',pch=20,cex=1.2,plot.it=TRUE,confidence=.95)
+hist(stand[,2],main='EUR/GBP: rt and N(0,1)',freq=FALSE,ylab='',xlab='',xlim=c(-4,4),ylim=c(0,0.5))
+lines(seq(-4,4,length=500),dnorm(seq(-4,4,length=500)), lwd=2)
+hist(pnorm(stand[,2]),main='EUR/GBP: ut', ylab = '',xlab = '',freq=FALSE)
+abline(h=1,lwd=2)
 
 
