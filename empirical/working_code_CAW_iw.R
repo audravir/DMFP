@@ -44,8 +44,8 @@ TIMING = rep(NA,M+bi)
 resc   = matrix(NA,nrow=M+bi,ncol=dm*2+1)
 Vpred  = vector(mode = "list", length = M)
 nu     = 25 
-b1     = rep(0.45,dm) 
-b2     = rep(0.75,dm) 
+b1     = rep(0.5,dm) 
+b2     = rep(0.82,dm) 
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
