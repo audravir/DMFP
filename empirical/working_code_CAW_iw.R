@@ -7,7 +7,7 @@ library(Rfast)
 library(profvis)
 library(future.apply)
 parallel::detectCores()
-plan(multisession, workers = 8)
+plan(multisession, workers = 4)
 
 nn       = length(date)
 end.date = which(zoo::as.yearmon(date)=="ene 2020")[1]-1
@@ -26,9 +26,9 @@ nn
 data = Sigma[1:T0]
 rm(Sigma)
 # function arguments
-M = 5000
+M = 50000
 
-propsdb  = 0.0005
+propsdb  = 0.0001
 propsdnu = 0.1
 
 t0   = Sys.time()
@@ -44,8 +44,8 @@ TIMING = rep(NA,M+bi)
 resc   = matrix(NA,nrow=M+bi,ncol=dm*2+1)
 Vpred  = vector(mode = "list", length = M)
 nu     = 25 
-b1     = rep(0.5,dm) 
-b2     = rep(0.8,dm) 
+b1     = rep(0.45,dm) 
+b2     = rep(0.75,dm) 
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
@@ -61,7 +61,7 @@ G1     = c(list(matrix(0,nrow=dm,ncol=dm)),Sig[-TT])
 V[[1]] = Vn[[1]] = Sbar
 
 for(t in 2:TT){
-  V[[t]]  = (B0+(b1%*%t(b1))*G1[[t]]+(b2%*%t(b2))*V[[t-1]])
+  V[[t]]  = (B0+B1*G1[[t]]+B2*V[[t-1]])
 }
 
 diwish.t = function(x,y){LaplacesDemon::dinvwishart(x, nu, (nu-dm-1)*y, log=TRUE)}
@@ -98,7 +98,7 @@ for(m in 1:(bi+M)){
   
   if(cond3){
     for(t in 2:TT){
-      Vn[[t]]  = (B0+B1*G1[[t]]+B2*Vn[[t-1]])
+      Vn[[t]]  = B0+B1*G1[[t]]+B2*Vn[[t-1]]
     }
     lln <- future_mapply(diwish.t,Sig,Vn)
   } else {lln=-Inf}
@@ -135,7 +135,7 @@ for(m in 1:(bi+M)){
   
   if(cond3){
     for(t in 2:TT){
-      Vn[[t]]  = (B0+B1*G1[[t]]+B2*Vn[[t-1]])
+      Vn[[t]]  = B0+B1*G1[[t]]+B2*Vn[[t-1]]
     }
     lln <- future_mapply(diwish.t,Sig,Vn)
   } else {lln=-Inf}
