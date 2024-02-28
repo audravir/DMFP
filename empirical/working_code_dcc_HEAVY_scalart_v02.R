@@ -29,7 +29,7 @@ M     = 5000
 
 
 propsd   = 0.002
-propsdnu = 0.1
+propsdnu = 0.5
 
 t0   = Sys.time()
 t1   = Sys.time()
@@ -96,7 +96,7 @@ for(m in 1:(M+bi)){
   }
   
   ## nu
-   nunew = truncnorm::rtruncnorm(1,dm,b = Inf,mean = nuold,sd = propsdnu)
+   nunew = truncnorm::rtruncnorm(1,5,b = Inf,mean = nuold,sd = propsdnu)
    tdata <- qt(udata,nunew)
    Rbar  <- cor(tdata)
    llnew = rep(0,TT)
@@ -109,8 +109,8 @@ for(m in 1:(M+bi)){
   
    if((sum(llnew)-sum(llold)+
        dexp(nunew,0.01,log=TRUE)-dexp(nuold,0.01,log=TRUE)+
-       log(truncnorm::dtruncnorm(nunew,dm,Inf,mean = nuold,sd = propsdnu))-
-       log(truncnorm::dtruncnorm(nuold,dm,Inf,mean = nunew,sd = propsdnu)))>log(runif(1)))
+       log(truncnorm::dtruncnorm(nunew,5,Inf,mean = nuold,sd = propsdnu))-
+       log(truncnorm::dtruncnorm(nuold,5,Inf,mean = nunew,sd = propsdnu)))>log(runif(1)))
    {
      llold  = llnew
      nuold  = nunew
