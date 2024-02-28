@@ -22,6 +22,84 @@ post.sample = 100
 p1 = 1
 p2 = 2
 
+
+#-----------------------
+# dcc-HEAVY-scalar Normal Copula
+#-----------------------
+
+load('empirical/temp/results_heavy_normal.Rdata')
+M     = dim(res$r)[1]
+ind   = round(seq(1,M,length=post.sample)) #thin every xth
+lL_hn = matrix(NA,ncol=K,nrow=post.sample)
+
+a = res$r[ind,1]
+b = res$r[ind,2]
+
+Rpred = res$Rpred[ind]
+Pbar  = Reduce('+',Sig[1:nn])/nn
+Rbar  = cor(data[1:nn,])
+R     = array(NA,c(dm, dm, nn+K))
+R[,,1] = Rbar
+
+for(m in 1:post.sample){
+  for(t in 2:(nn+K)){
+    R[,,t] = (1-b[m])*Rbar-a[m]*Pbar+a[m]*Sig[[t-1]]+b[m]*R[,,t-1]
+      if(t>nn){
+        lL_hn[m,(t-nn)]= mvnfast::dmvn(data[t,], rep(0,dm),R[,,t],log=TRUE)
+    }
+  }
+}
+
+# should be the same
+Rpred[[post.sample]][1:5]
+R[,,nn+1][1:5]
+
+sum(apply(lL_hn,2,median))
+
+
+#-----------------------
+# dcc-HEAVY-scalar t Copula
+#-----------------------
+
+load('empirical/temp/results_heavy_t.Rdata')
+M     = dim(res$r)[1]
+ind   = round(seq(1,M,length=post.sample)) #thin every xth
+lL_ht = matrix(NA,ncol=K,nrow=post.sample)
+
+nu = res$r[ind,1]
+a  = res$r[ind,2]
+b  = res$r[ind,3]
+
+Rpred = res$Rpred[ind]
+Pbar  = Reduce('+',Sig[1:nn])/nn
+R     = array(NA,c(dm, dm, nn+K))
+INL.N = dnorm(data,log=TRUE)
+
+for(m in 1:post.sample){
+  
+  tdata  = qt(udata,nu[m])
+  Rbar   = cor(tdata[1:nn,])
+  R[,,1] = Rbar
+  INL.T  = dt(tdata,df=nu[m],log=TRUE)
+  
+  for(t in 2:(nn+K)){
+    R[,,t] = (1-b[m])*Rbar-a[m]*Pbar+a[m]*Sig[[t-1]]+b[m]*R[,,t-1]
+    if(t>nn){
+      lL_ht[m,(t-nn)]= mvnfast::dmvt(tdata[t,], rep(0,dm),R[,,t],nu[m],log=TRUE)+sum(INL.N[t,])-sum(INL.T[t,])
+    }
+  }
+}
+
+# should be the same
+Rpred[[post.sample]][1:5]
+R[,,nn+1][1:5]
+
+sum(apply(lL_hn,2,median))
+sum(apply(lL_ht,2,median))
+
+
+
+
 #-----------------------
 # dcc-HEAVY-scalar (joint) t Copula
 #-----------------------

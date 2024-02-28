@@ -214,74 +214,69 @@ lines(R.rmf[p1,p2,],type='l',ylim=c(0,1))
 lines(R.dcc[p1,p2,],col=2)
 lines(R.dcct[p1,p2,],col=4)
 
-##-----------------------
-## Matrix-HEAVY t Copula
-##-----------------------
+#-----------------------
+# dcc-HEAVY-scalar t Copula
+#-----------------------
 
-load("empirical/temp/results_heavy_true.Rdata")
-
-M   = dim(res$r)[1]
-ind = round(seq(1,M,length=post.sample)) #thin every xth
-lL_hm = matrix(NA,ncol=K,nrow=post.sample)
+load('empirical/temp/results_heavy_t.Rdata')
+M     = dim(res$r)[1]
+ind   = round(seq(1,M,length=post.sample)) #thin every xth
+lL_ht = matrix(NA,ncol=K,nrow=post.sample)
 
 nu = res$r[ind,1]
-a  = res$r[ind,2:(dm+1)]
-b  = res$r[ind,(dm+2):(dm*2+1)]
+a  = res$r[ind,2]
+b  = res$r[ind,3]
+
 Rpred = res$Rpred[ind]
 Pbar  = Reduce('+',Sig[1:nn])/nn
-iota  = rep(1,dm)
-Oiota = Outer(iota,iota)
+R     = array(NA,c(dm, dm, nn+K))
+INL.N = dnorm(data,log=TRUE)
 
 for(m in 1:post.sample){
-  Vpred = vector(mode = "list", length = K)
-  tdata  <- qt(udata,nu[m])
-  Rbar   <- cor(tdata[1:nn,])
-  A      = Outer(a[m,],a[m,])
-  B      = Outer(b[m,],b[m,])
-  Rtilde = (Oiota-B)*Rbar-A*Pbar
   
-  Vpred[[1]] = Rpred[[m]]
-  lL_hm[m,1] = mvnfast::dmvt(tdata[nn+1,], rep(0,dm), Vpred[[1]], df = nu[m], log=TRUE)-
-    sum(dt(tdata[nn+1,],df=nu[m],log=TRUE))+sum(dnorm(data[nn+1,],log=TRUE))
+  tdata  = qt(udata,nu[m])
+  Rbar   = cor(tdata[1:nn,])
+  R[,,1] = Rbar
+  INL.T  = dt(tdata,df=nu[m],log=TRUE)
   
-  for(t0 in 2:K){
-    Vpred[[t0]] = Rtilde+A*Sig[[nn+t0-1]]+B*Vpred[[t0-1]]
-    lL_hm[m,t0] = mvnfast::dmvt(tdata[nn+t0,], rep(0,dm), Vpred[[t0]], df = nu[m], log=TRUE)-
-      sum(dt(tdata[nn+t0,],df=nu[m],log=TRUE))+sum(dnorm(data[nn+t0,],log=TRUE))
+  for(t in 2:(nn+K)){
+    R[,,t] = (1-b[m])*Rbar-a[m]*Pbar+a[m]*Sig[[t-1]]+b[m]*R[,,t-1]
+    if(t>nn){
+      lL_ht[m,(t-nn)]= mvnfast::dmvt(tdata[t,], rep(0,dm),R[,,t],nu[m],log=TRUE)+sum(INL.N[t,])-sum(INL.T[t,])
+    }
   }
 }
 
-#check if the same
-res$Rpred[ind][[post.sample]][1:3,1:3]
-Vpred[[1]][1:3,1:3]
-
+# should be the same
+Rpred[[post.sample]][1:5]
+R[,,nn+1][1:5]
 
 sum(lL_static)
 sum(lL_rmf)
 sum(apply(lL_dcc,2,median))
 sum(apply(lL_tdcc,2,median))
-sum(apply(lL_hm,2,median))
+sum(apply(lL_ht,2,median))
 
 # at the median of estimated parameters
 
-A  = Outer(apply(a,2,median),apply(a,2,median))
-B  = Outer(apply(b,2,median),apply(b,2,median))
+a  = median(a)
+b  = median(b)
 nu = median(nu)
 tdata  <- qt(udata,nu)
 Rbar   <- cor(tdata[1:nn,])
-Rtilde = (Oiota-B)*Rbar-A*Pbar
-R.hm = array(NA,c(dm, dm, nn+K))
-R.hm[,,1] <- Rbar
-tmp.hm  = rep(NA,nn+K)
+
+R.ht = array(NA,c(dm, dm, nn+K))
+R.ht[,,1] <- Rbar
+tmp.ht = rep(NA,nn+K)
 INL   <- dt(tdata,df=nu,log=TRUE)
 
 for(t in 2:(nn+K)){
-  R.hm[,,t] = Rtilde+A*Sig[[t-1]]+B*R.hm[,,t-1]
-  tmp.hm[t]= mvnfast::dmvt(tdata[t,], rep(0,dm),R.hm[,,t], nu, log=TRUE)+sum(INL.N[t,])-sum(INL[t,])
+  R.ht[,,t] = (1-b)*Rbar-a*Pbar+a*Sig[[t-1]]+b*R.ht[,,t-1]
+  tmp.ht[t]= mvnfast::dmvt(tdata[t,], rep(0,dm),R.ht[,,t], nu, log=TRUE)+sum(INL.N[t,])-sum(INL[t,])
 }
 
-sum(tail(tmp.hm,K))
-sum(apply(lL_hm,2,median))
+sum(tail(tmp.ht,K))
+sum(apply(lL_ht,2,median))
 
 roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
@@ -290,7 +285,7 @@ plot(roll_corr,type='l',ylim=c(-1,1))
 lines(R.rmf[p1,p2,],type='l',ylim=c(0,1))
 lines(R.dcc[p1,p2,],col=2)
 lines(R.dcct[p1,p2,],col=4)
-lines(R.hm[p1,p2,],col=3)
+lines(R.ht[p1,p2,],col=3)
 
 ##------
 ## XM
@@ -330,7 +325,7 @@ sum(lL_static)
 sum(lL_rmf)
 sum(apply(lL_dcc,2,median))
 sum(apply(lL_tdcc,2,median))
-sum(apply(lL_hm,2,median))
+sum(apply(lL_ht,2,median))
 sum(apply(lL_xm,2,median))
 
 # at the median of estimated parameters
@@ -359,7 +354,7 @@ plot(tail(RCor[p1,p2,],K),col='gray80',type='l',ylim=c(-1,1))
 lines(tail(roll_corr,K),lwd=3)
 lines(tail(R.dcct[p1,p2,],K),col=2,lwd=2)
 lines(tail(R.xm[p1,p2,],K),col=4,lwd=2)
-lines(tail(R.hm[p1,p2,],K),col=3,lwd=2)
+lines(tail(R.ht[p1,p2,],K),col=3,lwd=2)
 
 ##------
 ## CAW-iw
@@ -409,7 +404,7 @@ sum(lL_static)
 sum(lL_rmf)
 sum(apply(lL_dcc,2,median))
 sum(apply(lL_tdcc,2,median))
-sum(apply(lL_hm,2,median))
+sum(apply(lL_ht,2,median))
 sum(apply(lL_xm,2,median))
 sum(apply(lL_caw,2,median))
 
@@ -438,7 +433,7 @@ plot(tail(RCor[p1,p2,],K),col='gray80',type='l',ylim=c(-1,1))
 lines(tail(roll_corr,K),lwd=3)
 lines(tail(R.dcct[p1,p2,],K),col=2,lwd=2)
 lines(tail(R.xm[p1,p2,],K),col=4,lwd=2)
-lines(tail(R.hm[p1,p2,],K),col=3,lwd=2)
+lines(tail(R.ht[p1,p2,],K),col=3,lwd=2)
 lines(tail(R.caw[p1,p2,],K),col=6,lwd=2)
 
 
@@ -557,7 +552,7 @@ ws_jore25 = lL_jore25 = matrix(NA,ncol=K,nrow=post.sample)
 lL_equal  = lL_DN = matrix(NA,ncol=K,nrow=post.sample)
 
 library(DMFP)
-resDN= PMCMC_delNegro(lL_caw,lL_tdcc,1000,c(0,2),1000,propsd = 0.5)
+resDN= PMCMC_delNegro(lL_caw,lL_tdcc,100,c(0,2),1000,propsd = 0.5)
 
 ws_DN = t(pnorm(resDN$weights_xs))
 
@@ -575,7 +570,7 @@ median(bp)
 pacf(bp)
 
 lhf = exp(lL_caw)
-llf = exp(lL_tdcc)
+llf = exp(lL_xm)
 
 for(m in 1:post.sample){
   for (t in 1:K){
@@ -626,11 +621,12 @@ par(mfrow=c(2,1))
 plot(apply(ws_jore1,2,median),col=2,type='l',lwd=2)
 lines(apply(ws_DN,2,median),lwd=2)
 
-plot(cumsum(apply(lL_jore1,2,median))-cumsum(apply(lL_caw,2,median)),
-     col=2,type='l',lwd=2,ylim=c(-100,400))
-lines(cumsum(apply(lL_DN,2,median))-cumsum(apply(lL_caw,2,median)),
-      lwd=2)
-lines(cumsum(apply(lL_jore1,2,median))-cumsum(apply(lL_hm,2,median)),
+par(mfrow=c(1,1))
+plot(tail(date,K),cumsum(apply(lL_jore1,2,median))-cumsum(apply(lL_caw,2,median)),
+     col=2,type='l',lwd=2,ylim=c(-50,100))
+# lines(cumsum(apply(lL_DN,2,median))-cumsum(apply(lL_caw,2,median)),
+#       lwd=2)
+lines(tail(date,K),cumsum(apply(lL_ht,2,median))-cumsum(apply(lL_caw,2,median)),
       lwd=2,col=4)
 abline(h=0)
 
