@@ -41,7 +41,7 @@ udata = udata[1:TT,]
 Qold   = array(NA,c(dm, dm, TT))
 aold   <- rep(0.12,dm)
 bold   <- rep(0.99,dm)
-nuold  <- 20
+nuold  <- 10
 tdata  <- qt(udata,nuold)
 llold  <- rep(0,TT)
 LLH    <- rep(NA,M+bi)
@@ -197,7 +197,7 @@ for(m in 1:(M+bi)){
   ## nu
   ##-----
 
-  nunew  = truncnorm::rtruncnorm(1,a = dm+1,mean = nuold,sd = propsdnu)
+  nunew  = truncnorm::rtruncnorm(1,a = 5,mean = nuold,sd = propsdnu)
   
   tdata  = qt(udata,nunew)
   Sbar   = cova(tdata)
@@ -221,9 +221,9 @@ for(m in 1:(M+bi)){
   }
   
   if((sum(llnew)-sum(llold)+
-      dexp(nunew,0.1,log=TRUE)-dexp(nuold,0.1,log=TRUE)+
-      log(truncnorm::dtruncnorm(nunew,a = dm+1,b=Inf,mean = nuold,sd = propsdnu))-
-      log(truncnorm::dtruncnorm(nuold,a = dm+1,b=Inf,mean = nunew,sd = propsdnu)))>log(runif(1)))
+      dexp(nunew,0.01,log=TRUE)-dexp(nuold,0.01,log=TRUE)+
+      log(truncnorm::dtruncnorm(nunew,a = 5,b=Inf,mean = nuold,sd = propsdnu))-
+      log(truncnorm::dtruncnorm(nuold,a = 5,b=Inf,mean = nunew,sd = propsdnu)))>log(runif(1)))
   {
     llold  = llnew
     nuold  = nunew
