@@ -101,8 +101,8 @@ for(m in 1:post.sample){
 }
 
 # should be the same!
-res$Vpred[ind][[post.sample]][1:3,1:3]
-R[1:3,1:3,nn+1]
+res$Vpred[ind][[post.sample]][1:5]
+R[,,nn+1][1:5]
 
 sum(lL_static)
 sum(lL_rmf)
@@ -168,8 +168,8 @@ for(m in 1:post.sample){
 }
 
 # should be the same!
-res$Vpred[ind][[post.sample]][1:3,1:3]
-R[1:3,1:3,nn+1]
+res$Vpred[ind][[post.sample]][1:5]
+R[,,nn+1][1:5]
 
 zoomin = c(1:100)
 
@@ -228,7 +228,7 @@ a  = res$r[ind,2]
 b  = res$r[ind,3]
 
 Rpred = res$Rpred[ind]
-Pbar  = Reduce('+',Sig[1:nn])/nn
+Pbar  = Reduce('+',Sigma[1:nn])/nn
 R     = array(NA,c(dm, dm, nn+K))
 INL.N = dnorm(data,log=TRUE)
 
@@ -240,7 +240,7 @@ for(m in 1:post.sample){
   INL.T  = dt(tdata,df=nu[m],log=TRUE)
   
   for(t in 2:(nn+K)){
-    R[,,t] = (1-b[m])*Rbar-a[m]*Pbar+a[m]*Sig[[t-1]]+b[m]*R[,,t-1]
+    R[,,t] = (1-b[m])*Rbar-a[m]*Pbar+a[m]*Sigma[[t-1]]+b[m]*R[,,t-1]
     if(t>nn){
       lL_ht[m,(t-nn)]= mvnfast::dmvt(tdata[t,], rep(0,dm),R[,,t],nu[m],log=TRUE)+sum(INL.N[t,])-sum(INL.T[t,])
     }
@@ -271,7 +271,7 @@ tmp.ht = rep(NA,nn+K)
 INL   <- dt(tdata,df=nu,log=TRUE)
 
 for(t in 2:(nn+K)){
-  R.ht[,,t] = (1-b)*Rbar-a*Pbar+a*Sig[[t-1]]+b*R.ht[,,t-1]
+  R.ht[,,t] = (1-b)*Rbar-a*Pbar+a*Sigma[[t-1]]+b*R.ht[,,t-1]
   tmp.ht[t]= mvnfast::dmvt(tdata[t,], rep(0,dm),R.ht[,,t], nu, log=TRUE)+sum(INL.N[t,])-sum(INL[t,])
 }
 
@@ -318,8 +318,8 @@ for(m in 1:post.sample){
 }
 
 # should be the same! ok
-res$Vpred[ind][[post.sample]][1:3,1:3]
-Vpred[[1]][1:3,1:3]
+res$Vpred[ind][[post.sample]][1:5]
+Vpred[[1]][1:5]
 
 sum(lL_static)
 sum(lL_rmf)
@@ -372,33 +372,26 @@ nu  = res$r[ind,1]
 b1  = res$r[ind,2:(dm+1)]
 b2  = res$r[ind,(dm+2):(2*dm+1)]
 Vlast = res$Vpred[ind]
-# R = vector(mode = "list", length = K+nn)
-# R[[1]] = Sbar
+R = vector(mode = "list", length = K+nn)
+R[[1]] = Sbar
 
 for(m in 1:post.sample){
-  Vpred = vector(mode = "list", length = K)
   B1  = Outer(b1[m,],b1[m,])
   B2  = Outer(b2[m,],b2[m,])
   B0  = (Oiota-B1-B2)*Sbar
   mtdf = nu[m]-dm
   
-  # for(t in 2:(K+nn)){
-  #   R[[t]] = B0+B1*Sig[[t-1]]+B2*R[[t-1]]
-  # }
-
-  Vpred[[1]]=Vlast[[m]]
-  lL_caw[m,1] = mvnfast::dmvt(data[nn+1,], rep(0,dm), (mtdf-1)/(mtdf+1)*Vpred[[1]], df = mtdf+1, log=TRUE)
-  
-  for(t0 in 2:K){
-    Vpred[[t0]] = B0+B1*Sig[[nn+t0-1]]+B2*Vpred[[t0-1]]
-    lL_caw[m,t0] = mvnfast::dmvt(data[nn+t0,], rep(0,dm), (mtdf-1)/(mtdf+1)*Vpred[[t0]], df = mtdf+1, log=TRUE)
+  for(t in 2:(K+nn)){
+    R[[t]] = B0+B1*Sig[[t-1]]+B2*R[[t-1]]
+    if(t>nn){
+      lL_caw[m,t-nn] = mvnfast::dmvt(data[t,], rep(0,dm), (mtdf-1)/(mtdf+1)*R[[t]], df = mtdf+1, log=TRUE)
+    }
   }
 }
 
 # should be the same!
-# R[[nn+1]][1:3,1:3]
-res$Vpred[ind][[post.sample]][1:3,1:3]
-Vpred[[1]][1:3,1:3]
+R[[nn+1]][1:5]
+res$Vpred[ind][[post.sample]][1:5]
 
 sum(lL_static)
 sum(lL_rmf)
@@ -436,7 +429,12 @@ lines(tail(R.xm[p1,p2,],K),col=4,lwd=2)
 lines(tail(R.ht[p1,p2,],K),col=3,lwd=2)
 lines(tail(R.caw[p1,p2,],K),col=6,lwd=2)
 
-
+##----------------------
+## save here
+##----------------------
+rm(res,Sig,R,Q)
+save.image("empirical/temp/individual_llh.RData")
+# load("empirical/temp/individual_llh.RData")
 
 
 ALLRC = matrix(NA,nrow=50,ncol=nn+K)
@@ -570,7 +568,7 @@ median(bp)
 pacf(bp)
 
 lhf = exp(lL_caw)
-llf = exp(lL_xm)
+llf = exp(lL_tdcc)
 
 for(m in 1:post.sample){
   for (t in 1:K){
@@ -618,14 +616,15 @@ for(m in 1:post.sample){
 
 
 par(mfrow=c(2,1))
-plot(apply(ws_jore1,2,median),col=2,type='l',lwd=2)
-lines(apply(ws_DN,2,median),lwd=2)
+plot(tail(date,K),apply(ws_jore1,2,median),col=2,type='l',lwd=2)
+lines(tail(date,K),apply(ws_DN,2,median),lwd=2)
+cor(apply(ws_jore1,2,median),apply(ws_DN,2,median))
 
 par(mfrow=c(1,1))
 plot(tail(date,K),cumsum(apply(lL_jore1,2,median))-cumsum(apply(lL_caw,2,median)),
-     col=2,type='l',lwd=2,ylim=c(-50,100))
-# lines(cumsum(apply(lL_DN,2,median))-cumsum(apply(lL_caw,2,median)),
-#       lwd=2)
+     col=2,type='l',lwd=2,ylim=c(-50,500))
+lines(tail(date,K),cumsum(apply(lL_DN,2,median))-cumsum(apply(lL_caw,2,median)),
+      lwd=2)
 lines(tail(date,K),cumsum(apply(lL_ht,2,median))-cumsum(apply(lL_caw,2,median)),
       lwd=2,col=4)
 abline(h=0)
@@ -633,7 +632,7 @@ abline(h=0)
 
 
 
-pdf('tables_and_figures/weights_EX.pdf',height=8,width=10)
+# pdf('tables_and_figures/weights_EX.pdf',height=8,width=10)
 par(mfrow=c(2,1), mar=c(3, 3, 1, 1) + 0.1)
 plot(date[(nn+1):(nn+K)],mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
@@ -686,9 +685,7 @@ legend(x=date[(nn+1)]-65,y=15,col=c(1,1,'gray40',1,'gray60',1,'gray60','gray40')
        lty=c(1,1,2,3,1,4,5,6),lwd=c(1,2,2,1,2,2,2,2),
        legend=c('DCC-t','Geweke','Jore1','Jore5',
                 'Jore10','DelNegro','Equal','DCC-HEAVY-t'))
-dev.off()
-
-save.image('temp/res_3_EX.Rdata')
+# dev.off()
 
 
 
@@ -742,23 +739,24 @@ for(t in 1:K){
 }
 
 marketvols = cbind(mkvol,avrg2,vix)
-cor(marketvols)
+cor(marketvols,use = "pairwise.complete.obs")
 corrs      = array(NA,dim=c(dim(ws_gew)[1],6,dim(marketvols)[2]))
 
 for(m in 1:length(ind)){
   for(i in 1:dim(marketvols)[2]){  
-    corrs[m,1,i] = cor(ws_gew[m,],marketvols[,i])
-    corrs[m,2,i] = cor(ws_jore1[m,],marketvols[,i])
-    corrs[m,3,i] = cor(ws_jore5[m,],marketvols[,i])
-    corrs[m,4,i] = cor(ws_jore10[m,],marketvols[,i])
-    corrs[m,5,i] = cor(ws_DN[m,],marketvols[,i])
-    corrs[m,6,i] = cor((log(lL_xm)-log(lL_tdcc))[m,],marketvols[,i])
+    corrs[m,1,i] = cor(ws_gew[m,],marketvols[,i],use = "pairwise.complete.obs")
+    corrs[m,2,i] = cor(ws_jore1[m,],marketvols[,i],use = "pairwise.complete.obs")
+    corrs[m,3,i] = cor(ws_jore5[m,],marketvols[,i],use = "pairwise.complete.obs")
+    corrs[m,4,i] = cor(ws_jore10[m,],marketvols[,i],use = "pairwise.complete.obs")
+    corrs[m,5,i] = cor(ws_DN[m,],marketvols[,i],use = "pairwise.complete.obs")
+    corrs[m,6,i] = cor((lL_caw-lL_tdcc)[m,],marketvols[,i],use = "pairwise.complete.obs")
   }
 }
 
 
 
 corrs_res = apply(corrs,c(2,3),median)
+corrs_res
 apply(corrs,c(2,3),quantile,0.025) 
 apply(corrs,c(2,3),quantile,0.975) 
 
