@@ -39,8 +39,8 @@ TIMING = rep(NA,M+bi)
 udata = udata[1:TT,]
 
 Qold   = array(NA,c(dm, dm, TT))
-aold   <- rep(0.12,dm)
-bold   <- rep(0.99,dm)
+aold   <- rep(0.14,dm)
+bold   <- rep(0.98,dm)
 nuold  <- 10
 tdata  <- qt(udata,nuold)
 llold  <- rep(0,TT)
