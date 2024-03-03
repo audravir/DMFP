@@ -26,7 +26,7 @@ nn
 data = Sigma[1:T0]
 rm(Sigma)
 # function arguments
-M = 50000
+M = 10000
 
 propsdb  = 0.0001
 propsdnu = 0.1
@@ -44,8 +44,8 @@ TIMING = rep(NA,M+bi)
 resc   = matrix(NA,nrow=M+bi,ncol=dm*2+1)
 Vpred  = vector(mode = "list", length = M)
 nu     = 25 
-b1     = rep(0.5,dm) 
-b2     = rep(0.82,dm) 
+b1     = rep(0.4,dm) 
+b2     = rep(0.90,dm) 
 Sbar   = Reduce('+',Sig)/TT
 iota   = rep(1,dm)
 Oiota  = Outer(iota,iota)
