@@ -9,8 +9,6 @@ library(car)
 library(MCS)
 library(rugarch)
 
-assets = assets[-c(10,15,16)]
-
 nn = dim(RVs)[1]
 dm = dim(RVs)[2]
 
@@ -243,16 +241,13 @@ names(RV_forc) = c('Date','1sa')
 save(RV_forc,file='empirical/temp/RV_forc.Rdata')
 
 date_ticks <- seq(from=min(tail(date,oos)), to=max(tail(date,oos)), by="month")
-date_labels <- format(dates, "%m %Y")
 
 pdf(file='tables_and_figures/har_rvs.pdf',width=20,height=8)
 par(mfrow=c(3,5), mar=c(5, 3, 3, 3))
 for(i in 1:dm) {
   plot(tail(date,oos),tail(RVs[,i],oos),type='l', xaxt='n',col='gray80',
        main=assets[i],lwd=4,ylab='',xlab='')
-  axis.Date(1, at=date_ticks,  las=2,cex.axis=1, format="%m/%Y") # Rotate labels if needed
-  
-  # lines(tail(date,oos),tail(RVs[,i],oos),col=4)
+  axis.Date(1, at=date_ticks,  las=2,cex.axis=1, format="%Y/%m") # Rotate labels if needed
   lines(tail(date,oos),RV_forc$`1sa`[,i],lwd=2)
 }
 dev.off()

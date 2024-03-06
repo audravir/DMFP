@@ -598,11 +598,11 @@ for(m in 1:post.sample){
     ws_jore1[m,t] = a1p[t]/(a1p[t]+a2p[t])
     lL_jore1[m,t] = log(ws_jore1[m,t]*lhf[m,t]+(1-ws_jore1[m,t])*llf[m,t])
     
-    # jore 5 past
-    pst = 5
-    ws_jore5[m,t] = exp(sum(log(a1p[max(t-pst+1,1):t])))/
-      (exp(sum(log(a1p[max(t-pst+1,1):t])))+exp(sum(log(a2p[max(t-pst+1,1):t]))))
-    lL_jore5[m,t] = log(ws_jore5[m,t]*lhf[m,t]+(1-ws_jore5[m,t])*llf[m,t])
+    # # jore 5 past
+    # pst = 5
+    # ws_jore5[m,t] = exp(sum(log(a1p[max(t-pst+1,1):t])))/
+    #   (exp(sum(log(a1p[max(t-pst+1,1):t])))+exp(sum(log(a2p[max(t-pst+1,1):t]))))
+    # lL_jore5[m,t] = log(ws_jore5[m,t]*lhf[m,t]+(1-ws_jore5[m,t])*llf[m,t])
     
     # jore 10 past
     pst = 10
@@ -610,11 +610,11 @@ for(m in 1:post.sample){
       (exp(sum(log(a1p[max(t-pst+1,1):t])))+exp(sum(log(a2p[max(t-pst+1,1):t]))))
     lL_jore10[m,t] = log(ws_jore10[m,t]*lhf[m,t]+(1-ws_jore10[m,t])*llf[m,t])
     
-    # jore 25 past
-    pst = 25
-    ws_jore25[m,t] = exp(sum(log(a1p[max(t-pst+1,1):t])))/
-      (exp(sum(log(a1p[max(t-pst+1,1):t])))+exp(sum(log(a2p[max(t-pst+1,1):t]))))
-    lL_jore25[m,t] = log(ws_jore25[m,t]*lhf[m,t]+(1-ws_jore25[m,t])*llf[m,t])
+    # # jore 25 past
+    # pst = 25
+    # ws_jore25[m,t] = exp(sum(log(a1p[max(t-pst+1,1):t])))/
+    #   (exp(sum(log(a1p[max(t-pst+1,1):t])))+exp(sum(log(a2p[max(t-pst+1,1):t]))))
+    # lL_jore25[m,t] = log(ws_jore25[m,t]*lhf[m,t]+(1-ws_jore25[m,t])*llf[m,t])
     
     # equally-weighted
     lL_equal[m,t] = log(0.5*lhf[m,t]+0.5*llf[m,t])
@@ -623,14 +623,13 @@ for(m in 1:post.sample){
 
 move.axis = 100
 
-#pdf('tables_and_figures/weights_FX.pdf',height=8,width=14)
+pdf('tables_and_figures/weights_FX.pdf',height=8,width=14)
 par(mfrow=c(2,1), mar=c(4, 3, 1, 1) + 0.1)
 plot(date[(nn+1):(nn+K)],mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',xlim=c(date[(nn+1)]-move.axis,date[(nn+K)]))
 par(new = TRUE)
 plot(date[(nn+1):(nn+K)],apply(ws_jore1,2,median),ylim=c(0,1),
      type='l',ylab='',xlab='',xaxt="n",lwd=3,xlim=c(date[(nn+1)]-move.axis,date[(nn+K)]),col='pink')
-# lines(date[(nn+1):(nn+K)],apply(ws_jore5,2,median),lty=3)
 lines(date[(nn+1):(nn+K)],apply(ws_jore10,2,median),col='pink4',lwd=2,lty=2)
 lines(date[(nn+1):(nn+K)],apply(ws_DN,2,median),lty=1,lwd=2,col='blue')
 lines(date[(nn+1):(nn+K)],apply(ws_gew,2,median),col=1,lwd=2,lty=1)
@@ -669,7 +668,7 @@ axis(1, at=atx, labels=format(atx, "%Y/%m"),las=2,cex.axis=0.75)
 legend(x=date[(nn+1)]-move.axis-35,y=500,col=c('coral3',1,'pink','pink4','blue','coral','violet'),
        lty=c(1,1,1,2,1,2,1),lwd=c(2,2,2,2,2,2,2),
        legend=c('DCC-t','Geweke','Jore1','Jore10','DelNegro','Equal','DCC-HEAVY-t'))
-#dev.off()
+dev.off()
 
 
 # -----------------------------
@@ -689,7 +688,7 @@ ind25 = which(apply(tail(udata,K)<cuts[which.min(abs(perc - 0.25))],1,all))
 ind10 = which(apply(tail(udata,K)<cuts[which.min(abs(perc - 0.10))],1,all))
 ind05 = which(apply(tail(udata,K)<cuts[which.min(abs(perc - 0.05))],1,all))
 
-#pdf('tables_and_figures/lpts_FX.pdf',height=8,width=12)
+pdf('tables_and_figures/lpts_FX.pdf',height=8,width=12)
 par(mfrow=c(2,2))
 plot(density(apply(lL_caw, 1,sum)/K),xlim=c(-4,-2.9),ylab='',xlab='',main='LPS',
      lwd=2,lty=1,col='royalblue')
@@ -734,7 +733,7 @@ lines(density(apply(lL_equal[,ind05], 1,sum)/K),lwd=2,col='coral',lty=2)
 legend(x=0.02,y=1500,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
        col=c('coral3','royalblue','violet','black','pink','coral'),
        legend=c('DCC-t','CAW','DCC-HEAVY-t','Geweke','Jore1','Equal'))
-#dev.off()
+dev.off()
 
 # -----------------------------
 # Correlation between weights and avrg volatility
