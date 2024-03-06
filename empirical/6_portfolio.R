@@ -2,11 +2,10 @@ rm(list=ls(all=TRUE))
 load('empirical/temp/res_FX.Rdata')
 load('data/FXdata.Rdata')
 library(xtable)
-library(fPortfolio)
 library(Rfast)
 library(mvnfast)
 library(profvis)
-library(parallel)
+
 
 load('empirical/temp/marginals.Rdata')
 load('empirical/temp/RV_forc.Rdata')
@@ -109,31 +108,14 @@ for(m in 1:post.sample){
     # for CAW model
     Rcaw[,,t] = B0+B1*Sigma[[t-1]]+B2*Rcaw[,,t-1]
     
-    
-    applyPt <- function(chunk) {
-      # Assuming you're applying pt() across rows or a specific dimension
-      # Adjust the pt() call parameters according to your needs
-      apply(chunk, 1, function(row) pt(row, df = mtdf+1))
-    }
-    
     if(t>nn){
       
       rmvt(MCMCsize,rep(0,dm),(mtdf-1)/(mtdf+1)*Rcaw[,,t],df=mtdf+1,A=A.tmp)
-      
-
-      # no_cores <- 4  # reserve one core for system processes
-      # # Prepare data for parallel processing
-      # # For simplicity, this example splits the matrix by rows. Adjust accordingly if necessary.
-      # splitData <- split(A.tmp, rep(1:ceiling(nrow(A.tmp)/no_cores), each=no_cores, length.out=nrow(A.tmp)))
-      # # Use mclapply to apply the function in parallel to each chunk
-      # results <- mclapply(splitData, applyPt, mc.cores = no_cores)
-      # # Combine the results back into a single matrix
-      # sample_uxm <- do.call(rbind, results)
-      
-      
       sample_uxm = pt(A.tmp,df = mtdf+1)
-      sample_udcct = pt(rmvt(MCMCsize,rep(0,dm),R[,,t],df=nu[m]),df = nu[m])
-      sample_udccth = pt(rmvt(MCMCsize,rep(0,dm),Rh[,,t],df=nuh[m]),df = nuh[m])
+      rmvt(MCMCsize,rep(0,dm),(mtdf-1)/(mtdf+1)*Rcaw[,,t],df=mtdf+1,A=B.tmp)
+      sample_udcct = pt(B.tmp,df = nu[m])
+      rmvt(MCMCsize,rep(0,dm),(mtdf-1)/(mtdf+1)*Rcaw[,,t],df=mtdf+1,A=C.tmp)
+      sample_udccth = pt(C.tmp,df = nuh[m])
 
       sample_standretxm = qnorm(sample_uxm)
       sample_standretdcct = qnorm(sample_udcct)
