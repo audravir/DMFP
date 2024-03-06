@@ -26,7 +26,7 @@ nn
 data = Sigma[1:T0]
 rm(Sigma)
 # function arguments
-M = 10000
+M = 50000
 
 propsdb  = 0.0001
 propsdnu = 0.1
@@ -43,7 +43,7 @@ bi     = min(M,50000)
 TIMING = rep(NA,M+bi)
 resc   = matrix(NA,nrow=M+bi,ncol=dm*2+1)
 Vpred  = vector(mode = "list", length = M)
-nu     = 25 
+nu     = 21 
 b1     = rep(0.4,dm) 
 b2     = rep(0.90,dm) 
 Sbar   = Reduce('+',Sig)/TT
@@ -200,8 +200,8 @@ mean(accB2[(bi+1):(bi+M)])
 
 par(mfrow=c(2,2))
 plot(TIMING,type='l')
-plot(LLH,type='l')
-plot(resc[,1],type='l')
+plot(tail(LLH,M),type='l')
+plot(tail(resc[,1],M),type='l')
 
 b1=resc[,2:(dm+1)]
 b2=resc[,(dm+2):(dm*2+1)]
