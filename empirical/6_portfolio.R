@@ -5,6 +5,12 @@ library(xtable)
 library(Rfast)
 library(mvnfast)
 library(profvis)
+library(doMC)
+library(foreach)
+
+
+registerDoMC(cores =1)
+cl <- makeCluster(1)
 
 
 load('empirical/temp/marginals.Rdata')
@@ -110,12 +116,20 @@ for(m in 1:post.sample){
     
     if(t>nn){
       
-      rmvt(MCMCsize,rep(0,dm),(mtdf-1)/(mtdf+1)*Rcaw[,,t],df=mtdf+1,A=A.tmp)
-      sample_uxm = pt(A.tmp,df = mtdf+1)
-      rmvt(MCMCsize,rep(0,dm),(mtdf-1)/(mtdf+1)*Rcaw[,,t],df=mtdf+1,A=B.tmp)
-      sample_udcct = pt(B.tmp,df = nu[m])
-      rmvt(MCMCsize,rep(0,dm),(mtdf-1)/(mtdf+1)*Rcaw[,,t],df=mtdf+1,A=C.tmp)
-      sample_udccth = pt(C.tmp,df = nuh[m])
+      mvnfast::rmvt(MCMCsize,rep(0,dm),(mtdf-1)/(mtdf+1)*Rcaw[,,t],df=mtdf+1,A=A.tmp)
+      
+      clusterExport(cl, varlist = c("A.tmp","mtdf"))
+      sample_uxm <- parApply(cl, A.tmp, MARGIN = 1, function(x) pt(x, df = mtdf+1))
+
+      #sample_uxm = t(pt(A.tmp,df = mtdf+1))
+      # 
+      # mvnfast::rmvt(MCMCsize,rep(0,dm),R[,,t],df=nu[m],A=B.tmp)
+      # sample_udcct = pt(B.tmp,df = nu[m])
+      # mvnfast::rmvt(MCMCsize,rep(0,dm),Rh[,,t],df=nuh[m],A=C.tmp)
+      # sample_udccth = pt(C.tmp,df = nuh[m])
+      sample_udcct=sample_uxm
+      sample_udccth=  sample_uxm
+      
 
       sample_standretxm = qnorm(sample_uxm)
       sample_standretdcct = qnorm(sample_udcct)
@@ -127,49 +141,46 @@ for(m in 1:post.sample){
 
       ##################
 
-      invS = solve(cov(t(sample_retsxm)))
+      invS = solve(cova(sample_retsxm))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[4,m,t-nn,]= pws
 
-      invS = solve(cov(t(sample_retsdcct)))
+      invS = solve(cova(sample_retsdcct))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[5,m,t-nn,]= pws
 
-      invS = solve(cov(t(sample_retsdccth)))
+      invS = solve(cova(sample_retsdccth))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[6,m,t-nn,]= pws
 
       # if(ws_jore1[m,t-nn]>runif(1)) selected = sample_retsxm
-      if(ws_jore1[m,t-nn]>US[1,t-nn]) selected = sample_retsxm
-      else selected = sample_retsdcct
+      if(ws_jore1[m,t-nn]>US[1,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
-      invS = solve(cov(t(selected)))
+      invS = solve(cova(selected))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[1,m,t-nn,]= pws
 
       # if(ws_gew[m,t-nn]>runif(1)) selected = sample_retsxm
-      if(ws_gew[m,t-nn]>US[2,t-nn]) selected = sample_retsxm
-      else selected = sample_retsdcct
+      if(ws_gew[m,t-nn]>US[2,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
-      invS = solve(cov(t(selected)))
+      invS = solve(cova(selected))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[2,m,t-nn,]= pws
 
       # if(0.5>runif(1)) selected = sample_retsxm
-      if(0.5>US[3,t-nn]) selected = sample_retsxm
-      else selected = sample_retsdcct
+      if(0.5>US[3,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
-      invS = solve(cov(t(selected)))
+      invS = solve(cova(selected))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
@@ -179,6 +190,9 @@ for(m in 1:post.sample){
   print(c(m,Sys.time()-t0))
   })
 }
+
+stopCluster(cl)
+
 
 save.image(file = 'empirical/temp/FX_portfolio.Rdata')
 
