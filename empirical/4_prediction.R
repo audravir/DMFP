@@ -460,20 +460,7 @@ lines(tail(date,K),tail(R.ht[p1,p2,],K),col=2,lwd=2)
 
 ####
 
-standvol = matrix(NA,ncol=dm,nrow = K)
-
-for(d in 1:dm){
-  standvol[,d] = ((RCov[d,d,(nn+1):(nn+K)])-
-                    mean((RCov[d,d,(nn+1):(nn+K)])))/
-    sd((RCov[d,d,(nn+1):(nn+K)]))
-}
-
-mkvol    = rep(NA,K)
-for(t0 in 1:K){
-  mkvol[t0] = mean(standvol[t0,])
-}
-
-
+mkvol = apply(tail(apply(RVs^2,2,scale),K),1,mean)
 
 par(mfrow=c(1,1))
 par(mfrow=c(1,1), mar=c(3, 3, 1, 1) + 0.1)
@@ -567,9 +554,23 @@ c(quantile(resDN$beta,0.025),median(resDN$beta),quantile(resDN$beta,0.975))
 median(bp)
 pacf(bp)
 
+if (dim(ws_DN)[1] > post.sample){
+  dnind = round(seq(1,dim(ws_DN)[1],length=post.sample))
+  ws_DN = ws_DN[dnind,]
+}
+
+resDNxs = list()
+
+resDNxs$beta = resDN$beta[dnind]
+resDNxs$weights_xs=resDN$weights_xs[,dnind]
+resDNxs$likelihood=resDN$likelihood[,dnind]
+resDNxs$acc=resDN$acc[dnind]
+
+
 ##----------------------
 ## save here
 ##----------------------
+rm(resDN,R.caw,R.dcc,R.dcct,R.ht,R.rmf,R.xm,ws_jore5,ws_jore25)
 save.image("empirical/temp/DNweights.RData")
 # load("empirical/temp/DNweights.RData")
 
@@ -622,7 +623,7 @@ for(m in 1:post.sample){
 
 move.axis = 100
 
-pdf('tables_and_figures/weights_FX.pdf',height=8,width=14)
+#pdf('tables_and_figures/weights_FX.pdf',height=8,width=14)
 par(mfrow=c(2,1), mar=c(4, 3, 1, 1) + 0.1)
 plot(date[(nn+1):(nn+K)],mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',xlim=c(date[(nn+1)]-move.axis,date[(nn+K)]))
@@ -668,7 +669,7 @@ axis(1, at=atx, labels=format(atx, "%Y/%m"),las=2,cex.axis=0.75)
 legend(x=date[(nn+1)]-move.axis-35,y=500,col=c('coral3',1,'pink','pink4','blue','coral','violet'),
        lty=c(1,1,1,2,1,2,1),lwd=c(2,2,2,2,2,2,2),
        legend=c('DCC-t','Geweke','Jore1','Jore10','DelNegro','Equal','DCC-HEAVY-t'))
-dev.off()
+#dev.off()
 
 
 # -----------------------------
@@ -688,7 +689,7 @@ ind25 = which(apply(tail(udata,K)<cuts[which.min(abs(perc - 0.25))],1,all))
 ind10 = which(apply(tail(udata,K)<cuts[which.min(abs(perc - 0.10))],1,all))
 ind05 = which(apply(tail(udata,K)<cuts[which.min(abs(perc - 0.05))],1,all))
 
-pdf('tables_and_figures/lpts_FX.pdf',height=8,width=10)
+#pdf('tables_and_figures/lpts_FX.pdf',height=8,width=12)
 par(mfrow=c(2,2))
 plot(density(apply(lL_caw, 1,sum)/K),xlim=c(-4,-2.9),ylab='',xlab='',main='LPS',
      lwd=2,lty=1,col='royalblue')
@@ -697,31 +698,43 @@ lines(density(apply(lL_ht, 1,sum)/K),lwd=2,col='violet')
 lines(density(apply(lL_gew, 1,sum)/K),lwd=2,col='black')
 lines(density(apply(lL_jore1, 1,sum)/K),lwd=2,col='pink')
 lines(density(apply(lL_equal, 1,sum)/K),lwd=2,col='coral',lty=2)
-legend(x=-4,y=100,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
-       col=c('royalblue','coral3','violet',1,'pink','coral'),
+legend(x=-4,y=110,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
+       col=c('coral3','royalblue','violet','black','pink','coral'),
        legend=c('DCC-t','CAW','DCC-HEAVY-t','Geweke','Jore1','Equal'))
 
-plot(density(apply(lL_caw[,ind25], 1,sum)/K),xlim=c(-0.2,0.2))
-lines(density(apply(lL_tdcc[,ind25], 1,sum)/K))
-lines(density(apply(lL_ht[,ind25], 1,sum)/K))
-lines(density(apply(lL_gew[,ind25], 1,sum)/K))
-lines(density(apply(lL_jore1[,ind25], 1,sum)/K))
-lines(density(apply(lL_equal[,ind25], 1,sum)/K))
+plot(density(apply(lL_caw[,ind25], 1,sum)/K),xlim=c(-0.2,0.075),ylab='',xlab='',main='LPTS(25%)',
+     lwd=2,lty=1,col='royalblue')
+lines(density(apply(lL_tdcc[,ind25], 1,sum)/K),lwd=2,col='coral3')
+lines(density(apply(lL_ht[,ind25], 1,sum)/K),lwd=2,col='violet')
+lines(density(apply(lL_gew[,ind25], 1,sum)/K),lwd=2,col='black')
+lines(density(apply(lL_jore1[,ind25], 1,sum)/K),lwd=2,col='pink')
+lines(density(apply(lL_equal[,ind25], 1,sum)/K),lwd=2,col='coral',lty=2)
+legend(x=-0.2,y=350,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
+       col=c('coral3','royalblue','violet','black','pink','coral'),
+       legend=c('DCC-t','CAW','DCC-HEAVY-t','Geweke','Jore1','Equal'))
 
-plot(density(apply(lL_caw[,ind10], 1,sum)/K),xlim=c(0,0.1))
-lines(density(apply(lL_tdcc[,ind10], 1,sum)/K))
-lines(density(apply(lL_ht[,ind10], 1,sum)/K))
-lines(density(apply(lL_gew[,ind10], 1,sum)/K))
-lines(density(apply(lL_jore1[,ind10], 1,sum)/K))
-lines(density(apply(lL_equal[,ind10], 1,sum)/K))
+plot(density(apply(lL_caw[,ind10], 1,sum)/K),xlim=c(0.02,0.1),ylab='',xlab='',main='LPTS(10%)',
+     lwd=2,lty=1,col='royalblue')
+lines(density(apply(lL_tdcc[,ind10], 1,sum)/K),lwd=2,col='coral3')
+lines(density(apply(lL_ht[,ind10], 1,sum)/K),lwd=2,col='violet')
+lines(density(apply(lL_gew[,ind10], 1,sum)/K),lwd=2,col='black')
+lines(density(apply(lL_jore1[,ind10], 1,sum)/K),lwd=2,col='pink')
+lines(density(apply(lL_equal[,ind10], 1,sum)/K),lwd=2,col='coral',lty=2)
+legend(x=0.02,y=800,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
+       col=c('coral3','royalblue','violet','black','pink','coral'),
+       legend=c('DCC-t','CAW','DCC-HEAVY-t','Geweke','Jore1','Equal'))
 
-plot(density(apply(lL_caw[,ind05], 1,sum)/K),xlim=c(0,0.1))
-lines(density(apply(lL_tdcc[,ind05], 1,sum)/K))
-lines(density(apply(lL_ht[,ind05], 1,sum)/K))
-lines(density(apply(lL_gew[,ind05], 1,sum)/K))
-lines(density(apply(lL_jore1[,ind05], 1,sum)/K))
-lines(density(apply(lL_equal[,ind05], 1,sum)/K))
-dev.off()
+plot(density(apply(lL_caw[,ind05], 1,sum)/K),xlim=c(0.02,0.06),ylab='',xlab='',main='LPTS(5%)',
+     lwd=2,lty=1,col='royalblue')
+lines(density(apply(lL_tdcc[,ind05], 1,sum)/K),lwd=2,col='coral3')
+lines(density(apply(lL_ht[,ind05], 1,sum)/K),lwd=2,col='violet')
+lines(density(apply(lL_gew[,ind05], 1,sum)/K),lwd=2,col='black')
+lines(density(apply(lL_jore1[,ind05], 1,sum)/K),lwd=2,col='pink')
+lines(density(apply(lL_equal[,ind05], 1,sum)/K),lwd=2,col='coral',lty=2)
+legend(x=0.02,y=1500,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
+       col=c('coral3','royalblue','violet','black','pink','coral'),
+       legend=c('DCC-t','CAW','DCC-HEAVY-t','Geweke','Jore1','Equal'))
+#dev.off()
 
 # -----------------------------
 # Correlation between weights and avrg volatility
@@ -746,53 +759,46 @@ for(t in 1:K){
   avrg2[t] = t(ws)%*%RCov[,,nn+t]%*%(ws)
 }
 
-marketvols = cbind(mkvol,avrg2,vix)
+marketvols = cbind(mkvol,avrg2,coredata(vix))
 cor(marketvols,use = "pairwise.complete.obs")
-corrs      = array(NA,dim=c(dim(ws_gew)[1],6,dim(marketvols)[2]))
-
-for(m in 1:length(ind)){
-  for(i in 1:dim(marketvols)[2]){  
-    corrs[m,1,i] = cor(ws_gew[m,],marketvols[,i],use = "pairwise.complete.obs")
-    corrs[m,2,i] = cor(ws_jore1[m,],marketvols[,i],use = "pairwise.complete.obs")
-    corrs[m,3,i] = cor(ws_jore5[m,],marketvols[,i],use = "pairwise.complete.obs")
-    corrs[m,4,i] = cor(ws_jore10[m,],marketvols[,i],use = "pairwise.complete.obs")
-    corrs[m,5,i] = cor(ws_DN[m,],marketvols[,i],use = "pairwise.complete.obs")
-    corrs[m,6,i] = cor((lL_caw-lL_tdcc)[m,],marketvols[,i],use = "pairwise.complete.obs")
-  }
-}
+par(mfrow=c(1,1))
+plot(tail(date,K),marketvols[,1],type='l')
+lines(tail(date,K),marketvols[,2],col=2)
+lines(tail(date,K),sqrt(marketvols[,3]),col=3)
 
 
 
-corrs_res = apply(corrs,c(2,3),median)
-corrs_res
-apply(corrs,c(2,3),quantile,0.025) 
-apply(corrs,c(2,3),quantile,0.975) 
+vols.ws = cbind(marketvols,apply(ws_gew,2,median),
+                apply(ws_jore1,2,median),apply(ws_DN,2,median),apply(lL_caw-lL_tdcc,2,median))
+dim(vols.ws)
+colnames(vols.ws) = c('avrg RV','Mkt:eql','VIX','Geweke','Jore1','DelNegro','logLik diff')
+cor(vols.ws,use = "pairwise.complete.obs")
 
 
-corrs_res = data.frame(corrs_res)
-colnames(corrs_res) = c('avrg RV','Mkt:eql','VIX')
-rownames(corrs_res) = c('Geweke','Jore1','Jore5','Jore10','DelNegro',
-                        'diff:logLik')
+corrs_res = cor(vols.ws,use = "pairwise.complete.obs")
+corrs_res[upper.tri(corrs_res)] = NA
 
-print(xtable::xtable(t(corrs_res),
-                     caption = "Posterior medians of sample correlations 
-             between the preference for high-frequency
-             model  and four proxies for the   market volatility for 
-             2009/01/02-2009/12/31 out-of-sample period ($K=252$ observations).
-             The preference for the high-frequency model is measured as a 
-             high-frequency 
-             component weight in various  pooling schemes 
-             as well as the difference between the daily log likelihood (diff:logLik) 
-             between the AIW and DCC-t models.
+print(xtable::xtable(corrs_res,
+                     caption = "Sample correlations 
+             between three proxies for the   market volatility and
+             the preference for high-frequency model for
+             2020/01/02 to 2023/01/31 out-of-sample period ($K=797$ observations).
              The proxies for the market volatility are: average standardized 
              realized volatility (avrg RV), 
-             equally weighted market portfolio realized volatility (Mkt:eql), 
-             MCap weighted market portfolio realized volaltity (Mkt:MCap) 
-             and VIX index.",
-                     label = 'table:corrs_EX', digits = 3),
-      file='tables_and_figures/corrs_EX.tex',
+             equally weighted market portfolio realized volatility (Mkt:eql) 
+             and VIX index. The preference for the high-frequency model is measured as a 
+             high-frequency 
+             component weight in various  pooling schemes 
+             as well as the difference between the daily log likelihood (logLik diff) 
+             between the CAW and DCC-t models.",
+                     label = 'table:corrs_FX', digits = 3),
+      file='tables_and_figures/corrs_FX.tex',
       include.rownames = TRUE,latex.environments = "center" ,
       caption.placement = "top",
       include.colnames= TRUE,
-      rotate.colnames = FALSE)
+      rotate.colnames = FALSE,scalebox = 0.8)
+
+##
+save(ws_DN,ws_gew,ws_jore1,K,dm,post.sample,ind,nn,file="empirical/temp/res_FX.Rdata")
+
 
