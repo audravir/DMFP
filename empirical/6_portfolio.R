@@ -4,7 +4,9 @@ load('data/FXdata.Rdata')
 library(xtable)
 library(fPortfolio)
 library(Rfast)
+library(mvnfast)
 library(profvis)
+library(parallel)
 
 load('empirical/temp/marginals.Rdata')
 load('empirical/temp/RV_forc.Rdata')
@@ -64,6 +66,10 @@ Rcaw = array(NA,c(dm, dm, nn+K))
 Rcaw[,,1] = Sbar
 
 US  = matrix(runif(3*(nn+K)),ncol=nn+K,nrow=3)
+A.tmp = B.tmp = C.tmp = matrix(NA,nrow=MCMCsize,ncol=dm)
+class(A.tmp) <- "numeric"
+class(B.tmp) <- "numeric"
+class(C.tmp) <- "numeric"
 
 for(m in 1:post.sample){
   t0 = Sys.time()
@@ -88,6 +94,7 @@ for(m in 1:post.sample){
   B0  = (Oiota-B1-B2)*Sbar
   mtdf = nux[m]-dm
 
+  profvis({
   for(t in 2:(nn+K)){
     # for DCC-t model
     Q[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Q[,,(t-1)]
@@ -102,11 +109,31 @@ for(m in 1:post.sample){
     # for CAW model
     Rcaw[,,t] = B0+B1*Sigma[[t-1]]+B2*Rcaw[,,t-1]
     
+    
+    applyPt <- function(chunk) {
+      # Assuming you're applying pt() across rows or a specific dimension
+      # Adjust the pt() call parameters according to your needs
+      apply(chunk, 1, function(row) pt(row, df = mtdf+1))
+    }
+    
     if(t>nn){
       
-      sample_uxm = pt(mvtnorm::rmvt(MCMCsize,(mtdf-1)/(mtdf+1)*Rcaw[,,t],df=mtdf+1),df = mtdf+1)
-      sample_udcct = pt(mvtnorm::rmvt(MCMCsize,R[,,t],df=nu[m]),df = nu[m])
-      sample_udccth = pt(mvtnorm::rmvt(MCMCsize,Rh[,,t],df=nuh[m]),df = nuh[m])
+      rmvt(MCMCsize,rep(0,dm),(mtdf-1)/(mtdf+1)*Rcaw[,,t],df=mtdf+1,A=A.tmp)
+      
+
+      # no_cores <- 4  # reserve one core for system processes
+      # # Prepare data for parallel processing
+      # # For simplicity, this example splits the matrix by rows. Adjust accordingly if necessary.
+      # splitData <- split(A.tmp, rep(1:ceiling(nrow(A.tmp)/no_cores), each=no_cores, length.out=nrow(A.tmp)))
+      # # Use mclapply to apply the function in parallel to each chunk
+      # results <- mclapply(splitData, applyPt, mc.cores = no_cores)
+      # # Combine the results back into a single matrix
+      # sample_uxm <- do.call(rbind, results)
+      
+      
+      sample_uxm = pt(A.tmp,df = mtdf+1)
+      sample_udcct = pt(rmvt(MCMCsize,rep(0,dm),R[,,t],df=nu[m]),df = nu[m])
+      sample_udccth = pt(rmvt(MCMCsize,rep(0,dm),Rh[,,t],df=nuh[m]),df = nuh[m])
 
       sample_standretxm = qnorm(sample_uxm)
       sample_standretdcct = qnorm(sample_udcct)
@@ -168,6 +195,7 @@ for(m in 1:post.sample){
     }
   }
   print(c(m,Sys.time()-t0))
+  })
 }
 
 save.image(file = 'empirical/temp/FX_portfolio.Rdata')
@@ -181,55 +209,15 @@ esfun=function(x,p){
   return(es)
 }
 
-gvm_var = gvm_ret = gvm_sharpe = gmv_to = gmv_sp = gmv_co=
-  array(NA,dim=c(length(models),length(ind),K))
-
-# cvar_var = cvar_ret = cvar_sharpe = cvar_es=
-#   array(NA,dim=c(length(models),length(ind),K))
-# 
+gvm_var = array(NA,dim=c(length(models),length(ind),K))
+ 
 for(m in 1:length(ind)){
    for(i in 1:length(models)){
      for(t in 1:K){
        gvm_ret[i,m,t] = sum(ws_gmv[i,m,t,]*rets[nn+t,])
-       # gvm_var[i,m,t] = t(ws_gmv[i,m,t,])%*%RCov[,,nn+t]%*%(ws_gmv[i,m,t,])
-       # gvm_sharpe[i,m,t]=gvm_ret[i,m,t]/sqrt(gvm_var[i,m,t]) 
-       # gmv_co[i,m,t] = sqrt(sum(ws_gmv[i,m,t,]^2))
-       # gmv_sp[i,m,t] = sum(ws_gmv[i,m,t,]*(ws_gmv[i,m,t,]<0))
-       
-        # cvar_ret[i,m,t] = sum(ws_cvar[i,m,t,]*rets[nn+t,])
-       # cvar_var[i,m,t] = t(ws_cvar[i,m,t,])%*%RCov[,,nn+t]%*%(ws_cvar[i,m,t,])
-       # cvar_sharpe[i,m,t]=cvar_ret[i,m,t]/sqrt(cvar_var[i,m,t])
-       # cvar_es[i,m,t] = esfun(cvar_ret[i,m,t],0.05)
        }
    }
 }
-
-
-# for(m in 1:length(ind)){
-#   for(i in 1:length(models)){
-#     for(t in 2:K){
-#       parts = rep(NA,dm)
-#       for(d in 1:dm){
-#         parts[d] = abs(ws_gmv[i,m,t,d] - ws_gmv[i,m,t-1,d]*(1+rets[nn+t-1,d])/
-#           (1+sum(ws_gmv[i,m,t-1,]*rets[nn+t-1,])))
-#       }
-#       gmv_to[i,m,t]  = sum(parts)
-#     }
-#   }
-# }
-
-
-# all.res.cvar = list()
-# for(i in 1:length(models)){
-#   var05     = apply(cvar_ret[i,,],1,quantile,0.05)
-#   var10     = apply(cvar_ret[i,,],1,quantile,0.10)
-#   es05      = apply(cvar_ret[i,,],1,esfun,0.05)
-#   es10      = apply(cvar_ret[i,,],1,esfun,0.10)
-#   GL        = (100*sqrt(252)*(apply(cvar_ret[4,,],1,sd)-apply(cvar_ret[i,,],1,sd))/
-#                  apply(cvar_ret[i,,],1,sd))
-#   shr       = apply(cvar_ret[i,,-1],1,sum)/(apply(cvar_ret[i,,-1],1,sd)*sqrt(252))
-#   all.res.cvar   = c(all.res.cvar,list(data.frame(var05,var10,es05,es10,GL,shr)))
-# }
 
 
 all.res.gmv = list()
