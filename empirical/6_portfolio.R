@@ -5,10 +5,6 @@ library(xtable)
 library(Rfast)
 library(mvnfast)
 library(profvis)
-library(doMC)
-
-registerDoMC(cores =1)
-cl <- makeCluster(1)
 
 load('empirical/temp/marginals.Rdata')
 load('empirical/temp/RV_forc.Rdata')
@@ -21,7 +17,6 @@ for(i in 1:dm){
 
 # marginals$rvs=tail(RVs,K)
 marginals$rvs=RV_forc$'1sa'
-
 
 load('empirical/temp/results_vectordcc_tcop.Rdata')
 reslf = res
@@ -96,7 +91,6 @@ for(m in 1:post.sample){
   B0  = (Oiota-B1-B2)*Sbar
   mtdf = nux[m]-dm
 
-  profvis({
   for(t in 2:(nn+K)){
     # for DCC-t model
     Q[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Q[,,(t-1)]
@@ -114,44 +108,38 @@ for(m in 1:post.sample){
     if(t>nn){
       
       mvnfast::rmvt(MCMCsize,rep(0,dm),(mtdf-1)/(mtdf+1)*Rcaw[,,t],df=mtdf+1,A=A.tmp)
-      
-      clusterExport(cl, varlist = c("A.tmp","mtdf"))
-      sample_uxm <- parApply(cl, A.tmp, MARGIN = 1, function(x) pt(x, df = mtdf+1))
+      sample_uxm = pt(A.tmp,df = mtdf+1)
 
-      #sample_uxm = t(pt(A.tmp,df = mtdf+1))
-      # 
-      # mvnfast::rmvt(MCMCsize,rep(0,dm),R[,,t],df=nu[m],A=B.tmp)
-      # sample_udcct = pt(B.tmp,df = nu[m])
-      # mvnfast::rmvt(MCMCsize,rep(0,dm),Rh[,,t],df=nuh[m],A=C.tmp)
-      # sample_udccth = pt(C.tmp,df = nuh[m])
-      sample_udcct=sample_uxm
-      sample_udccth=  sample_uxm
+      mvnfast::rmvt(MCMCsize,rep(0,dm),R[,,t],df=nu[m],A=B.tmp)
+      sample_udcct = pt(B.tmp,df = nu[m])
       
-
+      mvnfast::rmvt(MCMCsize,rep(0,dm),Rh[,,t],df=nuh[m],A=C.tmp)
+      sample_udccth = pt(C.tmp,df = nuh[m])
+      
       sample_standretxm = qnorm(sample_uxm)
       sample_standretdcct = qnorm(sample_udcct)
       sample_standretdccth = qnorm(sample_udccth)
 
-      sample_retsxm = (((sample_standretxm)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
-      sample_retsdcct = (((sample_standretdcct)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
-      sample_retsdccth = (((sample_standretdccth)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
+      sample_retsxm = ((t(sample_standretxm)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
+      sample_retsdcct = ((t(sample_standretdcct)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
+      sample_retsdccth = ((t(sample_standretdccth)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
 
       
       ##################
 
-      invS = solve(cova(sample_retsxm))
+      invS = solve(cova(t(sample_retsxm)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[4,m,t-nn,]= pws
 
-      invS = solve(cova(sample_retsdcct))
+      invS = solve(cova(t(sample_retsdcct)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[5,m,t-nn,]= pws
 
-      invS = solve(cova(sample_retsdccth))
+      invS = solve(cova(t(sample_retsdccth)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
@@ -160,7 +148,7 @@ for(m in 1:post.sample){
       # if(ws_jore1[m,t-nn]>runif(1)) selected = sample_retsxm
       if(ws_jore1[m,t-nn]>US[1,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
-      invS = solve(cova(selected))
+      invS = solve(cova(t(selected)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
@@ -169,7 +157,7 @@ for(m in 1:post.sample){
       # if(ws_gew[m,t-nn]>runif(1)) selected = sample_retsxm
       if(ws_gew[m,t-nn]>US[2,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
-      invS = solve(cova(selected))
+      invS = solve(cova(t(selected)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
@@ -178,7 +166,7 @@ for(m in 1:post.sample){
       # if(0.5>runif(1)) selected = sample_retsxm
       if(0.5>US[3,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
-      invS = solve(cova(selected))
+      invS = solve(cova(t(selected)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
@@ -186,11 +174,7 @@ for(m in 1:post.sample){
     }
   }
   print(c(m,Sys.time()-t0))
-  })
 }
-
-stopCluster(cl)
-
 
 save.image(file = 'empirical/temp/FX_portfolio.Rdata')
 
