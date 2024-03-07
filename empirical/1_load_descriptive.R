@@ -7,8 +7,6 @@ load('data/FXdata.Rdata')
 nn = dim(rets)[1]
 dm = dim(rets)[2]
 
-assets = assets[-c(10,15,16)]
-
 date_ticks <- seq(from=min(date), to=max(date), by="year")
 year_ticks <- format(date_ticks, "%Y") # Extracts the full year
 last_two_digits <- substr(year_ticks, 3, 4)
