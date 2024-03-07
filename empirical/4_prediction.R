@@ -690,47 +690,47 @@ ind05 = which(apply(tail(udata,K)<cuts[which.min(abs(perc - 0.05))],1,all))
 
 pdf('tables_and_figures/lpts_FX.pdf',height=8,width=12)
 par(mfrow=c(2,2))
-plot(density(apply(lL_caw, 1,sum)/K),xlim=c(-4,-2.9),ylab='',xlab='',main='LPS',
+plot(density(apply(lL_caw, 1,mean)),xlim=c(-4,-2.9),ylab='',xlab='',main='LPS',
      lwd=2,lty=1,col='royalblue')
-lines(density(apply(lL_tdcc, 1,sum)/K),lwd=2,col='coral3')
-lines(density(apply(lL_ht, 1,sum)/K),lwd=2,col='violet')
-lines(density(apply(lL_gew, 1,sum)/K),lwd=2,col='black')
-lines(density(apply(lL_jore1, 1,sum)/K),lwd=2,col='pink')
-lines(density(apply(lL_equal, 1,sum)/K),lwd=2,col='coral',lty=2)
+lines(density(apply(lL_tdcc, 1,mean)),lwd=2,col='coral3')
+lines(density(apply(lL_ht, 1,mean)),lwd=2,col='violet')
+lines(density(apply(lL_gew, 1,mean)),lwd=2,col='black')
+lines(density(apply(lL_jore1, 1,mean)),lwd=2,col='pink')
+lines(density(apply(lL_equal, 1,mean)),lwd=2,col='coral',lty=2)
 legend(x=-4,y=110,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
        col=c('coral3','royalblue','violet','black','pink','coral'),
        legend=c('DCC-t','CAW','DCC-HEAVY-t','Geweke','Jore1','Equal'))
 
-plot(density(apply(lL_caw[,ind25], 1,sum)/K),xlim=c(-0.2,0.075),ylab='',xlab='',main='LPTS(25%)',
+plot(density(apply(lL_caw[,ind25], 1,mean)),xlim=c(-0.65,0.25),ylab='',xlab='',main='LPTS(25%)',
      lwd=2,lty=1,col='royalblue')
-lines(density(apply(lL_tdcc[,ind25], 1,sum)/K),lwd=2,col='coral3')
-lines(density(apply(lL_ht[,ind25], 1,sum)/K),lwd=2,col='violet')
-lines(density(apply(lL_gew[,ind25], 1,sum)/K),lwd=2,col='black')
-lines(density(apply(lL_jore1[,ind25], 1,sum)/K),lwd=2,col='pink')
-lines(density(apply(lL_equal[,ind25], 1,sum)/K),lwd=2,col='coral',lty=2)
-legend(x=-0.2,y=350,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
+lines(density(apply(lL_tdcc[,ind25], 1,mean)),lwd=2,col='coral3')
+lines(density(apply(lL_ht[,ind25], 1,mean)),lwd=2,col='violet')
+lines(density(apply(lL_gew[,ind25], 1,mean)),lwd=2,col='black')
+lines(density(apply(lL_jore1[,ind25], 1,mean)),lwd=2,col='pink')
+lines(density(apply(lL_equal[,ind25], 1,mean)),lwd=2,col='coral',lty=2)
+legend(x=-0.65,y=90,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
        col=c('coral3','royalblue','violet','black','pink','coral'),
        legend=c('DCC-t','CAW','DCC-HEAVY-t','Geweke','Jore1','Equal'))
 
-plot(density(apply(lL_caw[,ind10], 1,sum)/K),xlim=c(0.02,0.1),ylab='',xlab='',main='LPTS(10%)',
+plot(density(apply(lL_caw[,ind10], 1,mean)),xlim=c(0.2,1),ylab='',xlab='',main='LPTS(10%)',
      lwd=2,lty=1,col='royalblue')
-lines(density(apply(lL_tdcc[,ind10], 1,sum)/K),lwd=2,col='coral3')
-lines(density(apply(lL_ht[,ind10], 1,sum)/K),lwd=2,col='violet')
-lines(density(apply(lL_gew[,ind10], 1,sum)/K),lwd=2,col='black')
-lines(density(apply(lL_jore1[,ind10], 1,sum)/K),lwd=2,col='pink')
-lines(density(apply(lL_equal[,ind10], 1,sum)/K),lwd=2,col='coral',lty=2)
-legend(x=0.02,y=800,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
+lines(density(apply(lL_tdcc[,ind10], 1,mean)),lwd=2,col='coral3')
+lines(density(apply(lL_ht[,ind10], 1,mean)),lwd=2,col='violet')
+lines(density(apply(lL_gew[,ind10], 1,mean)),lwd=2,col='black')
+lines(density(apply(lL_jore1[,ind10], 1,mean)),lwd=2,col='pink')
+lines(density(apply(lL_equal[,ind10], 1,mean)),lwd=2,col='coral',lty=2)
+legend(x=0.2,y=90,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
        col=c('coral3','royalblue','violet','black','pink','coral'),
        legend=c('DCC-t','CAW','DCC-HEAVY-t','Geweke','Jore1','Equal'))
 
-plot(density(apply(lL_caw[,ind05], 1,sum)/K),xlim=c(0.02,0.06),ylab='',xlab='',main='LPTS(5%)',
+plot(density(apply(lL_caw[,ind05], 1,mean)),xlim=c(0.4,1.2),ylab='',xlab='',main='LPTS(5%)',
      lwd=2,lty=1,col='royalblue')
-lines(density(apply(lL_tdcc[,ind05], 1,sum)/K),lwd=2,col='coral3')
-lines(density(apply(lL_ht[,ind05], 1,sum)/K),lwd=2,col='violet')
-lines(density(apply(lL_gew[,ind05], 1,sum)/K),lwd=2,col='black')
-lines(density(apply(lL_jore1[,ind05], 1,sum)/K),lwd=2,col='pink')
-lines(density(apply(lL_equal[,ind05], 1,sum)/K),lwd=2,col='coral',lty=2)
-legend(x=0.02,y=1500,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
+lines(density(apply(lL_tdcc[,ind05], 1,mean)),lwd=2,col='coral3')
+lines(density(apply(lL_ht[,ind05], 1,mean)),lwd=2,col='violet')
+lines(density(apply(lL_gew[,ind05], 1,mean)),lwd=2,col='black')
+lines(density(apply(lL_jore1[,ind05], 1,mean)),lwd=2,col='pink')
+lines(density(apply(lL_equal[,ind05], 1,mean)),lwd=2,col='coral',lty=2)
+legend(x=0.4,y=90,lwd=c(2,2,2,2,2,2),lty=c(1,1,1,1,1,2),
        col=c('coral3','royalblue','violet','black','pink','coral'),
        legend=c('DCC-t','CAW','DCC-HEAVY-t','Geweke','Jore1','Equal'))
 dev.off()
