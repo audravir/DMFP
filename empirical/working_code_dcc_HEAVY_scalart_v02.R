@@ -171,7 +171,8 @@ ind       = round(seq(1,M,length=post.size))
 r         = res[(bi+1):(bi+M),]
 
 res = list(Rpred[ind],r[ind,],
-           accdcc[(bi+1):(bi+M)][ind],LLH[(bi+1):(bi+M)][ind])
+           accdcc[(bi+1):(bi+M)][ind],accnu[(bi+1):(bi+M)][ind],
+           LLH[(bi+1):(bi+M)][ind])
 names(res) = c('Rpred','r','accdcc','LLH')
 
 save(res,file='empirical/temp/results_heavy_t.Rdata')
