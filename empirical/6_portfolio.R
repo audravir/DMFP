@@ -6,12 +6,9 @@ library(Rfast)
 library(mvnfast)
 library(profvis)
 library(doMC)
-library(foreach)
-
 
 registerDoMC(cores =1)
 cl <- makeCluster(1)
-
 
 load('empirical/temp/marginals.Rdata')
 load('empirical/temp/RV_forc.Rdata')
@@ -135,10 +132,11 @@ for(m in 1:post.sample){
       sample_standretdcct = qnorm(sample_udcct)
       sample_standretdccth = qnorm(sample_udccth)
 
-      sample_retsxm = ((t(sample_standretxm)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
-      sample_retsdcct = ((t(sample_standretdcct)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
-      sample_retsdccth = ((t(sample_standretdccth)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
+      sample_retsxm = (((sample_standretxm)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
+      sample_retsdcct = (((sample_standretdcct)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
+      sample_retsdccth = (((sample_standretdccth)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
 
+      
       ##################
 
       invS = solve(cova(sample_retsxm))
