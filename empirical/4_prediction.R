@@ -188,6 +188,7 @@ A      = Outer(apply(a,2,median),apply(a,2,median))
 B      = Outer(apply(b,2,median),apply(b,2,median))
 tdata <- qt(udata,median(nu))
 Sbar  <- cova(tdata[start:nn,])
+Q[,,1] <- cora(tdata[start:nn,])
 B0    <- (Oiota-A-B)*Sbar
 R.dcct = array(NA,c(dm, dm, nn+K))
 tmp.dcct = rep(NA,nn+K)
@@ -422,10 +423,11 @@ sum(apply(lL_caw,2,median))
 roll_corr <- rollapply(data = cbind(data[,p1], data[,p2]), width = 100,
                        function(z) cor(z[,1], z[,2]), by.column = FALSE,
                        align = "right",fill=NA)
+
 plot(tail(RCor[p1,p2,],K),col='gray80',type='l',ylim=c(-1,1))
-lines(tail(roll_corr,K),lwd=3)
+# lines(tail(roll_corr,K),lwd=3)
 lines(tail(R.dcct[p1,p2,],K),col=2,lwd=2)
-lines(tail(R.xm[p1,p2,],K),col=4,lwd=2)
+# lines(tail(R.xm[p1,p2,],K),col=4,lwd=2)
 lines(tail(R.ht[p1,p2,],K),col=3,lwd=2)
 lines(tail(R.caw[p1,p2,],K),col=6,lwd=2)
 
