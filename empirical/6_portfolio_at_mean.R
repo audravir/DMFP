@@ -90,7 +90,7 @@ for(m in 1:post.sample){
   B2  = Outer(b2[m,],b2[m,])
   B0  = (Oiota-B1-B2)*Sbar
   mtdf = nux[m]-dm
-
+  
   for(t in 2:(nn+K)){
     # for DCC-t model
     Q[,,t] <- B0+A*Outer(tdata[t-1,],tdata[t-1,])+B*Q[,,(t-1)]
@@ -101,7 +101,7 @@ for(m in 1:post.sample){
     
     # for DCC-HEAVY-t model
     Rh[,,t]   <- (1-bh[m])*Rbar-ah[m]*Pbar+ah[m]*Sigma[[t-1]]+bh[m]*Rh[,,t-1]
-
+    
     # for CAW model
     Rcaw[,,t] = B0+B1*Sigma[[t-1]]+B2*Rcaw[,,t-1]
     
@@ -109,7 +109,7 @@ for(m in 1:post.sample){
       
       mvnfast::rmvt(MCMCsize,rep(0,dm),(mtdf-1)/(mtdf+1)*Rcaw[,,t],df=mtdf+1,A=A.tmp)
       sample_uxm = pt(A.tmp,df = mtdf+1)
-
+      
       mvnfast::rmvt(MCMCsize,rep(0,dm),R[,,t],df=nu[m],A=B.tmp)
       sample_udcct = pt(B.tmp,df = nu[m])
       
@@ -119,53 +119,53 @@ for(m in 1:post.sample){
       sample_standretxm = qnorm(sample_uxm)
       sample_standretdcct = qnorm(sample_udcct)
       sample_standretdccth = qnorm(sample_udccth)
-
+      
       sample_retsxm = ((t(sample_standretxm)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
       sample_retsdcct = ((t(sample_standretdcct)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
       sample_retsdccth = ((t(sample_standretdccth)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
-
+      
       
       ##################
-
+      
       invS = solve(cova(t(sample_retsxm)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[4,m,t-nn,]= pws
-
+      
       invS = solve(cova(t(sample_retsdcct)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[5,m,t-nn,]= pws
-
+      
       invS = solve(cova(t(sample_retsdccth)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[6,m,t-nn,]= pws
-
+      
       # if(ws_jore1[m,t-nn]>runif(1)) selected = sample_retsxm
       if(ws_jore1[m,t-nn]>US[1,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
-
+      
       invS = solve(cova(t(selected)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[1,m,t-nn,]= pws
-
+      
       # if(ws_gew[m,t-nn]>runif(1)) selected = sample_retsxm
       if(ws_gew[m,t-nn]>US[2,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
-
+      
       invS = solve(cova(t(selected)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
       pws  = nom/den
       ws_gmv[2,m,t-nn,]= pws
-
+      
       # if(0.5>runif(1)) selected = sample_retsxm
       if(0.5>US[3,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
-
+      
       invS = solve(cova(t(selected)))
       nom  = invS%*%iota
       den  = as.vector(t(iota)%*%invS%*%iota)
@@ -189,13 +189,13 @@ esfun=function(x,p){
 }
 
 gvm_ret = array(NA,dim=c(length(models),post.sample,K))
- 
+
 for(m in 1:length(ind)){
-   for(i in 1:length(models)){
-     for(t in 1:K){
-       gvm_ret[i,m,t] = sum(ws_gmv[i,m,t,]*rets[nn+t,])
-       }
-   }
+  for(i in 1:length(models)){
+    for(t in 1:K){
+      gvm_ret[i,m,t] = sum(ws_gmv[i,m,t,]*rets[nn+t,])
+    }
+  }
 }
 
 
@@ -207,7 +207,7 @@ for(i in 1:length(models)){
   es10      = apply(gvm_ret[i,,],1,esfun,0.10)
   psd       = apply(gvm_ret[i,,],1,sd)
   GL        = (100*sqrt(252)*(apply(gvm_ret[4,,],1,sd)-apply(gvm_ret[i,,],1,sd))/
-                apply(gvm_ret[i,,],1,sd))
+                 apply(gvm_ret[i,,],1,sd))
   shr       = apply(gvm_ret[i,,-1],1,sum)/(apply(gvm_ret[i,,-1],1,sd)*sqrt(252))
   all.res.gmv   = c(all.res.gmv,list(data.frame(var05,var10,es05,es10,GL,shr,psd)))
 }
