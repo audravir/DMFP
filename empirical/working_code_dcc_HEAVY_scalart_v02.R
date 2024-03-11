@@ -173,7 +173,7 @@ r         = res[(bi+1):(bi+M),]
 res = list(Rpred[ind],r[ind,],
            accdcc[(bi+1):(bi+M)][ind],accnu[(bi+1):(bi+M)][ind],
            LLH[(bi+1):(bi+M)][ind])
-names(res) = c('Rpred','r','accdcc','LLH')
+names(res) = c('Rpred','r','accdcc','accnu','LLH')
 
 save(res,file='empirical/temp/results_heavy_t.Rdata')
 
