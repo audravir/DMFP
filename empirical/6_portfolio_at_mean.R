@@ -5,6 +5,18 @@ library(xtable)
 library(Rfast)
 library(mvnfast)
 library(profvis)
+library(fPortfolio)
+
+cvarSpec05 <- portfolioSpec(
+  model = list(type = "CVaR", optimize = "minRisk",
+               estimator = "covEstimator", tailRisk = list(),
+               params = list(alpha = 0.05)))
+
+cvarSpec10 <- portfolioSpec(
+  model = list(type = "CVaR", optimize = "minRisk",
+               estimator = "covEstimator", tailRisk = list(),
+               params = list(alpha = 0.10)))
+
 
 load('empirical/temp/marginals.Rdata')
 load('empirical/temp/RV_forc.Rdata')
@@ -36,7 +48,7 @@ MCMCsize=10000
 # 5. dcct
 # 6. dcc-heavy-t
 models = c('Jore1','Geweke','Equal','CAW','DCC-t','DCC-HEAVY-t')
-ws_gmv = array(NA,c(length(models),K,dm))
+ws_gmv = ws_CVAR05 = ws_CVAR10 = array(NA,c(length(models),K,dm))
 
 # for Low Frequency (rank-1 DCC-t) model
 Q  = R = array(NA,c(dm, dm, nn+K))
@@ -190,11 +202,11 @@ lines(tail(Rcaw[p1,p2,],K),col=3,lwd=2)
 
 
 
-#save.image(file = 'empirical/temp/FX_portfolio_at_mean.Rdata')
+save.image(file = 'empirical/temp/FX_portfolio_at_median.Rdata')
 
 
 ###-----------
-### GMV portfolio: mean, var, sharpe, TO,CO, SP, VaR, ES
+### GMV portfolio ret
 ###-----------
 esfun=function(x,p){
   es=mean(x[which(x<quantile(x,p))])
@@ -217,6 +229,79 @@ for(i in 1:length(models)){
 # 5. dcct
 # 6. dcc-heavy-t
 
+####----------------
+## Turnover
+####----------------
+
+# > dim(ws_gmv)
+# [1]    6  797   14
+
+TO = array(NA,dim=c(length(models),K))
+# > dim(TO)
+# [1]    6  797
+
+for(i in 1:length(models)){
+    for(t in 2:K){
+      TO[i,t] = sum(abs(ws_gmv[i,t,]-ws_gmv[i,t-1,]*(1+rets[nn+t-1,])/(1+sum(ws_gmv[i,t-1,]*rets[nn+t-1,]))))
+  }
+  print(i)
+}
+
+apply(TO,1,mean,na.rm=TRUE)
+
+
+####----------------
+## Concentration
+####----------------
+
+# > dim(ws_gmv)
+# [1]    6  797   14
+
+CO = array(NA,dim=c(length(models),K))
+# > dim(CO)
+# [1]    6  797
+
+for(i in 1:length(models)){
+    for(t in 1:K){
+      CO[i,t] = sqrt(sum(ws_gmv[i,t,]^2))
+    }
+  print(i)
+}
+
+apply(CO,1,mean,na.rm=TRUE)
+
+####----------------
+## Short Position
+####----------------
+
+# > dim(ws_gmv)
+# [1]    6  797   14
+
+SP = array(NA,dim=c(length(models),K))
+# > dim(TO)
+# [1]    6  797
+
+for(i in 1:length(models)){
+    for(t in 1:K){
+      SP[i,t] = sum((ws_gmv[i,t,]<0)* ws_gmv[i,t,])
+  }
+  print(i)
+}
+
+apply(SP,1,mean,na.rm=TRUE)
+
+
+
+####----------------
+## Sharpe
+####----------------
+
+# 1. jore's1
+# 2. geweke's
+# 3. equally w.
+# 4. caw
+# 5. dcct
+# 6. dcc-heavy-t
 
 (apply(gvm_ret,1,mean)*252)/(apply(gvm_ret,1,sd)*sqrt(252))
 

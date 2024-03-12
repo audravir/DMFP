@@ -179,7 +179,7 @@ save.image(file = 'empirical/temp/FX_portfolio_march12.Rdata')
 
 
 ###-----------
-### GMV portfolio: mean, var, sharpe, TO,CO, SP, VaR, ES
+### GMV portfolio ret
 ###-----------
 esfun=function(x,p){
   es=mean(x[which(x<quantile(x,p))])
@@ -309,7 +309,9 @@ for(i in 1:length(models)){
 apply(m_SP, 1,mean,na.rm=TRUE)
 
 
-
+####----------------
+## Sharpe
+####----------------
 
 
 # 1. jore's1
