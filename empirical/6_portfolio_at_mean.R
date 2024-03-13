@@ -29,7 +29,7 @@ resH  = res
 
 rm(res)
 
-MCMCsize=1000
+MCMCsize=10000
 
 # 1. jore's1
 # 2. geweke's
@@ -144,6 +144,8 @@ for(t in 2:(nn+K)){
     tmp = t(sample_retsxm)
     res <- minCVaR(tmp, 0.10)
     ws_CVAR10[4,t-nn,]=c(res)
+    res <- minCVaR(tmp, 0.05)
+    ws_CVAR05[4,t-nn,]=c(res)
     
     #
     invS = solve(cova(t(sample_retsdcct)))
@@ -155,6 +157,8 @@ for(t in 2:(nn+K)){
     tmp = t(sample_retsdcct)
     res <- minCVaR(tmp, 0.10)
     ws_CVAR10[5,t-nn,]=c(res)
+    res <- minCVaR(tmp, 0.05)
+    ws_CVAR05[5,t-nn,]=c(res)
 
     #
     invS = solve(cova(t(sample_retsdccth)))
@@ -166,6 +170,8 @@ for(t in 2:(nn+K)){
     tmp = t(sample_retsdccth)
     res <- minCVaR(tmp, 0.10)
     ws_CVAR10[6,t-nn,]=c(res)
+    res <- minCVaR(tmp, 0.05)
+    ws_CVAR05[6,t-nn,]=c(res)
     
     #
     if(wj1[t-nn]>US[1,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
@@ -179,6 +185,8 @@ for(t in 2:(nn+K)){
     tmp = t(selected)
     res <- minCVaR(tmp, 0.10)
     ws_CVAR10[1,t-nn,]=c(res)
+    res <- minCVaR(tmp, 0.05)
+    ws_CVAR05[1,t-nn,]=c(res)
 
     if(wgw[t-nn]>US[2,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
@@ -191,6 +199,8 @@ for(t in 2:(nn+K)){
     tmp = t(selected)
     res <- minCVaR(tmp, 0.10)
     ws_CVAR10[2,t-nn,]=c(res)
+    res <- minCVaR(tmp, 0.05)
+    ws_CVAR05[2,t-nn,]=c(res)
 
     if(0.5>US[3,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
@@ -203,6 +213,8 @@ for(t in 2:(nn+K)){
     tmp = t(selected)
     res <- minCVaR(tmp, 0.10)
     ws_CVAR10[3,t-nn,]=c(res)
+    res <- minCVaR(tmp, 0.05)
+    ws_CVAR05[3,t-nn,]=c(res)
   }
   print(t)
   print(Sys.time()-t0)
@@ -217,13 +229,18 @@ lines(tail(R[p1,p2,],K),lwd=2)
 lines(tail(Rh[p1,p2,],K),col=2,lwd=2)
 lines(tail(Rcaw[p1,p2,],K),col=3,lwd=2)
 
-
-
 save.image(file = 'empirical/temp/FX_portfolio_at_median.Rdata')
 
+plot(ws_CVAR10[1,,1],type='l')
+for(i in 1:dm) lines(ws_CVAR10[1,,i])
+
+plot(ws_CVAR05[1,,1],type='l')
+for(i in 1:dm) lines(ws_CVAR05[1,,i])
+
+my.weights = ws_CVAR10
 
 ###-----------
-### GMV portfolio ret
+### portfolio ret
 ###-----------
 esfun=function(x,p){
   es=mean(x[which(x<quantile(x,p))])
@@ -235,7 +252,7 @@ gvm_ret = array(NA,dim=c(length(models),K))
 
 for(i in 1:length(models)){
   for(t in 1:K){
-    gvm_ret[i,t] = sum(ws_gmv[i,t,]*rets[nn+t,])
+    gvm_ret[i,t] = sum(my.weights[i,t,]*rets[nn+t,])
   }
 }
 
@@ -245,68 +262,6 @@ for(i in 1:length(models)){
 # 4. caw
 # 5. dcct
 # 6. dcc-heavy-t
-
-####----------------
-## Turnover
-####----------------
-
-# > dim(ws_gmv)
-# [1]    6  797   14
-
-TO = array(NA,dim=c(length(models),K))
-# > dim(TO)
-# [1]    6  797
-
-for(i in 1:length(models)){
-    for(t in 2:K){
-      TO[i,t] = sum(abs(ws_gmv[i,t,]-ws_gmv[i,t-1,]*(1+rets[nn+t-1,])/(1+sum(ws_gmv[i,t-1,]*rets[nn+t-1,]))))
-  }
-  print(i)
-}
-
-apply(TO,1,mean,na.rm=TRUE)
-
-
-####----------------
-## Concentration
-####----------------
-
-# > dim(ws_gmv)
-# [1]    6  797   14
-
-CO = array(NA,dim=c(length(models),K))
-# > dim(CO)
-# [1]    6  797
-
-for(i in 1:length(models)){
-    for(t in 1:K){
-      CO[i,t] = sqrt(sum(ws_gmv[i,t,]^2))
-    }
-  print(i)
-}
-
-apply(CO,1,mean,na.rm=TRUE)
-
-####----------------
-## Short Position
-####----------------
-
-# > dim(ws_gmv)
-# [1]    6  797   14
-
-SP = array(NA,dim=c(length(models),K))
-# > dim(TO)
-# [1]    6  797
-
-for(i in 1:length(models)){
-    for(t in 1:K){
-      SP[i,t] = sum((ws_gmv[i,t,]<0)* ws_gmv[i,t,])
-  }
-  print(i)
-}
-
-apply(SP,1,mean,na.rm=TRUE)
-
 
 
 ####----------------
@@ -320,7 +275,8 @@ apply(SP,1,mean,na.rm=TRUE)
 # 5. dcct
 # 6. dcc-heavy-t
 
-(apply(gvm_ret,1,mean)*252)/(apply(gvm_ret,1,sd)*sqrt(252))
+(apply(gvm_ret,1,mean)*252)
+(apply(gvm_ret,1,sd)*sqrt(252))
 
 plot(cumsum(gvm_ret[1,])-cumsum(gvm_ret[1,]),type='l',ylim=c(-2,1))
 for(i in 2:6) lines(cumsum(gvm_ret[i,])-cumsum(gvm_ret[1,]),col=i)
@@ -335,16 +291,80 @@ annsd=apply(gvm_ret,1,sd)*sqrt(252)
 (annsd[4]-annsd)/annsd*100
 
 
-var05     = apply(gvm_ret*252,1,quantile,0.05)
-var10     = apply(gvm_ret*252,1,quantile,0.10)
-es05      = apply(gvm_ret*252,1,esfun,0.05)
-es10      = apply(gvm_ret*252,1,esfun,0.10)
+var05     = apply(gvm_ret,1,quantile,0.05)
+var10     = apply(gvm_ret,1,quantile,0.10)
+es05      = apply(gvm_ret,1,esfun,0.05)
+es10      = apply(gvm_ret,1,esfun,0.10)
 
 var05
 var10
 es05
 es10
-# Consider risk-free interest rate-adjusted
+
+
+####----------------
+## Turnover
+####----------------
+
+# > dim(my.weights)
+# [1]    6  797   14
+
+TO = array(NA,dim=c(length(models),K))
+# > dim(TO)
+# [1]    6  797
+
+for(i in 1:length(models)){
+    for(t in 2:K){
+      TO[i,t] = sum(abs(my.weights[i,t,]-my.weights[i,t-1,]*(1+rets[nn+t-1,])/(1+sum(my.weights[i,t-1,]*rets[nn+t-1,]))))
+  }
+  print(i)
+}
+
+apply(TO,1,mean,na.rm=TRUE)
+
+
+####----------------
+## Concentration
+####----------------
+
+# > dim(my.weights)
+# [1]    6  797   14
+
+CO = array(NA,dim=c(length(models),K))
+# > dim(CO)
+# [1]    6  797
+
+for(i in 1:length(models)){
+    for(t in 1:K){
+      CO[i,t] = sqrt(sum(my.weights[i,t,]^2))
+    }
+  print(i)
+}
+
+apply(CO,1,mean,na.rm=TRUE)
+
+####----------------
+## Short Position
+####----------------
+
+# > dim(my.weights)
+# [1]    6  797   14
+
+SP = array(NA,dim=c(length(models),K))
+# > dim(TO)
+# [1]    6  797
+
+for(i in 1:length(models)){
+    for(t in 1:K){
+      SP[i,t] = sum((my.weights[i,t,]<0)* my.weights[i,t,])
+  }
+  print(i)
+}
+
+apply(SP,1,mean,na.rm=TRUE)
+
+
+
 
 
 
