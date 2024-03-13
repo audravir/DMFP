@@ -5,8 +5,8 @@ library(xtable)
 library(Rfast)
 library(mvnfast)
 library(profvis)
-library(fPortfolio)
 library(NMOF)
+library(PortfolioAnalytics)
 
 load('empirical/temp/marginals.Rdata')
 load('empirical/temp/RV_forc.Rdata')
@@ -29,7 +29,7 @@ resH  = res
 
 rm(res)
 
-MCMCsize=10000
+MCMCsize=1000
 
 # 1. jore's1
 # 2. geweke's
@@ -132,7 +132,6 @@ for(t in 2:(nn+K)){
     sample_retsdcct = ((t(sample_standretdcct)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
     sample_retsdccth = ((t(sample_standretdccth)*marginals$sd)+marginals$mean)*marginals$rvs[t-nn,]
 
-
     ##################
 
     invS = solve(cova(t(sample_retsxm)))
@@ -142,9 +141,9 @@ for(t in 2:(nn+K)){
     ws_gmv[4,t-nn,]= pws
     
     tmp = t(sample_retsxm)
-    res <- minCVaR(tmp, 0.10)
+    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
     ws_CVAR10[4,t-nn,]=c(res)
-    res <- minCVaR(tmp, 0.05)
+    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05[4,t-nn,]=c(res)
     
     #
@@ -155,9 +154,9 @@ for(t in 2:(nn+K)){
     ws_gmv[5,t-nn,]= pws
     
     tmp = t(sample_retsdcct)
-    res <- minCVaR(tmp, 0.10)
+    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
     ws_CVAR10[5,t-nn,]=c(res)
-    res <- minCVaR(tmp, 0.05)
+    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05[5,t-nn,]=c(res)
 
     #
@@ -168,9 +167,9 @@ for(t in 2:(nn+K)){
     ws_gmv[6,t-nn,]= pws
 
     tmp = t(sample_retsdccth)
-    res <- minCVaR(tmp, 0.10)
+    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
     ws_CVAR10[6,t-nn,]=c(res)
-    res <- minCVaR(tmp, 0.05)
+    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05[6,t-nn,]=c(res)
     
     #
@@ -183,9 +182,9 @@ for(t in 2:(nn+K)){
     ws_gmv[1,t-nn,]= pws
     
     tmp = t(selected)
-    res <- minCVaR(tmp, 0.10)
+    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
     ws_CVAR10[1,t-nn,]=c(res)
-    res <- minCVaR(tmp, 0.05)
+    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05[1,t-nn,]=c(res)
 
     if(wgw[t-nn]>US[2,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
@@ -197,9 +196,9 @@ for(t in 2:(nn+K)){
     ws_gmv[2,t-nn,]= pws
     
     tmp = t(selected)
-    res <- minCVaR(tmp, 0.10)
+    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
     ws_CVAR10[2,t-nn,]=c(res)
-    res <- minCVaR(tmp, 0.05)
+    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05[2,t-nn,]=c(res)
 
     if(0.5>US[3,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
@@ -210,10 +209,25 @@ for(t in 2:(nn+K)){
     pws  = nom/den
     ws_gmv[3,t-nn,]= pws
     
+    
+    ###
+    tmp = data.frame(t(selected))
+    colnames(tmp) = assets
+    portfolio <- portfolio.spec(assets = assets)
+    portfolio <- add.constraint(portfolio, type = "weight", min = 0)
+    portfolio <- add.objective(portfolio, type = "risk", name = "var")
+    opt_results <- optimize.portfolio(R = tmp, portfolio = portfolio)
+    
+    optimize.portfolio(tmp, portfolio = NULL, constraints = NULL,
+                       objectives = NULL)
+    
+    
+    ###
+    
     tmp = t(selected)
-    res <- minCVaR(tmp, 0.10)
+    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
     ws_CVAR10[3,t-nn,]=c(res)
-    res <- minCVaR(tmp, 0.05)
+    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05[3,t-nn,]=c(res)
   }
   print(t)
@@ -231,76 +245,73 @@ lines(tail(Rcaw[p1,p2,],K),col=3,lwd=2)
 
 save.image(file = 'empirical/temp/FX_portfolio_at_median.Rdata')
 
-plot(ws_CVAR10[1,,1],type='l')
+plot(ws_CVAR10[1,,1],type='l',ylim=c(-1,1))
 for(i in 1:dm) lines(ws_CVAR10[1,,i])
 
-plot(ws_CVAR05[1,,1],type='l')
+plot(ws_CVAR05[1,,1],type='l',ylim=c(-1,1))
 for(i in 1:dm) lines(ws_CVAR05[1,,i])
 
-my.weights = ws_CVAR10
+plot(ws_gmv[1,,1],type='l',ylim=c(-1,1))
+for(i in 1:dm) lines(ws_gmv[1,,i])
 
-###-----------
-### portfolio ret
-###-----------
+############################################################
+
 esfun=function(x,p){
   es=mean(x[which(x<quantile(x,p))])
   return(es)
 }
+load('data/rf.RData')
 
-gvm_ret = array(NA,dim=c(length(models),K))
+##
 
+ALL.res = matrix(NA,ncol=12,nrow=length(models))
+
+### portfolio ret
+
+p.ret.gmv =p.ret.cvar05 =p.ret.cvar10 = array(NA,dim=c(length(models),K))
 
 for(i in 1:length(models)){
   for(t in 1:K){
-    gvm_ret[i,t] = sum(my.weights[i,t,]*rets[nn+t,])
+    p.ret.gmv[i,t]    = sum(ws_gmv[i,t,]*rets[nn+t,])
+    p.ret.cvar05[i,t] = sum(ws_CVAR05[i,t,]*rets[nn+t,])
+    p.ret.cvar10[i,t] = sum(ws_CVAR10[i,t,]*rets[nn+t,])
   }
 }
 
+### stdev annualized
+
+ALL.res[,1] = apply(p.ret.gmv, 1,sd)*sqrt(252)
+ALL.res[,5] = apply(p.ret.cvar05, 1,sd)*sqrt(252)
+ALL.res[,9] = apply(p.ret.cvar10, 1,sd)*sqrt(252)
+
+### Adj.Sharpe annualized
+
+ALL.res[,2]  = apply(sweep(p.ret.gmv*252, 2, rf, '-'),1,mean)/(apply(p.ret.gmv,1,sd)*sqrt(252))
+ALL.res[,6]  = apply(sweep(p.ret.cvar05*252, 2, rf, '-'),1,mean)/(apply(p.ret.cvar05,1,sd)*sqrt(252))
+ALL.res[,10] = apply(sweep(p.ret.cvar10*252, 2, rf, '-'),1,mean)/(apply(p.ret.cvar10,1,sd)*sqrt(252))
+
+### CVAR 5%
+
+ALL.res[,3]  = apply(p.ret.gmv*252,1,esfun,0.05)
+ALL.res[,7]  = apply(p.ret.cvar05*252,1,esfun,0.05)
+ALL.res[,11] = apply(p.ret.cvar10*252,1,esfun,0.05)
+
+### CVAR 10%
+
+ALL.res[,4]  = apply(p.ret.gmv*252,1,esfun,0.1)
+ALL.res[,8]  = apply(p.ret.cvar05*252,1,esfun,0.1)
+ALL.res[,12] = apply(p.ret.cvar10*252,1,esfun,0.1)
+
+rownames(ALL.res) = models
+
+ALL.res
+
 # 1. jore's1
 # 2. geweke's
 # 3. equally w.
 # 4. caw
 # 5. dcct
 # 6. dcc-heavy-t
-
-
-####----------------
-## Sharpe
-####----------------
-
-# 1. jore's1
-# 2. geweke's
-# 3. equally w.
-# 4. caw
-# 5. dcct
-# 6. dcc-heavy-t
-
-(apply(gvm_ret,1,mean)*252)
-(apply(gvm_ret,1,sd)*sqrt(252))
-
-plot(cumsum(gvm_ret[1,])-cumsum(gvm_ret[1,]),type='l',ylim=c(-2,1))
-for(i in 2:6) lines(cumsum(gvm_ret[i,])-cumsum(gvm_ret[1,]),col=i)
-
-load('data/rf.RData')
-
-
-AdjSharpe = apply(sweep(gvm_ret*252, 2, rf, '-'),1,mean)/(apply(gvm_ret,1,sd)*sqrt(252))
-AdjSharpe
-
-annsd=apply(gvm_ret,1,sd)*sqrt(252)
-(annsd[4]-annsd)/annsd*100
-
-
-var05     = apply(gvm_ret,1,quantile,0.05)
-var10     = apply(gvm_ret,1,quantile,0.10)
-es05      = apply(gvm_ret,1,esfun,0.05)
-es10      = apply(gvm_ret,1,esfun,0.10)
-
-var05
-var10
-es05
-es10
-
 
 ####----------------
 ## Turnover
