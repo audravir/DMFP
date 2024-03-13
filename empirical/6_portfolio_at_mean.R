@@ -6,17 +6,7 @@ library(Rfast)
 library(mvnfast)
 library(profvis)
 library(fPortfolio)
-
-cvarSpec05 <- portfolioSpec(
-  model = list(type = "CVaR", optimize = "minRisk",
-               estimator = "covEstimator", tailRisk = list(),
-               params = list(alpha = 0.05)))
-
-cvarSpec10 <- portfolioSpec(
-  model = list(type = "CVaR", optimize = "minRisk",
-               estimator = "covEstimator", tailRisk = list(),
-               params = list(alpha = 0.10)))
-
+library(NMOF)
 
 load('empirical/temp/marginals.Rdata')
 load('empirical/temp/RV_forc.Rdata')
@@ -39,7 +29,7 @@ resH  = res
 
 rm(res)
 
-MCMCsize=10000
+MCMCsize=1000
 
 # 1. jore's1
 # 2. geweke's
@@ -107,6 +97,8 @@ B0  = (Oiota-B1-B2)*Pbar
 mtdf = nux-dm
 
 for(t in 2:(nn+K)){
+  
+  t0 = Sys.time()
 
   # for DCC-t model
   Q[,,t] <- B0lf+A*Outer(tdata[t-1,],tdata[t-1,])+B*Q[,,(t-1)]
@@ -148,38 +140,58 @@ for(t in 2:(nn+K)){
     den  = as.vector(t(iota)%*%invS%*%iota)
     pws  = nom/den
     ws_gmv[4,t-nn,]= pws
-
+    
+    tmp = t(sample_retsxm)
+    res <- minCVaR(tmp, 0.10)
+    ws_CVAR10[4,t-nn,]=c(res)
+    
+    #
     invS = solve(cova(t(sample_retsdcct)))
     nom  = invS%*%iota
     den  = as.vector(t(iota)%*%invS%*%iota)
     pws  = nom/den
     ws_gmv[5,t-nn,]= pws
+    
+    tmp = t(sample_retsdcct)
+    res <- minCVaR(tmp, 0.10)
+    ws_CVAR10[5,t-nn,]=c(res)
 
+    #
     invS = solve(cova(t(sample_retsdccth)))
     nom  = invS%*%iota
     den  = as.vector(t(iota)%*%invS%*%iota)
     pws  = nom/den
     ws_gmv[6,t-nn,]= pws
 
-    # if(ws_jore1[m,t-nn]>runif(1)) selected = sample_retsxm
-    if(ws_jore1[t-nn]>US[1,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
+    tmp = t(sample_retsdccth)
+    res <- minCVaR(tmp, 0.10)
+    ws_CVAR10[6,t-nn,]=c(res)
+    
+    #
+    if(wj1[t-nn]>US[1,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
     invS = solve(cova(t(selected)))
     nom  = invS%*%iota
     den  = as.vector(t(iota)%*%invS%*%iota)
     pws  = nom/den
     ws_gmv[1,t-nn,]= pws
+    
+    tmp = t(selected)
+    res <- minCVaR(tmp, 0.10)
+    ws_CVAR10[1,t-nn,]=c(res)
 
-    # if(ws_gew[m,t-nn]>runif(1)) selected = sample_retsxm
-    if(ws_gew[t-nn]>US[2,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
+    if(wgw[t-nn]>US[2,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
     invS = solve(cova(t(selected)))
     nom  = invS%*%iota
     den  = as.vector(t(iota)%*%invS%*%iota)
     pws  = nom/den
     ws_gmv[2,t-nn,]= pws
+    
+    tmp = t(selected)
+    res <- minCVaR(tmp, 0.10)
+    ws_CVAR10[2,t-nn,]=c(res)
 
-    # if(0.5>runif(1)) selected = sample_retsxm
     if(0.5>US[3,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
     invS = solve(cova(t(selected)))
@@ -187,8 +199,13 @@ for(t in 2:(nn+K)){
     den  = as.vector(t(iota)%*%invS%*%iota)
     pws  = nom/den
     ws_gmv[3,t-nn,]= pws
+    
+    tmp = t(selected)
+    res <- minCVaR(tmp, 0.10)
+    ws_CVAR10[3,t-nn,]=c(res)
   }
   print(t)
+  print(Sys.time()-t0)
 }
 
 p1=1
