@@ -234,8 +234,8 @@ for(t in 2:(nn+K)){
   print(Sys.time()-t0)
 }
 
-p1=1
-p2=2
+p1=10
+p2=12
 
 par(mfrow=c(1,1))
 plot(tail(RCor[p1,p2,],K),col='gray80',lwd=1,type='l',ylim=c(-1,1))
@@ -243,7 +243,11 @@ lines(tail(R[p1,p2,],K),lwd=2)
 lines(tail(Rh[p1,p2,],K),col=2,lwd=2)
 lines(tail(Rcaw[p1,p2,],K),col=3,lwd=2)
 
-save.image(file = 'empirical/temp/FX_portfolio_at_median.Rdata')
+rm(reshf,reslf,resH,Sigma,ws_DN,ws_gew,ws_jore1,Q,R,Rcaw,RCor,RCov,Rh,A.tmp,B.tmp,C.tmp,
+   sample_retsdcct,sample_retsdccth,sample_retsxm,sample_standretdcct,sample_standretdccth,
+   sample_standretxm,sample_udcct,sample_udccth,sample_uxm,selected,tmp)
+
+save.image(file = 'empirical/temp/FX_portfolio_at_median_0314.Rdata')
 
 plot(ws_CVAR10[1,,1],type='l',ylim=c(-1,1))
 for(i in 1:dm) lines(ws_CVAR10[1,,i])
