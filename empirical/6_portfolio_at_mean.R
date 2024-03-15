@@ -22,7 +22,7 @@ resH  = res
 
 rm(res)
 
-MCMCsize=10000
+MCMCsize=1000
 
 # 1. jore's1
 # 2. geweke's
@@ -31,7 +31,9 @@ MCMCsize=10000
 # 5. dcct
 # 6. dcc-heavy-t
 models = c('Jore1','Geweke','Equal','CAW','DCC-t','DCC-HEAVY-t')
-ws_gmv = ws_minvar = ws_CVAR05 = ws_CVAR10 = array(NA,c(length(models),K,dm))
+ws_gmv = ws_gmvr = ws_CVAR05 = ws_CVAR10 = 
+  ws_CVAR05r = ws_CVAR10r =
+  ws_MAD = ws_MADr = array(NA,c(length(models),K,dm))
 
 # for Low Frequency (rank-1 DCC-t) model
 Q  = R = array(NA,c(dm, dm, nn+K))
@@ -128,7 +130,6 @@ for(t in 2:(nn+K)){
     ##################
 
     tmp  = t(sample_retsxm)
-    
     SS   = cova(tmp)
     invS = solve(SS)
     nom  = invS%*%iota
@@ -136,16 +137,23 @@ for(t in 2:(nn+K)){
     pws  = nom/den
     ws_gmv[4,t-nn,]= pws
     
-    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
-    ws_CVAR10[4,t-nn,]=c(res)
-    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
-    ws_CVAR05[4,t-nn,]=c(res)
     res <- minvar(SS, wmin = 0, wmax = 1)
-    ws_minvar[4,t-nn,]=c(res)
+    ws_gmvr[4,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
+    ws_CVAR10r[4,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
+    ws_CVAR05r[4,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    ws_CVAR10[4,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
+    ws_CVAR05[4,t-nn,]=c(res)
     
     #
     tmp  = t(sample_retsdcct)
-    
     SS   = cova(tmp)
     invS = solve(SS)
     nom  = invS%*%iota
@@ -153,16 +161,23 @@ for(t in 2:(nn+K)){
     pws  = nom/den
     ws_gmv[5,t-nn,]= pws
     
-    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
-    ws_CVAR10[5,t-nn,]=c(res)
-    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
-    ws_CVAR05[5,t-nn,]=c(res)
     res <- minvar(SS, wmin = 0, wmax = 1)
-    ws_minvar[5,t-nn,]=c(res)
+    ws_gmvr[5,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
+    ws_CVAR10r[5,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
+    ws_CVAR05r[5,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    ws_CVAR10[5,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
+    ws_CVAR05[5,t-nn,]=c(res)
 
     #
     tmp  = t(sample_retsdccth)
-    
     SS   = cova(tmp)
     invS = solve(SS)
     nom  = invS%*%iota
@@ -170,18 +185,25 @@ for(t in 2:(nn+K)){
     pws  = nom/den
     ws_gmv[6,t-nn,]= pws
 
-    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
-    ws_CVAR10[6,t-nn,]=c(res)
-    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
-    ws_CVAR05[6,t-nn,]=c(res)
     res <- minvar(SS, wmin = 0, wmax = 1)
-    ws_minvar[6,t-nn,]=c(res)
+    ws_gmvr[6,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
+    ws_CVAR10r[6,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
+    ws_CVAR05r[6,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    ws_CVAR10[6,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
+    ws_CVAR05[6,t-nn,]=c(res)
     
     #
     if(wj1[t-nn]>US[1,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
     tmp  = t(selected)
-    
     SS   = cova(tmp)
     invS = solve(SS)
     nom  = invS%*%iota
@@ -189,35 +211,49 @@ for(t in 2:(nn+K)){
     pws  = nom/den
     ws_gmv[1,t-nn,]= pws
 
-    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
-    ws_CVAR10[1,t-nn,]=c(res)
-    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
-    ws_CVAR05[1,t-nn,]=c(res)
     res <- minvar(SS, wmin = 0, wmax = 1)
-    ws_minvar[1,t-nn,]=c(res)
+    ws_gmvr[1,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
+    ws_CVAR10r[1,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
+    ws_CVAR05r[1,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    ws_CVAR10[1,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
+    ws_CVAR05[1,t-nn,]=c(res)
     
     if(wgw[t-nn]>US[2,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
     tmp  = t(selected)
-    
     SS   = cova(tmp)
     invS = solve(SS)
     nom  = invS%*%iota
     den  = as.vector(t(iota)%*%invS%*%iota)
     pws  = nom/den
     ws_gmv[2,t-nn,]= pws
+
+    res <- minvar(SS, wmin = 0, wmax = 1)
+    ws_gmvr[2,t-nn,]=c(res)
     
     res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
-    ws_CVAR10[2,t-nn,]=c(res)
+    ws_CVAR10r[2,t-nn,]=c(res)
+    
     res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
+    ws_CVAR05r[2,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    ws_CVAR10[2,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
     ws_CVAR05[2,t-nn,]=c(res)
-    res <- minvar(SS, wmin = 0, wmax = 1)
-    ws_minvar[2,t-nn,]=c(res)
 
     if(0.5>US[3,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
     tmp  = t(selected)
-    
     SS   = cova(tmp)
     invS = solve(SS)
     nom  = invS%*%iota
@@ -225,13 +261,21 @@ for(t in 2:(nn+K)){
     pws  = nom/den
     ws_gmv[3,t-nn,]= pws
     
-    tmp = t(selected)
-    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
-    ws_CVAR10[3,t-nn,]=c(res)
-    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
-    ws_CVAR05[3,t-nn,]=c(res)
     res <- minvar(SS, wmin = 0, wmax = 1)
-    ws_minvar[3,t-nn,]=c(res)
+    ws_gmvr[3,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.10, wmin = 0, wmax = 1)
+    ws_CVAR10r[3,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
+    ws_CVAR05r[3,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    ws_CVAR10[3,t-nn,]=c(res)
+    
+    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
+    ws_CVAR05[3,t-nn,]=c(res)
+    
   }
   print(t)
   print(Sys.time()-t0)
