@@ -22,7 +22,7 @@ resH  = res
 
 rm(res)
 
-MCMCsize=1000
+MCMCsize=5000
 
 # 1. jore's1
 # 2. geweke's
