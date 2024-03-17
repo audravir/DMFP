@@ -1,33 +1,32 @@
 % latex table generated in R 4.3.2 by xtable 1.8-4 package
-% Thu Mar 14 12:55:05 2024
+% Sun Mar 17 09:20:17 2024
 \begin{table}[ht]
 \centering
-\scalebox{0.6}{
-\begin{tabular}{lcccc|cccc|cccc|cccc}
+\scalebox{0.8}{
+\begin{tabular}{lcccc|cccc|cccc}
   \hline
 & \multicolumn{4}{c}{GMV}
                  & \multicolumn{4}{c}{CVaR05}
-                 & \multicolumn{4}{c}{CVaR10}
-                 & \multicolumn{4}{c}{GMVrestr.}  \\
- & sd & A.Sh. & CVar05 & CVar10 & sd & A.Sh. & CVar05 & CVar10 & sd & A.Sh. & CVar05 & CVar10 & sd & A.Sh. & CVar05 & CVar10 \\ 
+                 & \multicolumn{4}{c}{CVaR10}  \\
+ & sd & A.Sh. & CVaR05 & CVaR10 & sd & A.Sh. & CVaR05 & CVaR10 & sd & A.Sh. & CVaR05 & CVaR10 \\ 
   \hline
-Jore1 & 0.466 & 7.066 & -10.543 & -7.014 & 1.382 & 3.609 & -41.161 & -31.654 & 1.364 & 3.667 & -40.384 & -31.569 & 1.353 & 3.656 & -40.373 & -31.460 \\ 
-  Geweke & 0.460 & 7.346 & -9.560 & -6.318 & 1.372 & 3.523 & -42.131 & -32.054 & 1.359 & 3.552 & -41.653 & -32.023 & 1.356 & 3.539 & -41.588 & -32.159 \\ 
-  Equal & 0.520 & 6.588 & -12.318 & -8.149 & 1.374 & 3.567 & -41.218 & -31.596 & 1.358 & 3.559 & -41.128 & -31.498 & 1.356 & 3.579 & -41.541 & -31.628 \\ 
-  CAW & 0.443 & 7.709 & -9.016 & -5.838 & 1.374 & 3.656 & -41.288 & -31.931 & 1.356 & 3.692 & -40.819 & -31.769 & 1.350 & 3.660 & -40.698 & -31.667 \\ 
-  DCC-t & 0.560 & 6.025 & -13.712 & -9.564 & 1.385 & 3.508 & -42.173 & -31.672 & 1.373 & 3.603 & -41.614 & -31.631 & 1.367 & 3.676 & -41.670 & -31.497 \\ 
-  DCC-HEAVY-t & 0.464 & 6.079 & -10.590 & -6.869 & 1.366 & 3.353 & -42.545 & -32.367 & 1.363 & 3.426 & -41.978 & -31.922 & 1.349 & 3.518 & -41.577 & -31.625 \\ 
+Jore1 & 1.358 & 3.623 & -40.989 & -31.505 & 1.361 & 3.643 & -40.873 & -31.352 & 1.364 & 3.633 & -41.341 & -31.467 \\ 
+  Geweke & 1.344 & 3.768 & -40.757 & -31.251 & 1.350 & 3.805 & -41.071 & -31.361 & 1.347 & 3.800 & -41.019 & -31.230 \\ 
+  Equal & 1.347 & 3.619 & -40.845 & -31.225 & 1.348 & 3.684 & -40.580 & -31.032 & 1.351 & 3.639 & -40.997 & -31.222 \\ 
+  CAW & 1.344 & 3.680 & -40.723 & -31.409 & 1.353 & 3.726 & -41.093 & -31.583 & 1.349 & 3.716 & -40.923 & -31.383 \\ 
+  DCC-t & 1.370 & 3.636 & -42.176 & -31.923 & 1.378 & 3.645 & -42.176 & -31.887 & 1.379 & 3.638 & -42.707 & -32.127 \\ 
+  DCC-HEAVY-t & 1.344 & 3.574 & -41.263 & -31.560 & 1.341 & 3.618 & -41.440 & -31.524 & 1.347 & 3.578 & -41.682 & -31.717 \\ 
    \hline
 \end{tabular}
 }
-\caption{Portfolio allocation results based on 1-step-ahead 
+\caption{Portfolio allocation results based on 1-step-ahead
               predictions for 2020/01/02 to 2023/01/31 out-of-sample period ($K$ = 797 observations).
-              The four portfolios are:
-             the unrestricted Global Minimum Variance (GMV), minimum Conditional Value at Risk
-             for lower 5 and 10 percentiles (CVaR05 and CVaR10), and restricted GMV with a short-sale constraint.
+              The three portfolios are:
+             Global Minimum Variance (GMV), and minimum Conditional Value at Risk
+             for lower 5 and 10 percentiles (CVaR05 and CVaR10), all with short-sale constraints.
              The table reports portfolio standard deviation (in \%),
              adjusted Sharpe ratio, and realized Conditional Value at Risk
-             for lower 5 and 10 percentiles (all quantities annualized) for the 
+             for lower 5 and 10 percentiles (all quantities annualized) for the
              pooled models (Geweke's, Jore's and
              equally weighted),
               two best individual models (CAW  and DCC-t) and a competitor model (DCC-HEAVY-t).} 

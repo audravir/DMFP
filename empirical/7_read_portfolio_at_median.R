@@ -70,9 +70,31 @@ lapply(all.prets, function(x) apply(sweep(x*252, 2, rf, '-'),1,mean)/(apply(x,1,
 lapply(all.prets, function(x) apply(x*252,1,esfun,0.05))
 lapply(all.prets, function(x) apply(x*252,1,esfun,0.10))
 
+lapply(lapply(all.prets, function(x) apply(x,1,sd)*sqrt(252)), order)
+lapply(lapply(all.prets, function(x) apply(sweep(x*252, 2, rf, '-'),1,mean)/(apply(x,1,sd)*sqrt(252))), order, decreasing = TRUE)
+lapply(lapply(all.prets, function(x) apply(x*252,1,esfun,0.05)), order, decreasing = TRUE)
+lapply(lapply(all.prets, function(x) apply(x*252,1,esfun,0.10)), order, decreasing = TRUE)
 
 
+# Group all results
 
+ALL.res = matrix(NA,ncol=12,nrow=length(models))
+
+ALL.res[,1] =  lapply(all.prets, function(x) apply(x,1,sd)*sqrt(252))$gmvr
+ALL.res[,5] =  lapply(all.prets, function(x) apply(x,1,sd)*sqrt(252))$CVAR05r
+ALL.res[,9] =  lapply(all.prets, function(x) apply(x,1,sd)*sqrt(252))$CVAR10r
+
+ALL.res[,2] =  lapply(all.prets, function(x) apply(sweep(x*252, 2, rf, '-'),1,mean)/(apply(x,1,sd)*sqrt(252)))$gmvr
+ALL.res[,6] =  lapply(all.prets, function(x) apply(sweep(x*252, 2, rf, '-'),1,mean)/(apply(x,1,sd)*sqrt(252)))$CVAR05r
+ALL.res[,10] = lapply(all.prets, function(x) apply(sweep(x*252, 2, rf, '-'),1,mean)/(apply(x,1,sd)*sqrt(252)))$CVAR10r
+
+ALL.res[,3] =  lapply(all.prets, function(x) apply(x*252,1,esfun,0.05))$gmvr
+ALL.res[,7] =  lapply(all.prets, function(x) apply(x*252,1,esfun,0.05))$CVAR05r
+ALL.res[,11] = lapply(all.prets, function(x) apply(x*252,1,esfun,0.05))$CVAR10r
+
+ALL.res[,4] =  lapply(all.prets, function(x) apply(x*252,1,esfun,0.1))$gmvr
+ALL.res[,8] =  lapply(all.prets, function(x) apply(x*252,1,esfun,0.1))$CVAR05r
+ALL.res[,12] = lapply(all.prets, function(x) apply(x*252,1,esfun,0.1))$CVAR10r
 
 # 
 # 
@@ -123,35 +145,35 @@ lapply(all.prets, function(x) apply(x*252,1,esfun,0.10))
 # ALL.res[,16] = apply(p.ret.minvar*252,1,esfun,0.1)
 # 
 # 
-# rownames(ALL.res) = models
-# colnames(ALL.res) = rep(c('sd','A.Sh.','CVaR05','CVaR10'),4)
+rownames(ALL.res) = models
+colnames(ALL.res) = rep(c('sd','A.Sh.','CVaR05','CVaR10'),3)
+
 # 
 # round(ALL.res,2)
 
-# 
-# 
-# tableLines <- print(xtable(ALL.res,digits = 3,caption="Portfolio allocation results based on 1-step-ahead 
-#               predictions for 2020/01/02 to 2023/01/31 out-of-sample period ($K$ = 797 observations).
-#               The four portfolios are:
-#              the unrestricted Global Minimum Variance (GMV), minimum Conditional Value at Risk
-#              for lower 5 and 10 percentiles (CVaR05 and CVaR10), and restricted GMV with a short-sale constraint.
-#              The table reports portfolio standard deviation (in \\%),
-#              adjusted Sharpe ratio, and realized Conditional Value at Risk
-#              for lower 5 and 10 percentiles (all quantities annualized) for the 
-#              pooled models (Geweke's, Jore's and
-#              equally weighted),
-#               two best individual models (CAW  and DCC-t) and a competitor model (DCC-HEAVY-t).",
-#                            align = "lcccc|cccc|cccc|cccc",label='table:gmvfull_FX'),
-#                     scalebox=0.6,sanitize.text.function=function(x){x})
-# multicolumns <- "& \\\\multicolumn{4}{c}{GMV}
-#                  & \\\\multicolumn{4}{c}{CVaR05}
-#                  & \\\\multicolumn{4}{c}{CVaR10}
-#                  & \\\\multicolumn{4}{c}{GMVrestr.}  \\\\\\\\"
-# tableLines <- sub ("\\\\toprule\\n", paste0 ("\\\\toprule\n", multicolumns, "\n"), tableLines) ## booktabs = TRUE
-# tableLines <- sub ("\\\\hline\\n",   paste0 ("\\\\hline\n",   multicolumns, "\n"), tableLines) ## booktabs = FALSE
-# writeLines (tableLines, con = "tables_and_figures/gmvfull_FX.tex")
-# 
-# 
+
+
+tableLines <- print(xtable(ALL.res,digits = 3,caption="Portfolio allocation results based on 1-step-ahead
+              predictions for 2020/01/02 to 2023/01/31 out-of-sample period ($K$ = 797 observations).
+              The three portfolios are:
+             Global Minimum Variance (GMV), and minimum Conditional Value at Risk
+             for lower 5 and 10 percentiles (CVaR05 and CVaR10), all with short-sale constraints.
+             The table reports portfolio standard deviation (in \\%),
+             adjusted Sharpe ratio, and realized Conditional Value at Risk
+             for lower 5 and 10 percentiles (all quantities annualized) for the
+             pooled models (Geweke's, Jore's and
+             equally weighted),
+              two best individual models (CAW  and DCC-t) and a competitor model (DCC-HEAVY-t).",
+                           align = "lcccc|cccc|cccc",label='table:gmvfull_FX'),
+                    scalebox=0.8,sanitize.text.function=function(x){x})
+multicolumns <- "& \\\\multicolumn{4}{c}{GMV}
+                 & \\\\multicolumn{4}{c}{CVaR05}
+                 & \\\\multicolumn{4}{c}{CVaR10}  \\\\\\\\"
+tableLines <- sub ("\\\\toprule\\n", paste0 ("\\\\toprule\n", multicolumns, "\n"), tableLines) ## booktabs = TRUE
+tableLines <- sub ("\\\\hline\\n",   paste0 ("\\\\hline\n",   multicolumns, "\n"), tableLines) ## booktabs = FALSE
+writeLines (tableLines, con = "tables_and_figures/gmvfull_FX.tex")
+
+
 
 
 # # 1. jore's1
