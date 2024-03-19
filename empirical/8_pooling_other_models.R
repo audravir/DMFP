@@ -105,14 +105,14 @@ res4 = mypool(ll1=lL_caw,ll2=mat.st,ws_DN4)
 
 
 
-save.image('empirical/temp/other_pools.RData')
+# save.image('empirical/temp/other_pools.RData')
 
 
 move.axis = 100
 mkvol     = apply(tail(apply(RVs^2,2,scale),K),1,mean)
 atx       <- seq(date[(nn+1)], date[(nn+K)], by=25)
 
-pdf('tables_and_figures/other_pools_FX.pdf',height=7,width=14)
+pdf('tables_and_figures/other_pools_FX.pdf',height=6,width=12)
 par(mfrow=c(2,2), mar=c(4, 3, 1, 1) + 0.1)
 plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
@@ -129,7 +129,7 @@ lines(tail(date,K),cumsum(apply(res1$lL_DN,2,median))-cumsum(apply(lL_caw,2,medi
 axis(1, at=atx, labels=format(atx, "%Y/%m"),las=2,cex.axis=0.75)
 legend(x=date[(nn+1)]-move.axis-35,y=0,col=c(1,'pink','coral'),
        lty=c(1,1,2),lwd=c(2,2,2),
-       legend=c('Geweke','Jore1','Equal'))
+       legend=c('Geweke','Jore1','DelNegro'))
 
 plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
@@ -145,7 +145,7 @@ lines(tail(date,K),cumsum(apply(res2$lL_DN,2,median))-cumsum(apply(lL_caw,2,medi
       col='coral',lwd=2,lty=2)
 axis(1, at=atx, labels=format(atx, "%Y/%m"),las=2,cex.axis=0.75)
 legend(x=date[(nn+1)]-move.axis-35,y=0,col=c(1,'pink','coral'),lty=c(1,1,2),lwd=c(2,2,2),
-       legend=c('Geweke','Jore1','Equal'))
+       legend=c('Geweke','Jore1','DelNegro'))
 
 plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
@@ -161,7 +161,7 @@ lines(tail(date,K),cumsum(apply(res3$lL_DN,2,median))-cumsum(apply(lL_caw,2,medi
       col='coral',lwd=2,lty=2)
 axis(1, at=atx, labels=format(atx, "%Y/%m"),las=2,cex.axis=0.75)
 legend(x=date[(nn+1)]-move.axis-35,y=100,col=c(1,'pink','coral'),lty=c(1,1,2),lwd=c(2,2,2),
-       legend=c('Geweke','Jore1','Equal'))
+       legend=c('Geweke','Jore1','DelNegro'))
 
 plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
@@ -178,7 +178,7 @@ lines(tail(date,K),cumsum(apply(res4$lL_DN,2,median))-cumsum(apply(lL_caw,2,medi
 axis(1, at=atx, labels=format(atx, "%Y/%m"),las=2,cex.axis=0.75)
 legend(x=date[(nn+1)]-move.axis-35,y=100,col=c(1,'pink','coral'),
        lty=c(1,1,2),lwd=c(2,2,2),
-       legend=c('Geweke','Jore1','Equal'))
+       legend=c('Geweke','Jore1','DelNegro'))
 dev.off()
 
 

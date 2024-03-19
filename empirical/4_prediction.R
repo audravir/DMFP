@@ -768,20 +768,57 @@ lines(tail(date,K),marketvols[,2],col=2)
 lines(tail(date,K),sqrt(marketvols[,3]),col=3)
 
 
+##---------------
+## at mcmc
 
-vols.ws = cbind(marketvols,apply(ws_gew,2,median),
-                apply(ws_jore1,2,median),apply(ws_DN,2,median),apply(lL_caw-lL_tdcc,2,median))
-dim(vols.ws)
-colnames(vols.ws) = c('avrg RV','Mkt:eql','VIX','Geweke','Jore1','DelNegro','logLik diff')
-cor(vols.ws,use = "pairwise.complete.obs")
+corr.mat = array(NA,dim=c(post.sample,7,7))
 
+for(m in 1:post.sample){
+  tmp.matrix = cbind(marketvols,ws_gew[m,],ws_jore1[m,],ws_DN[m,],lL_caw[m,]-lL_tdcc[m,])
+  corr.mat[m,,] = cor(tmp.matrix,use = "pairwise.complete.obs")
+}
 
-corrs_res = cor(vols.ws,use = "pairwise.complete.obs")
+apply(corr.mat,c(2,3),median)
+cor(marketvols,use = "pairwise.complete.obs")
+
+corrs_res = apply(corr.mat,c(2,3),median)
+colnames(corrs_res) = c('avrg RV','Mkt:eql','VIX','Geweke','Jore1','DelNegro','logLik diff')
+rownames(corrs_res) = c('avrg RV','Mkt:eql','VIX','Geweke','Jore1','DelNegro','logLik diff')
 corrs_res[upper.tri(corrs_res)] = NA
 
+
+corrs_res025 = apply(corr.mat,c(2,3),quantile,0.025)
+colnames(corrs_res025) = c('avrg RV','Mkt:eql','VIX','Geweke','Jore1','DelNegro','logLik diff')
+rownames(corrs_res025) = c('avrg RV','Mkt:eql','VIX','Geweke','Jore1','DelNegro','logLik diff')
+corrs_res[upper.tri(corrs_res025)] = NA
+corrs_res975 = apply(corr.mat,c(2,3),quantile,0.975)
+colnames(corrs_res975) = c('avrg RV','Mkt:eql','VIX','Geweke','Jore1','DelNegro','logLik diff')
+rownames(corrs_res975) = c('avrg RV','Mkt:eql','VIX','Geweke','Jore1','DelNegro','logLik diff')
+corrs_res[upper.tri(corrs_res975)] = NA
+
+
+print(xtable::xtable(corrs_res025,
+                     caption = "Posterior 2.5\\% percentile for Table 3 in the main manuscript.",
+                     label = 'table:corrs025_FX', digits = 3),
+      file='tables_and_figures/corrs025_FX.tex',
+      include.rownames = TRUE,latex.environments = "center" ,
+      caption.placement = "top",
+      include.colnames= TRUE,
+      rotate.colnames = FALSE,scalebox = 0.8)
+
+print(xtable::xtable(corrs_res975,
+                     caption = "Posterior 97.5\\% percentile for Table 3 in the main manuscript.",
+                     label = 'table:corrs975_FX', digits = 3),
+      file='tables_and_figures/corrs975_FX.tex',
+      include.rownames = TRUE,latex.environments = "center" ,
+      caption.placement = "top",
+      include.colnames= TRUE,
+      rotate.colnames = FALSE,scalebox = 0.8)
+
+
 print(xtable::xtable(corrs_res,
-                     caption = "Sample correlations 
-             between three proxies for the   market volatility and
+                     caption = "Posterior medians of sample correlations 
+             between three proxies for the market volatility and
              the preference for high-frequency model for
              2020/01/02 to 2023/01/31 out-of-sample period ($K=797$ observations).
              The proxies for the market volatility are: average standardized 
