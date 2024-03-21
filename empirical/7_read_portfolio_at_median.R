@@ -1,7 +1,7 @@
 rm(list=ls(all=TRUE))
 library(xtable)
 
-load('empirical/temp/FX_portfolio_at_median_0315.Rdata')
+load('empirical/temp/FX_portfolio_at_median_0320.Rdata')
 
 par(mfrow=c(3,2))
 
