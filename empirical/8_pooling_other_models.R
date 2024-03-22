@@ -118,34 +118,39 @@ plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
      xlim=c(date[(nn+1)]-move.axis,date[(nn+K)]),main='DCC-t + DCC')
 par(new = TRUE)
-plot(tail(date,K),rep(0,K),type='l',ylim=c(-600,10),ylab='',xlab='',xaxt="n",
+plot(tail(date,K),rep(0,K),type='l',ylim=c(-450,10),ylab='',xlab='',xaxt="n",
      xlim=c(date[(nn+1)]-move.axis,date[(nn+K)]))
 lines(tail(date,K),cumsum(apply(res1$lL_gew,2,median))-cumsum(apply(lL_caw,2,median)),
       col=1,lwd=2)
 lines(tail(date,K),cumsum(apply(res1$lL_jore1,2,median))-cumsum(apply(lL_caw,2,median)),
       col='pink',lwd=2)
 lines(tail(date,K),cumsum(apply(res1$lL_DN,2,median))-cumsum(apply(lL_caw,2,median)),
+      col='blue',lwd=2,lty=1)
+lines(tail(date,K),cumsum(apply(lL_tdcc,2,median))-cumsum(apply(lL_caw,2,median)),
       col='coral',lwd=2,lty=2)
 axis(1, at=atx, labels=format(atx, "%Y/%m"),las=2,cex.axis=0.75)
-legend(x=date[(nn+1)]-move.axis-35,y=0,col=c(1,'pink','coral'),
-       lty=c(1,1,2),lwd=c(2,2,2),
-       legend=c('Geweke','Jore1','DelNegro'))
+legend(x=date[(nn+1)]-move.axis-35,y=0,col=c(1,'pink','blue','coral'),
+       lty=c(1,1,1,2),lwd=c(2,2,2,2),
+       legend=c('Geweke','Jore1','DelNegro','DCC-t'))
 
 plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
      xlim=c(date[(nn+1)]-move.axis,date[(nn+K)]),main='DCC-t + Static')
 par(new = TRUE)
-plot(tail(date,K),rep(0,K),type='l',ylim=c(-750,10),ylab='',xlab='',xaxt="n",
+plot(tail(date,K),rep(0,K),type='l',ylim=c(-450,10),ylab='',xlab='',xaxt="n",
      xlim=c(date[(nn+1)]-move.axis,date[(nn+K)]))
 lines(tail(date,K),cumsum(apply(res2$lL_gew,2,median))-cumsum(apply(lL_caw,2,median)),
       col=1,lwd=2)
 lines(tail(date,K),cumsum(apply(res2$lL_jore1,2,median))-cumsum(apply(lL_caw,2,median)),
       col='pink',lwd=2)
 lines(tail(date,K),cumsum(apply(res2$lL_DN,2,median))-cumsum(apply(lL_caw,2,median)),
+      col='blue',lwd=2,lty=2)
+lines(tail(date,K),cumsum(apply(lL_tdcc,2,median))-cumsum(apply(lL_caw,2,median)),
       col='coral',lwd=2,lty=2)
 axis(1, at=atx, labels=format(atx, "%Y/%m"),las=2,cex.axis=0.75)
-legend(x=date[(nn+1)]-move.axis-35,y=0,col=c(1,'pink','coral'),lty=c(1,1,2),lwd=c(2,2,2),
-       legend=c('Geweke','Jore1','DelNegro'))
+legend(x=date[(nn+1)]-move.axis-35,y=0,col=c(1,'pink','blue','coral'),
+       lty=c(1,1,1,2),lwd=c(2,2,2,2),
+       legend=c('Geweke','Jore1','DelNegro','DCC-t'))
 
 plot(tail(date,K),mkvol,type='l',axes = FALSE,
      col='gray90',lwd=3,ylab='',xlab='',
@@ -158,9 +163,9 @@ lines(tail(date,K),cumsum(apply(res3$lL_gew,2,median))-cumsum(apply(lL_caw,2,med
 lines(tail(date,K),cumsum(apply(res3$lL_jore1,2,median))-cumsum(apply(lL_caw,2,median)),
       col='pink',lwd=2)
 lines(tail(date,K),cumsum(apply(res3$lL_DN,2,median))-cumsum(apply(lL_caw,2,median)),
-      col='coral',lwd=2,lty=2)
+      col='blue',lwd=2,lty=2)
 axis(1, at=atx, labels=format(atx, "%Y/%m"),las=2,cex.axis=0.75)
-legend(x=date[(nn+1)]-move.axis-35,y=100,col=c(1,'pink','coral'),lty=c(1,1,2),lwd=c(2,2,2),
+legend(x=date[(nn+1)]-move.axis-35,y=100,col=c(1,'pink','blue'),lty=c(1,1,2),lwd=c(2,2,2),
        legend=c('Geweke','Jore1','DelNegro'))
 
 plot(tail(date,K),mkvol,type='l',axes = FALSE,
@@ -174,9 +179,9 @@ lines(tail(date,K),cumsum(apply(res4$lL_gew,2,median))-cumsum(apply(lL_caw,2,med
 lines(tail(date,K),cumsum(apply(res4$lL_jore1,2,median))-cumsum(apply(lL_caw,2,median)),
       col='pink',lwd=2)
 lines(tail(date,K),cumsum(apply(res4$lL_DN,2,median))-cumsum(apply(lL_caw,2,median)),
-      col='coral',lwd=2,lty=2)
+      col='blue',lwd=2,lty=2)
 axis(1, at=atx, labels=format(atx, "%Y/%m"),las=2,cex.axis=0.75)
-legend(x=date[(nn+1)]-move.axis-35,y=100,col=c(1,'pink','coral'),
+legend(x=date[(nn+1)]-move.axis-35,y=100,col=c(1,'pink','blue'),
        lty=c(1,1,2),lwd=c(2,2,2),
        legend=c('Geweke','Jore1','DelNegro'))
 dev.off()

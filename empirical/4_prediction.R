@@ -485,35 +485,31 @@ plot(tail(date,K),mkvol,type='l',axes = FALSE,
 
 par(new = TRUE)
 plot(tail(date,K),rep(0,K), xaxt="n",ylim=c(-5,2500),ylab='',xlab='',type='l')
-lines(tail(date,K),cumsum(lL_rmf[,])-cumsum(lL_static[,]),lwd=2,lty=1,col=1)
 lines(tail(date,K),cumsum(apply(lL_dcc[,],2,median))-cumsum(lL_static[,]),lwd=2,lty=2,col='coral')
 lines(tail(date,K),cumsum(apply(lL_tdcc[,],2,median))-cumsum(lL_static[,]),lwd=2,col='coral3')
 lines(tail(date,K),cumsum(apply(lL_xm,2,median))-cumsum(lL_static[,]),lwd=2,lty=2,col='royalblue')
 lines(tail(date,K),cumsum(apply(lL_caw,2,median))-cumsum(lL_static[,]),lwd=2,col='royalblue4')
 lines(tail(date,K),cumsum(apply(lL_ht,2,median))-cumsum(lL_static[,]),lwd=2,lty=1,col='violet')
 
-legend(x=date[nn]-5,y=2500,col=c(1,'coral','coral3','royalblue','royalblue4','violet','gray90'),
-       lty=c(1,2,1,2,1,1,1),lwd=c(2,2,2,2,2,2,2),
-       legend=c('RMf','DCC','DCC-t','AIW','CAW','DCC-HEAVY-t','avrg.stand.RV'))
+legend(x=date[nn]-5,y=2500,col=c('coral','coral3','royalblue','royalblue4','violet','gray90'),
+       lty=c(2,1,2,1,1,1),lwd=c(2,2,2,2,2,2),
+       legend=c('DCC','DCC-t','AIW','CAW','DCC-HEAVY-t','avrg.stand.RV'))
 atx <- seq(date[(nn+1)], date[(nn+K)], by=25)
 axis(1, at=atx, labels=format(atx, "%Y/%m"),las=2,cex.axis=0.75)
 dev.off()
 
 lpbf = c(sum(lL_static[,]),
-         sum(lL_rmf[,]),
          sum(apply(lL_dcc[,],2,median)),
          sum(apply(lL_tdcc[,],2,median)),
          sum(apply(lL_xm[,],2,median)),
          sum(apply(lL_caw[,],2,median)),
          sum(apply(lL_ht,2,median)))
-names(lpbf) = c('Static','RMf','DCC','DCC-t','AIW','CAW','DCC-HEAVY-t')
+names(lpbf) = c('Static','DCC','DCC-t','AIW','CAW','DCC-HEAVY-t')
 lpbfdf = as.data.frame(t(lpbf))
 
-
-print(xtable(lpbfdf,align= 'cccccccc',
+print(xtable(lpbfdf,align= 'ccccccc',
              caption = '1-step-ahead log predictive scores ($LPS$) 
-             for all individual models: Static, RiskMetrics fixed (RMf),
-rank-1 Dynamic conditional correlation with Gaussian and $t$ copulas (DCC
+             for all individual models: Static, rank-1 Dynamic conditional correlation with Gaussian and $t$ copulas (DCC
 and DCC-t), Additive Inverse Wishart (AIW), Conditional Autoregressive Wishart (CAW)
 and DCC-HEAVY model with $t$ copula for 
 2020/01/02 - 2023/01/31 out-of-sample period
