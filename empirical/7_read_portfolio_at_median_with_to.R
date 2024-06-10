@@ -289,17 +289,14 @@ sd_eq = rep(NA,K)
 for(t in 1:K) sd_eq[t] = sqrt(t(ws_eq)%*%RCov[,,nn+t]%*%ws_eq)
 
 
-pdf(file='tables_and_figures/oos_sds.pdf',width=8,height=6)
-par(mfrow=c(2,1),mar=c(2,2,2,2))
+pdf(file='tables_and_figures/oos_sds.pdf',width=8,height=3)
+par(mfrow=c(1,1),mar=c(2,2,2,2))
 plot(tail(date,K),sqrt(tail(RVs,K)[,1]),type='l',ylim=c(0,max(sqrt(tail(RVs,K)))),
      xlab='',ylab='sqrt(RV)',main='Daily realized standard deviations')
 for(i in 1:dm) lines(tail(date,K),sqrt(tail(RVs,K)[,i]))
 lines(tail(date,K),sd_eq,lwd=2,col=2)
-
-plot(tail(date,K),sd_eq*sqrt(252),lwd=2,col=2,type='l',
-     xlab='',ylab='sqrt(RV)',main='Annualized eq.weighted portfolio realized standard deviation')
-abline(h=mean(sd_eq*sqrt(252)),lwd=2,lty=2,col='gray60')
-mean(sd_eq*sqrt(252))
 dev.off()
 
+min(apply(sqrt(tail(RVs,K)),2,mean))
+max(apply(sqrt(tail(RVs,K)),2,mean))
 
