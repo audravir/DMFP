@@ -1,39 +1,21 @@
 rm(list=ls(all=TRUE))
 library(xtable)
 
-load('empirical/temp/FX_portfolio_at_median_0320.Rdata')
+load('empirical/temp/FX_portfolio_at_x_5000.Rdata')
 
-par(mfrow=c(3,2))
+par(mfrow=c(3,1))
 
-plot(ws_gmv[1,,1],type='l',ylim=c(-1,1),main='GMV')
-for(i in 1:dm) lines(ws_gmv[1,,i])
+#second asset for example
+plot(ws_gmvr[1,,2,1],type='l',ylim=c(0,0.3),main='GMVr')
+for(i in 1:postM) lines(ws_gmvr[1,,2,i])
 
-plot(ws_gmvr[1,,1],type='l',ylim=c(-1,1),main='GMVr')
-for(i in 1:dm) lines(ws_gmvr[1,,i])
+#second asset for example
+plot(ws_CVAR10r[1,,2,1],type='l',ylim=c(0,0.3),main='GMVr')
+for(i in 1:postM) lines(ws_CVAR10r[1,,2,i])
 
-plot(ws_CVAR10[1,,1],type='l',ylim=c(-1,1),main='CVAR10')
-for(i in 1:dm) lines(ws_CVAR10[1,,i])
-
-plot(ws_CVAR10r[1,,1],type='l',ylim=c(-1,1),main='CVAR10')
-for(i in 1:dm) lines(ws_CVAR10r[1,,i])
-
-plot(ws_CVAR05[1,,1],type='l',ylim=c(-1,1),main='CVAR05')
-for(i in 1:dm) lines(ws_CVAR05[1,,i])
-
-plot(ws_CVAR05r[1,,1],type='l',ylim=c(-1,1),main='CVAR05')
-for(i in 1:dm) lines(ws_CVAR05r[1,,i])
-
-par(mfrow=c(2,3))
-for(i in 1:length(models)){
-  plot(apply((ws_gmv[i,,]<0)*ws_gmv[i,,],1,sum),type='l',ylim=c(-0.8,-0.3),
-       main=models[i])
-}
-
-par(mfrow=c(2,3))
-for(i in 1:length(models)){
-  plot(apply((ws_gmvr[i,,]>0.01),1,sum),type='l',ylim=c(4,8),
-       main=models[i])
-}
+#second asset for example
+plot(ws_CVAR05r[1,,2,1],type='l',ylim=c(0,0.3),main='GMVr')
+for(i in 1:postM) lines(ws_CVAR05r[1,,2,i])
 
 ############################################################
 
@@ -41,29 +23,66 @@ esfun=function(x,p){
   es=mean(x[which(x<quantile(x,p))])
   return(es)
 }
+
+p05 = function(x) quantile(x,0.05)
+p95 = function(x) quantile(x,0.95)
+
+
 load('data/rf.RData')
 
 ##
 
-all.ws = list(ws_gmv,ws_gmvr,
-              ws_CVAR05,ws_CVAR05r,ws_CVAR10,ws_CVAR10r)
+all.ws = list(ws_gmvr,ws_CVAR05r,ws_CVAR10r)
 
-
-names(all.ws) = c('gmv','gmvr','CVAR05','CVAR05r','CVAR10','CVAR10r')
+names(all.ws) = c('gmvr','CVAR05r','CVAR10r')
 
 all.prets = list()
-pret= array(NA,dim=c(length(models),K))
+pret      = array(NA,dim=c(length(models),K,postM))
 
 for(j in 1:length(all.ws)){
-  for(i in 1:length(models)){
-    for(t in 1:K){
-      pret[i,t] = sum(all.ws[[j]][i,t,]*rets[nn+t,])
+  for(m in 1:postM){
+    for(i in 1:length(models)){
+      for(t in 1:K){
+        pret[i,t,m] = sum(all.ws[[j]][i,t,,m]*rets[nn+t,])
+      }
     }
   }
   all.prets[[j]] = pret
 }
 
-names(all.prets) = c('gmv','gmvr','CVAR05','CVAR05r','CVAR10','CVAR10r')
+names(all.prets) = c('gmvr','CVAR05r','CVAR10r')
+
+
+all.sds = list()
+sds     = array(NA,dim=c(length(models),postM))
+
+
+for(j in 1:length(all.ws)){
+  for(m in 1:postM){
+    for(i in 1:length(models)){
+        sds[i,m] = sd(all.prets[[j]][i,,m])*sqrt(252)
+    }
+  }
+  all.sds[[j]] = sds
+}
+
+apply(all.sds[[1]],1,median)
+order(apply(all.sds[[1]],1,median),decreasing = FALSE)
+
+apply(all.sds[[2]],1,median)
+order(apply(all.sds[[2]],1,median),decreasing = FALSE)
+
+apply(all.sds[[3]],1,median)
+order(apply(all.sds[[3]],1,median),decreasing = FALSE)
+
+
+
+names(all.prets) = c('gmvr','CVAR05r','CVAR10r')
+
+
+for(m in 1:postM){
+  sds.M[m] = lapply(all.prets, function(x) apply(x,1,sd)*sqrt(252))
+}
 
 lapply(all.prets, function(x) apply(x,1,sd)*sqrt(252))
 lapply(all.prets, function(x) apply(sweep(x*252, 2, rf, '-'),1,mean)/(apply(x,1,sd)*sqrt(252)))

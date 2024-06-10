@@ -22,8 +22,8 @@ resH  = res
 
 rm(res)
 
-MCMCsize = 5000
-postM    = 50
+MCMCsize = 1000
+postM    = 1000
 
 ind2     = ind[seq(1, length(ind), by = length(ind)/postM)]
 ind3     = seq(1,1000,by=1000/postM)
@@ -291,4 +291,4 @@ rm(reshf,reslf,resH,Sigma,ws_DN,ws_gew,ws_jore1,Q,R,Rcaw,RCor,RCov,Rh,A.tmp,B.tm
    sample_retsdcct,sample_retsdccth,sample_retsxm,sample_standretdcct,sample_standretdccth,
    sample_standretxm,sample_udcct,sample_udccth,sample_uxm,selected,tmp)
 
-save.image(file = 'empirical/temp/FX_portfolio_at_x_5000.Rdata')
+save.image(file = 'empirical/temp/FX_portfolio_at_x_1k.Rdata')
