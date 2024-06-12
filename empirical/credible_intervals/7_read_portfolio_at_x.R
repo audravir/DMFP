@@ -27,6 +27,9 @@ esfun=function(x,p){
 p05 = function(x) quantile(x,0.05)
 p95 = function(x) quantile(x,0.95)
 
+p10 = function(x) quantile(x,0.10)
+p90 = function(x) quantile(x,0.90)
+
 
 load('data/rf.RData')
 
@@ -66,14 +69,12 @@ for(j in 1:length(all.ws)){
   all.sds[[j]] = sds
 }
 
-apply(all.sds[[1]],1,median)
-order(apply(all.sds[[1]],1,median),decreasing = FALSE)
+apply(all.sds[[1]],1,p05)
+apply(all.sds[[1]],1,p95)
 
 apply(all.sds[[2]],1,median)
-order(apply(all.sds[[2]],1,median),decreasing = FALSE)
 
 apply(all.sds[[3]],1,median)
-order(apply(all.sds[[3]],1,median),decreasing = FALSE)
 
 
 
