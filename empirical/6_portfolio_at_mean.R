@@ -22,7 +22,7 @@ resH  = res
 
 rm(res)
 
-MCMCsize=10000
+MCMCsize=15000
 
 # 1. jore's1
 # 2. geweke's
@@ -131,11 +131,11 @@ for(t in 2:(nn+K)){
 
     tmp  = t(sample_retsxm)
     SS   = cova(tmp)
-    invS = solve(SS)
-    nom  = invS%*%iota
-    den  = as.vector(t(iota)%*%invS%*%iota)
-    pws  = nom/den
-    ws_gmv[4,t-nn,]= pws
+    # invS = solve(SS)
+    # nom  = invS%*%iota
+    # den  = as.vector(t(iota)%*%invS%*%iota)
+    # pws  = nom/den
+    # ws_gmv[4,t-nn,]= pws
     
     res <- minvar(SS, wmin = 0, wmax = 1)
     ws_gmvr[4,t-nn,]=c(res)
@@ -146,20 +146,20 @@ for(t in 2:(nn+K)){
     res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05r[4,t-nn,]=c(res)
     
-    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
-    ws_CVAR10[4,t-nn,]=c(res)
-    
-    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
-    ws_CVAR05[4,t-nn,]=c(res)
+    # res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    # ws_CVAR10[4,t-nn,]=c(res)
+    # 
+    # res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
+    # ws_CVAR05[4,t-nn,]=c(res)
     
     #
     tmp  = t(sample_retsdcct)
     SS   = cova(tmp)
-    invS = solve(SS)
-    nom  = invS%*%iota
-    den  = as.vector(t(iota)%*%invS%*%iota)
-    pws  = nom/den
-    ws_gmv[5,t-nn,]= pws
+    # invS = solve(SS)
+    # nom  = invS%*%iota
+    # den  = as.vector(t(iota)%*%invS%*%iota)
+    # pws  = nom/den
+    # ws_gmv[5,t-nn,]= pws
     
     res <- minvar(SS, wmin = 0, wmax = 1)
     ws_gmvr[5,t-nn,]=c(res)
@@ -170,20 +170,20 @@ for(t in 2:(nn+K)){
     res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05r[5,t-nn,]=c(res)
     
-    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
-    ws_CVAR10[5,t-nn,]=c(res)
-    
-    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
-    ws_CVAR05[5,t-nn,]=c(res)
+    # res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    # ws_CVAR10[5,t-nn,]=c(res)
+    # 
+    # res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
+    # ws_CVAR05[5,t-nn,]=c(res)
 
     #
     tmp  = t(sample_retsdccth)
     SS   = cova(tmp)
-    invS = solve(SS)
-    nom  = invS%*%iota
-    den  = as.vector(t(iota)%*%invS%*%iota)
-    pws  = nom/den
-    ws_gmv[6,t-nn,]= pws
+    # invS = solve(SS)
+    # nom  = invS%*%iota
+    # den  = as.vector(t(iota)%*%invS%*%iota)
+    # pws  = nom/den
+    # ws_gmv[6,t-nn,]= pws
 
     res <- minvar(SS, wmin = 0, wmax = 1)
     ws_gmvr[6,t-nn,]=c(res)
@@ -194,22 +194,22 @@ for(t in 2:(nn+K)){
     res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05r[6,t-nn,]=c(res)
     
-    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
-    ws_CVAR10[6,t-nn,]=c(res)
-    
-    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
-    ws_CVAR05[6,t-nn,]=c(res)
+    # res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    # ws_CVAR10[6,t-nn,]=c(res)
+    # 
+    # res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
+    # ws_CVAR05[6,t-nn,]=c(res)
     
     #
     if(wj1[t-nn]>US[1,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
     tmp  = t(selected)
     SS   = cova(tmp)
-    invS = solve(SS)
-    nom  = invS%*%iota
-    den  = as.vector(t(iota)%*%invS%*%iota)
-    pws  = nom/den
-    ws_gmv[1,t-nn,]= pws
+    # invS = solve(SS)
+    # nom  = invS%*%iota
+    # den  = as.vector(t(iota)%*%invS%*%iota)
+    # pws  = nom/den
+    # ws_gmv[1,t-nn,]= pws
 
     res <- minvar(SS, wmin = 0, wmax = 1)
     ws_gmvr[1,t-nn,]=c(res)
@@ -220,21 +220,21 @@ for(t in 2:(nn+K)){
     res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05r[1,t-nn,]=c(res)
     
-    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
-    ws_CVAR10[1,t-nn,]=c(res)
-    
-    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
-    ws_CVAR05[1,t-nn,]=c(res)
+    # res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    # ws_CVAR10[1,t-nn,]=c(res)
+    # 
+    # res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
+    # ws_CVAR05[1,t-nn,]=c(res)
     
     if(wgw[t-nn]>US[2,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
     tmp  = t(selected)
     SS   = cova(tmp)
-    invS = solve(SS)
-    nom  = invS%*%iota
-    den  = as.vector(t(iota)%*%invS%*%iota)
-    pws  = nom/den
-    ws_gmv[2,t-nn,]= pws
+    # invS = solve(SS)
+    # nom  = invS%*%iota
+    # den  = as.vector(t(iota)%*%invS%*%iota)
+    # pws  = nom/den
+    # ws_gmv[2,t-nn,]= pws
 
     res <- minvar(SS, wmin = 0, wmax = 1)
     ws_gmvr[2,t-nn,]=c(res)
@@ -245,21 +245,21 @@ for(t in 2:(nn+K)){
     res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05r[2,t-nn,]=c(res)
     
-    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
-    ws_CVAR10[2,t-nn,]=c(res)
-    
-    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
-    ws_CVAR05[2,t-nn,]=c(res)
+    # res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    # ws_CVAR10[2,t-nn,]=c(res)
+    # 
+    # res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
+    # ws_CVAR05[2,t-nn,]=c(res)
 
     if(0.5>US[3,t-nn]) selected = sample_retsxm else selected = sample_retsdcct
 
     tmp  = t(selected)
     SS   = cova(tmp)
-    invS = solve(SS)
-    nom  = invS%*%iota
-    den  = as.vector(t(iota)%*%invS%*%iota)
-    pws  = nom/den
-    ws_gmv[3,t-nn,]= pws
+    # invS = solve(SS)
+    # nom  = invS%*%iota
+    # den  = as.vector(t(iota)%*%invS%*%iota)
+    # pws  = nom/den
+    # ws_gmv[3,t-nn,]= pws
     
     res <- minvar(SS, wmin = 0, wmax = 1)
     ws_gmvr[3,t-nn,]=c(res)
@@ -270,11 +270,11 @@ for(t in 2:(nn+K)){
     res <- minCVaR(tmp, 0.05, wmin = 0, wmax = 1)
     ws_CVAR05r[3,t-nn,]=c(res)
     
-    res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
-    ws_CVAR10[3,t-nn,]=c(res)
-    
-    res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
-    ws_CVAR05[3,t-nn,]=c(res)
+    # res <- minCVaR(tmp, 0.10, wmin = -1, wmax = 1)
+    # ws_CVAR10[3,t-nn,]=c(res)
+    # 
+    # res <- minCVaR(tmp, 0.05, wmin = -1, wmax = 1)
+    # ws_CVAR05[3,t-nn,]=c(res)
     
   }
   print(t)
@@ -291,8 +291,8 @@ lines(tail(R[p1,p2,],K),lwd=2)
 lines(tail(Rh[p1,p2,],K),col=2,lwd=2)
 lines(tail(Rcaw[p1,p2,],K),col=3,lwd=2)
 
-rm(reshf,reslf,resH,Sigma,ws_DN,ws_gew,ws_jore1,Q,R,Rcaw,RCor,RCov,Rh,A.tmp,B.tmp,C.tmp,
+rm(reshf,reslf,resH,Sigma,ws_DN,ws_gew,ws_jore1,Q,RCor,RCov,A.tmp,B.tmp,C.tmp,
    sample_retsdcct,sample_retsdccth,sample_retsxm,sample_standretdcct,sample_standretdccth,
    sample_standretxm,sample_udcct,sample_udccth,sample_uxm,selected,tmp)
 
-save.image(file = 'empirical/temp/FX_portfolio_at_median_0320.Rdata')
+save.image(file = 'empirical/temp/FX_portfolio_at_median_0616_15k.Rdata')
