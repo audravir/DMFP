@@ -1,34 +1,22 @@
 rm(list=ls(all=TRUE))
 library(xtable)
 
-load('empirical/temp/FX_portfolio_at_median_0320.Rdata')
+load('empirical/temp/FX_portfolio_at_median_0616_15k.Rdata')
 
 # compare restricted vs unrestricted weights
-par(mfrow=c(3,2))
-plot(ws_gmv[1,,1],type='l',ylim=c(-1,1),main='GMV')
-for(i in 1:dm) lines(ws_gmv[1,,i])
+par(mfrow=c(3,1))
+
 plot(ws_gmvr[1,,1],type='l',ylim=c(-1,1),main='GMVr')
 for(i in 1:dm) lines(ws_gmvr[1,,i])
-plot(ws_CVAR10[1,,1],type='l',ylim=c(-1,1),main='CVAR10')
-for(i in 1:dm) lines(ws_CVAR10[1,,i])
-plot(ws_CVAR10r[1,,1],type='l',ylim=c(-1,1),main='CVAR10')
+
+plot(ws_CVAR10r[1,,1],type='l',ylim=c(-1,1),main='CVAR10r')
 for(i in 1:dm) lines(ws_CVAR10r[1,,i])
-plot(ws_CVAR05[1,,1],type='l',ylim=c(-1,1),main='CVAR05')
-for(i in 1:dm) lines(ws_CVAR05[1,,i])
-plot(ws_CVAR05r[1,,1],type='l',ylim=c(-1,1),main='CVAR05')
+
+plot(ws_CVAR05r[1,,1],type='l',ylim=c(-1,1),main='CVAR05r')
 for(i in 1:dm) lines(ws_CVAR05r[1,,i])
 
-# look at the total sum of short positions for one of the models
-# Andre said anything larger than -0.3 is reasonable, here we have
-# most around -0.4 or less.
-par(mfrow=c(2,3))
-for(i in 1:length(models)){
-  plot(apply((ws_gmv[i,,]<0)*ws_gmv[i,,],1,sum),type='l',ylim=c(-0.8,-0.3),
-       main=models[i])
-}
-
 # how many assets are involved in the restricted portfolio
-par(mfrow=c(2,3))
+par(mfrow=c(3,2))
 for(i in 1:length(models)){
   plot(apply((ws_gmvr[i,,]>0.01),1,sum),type='l',ylim=c(4,8),
        main=models[i])
@@ -44,16 +32,19 @@ esfun=function(x,p){
 load('data/rf.RData')
 load('data/FXdata.Rdata')
 
-##
+## var-covar matrices
 
-all.ws = list(ws_gmv,ws_gmvr,
-              ws_CVAR05,ws_CVAR05r,ws_CVAR10,ws_CVAR10r)
+cov
 
 
-names(all.ws) = c('gmv','gmvr','CVAR05','CVAR05r','CVAR10','CVAR10r')
 
-all.prets = all.co = all.to = all.sp = all.sd = list()
-pret      = co = to = sp = portsd = array(NA,dim=c(length(models),K))
+
+all.ws = list(ws_gmvr,ws_CVAR05r,ws_CVAR10r)
+
+names(all.ws) = c('gmvr','CVAR05r','CVAR10r')
+
+all.prets = all.co = all.to = all.portsd = list()
+pret      = co = to = portsd = array(NA,dim=c(length(models),K))
 
 for(j in 1:length(all.ws)){
   for(i in 1:length(models)){
@@ -61,28 +52,21 @@ for(j in 1:length(all.ws)){
       pret[i,t]   = sum(all.ws[[j]][i,t,]*rets[nn+t,])
       portsd[i,t] = sqrt(t(all.ws[[j]][i,t,])%*%RCov[,,nn+t]%*%all.ws[[j]][i,t,])
       co[i,t]     = (sum((all.ws[[j]][i,t,])^2))^(1/2)
-      sp[i,t]     = sum(all.ws[[j]][i,t,]*(all.ws[[j]][i,t,]<0))
-      
       if(t<K)  to[i,t]   = sum(abs(all.ws[[j]][i,t+1,]-all.ws[[j]][i,t,]*((1+rets[nn+t,])/(1+pret[i,t]))))
     }
   }
   all.prets[[j]] = pret
   all.co[[j]]    = co
-  all.sp[[j]]    = sp
   all.to[[j]]    = to
-  all.sd[[j]]    = portsd
+  all.portsd[[j]]    = portsd
 }
 
-names(all.prets) = names(all.co) = names(all.sp) = names(all.to) = names(all.sd) =  
-  c('gmv','gmvr','CVAR05','CVAR05r','CVAR10','CVAR10r')
+names(all.prets) = names(all.co) = names(all.to) = names(all.sd) = names(all.ws)
 
 
 
 lapply(all.co, function(x) apply(x,1,mean))
 lapply(lapply(all.co, function(x) apply(x,1,mean)),order)
-
-lapply(all.sp, function(x) apply(x,1,mean))
-lapply(lapply(all.sp, function(x) apply(x,1,mean)),order,decreasing=TRUE)
 
 lapply(all.to, function(x) apply(x,1,mean,na.rm=TRUE))
 lapply(lapply(all.to, function(x) apply(x,1,mean,na.rm=TRUE)),order)

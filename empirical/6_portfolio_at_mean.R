@@ -91,6 +91,8 @@ B2  = Outer(b2,b2)
 B0  = (Oiota-B1-B2)*Pbar
 mtdf = nux-dm
 
+cov1=cov2=cov3=cov4=cov5=cov6=array(NA,c(dm,dm,K))
+
 for(t in 2:(nn+K)){
   
   t0 = Sys.time()
@@ -131,6 +133,7 @@ for(t in 2:(nn+K)){
 
     tmp  = t(sample_retsxm)
     SS   = cova(tmp)
+    cov4[,,t-nn]=SS
     # invS = solve(SS)
     # nom  = invS%*%iota
     # den  = as.vector(t(iota)%*%invS%*%iota)
@@ -155,6 +158,7 @@ for(t in 2:(nn+K)){
     #
     tmp  = t(sample_retsdcct)
     SS   = cova(tmp)
+    cov5[,,t-nn]=SS
     # invS = solve(SS)
     # nom  = invS%*%iota
     # den  = as.vector(t(iota)%*%invS%*%iota)
@@ -179,6 +183,8 @@ for(t in 2:(nn+K)){
     #
     tmp  = t(sample_retsdccth)
     SS   = cova(tmp)
+    cov6[,,t-nn]=SS
+    
     # invS = solve(SS)
     # nom  = invS%*%iota
     # den  = as.vector(t(iota)%*%invS%*%iota)
@@ -205,6 +211,8 @@ for(t in 2:(nn+K)){
 
     tmp  = t(selected)
     SS   = cova(tmp)
+    cov1[,,t-nn]=SS
+    
     # invS = solve(SS)
     # nom  = invS%*%iota
     # den  = as.vector(t(iota)%*%invS%*%iota)
@@ -230,6 +238,8 @@ for(t in 2:(nn+K)){
 
     tmp  = t(selected)
     SS   = cova(tmp)
+    cov2[,,t-nn]=SS
+    
     # invS = solve(SS)
     # nom  = invS%*%iota
     # den  = as.vector(t(iota)%*%invS%*%iota)
@@ -255,6 +265,8 @@ for(t in 2:(nn+K)){
 
     tmp  = t(selected)
     SS   = cova(tmp)
+    cov3[,,t-nn]=SS
+    
     # invS = solve(SS)
     # nom  = invS%*%iota
     # den  = as.vector(t(iota)%*%invS%*%iota)
@@ -295,4 +307,4 @@ rm(reshf,reslf,resH,Sigma,ws_DN,ws_gew,ws_jore1,Q,RCor,RCov,A.tmp,B.tmp,C.tmp,
    sample_retsdcct,sample_retsdccth,sample_retsxm,sample_standretdcct,sample_standretdccth,
    sample_standretxm,sample_udcct,sample_udccth,sample_uxm,selected,tmp)
 
-save.image(file = 'empirical/temp/FX_portfolio_at_median_0616_15k.Rdata')
+save.image(file = 'empirical/temp/FX_portfolio_at_median_0619_15k.Rdata')
