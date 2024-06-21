@@ -22,7 +22,7 @@ resH  = res
 
 rm(res)
 
-MCMCsize=15000
+MCMCsize=1000
 
 # 1. jore's1
 # 2. geweke's
@@ -303,8 +303,12 @@ lines(tail(R[p1,p2,],K),lwd=2)
 lines(tail(Rh[p1,p2,],K),col=2,lwd=2)
 lines(tail(Rcaw[p1,p2,],K),col=3,lwd=2)
 
-rm(reshf,reslf,resH,Sigma,ws_DN,ws_gew,ws_jore1,Q,RCor,RCov,A.tmp,B.tmp,C.tmp,
+rm(reshf,reslf,resH,Sigma,ws_DN,ws_gew,ws_jore1,Q,RCor,RCov,A.tmp,B.tmp,C.tmp,R,Rh,Rcaw,
    sample_retsdcct,sample_retsdccth,sample_retsxm,sample_standretdcct,sample_standretdccth,
    sample_standretxm,sample_udcct,sample_udccth,sample_uxm,selected,tmp)
 
+<<<<<<< HEAD
 save.image(file = 'empirical/temp/FX_portfolio_at_median_0620_15k.Rdata')
+=======
+save.image(file = 'empirical/temp/FX_portfolio_at_median_0620_1k.Rdata')
+>>>>>>> 5bc0654924e6247ed355547569a89507d9df43e2
