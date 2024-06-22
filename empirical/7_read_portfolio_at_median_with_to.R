@@ -1,7 +1,7 @@
 rm(list=ls(all=TRUE))
 library(xtable)
 
-load('empirical/temp/FX_portfolio_at_median_0620_1k.Rdata')
+load('empirical/temp/FX_portfolio_at_median_0619_15k.Rdata')
 
 # compare weights for model 1
 par(mfrow=c(3,1))
@@ -64,8 +64,9 @@ names(all.prets) = names(all.co) = names(all.to) = names(all.portsd) = names(all
 ## GMV
 par(mfrow=c(2,3))
 for(i in 1:length(models)) {
-  plot(all.portsd[[1]][i,],type='l')
-  lines(all.model.sd[[1]][i,],col=2)}
+  plot(all.portsd[[1]][i,],type='l',main=models[i])
+  lines(all.model.sd[[1]][i,],col=2)
+  }
 
 order(apply(abs(all.portsd[[1]]-all.model.sd[[1]]),1,mean),decreasing=FALSE)
 order(apply((all.portsd[[1]]-all.model.sd[[1]])^2,1,mean),decreasing=FALSE)
@@ -74,8 +75,9 @@ order(apply((all.portsd[[1]]-all.model.sd[[1]])^2,1,mean),decreasing=FALSE)
 ## CVAR05
 par(mfrow=c(2,3))
 for(i in 1:length(models)) {
-  plot(all.portsd[[2]][i,],type='l')
-  lines(all.model.sd[[2]][i,],col=2)}
+  plot(all.portsd[[2]][i,],type='l',main=models[i])
+  lines(all.model.sd[[2]][i,],col=2)
+  }
 
 order(apply(abs(all.portsd[[2]]-all.model.sd[[2]]),1,mean),decreasing=FALSE)
 order(apply((all.portsd[[2]]-all.model.sd[[2]])^2,1,mean),decreasing=FALSE)
@@ -83,8 +85,9 @@ order(apply((all.portsd[[2]]-all.model.sd[[2]])^2,1,mean),decreasing=FALSE)
 ## CVAR10
 par(mfrow=c(2,3))
 for(i in 1:length(models)) {
-  plot(all.portsd[[3]][i,],type='l')
-  lines(all.model.sd[[3]][i,],col=2)}
+  plot(all.portsd[[3]][i,],type='l',main=models[i])
+  lines(all.model.sd[[3]][i,],col=2)
+  }
 
 order(apply(abs(all.portsd[[3]]-all.model.sd[[3]]),1,mean),decreasing=FALSE)
 order(apply((all.portsd[[3]]-all.model.sd[[3]])^2,1,mean),decreasing=FALSE)
@@ -117,6 +120,11 @@ lapply(lapply(all.prets, function(x) apply(x*252,1,esfun,0.10)), order, decreasi
 lapply(lapply(all.model.sd, function(x) apply(x*sqrt(252),1,mean)), order)
 lapply(lapply(all.co, function(x) apply(x,1,mean)), order, decreasing = TRUE)
 lapply(lapply(all.to, function(x) apply(x,1,mean,na.rm=TRUE)), order, decreasing = TRUE)
+
+# save portfolio return, pertfolio sd, and model produced sds
+
+save(all.model.sd,all.portsd,all.prets,file='empirical/temp/data_mctest_2.Rdata')
+
 
 # Group all results
 # ncol = number of models
