@@ -1,7 +1,9 @@
 rm(list=ls(all=TRUE))
 library(xtable)
+library(MCS)
 
-load('empirical/temp/FX_portfolio_at_median_0619_15k.Rdata')
+
+load('empirical/temp/FX_portfolio_at_median_0320.Rdata')
 
 # compare weights for model 1
 par(mfrow=c(3,1))
@@ -34,7 +36,7 @@ load('data/FXdata.Rdata')
 
 ## var-covar matrices
 
-all.cov = list(cov1,cov2,cov3,cov4,cov5,cov6)
+# all.cov = list(cov1,cov2,cov3,cov4,cov5,cov6)
 all.ws  = list(ws_gmvr,ws_CVAR05r,ws_CVAR10r)
 
 names(all.ws) = c('gmvr','CVAR05r','CVAR10r')
@@ -49,7 +51,7 @@ for(j in 1:length(all.ws)){
       portsd[i,t] = sqrt(t(all.ws[[j]][i,t,])%*%RCov[,,nn+t]%*%all.ws[[j]][i,t,])
       co[i,t]     = (sum((all.ws[[j]][i,t,])^2))^(1/2)
       if(t<K)  to[i,t]   = sum(abs(all.ws[[j]][i,t+1,]-all.ws[[j]][i,t,]*((1+rets[nn+t,])/(1+pret[i,t]))))
-      model.sd[i,t] = sqrt(t(all.ws[[j]][i,t,])%*%all.cov[[i]][,,t]%*%all.ws[[j]][i,t,])
+      # model.sd[i,t] = sqrt(t(all.ws[[j]][i,t,])%*%all.cov[[i]][,,t]%*%all.ws[[j]][i,t,])
     }
   }
   all.prets[[j]] = pret
@@ -68,19 +70,12 @@ for(i in 1:length(models)) {
   lines(all.model.sd[[1]][i,],col=2)
   }
 
-order(apply(abs(all.portsd[[1]]-all.model.sd[[1]]),1,mean),decreasing=FALSE)
-order(apply((all.portsd[[1]]-all.model.sd[[1]])^2,1,mean),decreasing=FALSE)
-
-
 ## CVAR05
 par(mfrow=c(2,3))
 for(i in 1:length(models)) {
   plot(all.portsd[[2]][i,],type='l',main=models[i])
   lines(all.model.sd[[2]][i,],col=2)
   }
-
-order(apply(abs(all.portsd[[2]]-all.model.sd[[2]]),1,mean),decreasing=FALSE)
-order(apply((all.portsd[[2]]-all.model.sd[[2]])^2,1,mean),decreasing=FALSE)
 
 ## CVAR10
 par(mfrow=c(2,3))
@@ -89,10 +84,6 @@ for(i in 1:length(models)) {
   lines(all.model.sd[[3]][i,],col=2)
   }
 
-order(apply(abs(all.portsd[[3]]-all.model.sd[[3]]),1,mean),decreasing=FALSE)
-order(apply((all.portsd[[3]]-all.model.sd[[3]])^2,1,mean),decreasing=FALSE)
-
-
 # nrow = return+sd+SR+CVAR+CVAR+meansd+CO+TO (8)*3 (portfolios)
 
 lapply(all.prets, function(x) apply(x,1,mean)*252)
@@ -100,7 +91,6 @@ lapply(all.prets, function(x) apply(x,1,sd)*sqrt(252))
 lapply(all.prets, function(x) apply(sweep(x*252, 2, rf, '-'),1,mean)/(apply(x,1,sd)*sqrt(252)))
 lapply(all.prets, function(x) apply(x*252,1,esfun,0.05))
 lapply(all.prets, function(x) apply(x*252,1,esfun,0.10))
-lapply(all.model.sd, function(x) apply(x*sqrt(252),1,mean))
 lapply(all.co, function(x) apply(x,1,mean))
 lapply(all.to, function(x) apply(x,1,mean,na.rm=TRUE))
 
@@ -112,23 +102,42 @@ lapply(all.to, function(x) apply(x,1,mean,na.rm=TRUE))
 # 5 - DCC-t
 # 6 - DCC-HEAVY-t
 
-lapply(lapply(all.prets, function(x) apply(x,1,mean)*252), order,decreasing=FALSE)
+lapply(lapply(all.prets, function(x) apply(x,1,mean)*252), order,decreasing=TRUE)
 lapply(lapply(all.prets, function(x) apply(x,1,sd)*sqrt(252)), order)
 lapply(lapply(all.prets, function(x) apply(sweep(x*252, 2, rf, '-'),1,mean)/(apply(x,1,sd)*sqrt(252))), order, decreasing = TRUE)
 lapply(lapply(all.prets, function(x) apply(x*252,1,esfun,0.05)), order, decreasing = TRUE)
 lapply(lapply(all.prets, function(x) apply(x*252,1,esfun,0.10)), order, decreasing = TRUE)
-lapply(lapply(all.model.sd, function(x) apply(x*sqrt(252),1,mean)), order)
-lapply(lapply(all.co, function(x) apply(x,1,mean)), order, decreasing = TRUE)
-lapply(lapply(all.to, function(x) apply(x,1,mean,na.rm=TRUE)), order, decreasing = TRUE)
+lapply(lapply(all.co, function(x) apply(x,1,mean)), order)
+lapply(lapply(all.to, function(x) apply(x,1,mean,na.rm=TRUE)), order)
 
-# save portfolio return, pertfolio sd, and model produced sds
+# ## load oracle portfolio
+# 
+# load("empirical/temp/oraclesd.Rdata")
+# 
 
-save(all.model.sd,all.portsd,all.prets,file='empirical/temp/data_mctest_2.Rdata')
+test.results = list()
 
+# GMV
+loss.sd <- sqrt(t((all.prets[[1]] - apply(all.prets[[1]],1,mean))^2))
+colnames(loss.sd) = models
+SSM.sd <- MCSprocedure(Loss = loss.sd, alpha = 0.05, B = 10000, statistic = "Tmax")
+test.results[[1]] = SSM.sd@show[,6]
+
+# CVAR05
+loss.sd <- sqrt(t((all.prets[[2]] - apply(all.prets[[2]],1,mean))^2))
+colnames(loss.sd) = models
+SSM.sd <- MCSprocedure(Loss = loss.sd, alpha = 0.05, B = 10000, statistic = "Tmax")
+test.results[[2]] = SSM.sd@show[,6]
+
+# CVAR10
+loss.sd <- sqrt(t((all.prets[[3]] - apply(all.prets[[3]],1,mean))^2))
+colnames(loss.sd) = models
+SSM.sd <- MCSprocedure(Loss = loss.sd, alpha = 0.05, B = 10000, statistic = "Tmax")
+test.results[[3]] = SSM.sd@show[,6]
 
 # Group all results
 # ncol = number of models
-# nrow = return+sd+SR+CVAR+CVAR+meansd+TO+CO (8)*3 (portfolios)
+# nrow = return + sd + (test value) +SR+CVAR+CVAR+TO+CO (8)*3 (portfolios)
 
 ALL.res = matrix(NA,nrow=24,ncol=length(models))
 
@@ -136,44 +145,45 @@ ALL.res = matrix(NA,nrow=24,ncol=length(models))
 # 9-16 CVAR05
 # 17-24 CVAR10
 
-# 1 return 2 sd 3 SR 4 CVAR05 5 CVAR10 6 meansd 7 TO 8 CO 
+# 1 return 2 sd 3 (p-value) 4 SR 5 CVAR05 6 CVAR10 7 TO 8 CO 
 
 for(i in 1:3){
   ALL.res[i*8-7,] = lapply(all.prets, function(x) apply(x,1,mean)*252)[[i]]
   ALL.res[i*8-6,] = lapply(all.prets, function(x) apply(x,1,sd)*sqrt(252))[[i]]
-  ALL.res[i*8-5,] = lapply(all.prets, function(x) apply(sweep(x*252, 2, rf, '-'),1,mean)/(apply(x,1,sd)*sqrt(252)))[[i]]
-  ALL.res[i*8-4,] = lapply(all.prets, function(x) apply(x*252,1,esfun,0.05))[[i]]
-  ALL.res[i*8-3,] = lapply(all.prets, function(x) apply(x*252,1,esfun,0.10))[[i]]
-  ALL.res[i*8-2,] = lapply(all.model.sd, function(x) apply(x*sqrt(252),1,mean))[[i]]
+  ALL.res[i*8-5,] = test.results[[i]]
+  ALL.res[i*8-4,] = lapply(all.prets, function(x) apply(sweep(x*252, 2, rf, '-'),1,mean)/(apply(x,1,sd)*sqrt(252)))[[i]]
+  ALL.res[i*8-3,] = lapply(all.prets, function(x) apply(x*252,1,esfun,0.05))[[i]]
+  ALL.res[i*8-2,] = lapply(all.prets, function(x) apply(x*252,1,esfun,0.10))[[i]]
   ALL.res[i*8-1,] = lapply(all.co, function(x) apply(x,1,mean))[[i]]
   ALL.res[i*8,] = lapply(all.to, function(x) apply(x,1,mean,na.rm=TRUE))[[i]]
 }
 
-
-
-# 1 return 2 sd 3 SR 4 CVAR05 5 CVAR10 6 meansd 7 TO 8 CO 
+# 1 return 2 sd 3 (p-value) 4 SR 5 CVAR05 6 CVAR10 7 TO 8 CO 
 
 colnames(ALL.res) = models
-rownames(ALL.res) = rep(c('mean','sdev','A.Sh.','CVaR05','CVaR10','avrg stdev','TO','CO'),3)
+rownames(ALL.res) = rep(c('avrg','sd','(p-value)','SR','rCVaR05','rCVaR10','CO','TO'),3)
 
+round(ALL.res,3)
 
 tableLines <- print(xtable(ALL.res,digits = 3,caption="Portfolio allocation results based on 1-step-ahead
               predictions for 2020/01/02 to 2023/01/31 out-of-sample period ($K$ = 797 observations).
               The three portfolios are:
              Global Minimum Variance (GMV), and minimum Conditional Value at Risk
              for lower 5 and 10 percentiles (CVaR05 and CVaR10), all with short-sale constraints.
-             The table reports average portfolio return,
-             overall standard deviation (in \\%),
-             adjusted Sharpe ratio, Conditional Value at Risk
-             for lower 5 and 10 percentiles,
-             mean realized standard deviation,
-             turnover, and concentration (all quantities annualized) for the
+             The table reports average portfolio return (avrg),
+             overall standard deviation in \\% (sd),
+             the p-value corresponding to the model confidence set of
+             Hansen, Lunde and Nason (2011) using a significance level of 5\\%,
+             adjusted Sharpe ratio (SR), realized Conditional Value at Risk
+             for lower 5 and 10 percentiles  (rCVaR05 and rCVaR10),
+             turnover (TO), and concentration (CO), all quantities annualized, for the
              pooled models (Geweke's, Jore's and
              equally weighted),
-              two best individual models (CAW  and DCC-t) and a competitor model (DCC-HEAVY-t).",
-                           align = "lccc|ccc",label='table:gmvfull_FX_new'),
+            two best individual models (CAW  and DCC-t) and a competitor model (DCC-HEAVY-t).
+            In gray is highlighted the best performing portfolio and the second best is underlined.",
+                           align = "lccc|ccc",label='table:gmvfull_FX_new2'),
                     scalebox=0.8,sanitize.text.function=function(x){x})
-writeLines (tableLines, con = "tables_and_figures/gmvfull_FX_new.tex")
+writeLines (tableLines, con = "tables_and_figures/gmvfull_FX_new2.tex")
 
 
 
